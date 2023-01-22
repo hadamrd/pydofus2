@@ -1,10 +1,10 @@
 from time import perf_counter
-from pydofus2.com.ankamagames.dofus.logic.common.utils.Lagometer import Lagometer
 from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicAckMessage import (
     BasicAckMessage,
 )
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.Lagometer import Lagometer
 
 logger = Logger("Dofus2")
 

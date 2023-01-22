@@ -81,8 +81,8 @@ class AuthentificationFrame(Frame):
 
         if isinstance(msg, ServerConnectionFailedMessage):
             scfMsg = msg
-            if scfMsg.failedConnection == connh.ConnectionsHandler().getConnection().getSubConnection(scfMsg):
-                connh.ConnectionsHandler().getConnection().mainConnection.stopConnectionTimeout()
+            if scfMsg.failedConnection == connh.ConnectionsHandler().conn.getSubConnection(scfMsg):
+                connh.ConnectionsHandler().conn.mainConnection.stopConnectionTimeout()
                 if self._connexionSequence:
                     retryConnInfo = self._connexionSequence.pop(0)
                     if retryConnInfo:
@@ -108,11 +108,11 @@ class AuthentificationFrame(Frame):
                     if elapsedSeconds <= 3.6:
                         elapsedTimesSinceConnectionFail[i] = int(elapsedSeconds)
                 dhf.resetConnectionAttempts()
-            connh.ConnectionsHandler().getConnection().send(iMsg)
+            connh.ConnectionsHandler().conn.send(iMsg)
             if InterClientManager.flashKey:
                 flashKeyMsg = ClientKeyMessage()
                 flashKeyMsg.key = InterClientManager.flashKey
-                connh.ConnectionsHandler().getConnection().send(flashKeyMsg)
+                connh.ConnectionsHandler().conn.send(flashKeyMsg)
             KernelEventsManager().send(KernelEvts.IN_GAME, msg)
             return True
 
@@ -154,11 +154,8 @@ class AuthentificationFrame(Frame):
 
         elif isinstance(msg, LoginValidationAction):
             lva = msg
-            if self._lastLoginHash != hashlib.md5(lva.username.encode("utf-8")).hexdigest():
-                pass
             self._lastLoginHash = hashlib.md5(lva.username.encode("utf-8")).hexdigest()
-            ports = XmlConfig().getEntry("config.connection.port")
-            connexionPorts = [int(_) for _ in ports.split(",")]
+            connexionPorts = [int(_) for _ in XmlConfig().getEntry("config.connection.port").split(",")]
             connectionHostsEntry = XmlConfig().getEntry("config.connection.host")
             connexionHosts = (
                 [lva.host]
@@ -187,21 +184,6 @@ class AuthentificationFrame(Frame):
                     self._connexionSequence.append({"host": host, "port": self.HIDDEN_PORT})
 
             self._connexionSequence = firstConnexionSequence + self._connexionSequence
-
-            if Constants.EVENT_MODE:
-                rawParam = Constants.EVENT_MODE_PARAM
-                if rawParam and rawParam[0] != "!":
-                    rawParam = base64.b64decode(rawParam)
-                    params = []
-                    tmp = rawParam.split(",")
-                    for param in tmp:
-                        tmp2 = param.split(":")
-                        params[tmp2[0]] = tmp2[1]
-                    if params["login"]:
-                        lva.username = params["login"]
-                    if params["password"]:
-                        lva.password = params["password"]
-
             AuthentificationManager().loginValidationAction = lva
             connInfo = self._connexionSequence.pop(0)
             connh.ConnectionsHandler().connectToLoginServer(connInfo["host"], connInfo["port"])
@@ -209,7 +191,7 @@ class AuthentificationFrame(Frame):
 
         elif isinstance(msg, ServerConnectionFailedMessage):
             scfMsg = msg
-            connh.ConnectionsHandler().getConnection().mainConnection.stopConnectionTimeout()
+            connh.ConnectionsHandler().conn.mainConnection.stopConnectionTimeout()
             if self._connexionSequence:
                 retryConnInfo = self._connexionSequence.pop(0)
                 if retryConnInfo:

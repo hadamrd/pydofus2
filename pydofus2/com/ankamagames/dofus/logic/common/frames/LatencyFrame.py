@@ -51,15 +51,14 @@ class LatencyFrame(Frame):
             logger.debug(msg)
             return True
         elif isinstance(msg, BasicLatencyStatsRequestMessage):
-            blsrmsg = msg
-            connection = connh.ConnectionsHandler().getConnection().getSubConnection(blsrmsg.sourceConnection)
+            connection = connh.ConnectionsHandler().conn
             blsmsg = BasicLatencyStatsMessage()
             blsmsg.init(
                 min(32767, int(connection.latencyAvg)),
                 connection.latencySamplesCount,
                 connection.latencySamplesMax,
             )
-            connh.ConnectionsHandler().getConnection().send(blsmsg, blsrmsg.sourceConnection)
+            connection.send(blsmsg)
             return True
         else:
             return False

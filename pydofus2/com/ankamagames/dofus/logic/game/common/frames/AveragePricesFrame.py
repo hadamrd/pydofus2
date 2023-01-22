@@ -107,6 +107,6 @@ class AveragePricesFrame(Frame):
             return
         oapgm: ObjectAveragePricesGetMessage = ObjectAveragePricesGetMessage()
         oapgm.init()
-        ConnectionsHandler().getConnection().send(oapgm)
+        ConnectionsHandler()._conn.send(oapgm)
         self.askDataTimer = BenchmarkTimer(10, self.askPricesData)
         self.askDataTimer.start()

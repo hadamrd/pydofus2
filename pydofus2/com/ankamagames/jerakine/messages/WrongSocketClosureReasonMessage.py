@@ -3,10 +3,6 @@ from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 
 class WrongSocketClosureReasonMessage(Message):
 
-    _expectedReason: int
-
-    _gotReason: int
-
     def __init__(self, expectedReason: int, gotReason: int):
         super().__init__()
         self._expectedReason = expectedReason

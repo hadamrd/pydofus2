@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydofus2.com.DofusClient import DofusClient
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager, KernelEvts
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
 from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AveragePricesFrame import AveragePricesFrame
 from pydofus2.com.ankamagames.dofus.logic.game.common.frames.InventoryManagementFrame import InventoryManagementFrame
@@ -14,9 +15,6 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.connection.BasicCharacter
     BasicCharacterWrapper,
 )
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
-
-# from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
-import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
 from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import (
     AuthentificationManager,
@@ -161,11 +159,11 @@ class GameServerApproachFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, HelloGameMessage):
-            connh.ConnectionsHandler().confirmGameServerConnection()
+            connh.ConnectionsHandler().stopConnectionTimer()
             self.authenticationTicketAccepted = False
             atmsg = AuthenticationTicketMessage()
             atmsg.init("fr", AuthentificationManager().gameServerTicket)
-            connh.ConnectionsHandler().getConnection().send(atmsg)
+            connh.ConnectionsHandler().conn.send(atmsg)
             return True
 
         elif isinstance(msg, AuthenticationTicketAcceptedMessage):
@@ -202,13 +200,13 @@ class GameServerApproachFrame(Frame):
             KernelEventsManager().send(KernelEvts.CHARACTERS_LIST, return_value=PlayerManager().charactersList)
             if PlayerManager().allowAutoConnectCharacter:
                 characterId = PlayerManager().autoConnectOfASpecificCharacterId
-                krnl.Kernel().getWorker().process(CharacterSelectionAction.create(characterId, False))
+                Kernel().getWorker().process(CharacterSelectionAction.create(characterId, False))
             return False
 
         elif isinstance(msg, ServerConnectionFailedMessage):
             scfMsg = ServerConnectionFailedMessage(msg)
             self.authenticationTicketAccepted = False
-            if scfMsg.failedConnection == connh.ConnectionsHandler().getConnection().getSubConnection(scfMsg):
+            if scfMsg.failedConnection == connh.ConnectionsHandler().conn.getSubConnection(scfMsg):
                 PlayerManager().destroy()
             return True
 
@@ -230,38 +228,36 @@ class GameServerApproachFrame(Frame):
 
             cssmsg = msg
             self._loadingStart = time.perf_counter()
-            if krnl.Kernel().getWorker().getFrame("ServerSelectionFrame"):
-                krnl.Kernel().getWorker().removeFrameByName("ServerSelectionFrame")
+            if Kernel().getWorker().getFrame("ServerSelectionFrame"):
+                Kernel().getWorker().removeFrameByName("ServerSelectionFrame")
             PlayedCharacterManager().infos = cssmsg.infos
             DataStoreType.CHARACTER_ID = str(cssmsg.infos.id)
-            krnl.Kernel().getWorker().addFrame(WorldFrame())
-            krnl.Kernel().getWorker().addFrame(SynchronisationFrame())
-            krnl.Kernel().getWorker().addFrame(pcuF.PlayedCharacterUpdatesFrame())
-            krnl.Kernel().getWorker().addFrame(SpellInventoryManagementFrame())
-            krnl.Kernel().getWorker().addFrame(InventoryManagementFrame())
-            krnl.Kernel().getWorker().addFrame(ContextChangeFrame())
-            for f in DofusClient().registeredGameStartFrames:
-                krnl.Kernel().getWorker().addFrame(f())
-            # TODO : krnl.Kernel().getWorker().addFrame(ChatFrame())
-            krnl.Kernel().getWorker().addFrame(JobsFrame())
-            krnl.Kernel().getWorker().addFrame(QuestFrame())
-            # TODO : krnl.Kernel().getWorker().addFrame(PartyManagementFrame())
-            krnl.Kernel().getWorker().addFrame(AveragePricesFrame())
-            if krnl.Kernel().beingInReconection and not self._reconnectMsgSend:
+            Kernel().getWorker().addFrame(WorldFrame())
+            Kernel().getWorker().addFrame(SynchronisationFrame())
+            Kernel().getWorker().addFrame(pcuF.PlayedCharacterUpdatesFrame())
+            Kernel().getWorker().addFrame(SpellInventoryManagementFrame())
+            Kernel().getWorker().addFrame(InventoryManagementFrame())
+            Kernel().getWorker().addFrame(ContextChangeFrame())
+            # TODO : Kernel().getWorker().addFrame(ChatFrame())
+            Kernel().getWorker().addFrame(JobsFrame())
+            Kernel().getWorker().addFrame(QuestFrame())
+            # TODO : Kernel().getWorker().addFrame(PartyManagementFrame())
+            Kernel().getWorker().addFrame(AveragePricesFrame())
+            if Kernel().beingInReconection and not self._reconnectMsgSend:
                 self._reconnectMsgSend = True
-                connh.ConnectionsHandler().getConnection().send(CharacterSelectedForceReadyMessage())
+                connh.ConnectionsHandler().conn.send(CharacterSelectedForceReadyMessage())
             if InterClientManager.flashKey and (
                 not PlayerManager() or PlayerManager().server.id != 129 and PlayerManager().server.id != 130
             ):
                 flashKeyMsg = ClientKeyMessage()
                 flashKeyMsg.init(InterClientManager.flashKey)
-                connh.ConnectionsHandler().getConnection().send(flashKeyMsg)
+                connh.ConnectionsHandler().conn.send(flashKeyMsg)
             self._cssmsg = cssmsg
             PlayedCharacterManager().infos = self._cssmsg.infos
             DataStoreType.CHARACTER_ID = str(self._cssmsg.infos.id)
-            krnl.Kernel().getWorker().removeFrame(self)
+            Kernel().getWorker().removeFrame(self)
             gccrmsg = GameContextCreateRequestMessage()
-            connh.ConnectionsHandler().getConnection().send(gccrmsg)
+            connh.ConnectionsHandler().conn.send(gccrmsg)
             now = time.perf_counter()
             delta = now - self._loadingStart
             if delta > self.LOADING_TIMEOUT:
@@ -273,10 +269,10 @@ class GameServerApproachFrame(Frame):
 
         elif isinstance(msg, CharacterSelectedForceMessage):
             if not self._reconnectMsgSend:
-                krnl.Kernel().beingInReconection = True
+                Kernel().beingInReconection = True
                 self.characterId = msg.id
                 self._reconnectMsgSend = True
-                connh.ConnectionsHandler().getConnection().send(CharacterSelectedForceReadyMessage())
+                connh.ConnectionsHandler().conn.send(CharacterSelectedForceReadyMessage())
 
         elif isinstance(msg, BasicTimeMessage):
             btmsg = msg
@@ -309,7 +305,7 @@ class GameServerApproachFrame(Frame):
                     if not perso.deathState or perso.deathState == 0:
                         self._charaListMinusDeadPeople.append(perso)
             else:
-                krnl.Kernel().getWorker().removeFrame(self)
+                Kernel().getWorker().removeFrame(self)
                 logger.warn("Empty Gift List Received")
             return True
 
@@ -318,7 +314,7 @@ class GameServerApproachFrame(Frame):
 
         elif isinstance(msg, PopupWarningCloseRequestAction):
             pwcrmsg = PopupWarningCloseRequestMessage()
-            connh.ConnectionsHandler().getConnection().send(pwcrmsg)
+            connh.ConnectionsHandler().conn.send(pwcrmsg)
             return True
 
         elif isinstance(msg, CharacterSelectionAction):
@@ -327,7 +323,7 @@ class GameServerApproachFrame(Frame):
             self._requestedToRemodelCharacterId = 0
             csmsg = CharacterSelectionMessage()
             csmsg.init(id_=characterId)
-            connh.ConnectionsHandler().getConnection().send(csmsg)
+            connh.ConnectionsHandler().conn.send(csmsg)
             return True
 
         return False
@@ -340,5 +336,5 @@ class GameServerApproachFrame(Frame):
 
     def requestCharactersList(self) -> None:
         clrmsg: CharactersListRequestMessage = CharactersListRequestMessage()
-        if connh.ConnectionsHandler().getConnection():
-            connh.ConnectionsHandler().getConnection().send(clrmsg)
+        if connh.ConnectionsHandler()._conn:
+            connh.ConnectionsHandler().conn.send(clrmsg)

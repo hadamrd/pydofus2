@@ -30,6 +30,7 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.ServersListMessa
 from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import (
     GameServerInformations,
 )
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
@@ -154,12 +155,13 @@ class ServerSelectionFrame(Frame):
                     ):
                         ssmsg = ServerSelectionMessage()
                         ssmsg.init(ssaction.serverId)
-                        connh.ConnectionsHandler().getConnection().send(ssmsg)
+                        connh.ConnectionsHandler().conn.send(ssmsg)
                         return True
                     else:
                         logger.debug(
                             f"Server {server.id} not online but has status {ServerStatusEnum(server.status).name}."
                         )
+                        BenchmarkTimer(15, lambda: krnl.Kernel().getWorker().process(msg)).start()
                         return True
             return True
 
@@ -196,7 +198,6 @@ class ServerSelectionFrame(Frame):
             PlayerManager().kisServerPort = 0
             self._connexionPorts = ssdmsg.ports
             logger.debug(f"Connection to game server using ports : {self._connexionPorts}")
-
             return True
 
     def pulled(self) -> bool:

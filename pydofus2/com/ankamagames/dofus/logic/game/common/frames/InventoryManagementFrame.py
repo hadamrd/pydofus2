@@ -210,7 +210,7 @@ class InventoryManagementFrame(Frame):
             doa = msg
             odmsg2 = ObjectDeleteMessage()
             odmsg2.init(doa.objectUID, doa.quantity)
-            ConnectionsHandler().getConnection().send(odmsg2)
+            ConnectionsHandler()._conn.send(odmsg2)
             return True
 
         return False
@@ -223,7 +223,7 @@ class InventoryManagementFrame(Frame):
         odropmsg: ObjectDropMessage = ObjectDropMessage()
         odropmsg.initObjectDropMessage(self._objectUIDToDrop, self._quantityToDrop)
         if not PlayedCharacterManager().isFighting:
-            ConnectionsHandler().getConnection().send(odropmsg)
+            ConnectionsHandler()._conn.send(odropmsg)
 
     def onRefuseDrop(self) -> None:
         self._dropPopup = None

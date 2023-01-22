@@ -11,7 +11,7 @@ class BenchmarkTimer(threading.Timer):
     def __init__(self, interval: int, function: FunctionType, *args, **kwargs):
         super().__init__(interval, function, *args, **kwargs)
         self.interval = interval
-        self.name = function.__name__
+        self.callerName = function.__name__
         BenchmarkTimer._startedTimers.add(self)
         self.parent = threading.current_thread()
         self.name = self.parent.name
@@ -30,6 +30,10 @@ class BenchmarkTimer(threading.Timer):
         super().cancel()
         if self in BenchmarkTimer._startedTimers:
             BenchmarkTimer._startedTimers.remove(self)
+        logger.debug(f"Running timers = {len(BenchmarkTimer._startedTimers)}")
+        for timer in BenchmarkTimer._startedTimers:
+            logger.debug(f"[{self.callerName}] is still running on thread {timer.name} for {timer.interval} seconds")
+        del self
     
     @classmethod
     def clear(cls) -> None:

@@ -50,7 +50,7 @@ class SynchronisationFrame(Frame):
             self._synchroStepByServer[snrMsg.sourceConnection] += 1
             snMsg = SequenceNumberMessage()
             snMsg.init(number_=self._synchroStepByServer[snrMsg.sourceConnection])
-            ConnectionsHandler().getConnection().send(snMsg, snrMsg.sourceConnection)
+            ConnectionsHandler()._conn.send(snMsg)
             return True
 
         if isinstance(msg, CurrentMapMessage):

@@ -457,7 +457,7 @@ class FightContextFrame(Frame):
         elif isinstance(msg, MapLoadedMessage):
             gcrmsg = GameContextReadyMessage()
             gcrmsg.init(mdm.MapDisplayManager().currentMapPoint.mapId)
-            ConnectionsHandler().getConnection().send(gcrmsg)
+            ConnectionsHandler()._conn.send(gcrmsg)
             return True
 
         elif isinstance(msg, GameFightResumeMessage):
@@ -697,7 +697,7 @@ class FightContextFrame(Frame):
             ctlra = msg
             ctlrmsg = ChallengeTargetsListRequestMessage()
             ctlrmsg.init(ctlra.challengeId)
-            ConnectionsHandler().getConnection().send(ctlrmsg)
+            ConnectionsHandler()._conn.send(ctlrmsg)
             return True
 
         elif isinstance(msg, ChallengeTargetsListMessage):

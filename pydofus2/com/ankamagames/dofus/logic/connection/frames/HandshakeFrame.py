@@ -102,7 +102,7 @@ class HandshakeFrame(Frame):
 
     def onTimeout(self) -> None:
         pingMsg: BasicPingMessage = BasicPingMessage(quiet_=True)
-        connh.ConnectionsHandler().getConnection().send(pingMsg)
+        connh.ConnectionsHandler().conn.send(pingMsg)
 
     def pulled(self) -> bool:
         if self._timeoutTimer is not None:

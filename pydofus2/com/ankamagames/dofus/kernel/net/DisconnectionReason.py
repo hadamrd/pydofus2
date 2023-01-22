@@ -1,17 +1,10 @@
 class DisconnectionReason:
 
-    _expected: bool
-
-    _reason: int
-    
-    _msg : str = ""
-
-    def __init__(self, expected: bool, reason: int, exception: Exception=None, msg: str=""):
+    def __init__(self, expected: bool, reason: int, msg: str=""):
         super().__init__()
         self._expected = expected
         self._reason = reason
         self._msg = msg
-        self._exception = exception
 
     @property
     def expected(self) -> bool:
@@ -28,3 +21,6 @@ class DisconnectionReason:
     @property
     def exception(self) -> Exception:
         return self._exception
+
+    def __str__(self) -> str:
+        return f"DisconnectionReason(expected={self.expected}, reason={self.reason}, msg={self.message})"

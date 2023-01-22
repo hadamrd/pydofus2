@@ -213,14 +213,14 @@ class PlayedCharacterUpdatesFrame(Frame):
         #    rcsra = msg
         #    rcsrmsg = ResetCharacterStatsRequestMessage()
         #    rcsrmsg.initResetCharacterStatsRequestMessage()
-        #    ConnectionsHandler().getConnection().send(rcsrmsg)
+        #    ConnectionsHandler().conn.send(rcsrmsg)
         #    return True
 
         # if isinstance(msg, StatsUpgradeRequestAction):
         #    sura = msg
         #    surqmsg = StatsUpgradeRequestMessage()
         #    surqmsg.initStatsUpgradeRequestMessage(sura.useAdditionnal,sura.statId,sura.boostPoint)
-        #    ConnectionsHandler().getConnection().send(surqmsg)
+        #    ConnectionsHandler().conn.send(surqmsg)
         #    return True
 
         if isinstance(msg, StatsUpgradeResultMessage):
@@ -358,14 +358,14 @@ class PlayedCharacterUpdatesFrame(Frame):
         #    gar = msg
         #    sao = StartupActionsObjetAttributionMessage()
         #    sao.initStartupActionsObjetAttributionMessage(gar.giftId,gar.characterId)
-        #    ConnectionsHandler().getConnection().send(sao)
+        #    ConnectionsHandler().conn.send(sao)
         #    return True
 
         # if isinstance(msg, GiftAssignAllRequestAction):
         #    gaara = msg
         #    saaamsg = StartupActionsAllAttributionMessage()
         #    saaamsg.initStartupActionsAllAttributionMessage(gaara.characterId)
-        #    ConnectionsHandler().getConnection().send(saaamsg)
+        #    ConnectionsHandler().conn.send(saaamsg)
         #    return True
 
         if isinstance(msg, StartupActionFinishedMessage):

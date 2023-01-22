@@ -10,22 +10,18 @@ from pydofus2.com.ankamagames.jerakine.network.utils.FuncTree import FuncTree
 class NetworkMessage(INetworkMessage):
 
     GLOBAL_INSTANCE_ID: int = 0
-
     BIT_RIGHT_SHIFT_LEN_PACKET_ID: int = 2
-
     BIT_MASK: int = 3
-
     HASH_FUNCTION: FunctionType
 
-    _name = None
-    
-    _unpacked: bool = False
 
     def __init__(self):
         NetworkMessage.GLOBAL_INSTANCE_ID = (NetworkMessage.GLOBAL_INSTANCE_ID + 1) % 1000
         self._instance_id = NetworkMessage.GLOBAL_INSTANCE_ID
         self.receptionTime: int = None
         self.sourceConnection: str = None
+        self._name = None
+        self._unpacked: bool = False
         super().__init__()
 
     def computeTypeLen(self, length: int) -> int:

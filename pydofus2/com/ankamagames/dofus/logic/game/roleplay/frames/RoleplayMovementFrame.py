@@ -209,7 +209,7 @@ class RoleplayMovementFrame(Frame):
             return
         gfjrmsg = GameFightJoinRequestMessage()
         gfjrmsg.init(fighterId, fightId)
-        ConnectionsHandler().getConnection().send(gfjrmsg)
+        ConnectionsHandler()._conn.send(gfjrmsg)
         if self._joinFightTimer is not None:
             self._joinFightTimer.cancel()
         self._joinFightTimer = BenchmarkTimer(self.JOINFIGHT_TIMEOUT, self.joinFight, [fighterId, fightId])
@@ -220,7 +220,7 @@ class RoleplayMovementFrame(Frame):
     def process(self, msg: Message) -> bool:
         if Kernel().getWorker().contains("FightContextFrame"):
             logger.error("[RolePlayMovement] Trying to perform a roleplay action while the player is fighting")
-            connh.ConnectionsHandler().getConnection().close()
+            connh.ConnectionsHandler().conn.close()
 
         if isinstance(msg, GameMapNoMovementMessage):            
             gmnmm = msg
@@ -334,7 +334,7 @@ class RoleplayMovementFrame(Frame):
                         f"[RolePlayMovement] Mouvement complete, arrived at '{emcmsg.entity.position.cellId}' and the requested destination was '{self._destinationPoint}'"
                     )
                 gmmcmsg = GameMapMovementConfirmMessage()
-                ConnectionsHandler().getConnection().send(gmmcmsg)
+                ConnectionsHandler()._conn.send(gmmcmsg)
                 if self._wantToChangeMap is not None:
                     logger.debug(f"[RolePlayMovement] Wants to change map to '{self._wantToChangeMap}'")
                     self._isRequestingMovement = False
@@ -399,7 +399,7 @@ class RoleplayMovementFrame(Frame):
             if emsmsg.entity.id == PlayedCharacterManager().id:
                 canceledMoveMessage = GameMapMovementCancelMessage()
                 canceledMoveMessage.init(emsmsg.entity.position.cellId)
-                ConnectionsHandler().getConnection().send(canceledMoveMessage)
+                ConnectionsHandler()._conn.send(canceledMoveMessage)
                 self._isRequestingMovement = False
                 if self._followingMove and self._canMove:
                     self.askMoveTo(self._followingMove)
@@ -408,7 +408,7 @@ class RoleplayMovementFrame(Frame):
                     if isinstance(self._followingMessage, PlayerFightRequestAction):
                         Kernel().getWorker().process(self._followingMessage)
                     else:
-                        ConnectionsHandler().getConnection().send(self._followingMessage)
+                        ConnectionsHandler()._conn.send(self._followingMessage)
                     self._followingMessage = None
             return True
 
@@ -616,7 +616,7 @@ class RoleplayMovementFrame(Frame):
         gmmrmsg.init(keymoves, MapDisplayManager().currentMapPoint.mapId)
         if self.VERBOSE:
             logger.debug(f"[RolePlayMovement] Sending movement request with keymoves {keymoves}")
-        ConnectionsHandler().getConnection().send(gmmrmsg)
+        ConnectionsHandler()._conn.send(gmmrmsg)
         if self.VERBOSE:
             logger.debug(f"[RolePlayMovement] Movement request sent to server.")
         self._moveRequestTimer = BenchmarkTimer(self.MOVEMENT_REQUEST_TIMEOUT, self.onMovementRequestTimeout, [gmmrmsg])
@@ -629,7 +629,7 @@ class RoleplayMovementFrame(Frame):
             Kernel().getWorker().processImmediately(MovementRequestTimeoutMessage(gmmrmsg))
             
         else:
-            ConnectionsHandler().getConnection().send(gmmrmsg)
+            ConnectionsHandler()._conn.send(gmmrmsg)
             self._moveRequestTimer = BenchmarkTimer(self.MOVEMENT_REQUEST_TIMEOUT, self.onMovementRequestTimeout, [gmmrmsg])
             self._moveRequestTimer.start()
             self._latestMovementRequest = perf_counter()
@@ -652,7 +652,7 @@ class RoleplayMovementFrame(Frame):
         logger.debug(f"[RolePlayMovement] Asking for a map change to {self._wantToChangeMap}")
         cmmsg: ChangeMapMessage = ChangeMapMessage()
         cmmsg.init(int(self._wantToChangeMap), False)
-        ConnectionsHandler().getConnection().send(cmmsg)
+        ConnectionsHandler()._conn.send(cmmsg)
         if self._changeMapTimeout is not None:
             self._changeMapTimeout.cancel()
         timer_uuid = uuid.uuid4().hex
@@ -714,11 +714,11 @@ class RoleplayMovementFrame(Frame):
             if additionalParam == 0:
                 iurmsg = InteractiveUseRequestMessage()
                 iurmsg.init(int(elementId), int(skillInstanceId))
-                ConnectionsHandler().getConnection().send(iurmsg)
+                ConnectionsHandler()._conn.send(iurmsg)
             else:
                 iuwprmsg = InteractiveUseWithParamRequestMessage()
                 iuwprmsg.init(int(elementId), int(skillInstanceId), int(additionalParam))
-                ConnectionsHandler().getConnection().send(iuwprmsg)
+                ConnectionsHandler()._conn.send(iuwprmsg)
             self._canMove = False
 
     def requestMonsterFight(self, monsterGroupId: int) -> None:
@@ -733,7 +733,7 @@ class RoleplayMovementFrame(Frame):
         self._followingMonsterGroup = None
         grpamrmsg: GameRolePlayAttackMonsterRequestMessage = GameRolePlayAttackMonsterRequestMessage()
         grpamrmsg.init(monsterGroupId)
-        ConnectionsHandler().getConnection().send(grpamrmsg)
+        ConnectionsHandler()._conn.send(grpamrmsg)
         self._requestFightTimeout = BenchmarkTimer(5, self.attackMonsters, (monsterGroupId,))
         self._requestFightTimeout.start()
         self._requestFighFails += 1
@@ -748,7 +748,7 @@ class RoleplayMovementFrame(Frame):
         cmmsg = GameMapMovementCancelMessage()
         cmmsg.init(self._destinationPoint)
         Kernel().getWorker().processImmediately(cmmsg)
-        ConnectionsHandler().getConnection().send(cmmsg)
+        ConnectionsHandler()._conn.send(cmmsg)
 
     def cancelFollowingActor(self):
         self._isRequestingMovement = False
@@ -762,4 +762,4 @@ class RoleplayMovementFrame(Frame):
         cmmsg = GameMapMovementCancelMessage()
         cmmsg.init(self._destinationPoint)
         Kernel().getWorker().processImmediately(cmmsg)
-        ConnectionsHandler().getConnection().send(cmmsg)
+        ConnectionsHandler()._conn.send(cmmsg)
