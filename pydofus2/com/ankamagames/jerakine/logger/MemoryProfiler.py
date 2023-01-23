@@ -5,7 +5,7 @@ import tracemalloc
 
 
 class MemoryProfiler:
-    LOGRATE = 1 / 60
+    LOGRATE = 5
     LAST_LOGGED = 0
     SAVED_PROFILES = dict()
     SHOW_LIMIT = 100

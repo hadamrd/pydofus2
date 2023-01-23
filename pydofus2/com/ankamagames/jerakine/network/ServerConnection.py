@@ -1,5 +1,6 @@
 import functools
 import subprocess
+import tracemalloc
 import multiprocess as mp
 import socket
 import sys
@@ -7,6 +8,7 @@ import traceback
 from time import perf_counter
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+from pydofus2.com.ankamagames.jerakine.logger.MemoryProfiler import MemoryProfiler
 from pydofus2.com.ankamagames.jerakine.messages.ConnectedMessage import ConnectedMessage
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import ConnectionProcessCrashedMessage
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
@@ -20,8 +22,7 @@ from pydofus2.com.ankamagames.jerakine.network.messages.UnexpectedSocketClosureM
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 
-class UnknowMessageId(Exception):
-    pass
+
 logger = Logger("ServerConnection")
 
 
@@ -196,8 +197,6 @@ class ServerConnection(mp.Process):
                     break
                 staticHeader = buffer.readUnsignedShort()
                 self._packetId = staticHeader >> NetworkMessage.BIT_RIGHT_SHIFT_LEN_PACKET_ID
-                if self._packetId not in self.__rawParser._messagesTypes:
-                    raise UnknowMessageId(f"Unknown message id {self._packetId}")
                 self._msgLenLength = staticHeader & NetworkMessage.BIT_MASK
 
             if self._messageLength is None:
@@ -253,7 +252,8 @@ class ServerConnection(mp.Process):
         except KeyboardInterrupt:
             return None
 
-    def __onClose(self, err="") -> None:
+    @sendTrace
+    def __onClose(self, err) -> None:
         from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import (
             ServerConnectionClosedMessage,
         )
@@ -274,6 +274,8 @@ class ServerConnection(mp.Process):
             self.__receptionQueue.put(UnexpectedSocketClosureMessage())
         logger.info(f"[{self.name}] Stopped listening for incomming data")
         self.finished.set()
+        if err:
+            raise err
 
     @property
     def closed(self) -> bool:
@@ -333,18 +335,13 @@ class ServerConnection(mp.Process):
                 else:
                     logger.debug(f"[{self.name}] Socket closed by remote host")
                     self._closing.set()
-            except KeyboardInterrupt:
+            except (KeyboardInterrupt, SystemExit, OSError) as e:
                 logger.debug(f"[{self.name}] Interrupted suddenly!")
                 self.__dontHandleClose = True
                 self._closing.set()
-                raise KeyboardInterrupt
-            except SystemExit:
-                logger.error(f"[{self.name}] unexpected SystemExit.", exc_info=True)
-                self.__dontHandleClose = True
-                self._closing.set()
-            except OSError as e:
-                logger.warning(f"[{self.name}] Error while reading data from socket: {e}")
-                err = str(e)
-                self.__dontHandleClose = True
-                self._closing.set()
+                err = e
+                break
+            except Exception as e:
+                err = e
+                break
         self.__onClose(err)

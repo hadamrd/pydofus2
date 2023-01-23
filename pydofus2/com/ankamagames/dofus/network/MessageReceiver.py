@@ -13,9 +13,10 @@ import pydofus2.com.ankamagames.dofus.Constants as Constants
 
 logger = Logger("Dofus2")
 with open(Constants.PROTOCOL_MSG_SHUFFLE_PATH, "r") as fp:
-    msgShuffle = json.load(fp)
+    msgShuffle: dict = json.load(fp)
 
-
+class UnknowMessageId(Exception):
+    pass
 class MessageReceiver(RawDataParser):
     logger = Logger("Dofus2")
     _messagesTypes = dict[int, type[NetworkMessage]]()
@@ -69,15 +70,6 @@ class MessageReceiver(RawDataParser):
         "PrismsListUpdateMessage",
         "TrustStatusMessage"
     }
-    for cls_name, cls_infos in msgShuffle.items():
-        modulePath = cls_infos["module"]
-        try:
-            clsModule = sys.modules[modulePath]
-        except:
-            clsModule = importlib.import_module(modulePath)
-        cls = getattr(clsModule, cls_name)
-        _messagesTypes[cls_infos["id"]] = cls
-    _unpackModes[2180] = UnpackMode.ASYNC
 
     def __init__(self):
         super().__init__()
@@ -86,13 +78,27 @@ class MessageReceiver(RawDataParser):
         for cls in self._messagesTypes.values():
             StoreDataManager().registerClass(cls(), True, True)
 
+    def findClassById(self, messageId: int) -> dict:
+        for cls_name, cls_infos in msgShuffle.items():
+            if cls_infos["id"] == messageId:
+                modulePath = cls_infos["module"]
+                try:
+                    clsModule = sys.modules[modulePath]
+                except:
+                    clsModule = importlib.import_module(modulePath)
+                cls = getattr(clsModule, cls_name)
+                return cls
+        return None
+    
     def parse(self, input: ByteArray, messageId: int, messageLength: int) -> INetworkMessage:
         messageType = self._messagesTypes.get(messageId)
         if not messageType:
-            logger.warn(f"Unknown packet ID {messageId}")
-            return None
+            messageType = self.findClassById(messageId)
+            if not messageType:
+                raise UnknowMessageId("Unknown packet received (ID " + messageId + ", length " + messageLength + ")")
+            self._messagesTypes[messageId] = messageType
         if messageType.__qualname__ in self._messages_to_discard:
-            message = messageType()
+            message = NetworkMessage()
             message.unpacked = False
             input.position += messageLength
             return message
