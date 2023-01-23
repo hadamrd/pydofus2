@@ -161,7 +161,7 @@ class ServerSelectionFrame(Frame):
                         logger.debug(
                             f"Server {server.id} not online but has status {ServerStatusEnum(server.status).name}."
                         )
-                        BenchmarkTimer(15, lambda: krnl.Kernel().getWorker().process(msg)).start()
+                        BenchmarkTimer(60, lambda: krnl.Kernel().getWorker().process(msg)).start()
                         return True
             return True
 
@@ -175,9 +175,7 @@ class ServerSelectionFrame(Frame):
             from pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame import (
                 GameServerApproachFrame,
             )
-
             escmsg = msg
-            logger.debug(f"Expected socket closure reason: {escmsg.reason}.")
             if escmsg.reason != DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER:
                 self._worker.process(
                     WrongSocketClosureReasonMessage(DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER, escmsg.reason)

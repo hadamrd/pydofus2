@@ -101,12 +101,6 @@ class AveragePricesFrame(Frame):
         return True
 
     def askPricesData(self) -> None:
-        self.nbrAsked += 1
-        if self.nbrAsked > 4:
-            logger.error("Failed to fetch average prices!")
-            return
         oapgm: ObjectAveragePricesGetMessage = ObjectAveragePricesGetMessage()
         oapgm.init()
         ConnectionsHandler()._conn.send(oapgm)
-        self.askDataTimer = BenchmarkTimer(10, self.askPricesData)
-        self.askDataTimer.start()

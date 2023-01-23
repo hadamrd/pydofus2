@@ -34,6 +34,40 @@ class MessageReceiver(RawDataParser):
         "HousePropertiesMessage",
         "KnownZaapListMessage"
         "GuildGetInformationsMessage",
+        "KnownZaapListMessage",
+        "PrismsListMessage",
+        "ChatCommunityChannelCommunityMessage",
+        "FriendWarnOnConnectionStateMessage",
+        "FriendWarnOnLevelGainStateMessage",
+        "FriendGuildWarnOnAchievementCompleteStateMessage",
+        "WarnOnPermaDeathStateMessage",
+        "FriendStatusShareStateMessage",
+        "GuildMemberWarnOnConnectionStateMessage",
+        "ServerExperienceModificatorMessage",
+        "SpouseStatusMessage",
+        "IdolListMessage",
+        "AlmanachCalendarDateMessage",
+        "CharacterCapabilitiesMessage",
+        "ShortcutBarContentMessage",
+        "AlterationsMessage",
+        "HavenBagRoomUpdateMessage",
+        "HavenBagPackListMessage",
+        "StartupActionsListMessage",
+        "EmoteListMessage",
+        "JobCrafterDirectorySettingsMessage",
+        "EnabledChannelsMessage"
+        "ServerSettingsMessage",
+        "ServerOptionalFeaturesMessage",
+        "ServerSessionConstantsMessage",
+        "AccountCapabilitiesMessage",
+        "AlignmentRankUpdateMessage",
+        "GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage",
+        "FollowedQuestsMessage",
+        "CharacterExperienceGainMessage",
+        "AccountHouseMessage",
+        "EnabledChannelsMessage",
+        "PrismsListUpdateMessage",
+        "TrustStatusMessage"
     }
     for cls_name, cls_infos in msgShuffle.items():
         modulePath = cls_infos["module"]
@@ -57,7 +91,7 @@ class MessageReceiver(RawDataParser):
         if not messageType:
             logger.warn(f"Unknown packet ID {messageId}")
             return None
-        if messageType.__name__ in self._messages_to_discard:
+        if messageType.__qualname__ in self._messages_to_discard:
             message = messageType()
             message.unpacked = False
             input.position += messageLength

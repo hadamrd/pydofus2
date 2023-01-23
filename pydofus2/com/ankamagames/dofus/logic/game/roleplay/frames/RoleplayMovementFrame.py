@@ -2,7 +2,7 @@ from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import Benchmark
 from time import perf_counter, sleep
 from typing import TYPE_CHECKING
 import uuid
-from pydofus2.com.DofusClient import DofusClient
+from pydofus2.com.DofusClient import DofusClientThread
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
@@ -205,7 +205,7 @@ class RoleplayMovementFrame(Frame):
 
     def joinFight(self, fighterId: int, fightId: int) -> None:
         if self._joinFightFails > 3:
-            DofusClient().restart()
+            DofusClientThread().restart()
             return
         gfjrmsg = GameFightJoinRequestMessage()
         gfjrmsg.init(fighterId, fightId)

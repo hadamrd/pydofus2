@@ -1,7 +1,7 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager, KernelEvts
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from time import perf_counter
-from pydofus2.com.DofusClient import DofusClient
+from pydofus2.com.DofusClient import DofusClientThread
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import (
@@ -75,8 +75,6 @@ class DisconnectionHandlerFrame(Frame):
             if self.conn and (self.conn.connected or self.conn.connecting):
                 logger.debug("The connection was closed before we even receive any message. Will halt.")
                 return False
-
-            logger.debug("The connection was closed. Checking reasons.")
             gsaF.GameServerApproachFrame.authenticationTicketAccepted = False
             reason = self.connHandle.handleDisconnection()
             if self.connHandle.hasReceivedMsg:
@@ -101,7 +99,7 @@ class DisconnectionHandlerFrame(Frame):
                             if reason.reason == Reason.EXCEPTION_THROWN:
                                 KernelEventsManager().send(KernelEvts.CRASH, message=reason.message)
                             krnl.Kernel().reset()
-                            DofusClient().interrupt(reason)
+                            DofusClientThread().interrupt(reason)
                         elif reason.reason == Reason.RESTARTING or reason.reason == Reason.DISCONNECTED_BY_POPUP or reason.reason == Reason.CONNECTION_LOST:
                             BenchmarkTimer(3, self.reconnect).start()
                         else:
@@ -126,6 +124,7 @@ class DisconnectionHandlerFrame(Frame):
         elif isinstance(msg, UnexpectedSocketClosureMessage):
             logger.debug("go hook UnexpectedSocketClosure")
             gsaF.GameServerApproachFrame.authenticationTicketAccepted = False
+            DofusClientThread().stop()
             return True
 
         elif isinstance(msg, ConnectionProcessCrashedMessage):
@@ -136,7 +135,7 @@ class DisconnectionHandlerFrame(Frame):
     def reconnect(self) -> None:
         logger.debug("Reconnecting...")
         krnl.Kernel().reset(reloadData=True, autoRetry=True)
-        DofusClient().relogin()
+        DofusClientThread().relogin()
 
     def pulled(self) -> bool:
         return True

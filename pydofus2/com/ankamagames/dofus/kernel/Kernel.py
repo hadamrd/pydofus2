@@ -56,7 +56,8 @@ class Kernel(metaclass=Singleton):
         from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
         from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
         from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
-
+        if self._reseted:
+            return None
         logger.debug("[KERNEL] Resetting ...")
         KernelEventsManager().reset()
         if not autoRetry:

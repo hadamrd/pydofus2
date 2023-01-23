@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydofus2.com.DofusClient import DofusClient
+from pydofus2.com.DofusClient import DofusClientThread
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager, KernelEvts
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
@@ -159,7 +159,6 @@ class GameServerApproachFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, HelloGameMessage):
-            connh.ConnectionsHandler().stopConnectionTimer()
             self.authenticationTicketAccepted = False
             atmsg = AuthenticationTicketMessage()
             atmsg.init("fr", AuthentificationManager().gameServerTicket)
@@ -336,5 +335,5 @@ class GameServerApproachFrame(Frame):
 
     def requestCharactersList(self) -> None:
         clrmsg: CharactersListRequestMessage = CharactersListRequestMessage()
-        if connh.ConnectionsHandler()._conn:
+        if connh.ConnectionsHandler().conn:
             connh.ConnectionsHandler().conn.send(clrmsg)

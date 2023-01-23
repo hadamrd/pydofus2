@@ -1,9 +1,9 @@
+import signal
 import threading
 from types import FunctionType
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 logger = Logger("Dofus2")
-
 
 class BenchmarkTimer(threading.Timer):
     _startedTimers = set["BenchmarkTimer"]()
@@ -30,9 +30,9 @@ class BenchmarkTimer(threading.Timer):
         super().cancel()
         if self in BenchmarkTimer._startedTimers:
             BenchmarkTimer._startedTimers.remove(self)
-        logger.debug(f"Running timers = {len(BenchmarkTimer._startedTimers)}")
-        for timer in BenchmarkTimer._startedTimers:
-            logger.debug(f"[{self.callerName}] is still running on thread {timer.name} for {timer.interval} seconds")
+        # logger.debug(f"Running timers = {len(BenchmarkTimer._startedTimers)}")
+        # for timer in BenchmarkTimer._startedTimers:
+        #     logger.debug(f"[{self.callerName}] is still running on thread {timer.name} for {timer.interval} seconds")
         del self
     
     @classmethod

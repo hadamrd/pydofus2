@@ -4,8 +4,6 @@ from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReason import Discon
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.frames.HandshakeFrame import HandshakeFrame
-from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import BasicPingMessage
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionResumedMessage import ConnectionResumedMessage
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
@@ -17,9 +15,7 @@ logger = Logger("Dofus2")
 class ConnectionsHandler(metaclass=Singleton):
     
     GAME_SERVER: str = "game_server"
-    
     KOLI_SERVER: str = "koli_server"
-    
     CONNECTION_TIMEOUT: int = 3
 
     def __init__(self):
@@ -67,14 +63,14 @@ class ConnectionsHandler(metaclass=Singleton):
         PlayerManager().gameServerPort = gameServerPort
 
     def closeConnection(self) -> None:
-        if self._conn:
+        logger.debug("[Connhandler] Want to close curr connection")
+        if self.conn:
             if krnl.Kernel().getWorker().contains("HandshakeFrame"):
                 krnl.Kernel().getWorker().removeFrame(krnl.Kernel().getWorker().getFrame("HandshakeFrame"))
-            if self._conn and self._conn.connected:
+            if self.conn.connected:
                 self._conn.close()
+                self._conn.finished.wait()
                 self._conn.kill()
-                self._conn.join()
-            self._conn = None
             self._currentConnectionType = ConnectionType.DISCONNECTED
 
     def handleDisconnection(self) -> DisconnectionReason:
@@ -90,6 +86,7 @@ class ConnectionsHandler(metaclass=Singleton):
         self._wantedSocketLostReason = expectedReason
         self._wantedSocketLost = True
         self._disconnectMessage = msg
+        self._conn.expectConnectionClose(expectedReason, msg)
 
     def pause(self) -> None:
         logger.info("Pause connection")
@@ -102,6 +99,8 @@ class ConnectionsHandler(metaclass=Singleton):
         krnl.Kernel().getWorker().process(ConnectionResumedMessage())
         
     def etablishConnection(self, host: str, port: int, id: str) -> None:
-        self._conn = ServerConnection(host, port, id)
+        self._conn = ServerConnection(id)
         krnl.Kernel().getWorker().addFrame(HandshakeFrame())
+        self._conn.start()
         self._conn.connect(host, port)
+        logger.debug(f"Connection process pid: {self._conn.pid}")

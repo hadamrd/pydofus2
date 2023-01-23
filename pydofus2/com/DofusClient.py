@@ -1,3 +1,6 @@
+import signal
+import subprocess
+import sys
 import threading
 import tracemalloc
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReason import DisconnectionReason
@@ -15,6 +18,7 @@ import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
     PlayedCharacterManager,
 )
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import I18nFileAccessor
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from typing import TYPE_CHECKING
@@ -27,8 +31,7 @@ from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvide
 
 logger = Logger()
 
-
-class _DofusClient(metaclass=Singleton):
+class DofusClient(metaclass=Singleton):
     
     def __init__(self, id="unknown"):
         super().__init__()
@@ -80,8 +83,9 @@ class _DofusClient(metaclass=Singleton):
         logger.info("Shuting down ...")
         if reason is None:
             reason = DisconnectionReasonEnum.WANTED_SHUTDOWN
-        connh.ConnectionsHandler().connectionGonnaBeClosed(reason, msg)
-        connh.ConnectionsHandler().conn.close()
+        self.ContentHandler.connectionGonnaBeClosed(reason, msg)
+        self.connection.close()
+        self.connection.join()
 
     def restart(self):
         connh.ConnectionsHandler().connectionGonnaBeClosed(DisconnectionReasonEnum.RESTARTING)
@@ -104,6 +108,10 @@ class _DofusClient(metaclass=Singleton):
         return connh.ConnectionsHandler().conn
 
     @property
+    def ContentHandler(self):
+        return connh.ConnectionsHandler()
+    
+    @property
     def registeredInitFrames(self) -> list:
         return self._registredInitFrames
 
@@ -111,43 +119,61 @@ class _DofusClient(metaclass=Singleton):
     def registeredGameStartFrames(self) -> list:
         return self._registredGameStartFrames
 
-class DofusClient(threading.Thread):
+class DofusClientThread(threading.Thread):
     LOG_MEMORY_USAGE: bool = False
-    LOG_PERF = True
+    LOG_PERF = False
     
     def __init__(self, id="unknown"):
         super().__init__()
-        self._stop = threading.Event()
+        self._killSig = threading.Event()
         self.name = id
+        self.conn_pid = None
     
-    def login(self, loginToken, serverId=0, characterId=None):
+    @property
+    def connProcess(self):
+        return connh.ConnectionsHandler().conn
+    
+    def setLogin(self, loginToken, serverId=0, characterId=None):
         if self.LOG_MEMORY_USAGE:
-            tracemalloc.start(10)
-        self.start(loginToken, serverId, characterId)
+            tracemalloc.start(3)
+        self.loginToken = loginToken
+        self.serverId = serverId
+        self.characterId = characterId
+    
+    def relogin(self):
+        if not self._killSig.is_set():
+            raise Exception("Not implemented")
         
-    def start(self, loginToken, serverId, characterId):
-        _DofusClient().login(loginToken, serverId, characterId)
-        s, e = 0, 0
-        while not self._stop.is_set():
-            try:
-                msg = _DofusClient().connection.receive()
-                if self.LOG_PERF:
-                    s = perf_counter()
-                _DofusClient()._worker.process(msg)
-                if self.LOG_PERF:
-                    e = perf_counter()
-                    logger.debug(f"Time to process: {msg} is {e-s} ns")
+    def run(self):
+        try:
+            DofusClient().login(self.loginToken, self.serverId, self.characterId)
+            while not self._killSig.is_set():
+                msg = DofusClient().connection.receive()
+                if not self.conn_pid:
+                    self.conn_pid = self.connProcess.pid
+                    logger.debug(f"[DofusClient] Connection process pid: {self.conn_pid}")
+                if msg is None:
+                    break
+                DofusClient()._worker.process(msg)
                 if self.LOG_MEMORY_USAGE:
                     snapshot = tracemalloc.take_snapshot()
                     MemoryProfiler.logMemoryUsage(snapshot)
-            except Exception as e:
-                logger.error(f"Error while receiving message: {e}", exc_info=True)
-                self.stop()
-                if self.LOG_MEMORY_USAGE:
-                    MemoryProfiler.saveCollectedData()
-        if _DofusClient()._stopReason and _DofusClient()._stopReason == DisconnectionReasonEnum.EXCEPTION_THROWN:
-            raise Exception(_DofusClient()._stopReason.message)
+        except Exception as e:
+            logger.error(f"[DofusClient] Error in main loop.", exc_info=True)
+        except KeyboardInterrupt:
+            logger.info("[DofusClient] Keyboard interrupt")
+        self.teardown()
+        logger.info("DofusClient stopped")
+    
+    def teardown(self):
+        logger.info("[DofusClient] Tearing down ...")
+        krnl.Kernel().reset()
+        if self.LOG_MEMORY_USAGE:
+            MemoryProfiler.saveCollectedData()
+        if DofusClient()._stopReason and DofusClient()._stopReason == DisconnectionReasonEnum.EXCEPTION_THROWN:
+            raise Exception(DofusClient()._stopReason.message)
+        logger.info("[DofusClient] Torn down")
         
     def stop(self):
-        _DofusClient().shutdown()
-        self._stop.set()
+        logger.debug("[DofusClient] Stopping DofusClient..")
+        self._killSig.set()

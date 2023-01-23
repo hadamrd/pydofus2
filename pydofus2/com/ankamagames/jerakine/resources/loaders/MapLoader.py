@@ -10,7 +10,6 @@ logger = Logger("Dofus2")
 
 class MapLoader:
     DLM_KEY = XmlConfig().getEntry("config.maps.encryptionKey")
-    logger.debug(f"Maps encryption key: {DLM_KEY}")
     reader = DLM(DLM_KEY)
 
     @classmethod

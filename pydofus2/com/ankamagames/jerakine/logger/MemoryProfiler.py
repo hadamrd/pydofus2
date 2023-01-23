@@ -10,7 +10,7 @@ class MemoryProfiler:
     SAVED_PROFILES = dict()
     SHOW_LIMIT = 100
     SAVE_LIMIT = 100
-    LOG_FILE = "./log/memory_usage.log"
+    LOG_FILE = "./memory_usage.log"
     KEY_TYPE = "lineno"
 
     @classmethod
@@ -59,5 +59,5 @@ class MemoryProfiler:
         import datetime
 
         now = datetime.datetime.now()
-        with open(f"./log/stats/MemoryStats-{now.strftime('%Y-%m-%d')}.json", "w") as fp:
+        with open(f"./MemoryStats-{now.strftime('%Y-%m-%d')}.json", "w") as fp:
             json.dump(cls.SAVED_PROFILES, fp, indent=4)

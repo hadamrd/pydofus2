@@ -16,7 +16,7 @@ class Singleton(type):
     def __call__(cls, *args, **kwargs) -> object:
         thrid = cls.threadName()
         if thrid not in cls._instances:
-            logger.info("Wow new thread name: " + thrid)
+            logger.info(f"New thread {thrid} want to register class {cls.__qualname__} as singleton")
             cls._instances[thrid] = dict()
         if cls not in cls._instances[thrid]:
             cls._instances[thrid][cls] = super(Singleton, cls).__call__(*args, **kwargs)
