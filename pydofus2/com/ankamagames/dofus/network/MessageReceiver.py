@@ -4,6 +4,7 @@ import sys
 from types import FunctionType
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
@@ -17,10 +18,8 @@ with open(Constants.PROTOCOL_MSG_SHUFFLE_PATH, "r") as fp:
 
 class UnknowMessageId(Exception):
     pass
-class MessageReceiver(RawDataParser):
+class MessageReceiver(RawDataParser, metaclass=ThreadSharedSingleton):
     logger = Logger("Dofus2")
-    _messagesTypes = dict[int, type[NetworkMessage]]()
-    _unpackModes: dict = dict()
     _messages_to_discard: set = {
         "SetCharacterRestrictionsMessage", 
         "GameContextRefreshEntityLookMessage", 
@@ -73,31 +72,24 @@ class MessageReceiver(RawDataParser):
 
     def __init__(self):
         super().__init__()
+        self._messagesTypes = dict[int, type[NetworkMessage]]()
+        for cls_name, cls_infos in msgShuffle.items():
+            if cls_name not in self._messages_to_discard:
+                modulePath = cls_infos["module"]
+                try:
+                    clsModule = globals()[modulePath]
+                except:
+                    clsModule = importlib.import_module(modulePath)
+                cls = getattr(clsModule, cls_name)
+                self._messagesTypes[cls_infos["id"]] = cls
 
     def register(self) -> None:
         for cls in self._messagesTypes.values():
             StoreDataManager().registerClass(cls(), True, True)
-
-    def findClassById(self, messageId: int) -> dict:
-        for cls_name, cls_infos in msgShuffle.items():
-            if cls_infos["id"] == messageId:
-                modulePath = cls_infos["module"]
-                try:
-                    clsModule = sys.modules[modulePath]
-                except:
-                    clsModule = importlib.import_module(modulePath)
-                cls = getattr(clsModule, cls_name)
-                return cls
-        return None
     
     def parse(self, input: ByteArray, messageId: int, messageLength: int) -> INetworkMessage:
         messageType = self._messagesTypes.get(messageId)
         if not messageType:
-            messageType = self.findClassById(messageId)
-            if not messageType:
-                raise UnknowMessageId("Unknown packet received (ID " + messageId + ", length " + messageLength + ")")
-            self._messagesTypes[messageId] = messageType
-        if messageType.__qualname__ in self._messages_to_discard:
             message = NetworkMessage()
             message.unpacked = False
             input.position += messageLength
@@ -105,23 +97,7 @@ class MessageReceiver(RawDataParser):
         message = messageType.unpack(input, messageLength)
         message.unpacked = True
         return message
-
-    def parseAsync(
-        self,
-        input: ByteArray,
-        messageId: int,
-        messageLength: int,
-        callback: FunctionType,
-    ) -> INetworkMessage:
-        messageType = self._messagesTypes.get(messageId)
-        if not messageType:
-            logger.warn("Unknown packet received (ID " + messageId + ", length " + messageLength + ")")
-            return None
-        message: INetworkMessage = messageType()
-        message.unpacked = False
-        callback(message, message.unpackAsync(input, messageLength))
-        return message
-
+    
     def getUnpackMode(self, messageId: int) -> int:
         return self._unpackModes[messageId] if messageId in self._unpackModes else UnpackMode.DEFAULT
 

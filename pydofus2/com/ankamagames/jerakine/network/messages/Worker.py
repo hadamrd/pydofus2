@@ -66,6 +66,7 @@ class Worker(EventDispatcher, MessageHandler):
 
     def process(self, msg: Message) -> bool:
         if self._terminated:
+            logger.debug(f"Can't process message {msg} because the worker is terminated")
             return False
         self._messagesQueue.append(msg)
         self.run()

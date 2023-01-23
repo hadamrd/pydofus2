@@ -1,14 +1,13 @@
 import functools
-import subprocess
-import tracemalloc
-import multiprocess as mp
+import errno
+import queue
+import threading as mp
 import socket
 import sys
 import traceback
-from time import perf_counter
+from time import perf_counter, sleep
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.logger.MemoryProfiler import MemoryProfiler
 from pydofus2.com.ankamagames.jerakine.messages.ConnectedMessage import ConnectedMessage
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import ConnectionProcessCrashedMessage
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
@@ -16,9 +15,6 @@ from pydofus2.com.ankamagames.jerakine.network.LagometerAck import LagometerAck
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from pydofus2.com.ankamagames.dofus.network.MessageReceiver import MessageReceiver
 from typing import TYPE_CHECKING
-
-from pydofus2.com.ankamagames.jerakine.network.messages.UnexpectedSocketClosureMessage import UnexpectedSocketClosureMessage
-
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 
@@ -38,21 +34,21 @@ def sendTrace(func):
             self._put(ConnectionProcessCrashedMessage(error_trace))
     return wrapped
 
-class ServerConnection(mp.Process):
+class ServerConnection(mp.Thread):
 
     DEBUG_VERBOSE: bool = False
     LOG_ENCODED_CLIENT_MESSAGES: bool = False
     DEBUG_LOW_LEVEL_VERBOSE: bool = False
-    DEBUG_DATA: bool = True
+    DEBUG_DATA: bool = False
     LATENCY_AVG_BUFFER_SIZE: int = 50
     MESSAGE_SIZE_ASYNC_THRESHOLD: int = 300 * 1024
     CONNECTION_TIMEOUT = 7
 
-    def __init__(self, id: str = "ServerConnection"):
+    def __init__(self, id: str = "ServerConnection", receptionQueue: queue.Queue=None):
+        super().__init__(name=id)
         self._latencyBuffer = []
         self._remoteSrvHost = None
         self._remoteSrvPort = None
-        self.name = id
 
         self._connecting = mp.Event()
         self._connected = mp.Event()
@@ -73,15 +69,15 @@ class ServerConnection(mp.Process):
         self._lastSent: int = None
 
         self._firstConnectionTry: bool = True
-
-        self.__receptionQueue = mp.Queue(200)
+        if receptionQueue is None:
+            self.__receptionQueue = queue.Queue(200)
+        else:
+            self.__receptionQueue = receptionQueue
         self.__lagometer = LagometerAck()
         self.__rawParser = MessageReceiver()
         self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         self.__connectionTimeout = None
-        self.__dontHandleClose = False
-        super().__init__(name=self.name)
 
     @property
     def latencyAvg(self) -> int:
@@ -137,10 +133,8 @@ class ServerConnection(mp.Process):
             logger.warn(f"[{self.name}] Tried to close a socket while it had already been disconnected.")
             return
         logger.debug(f"[{self.name}] Closing connection!")
-        self.__dontHandleClose = True
         self.__socket.close()
         self.__sendingQueue.clear()
-        self.__receptionQueue.close()
         self._closing.set()
 
     @sendTrace
@@ -247,35 +241,22 @@ class ServerConnection(mp.Process):
 
     @sendTrace
     def receive(self) -> "INetworkMessage":
-        try:
-            return self.__receptionQueue.get()
-        except KeyboardInterrupt:
-            return None
+        return self.__receptionQueue.get()
 
     @sendTrace
     def __onClose(self, err) -> None:
-        from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import (
-            ServerConnectionClosedMessage,
-        )
         if self.__connectionTimeout:
             self.__connectionTimeout.cancel()
         logger.debug(f"[{self.name}] Connection closed. {err}")
         if self.__lagometer:
             self.__lagometer.stop()
-        try:
-            self.__socket.close()
-        except:
-            pass
+        self.__socket.close()
         self._connected.clear()
         self._connecting.clear()
-        if not self.__dontHandleClose:
-            self.__receptionQueue.put(ServerConnectionClosedMessage(self.name))
-        else:
-            self.__receptionQueue.put(UnexpectedSocketClosureMessage())
         logger.info(f"[{self.name}] Stopped listening for incomming data")
+        from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import ServerConnectionClosedMessage
+        self.__receptionQueue.put(ServerConnectionClosedMessage(self.name))
         self.finished.set()
-        if err:
-            raise err
 
     @property
     def closed(self) -> bool:
@@ -318,7 +299,7 @@ class ServerConnection(mp.Process):
         self.__socket.connect((host, port))
 
     def expectConnectionClose(self, reason, msg) -> None:
-        self.__dontHandleClose = True
+        self.__dontHandleClose = False
         
     @sendTrace
     def run(self):
@@ -335,13 +316,14 @@ class ServerConnection(mp.Process):
                 else:
                     logger.debug(f"[{self.name}] Socket closed by remote host")
                     self._closing.set()
-            except (KeyboardInterrupt, SystemExit, OSError) as e:
+            except (KeyboardInterrupt, SystemExit) as e:
                 logger.debug(f"[{self.name}] Interrupted suddenly!")
-                self.__dontHandleClose = True
                 self._closing.set()
                 err = e
                 break
-            except Exception as e:
-                err = e
-                break
+            except OSError as e:
+                if e.errno == errno.WSAENOTCONN:
+                    sleep(1)
+                else:
+                    raise e
         self.__onClose(err)

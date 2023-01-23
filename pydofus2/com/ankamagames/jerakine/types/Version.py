@@ -30,10 +30,11 @@ class Version(IExternalizable, IDataCenter):
             self._build = int(split[3])
             self._buildType = int(args[1])
 
+    @classmethod
     def fromServerData(
-        self, major: int, minor: int, code: int, build: int, buildType: int
+        cls, major: int, minor: int, code: int, build: int, buildType: int
     ) -> "Version":
-        version: Version = Version()
+        version = cls()
         version._major = major
         version._minor = minor
         version._code = code

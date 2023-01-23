@@ -149,11 +149,6 @@ class DofusClientThread(threading.Thread):
             DofusClient().login(self.loginToken, self.serverId, self.characterId)
             while not self._killSig.is_set():
                 msg = DofusClient().connection.receive()
-                if not self.conn_pid:
-                    self.conn_pid = self.connProcess.pid
-                    logger.debug(f"[DofusClient] Connection process pid: {self.conn_pid}")
-                if msg is None:
-                    break
                 DofusClient()._worker.process(msg)
                 if self.LOG_MEMORY_USAGE:
                     snapshot = tracemalloc.take_snapshot()

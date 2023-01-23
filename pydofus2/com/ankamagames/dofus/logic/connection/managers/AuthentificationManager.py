@@ -13,6 +13,7 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
+from pydofus2.com.ankamagames.jerakine.types.Version import Version
 from pydofus2.com.hurlan.crypto.symmetric.AESKey import AESKey
 from pydofus2.com.hurlan.crypto.symmetric.CBCMode import CBCMode
 from pydofus2.com.hurlan.crypto.symmetric.NullPAd import NullPad
@@ -78,26 +79,23 @@ class AuthentificationManager(metaclass=Singleton):
         self.username = "   "
 
     def getIdentificationMessage(self) -> IdentificationMessage:
-        imsg = NetworkMessage.from_json(
-            {
-                "__type__": "IdentificationMessage",
-                "autoconnect": self._lva.autoSelectServer,
-                "credentials": self.getAuthCredentials(),
-                "failedAttempts": [],
-                "lang": "fr",
-                "serverId": self._lva.serverId,
-                "sessionOptionalSalt": 0,
-                "useCertificate": False,
-                "useLoginToken": True,
-                "version": {
-                    "__type__": "Version",
-                    "build": BuildInfos.VERSION.build,
-                    "buildType": BuildInfos.VERSION.buildType,
-                    "code": BuildInfos.VERSION.code,
-                    "major": BuildInfos.VERSION.major,
-                    "minor": BuildInfos.VERSION.minor,
-                },
-            }
+        imsg = IdentificationMessage()
+        imsg.init(
+            autoconnect_ = self._lva.autoSelectServer,
+            credentials_ = self.getAuthCredentials(),
+            failedAttempts_ = [],
+            lang_ = "fr",
+            serverId_ = self._lva.serverId,
+            sessionOptionalSalt_ = 0,
+            useCertificate_ = False,
+            useLoginToken_ = True,
+            version_ = Version.fromServerData(
+                build = BuildInfos.VERSION.build,
+                buildType = BuildInfos.VERSION.buildType,
+                code = BuildInfos.VERSION.code,
+                major = BuildInfos.VERSION.major,
+                minor = BuildInfos.VERSION.minor,
+            )
         )
         return imsg
 

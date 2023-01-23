@@ -24,7 +24,7 @@ class NetworkMessageClassDefinition:
         self._boolfields = classSpec["boolfields"]
         modulePath = classSpec["package"]
         try:
-            clsModule = sys.modules[modulePath]
+            clsModule = globals()[modulePath]
         except:
             clsModule = importlib.import_module(modulePath)
         self._cls = getattr(clsModule, classSpec["name"])

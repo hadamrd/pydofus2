@@ -1,3 +1,4 @@
+import queue
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionType import ConnectionType
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReason import DisconnectionReason
@@ -26,7 +27,11 @@ class ConnectionsHandler(metaclass=Singleton):
         self._hasReceivedMsg: bool = False
         self._hasReceivedNetworkMsg: bool = False
         self._disconnectMessage = ""
+        self._receptionQueue = queue.Queue(200)
 
+    def receive(self):
+        return self._receptionQueue.get()
+    
     @property
     def connectionType(self) -> str:
         return self._currentConnectionType
@@ -99,8 +104,7 @@ class ConnectionsHandler(metaclass=Singleton):
         krnl.Kernel().getWorker().process(ConnectionResumedMessage())
         
     def etablishConnection(self, host: str, port: int, id: str) -> None:
-        self._conn = ServerConnection(id)
+        self._conn = ServerConnection(id, self._receptionQueue)
         krnl.Kernel().getWorker().addFrame(HandshakeFrame())
         self._conn.start()
         self._conn.connect(host, port)
-        logger.debug(f"Connection process pid: {self._conn.pid}")
