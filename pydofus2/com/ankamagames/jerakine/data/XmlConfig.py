@@ -3,7 +3,9 @@ import xml.etree.ElementTree as ET
 import re
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+import threading
 
+lock = threading.Lock()
 class XmlConfig(metaclass=ThreadSharedSingleton):
     _constants = OrderedDict[str, object]()
 
@@ -24,7 +26,8 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
             self._constants[key] = v
             
     def init(self, constants: dict[str, object]) -> None:
-        self._constants = constants
+        with lock:
+            self._constants = constants
 
     def addCategory(self, constants: dict[str, object]) -> None:
         for i in constants:

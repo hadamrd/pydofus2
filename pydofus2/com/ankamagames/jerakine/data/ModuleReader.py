@@ -16,6 +16,7 @@ class InvalidD2OFile(Exception):
 
 
 class ModuleReader:
+    
     def __init__(self, stream: BinaryStream) -> None:
         """Init the class with the informations about files in the D2O"""
         if not isinstance(stream, BinaryStream):

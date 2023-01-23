@@ -304,7 +304,6 @@ class ServerConnection(mp.Thread):
     @sendTrace
     def run(self):
         err = ""
-        logger.info(f"[{self.name}] Will Start listening for incomming data from {self.host}:{self.port}")
         while not self.closed:
             try:
                 rdata = self.__socket.recv(2056)
