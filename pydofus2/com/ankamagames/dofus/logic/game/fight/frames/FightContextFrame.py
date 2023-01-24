@@ -307,7 +307,7 @@ class FightContextFrame(Frame):
     def fightType(self, t: int) -> None:
         self._fightType = t
         # TODO: uncomment when party manager is done
-        # partyFrame:PartyManagementFrame = Kernel().getWorker().getFrame("PartyManagementFrame")
+        # partyFrame:PartyManagementFrame = Kernel().worker.getFrame("PartyManagementFrame")
         # partyFrame.lastFightType = t
 
     @property
@@ -500,7 +500,6 @@ class FightContextFrame(Frame):
                     durationPool[buff.effect.spellId] = castingSpell
                 buffTmp = BuffManager.makeBuffFromEffect(buff.effect, castingSpell, buff.actionId)
                 BuffManager().addBuff(buffTmp)
-            Kernel().getWorker().addSingleTreatment(self, self.stopReconnection, [])
             return True
 
         elif isinstance(msg, GameFightUpdateTeamMessage):
@@ -518,15 +517,15 @@ class FightContextFrame(Frame):
             gfjmsg = msg
             preFightIsActive = not gfjmsg.isFightStarted
             self.fightType = gfjmsg.fightType
-            if not Kernel().getWorker().contains("FightEntitiesFrame"):
-                Kernel().getWorker().addFrame(self._entitiesFrame)
+            if not Kernel().worker.contains("FightEntitiesFrame"):
+                Kernel().worker.addFrame(self._entitiesFrame)
             if preFightIsActive:
-                if not Kernel().getWorker().contains("FightPreparationFrame"):
-                    Kernel().getWorker().addFrame(self._preparationFrame)
+                if not Kernel().worker.contains("FightPreparationFrame"):
+                    Kernel().worker.addFrame(self._preparationFrame)
                 self.onlyTheOtherTeamCanPlace = not gfjmsg.isTeamPhase
             else:
-                Kernel().getWorker().removeFrame(self._preparationFrame)
-                Kernel().getWorker().addFrame(self._battleFrame)
+                Kernel().worker.removeFrame(self._preparationFrame)
+                Kernel().worker.addFrame(self._battleFrame)
                 self.onlyTheOtherTeamCanPlace = False
             PlayedCharacterManager().isSpectator = False
             PlayedCharacterManager().isFighting = True
@@ -538,14 +537,14 @@ class FightContextFrame(Frame):
         elif isinstance(msg, GameFightStartMessage):
             gfsm = msg
             preFightIsActive = False
-            Kernel().getWorker().removeFrame(self._preparationFrame)
+            Kernel().worker.removeFrame(self._preparationFrame)
             CurrentPlayedFighterManager().getSpellCastManager().resetInitialCooldown()
-            Kernel().getWorker().addFrame(self._battleFrame)
+            Kernel().worker.addFrame(self._battleFrame)
             self._fightIdols = gfsm.idols
             return True
 
         elif isinstance(msg, GameContextDestroyMessage):
-            Kernel().getWorker().removeFrame(self)
+            Kernel().worker.removeFrame(self)
             return False
 
         elif isinstance(msg, GameFightLeaveMessage):
@@ -555,7 +554,7 @@ class FightContextFrame(Frame):
         #     teoa = msg
         #     self._timelineOverEntity = True
         #     self._timelineOverEntityId = teoa.targetId
-        #     fscf = Kernel().getWorker().getFrame("FightSpellCastFrame")
+        #     fscf = Kernel().worker.getFrame("FightSpellCastFrame")
         #     self.overEntity(
         #         teoa.targetId,
         #         teoa.showRange,
@@ -572,10 +571,10 @@ class FightContextFrame(Frame):
         #     return True
 
         # if isinstance(msg, TogglePointCellAction):
-        #     if Kernel().getWorker().contains("PointCellFrame"):
-        #         Kernel().getWorker().removeFrame(PointCellFrame())
+        #     if Kernel().worker.contains("PointCellFrame"):
+        #         Kernel().worker.removeFrame(PointCellFrame())
         #     else:
-        #         Kernel().getWorker().addFrame(PointCellFrame())
+        #         Kernel().worker.addFrame(PointCellFrame())
         #     return True
 
         elif isinstance(msg, GameFightEndMessage):
@@ -593,7 +592,7 @@ class FightContextFrame(Frame):
             else:
                 fightEnding = FightEndingMessage()
                 fightEnding.init()
-                Kernel().getWorker().process(fightEnding)
+                Kernel().worker.process(fightEnding)
                 results = list[FightResultEntryWrapper](len(gfemsg.results) * [None])
                 resultIndex = 0
                 winners = list[FightResultEntryWrapper]()
@@ -689,7 +688,7 @@ class FightContextFrame(Frame):
                     fevth.FightEventsHelper().sendFightEvent(FightEventEnum.FIGHT_END, [resultsKey], 0, -1, True)
                 if PlayerManager().kisServerPort > 0:
                     pass
-            Kernel().getWorker().removeFrame(self)
+            Kernel().worker.removeFrame(self)
             # logger.debug(resultsRecap)
             return False
 
@@ -728,18 +727,18 @@ class FightContextFrame(Frame):
         # if isinstance(msg, BreachEnterMessage):
         #     bemsg = msg
         #     PlayedCharacterManager().isInBreach = True
-        #     if not Kernel().getWorker().getFrame("BreachFrame"):
+        #     if not Kernel().worker.getFrame("BreachFrame"):
         #         breachFrame = BreachFrame()
         #         breachFrame.ownerId = bemsg.owner
-        #         Kernel().getWorker().addFrame(breachFrame)
+        #         Kernel().worker.addFrame(breachFrame)
         #     return True
 
         # if isinstance(msg, BreachExitResponseMessage):
         #     if PlayedCharacterManager().isInBreach:
         #         PlayedCharacterManager().isInBreach = False
-        #         if Kernel().getWorker().getFrame("BreachFrame"):
-        #             Kernel().getWorker().removeFrame(
-        #                 Kernel().getWorker().getFrame("BreachFrame")
+        #         if Kernel().worker.getFrame("BreachFrame"):
+        #             Kernel().worker.removeFrame(
+        #                 Kernel().worker.getFrame("BreachFrame")
         #             )
         #     return True
 
@@ -767,18 +766,18 @@ class FightContextFrame(Frame):
 
     def pulled(self) -> bool:
         if self._battleFrame:
-            Kernel().getWorker().removeFrame(self._battleFrame)
+            Kernel().worker.removeFrame(self._battleFrame)
         if self._entitiesFrame:
-            Kernel().getWorker().removeFrame(self._entitiesFrame)
+            Kernel().worker.removeFrame(self._entitiesFrame)
         if self._preparationFrame:
-            Kernel().getWorker().removeFrame(self._preparationFrame)
+            Kernel().worker.removeFrame(self._preparationFrame)
         self._lastEffectEntity = None
         if self._timerFighterInfo:
             self._timerFighterInfo.cancel()
         if self._timerMovementRange:
             self._timerMovementRange.cancel()
         self._currentFighterInfo = None
-        simf: "SpellInventoryManagementFrame" = Kernel().getWorker().getFrame("SpellInventoryManagementFrame")
+        simf: "SpellInventoryManagementFrame" = Kernel().worker.getFrame("SpellInventoryManagementFrame")
         if simf:
             simf.deleteSpellsGlobalCoolDownsData()
         PlayedCharacterManager().isSpectator = False
@@ -794,7 +793,7 @@ class FightContextFrame(Frame):
 
     def initFighterPositionHistory(self, pFighterId: float) -> None:
         if not self._fightersPositionsHistory.get(pFighterId):
-            fightContextFrame: "FightContextFrame" = Kernel().getWorker().getFrame("FightContextFrame")
+            fightContextFrame: "FightContextFrame" = Kernel().worker.getFrame("FightContextFrame")
             self._fightersPositionsHistory[pFighterId] = [
                 {
                     "cellId": fightContextFrame.entitiesFrame.getEntityInfos(pFighterId).disposition.cellId,

@@ -153,7 +153,7 @@ class FightSpellCastFrame(Frame):
 
     @classmethod
     def updateRangeAndTarget(cls) -> None:
-        castFrame: "FightSpellCastFrame" = Kernel().getWorker().getFrame("FightSpellCastFrame")
+        castFrame: "FightSpellCastFrame" = Kernel().worker.getFrame("FightSpellCastFrame")
         if castFrame:
             castFrame.removeRange()
             castFrame.drawRange()
@@ -168,8 +168,8 @@ class FightSpellCastFrame(Frame):
         return self._spellId
 
     def pushed(self) -> bool:
-        self._fightContextFrame = Kernel().getWorker().getFrame("FightContextFrame")
-        fef: "FightEntitiesFrame" = Kernel().getWorker().getFrame("FightEntitiesFrame")
+        self._fightContextFrame = Kernel().worker.getFrame("FightContextFrame")
+        fef: "FightEntitiesFrame" = Kernel().worker.getFrame("FightEntitiesFrame")
         fighters = fef.entities
         for actorInfos in fighters:
             fighterInfos = actorInfos
@@ -276,9 +276,9 @@ class FightSpellCastFrame(Frame):
             return False
 
     def pulled(self) -> bool:
-        fbf: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fbf: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if fbf:
-            fef: "FightEntitiesFrame" = Kernel().getWorker().getFrame("FightEntitiesFrame")
+            fef: "FightEntitiesFrame" = Kernel().worker.getFrame("FightEntitiesFrame")
             fighters = fef.entities
             for actorInfos in fighters:
                 fighterInfos = actorInfos
@@ -334,7 +334,7 @@ class FightSpellCastFrame(Frame):
         self._currentCell = target
         entitiesOnCell: list = EntitiesManager().getEntitiesOnCell(self._currentCell, AnimatedCharacter)
         self._currentCellEntity = self.getParentEntity(entitiesOnCell[0]) if len(entitiesOnCell) > 0 else None
-        fightTurnFrame: "FightTurnFrame" = Kernel().getWorker().getFrame("FightTurnFrame")
+        fightTurnFrame: "FightTurnFrame" = Kernel().worker.getFrame("FightTurnFrame")
         if not fightTurnFrame:
             return
         myTurn: bool = fightTurnFrame.myTurn
@@ -594,7 +594,7 @@ class FightSpellCastFrame(Frame):
         return CurrentPlayedFighterManager().getStats().getStatTotalValue(StatIds.ACTION_POINTS)
 
     def castSpell(self, cell: int, targetId: float = 0, forceCheckForRange: bool = False) -> None:
-        fightTurnFrame: "FightTurnFrame" = Kernel().getWorker().getFrame("FightTurnFrame")
+        fightTurnFrame: "FightTurnFrame" = Kernel().worker.getFrame("FightTurnFrame")
         if not fightTurnFrame:
             return
         apCurrent: int = self.checkSpellCostAndPlayerAp()
@@ -611,7 +611,7 @@ class FightSpellCastFrame(Frame):
                 return
         if not fightTurnFrame.myTurn:
             return
-        fightBattleFrame: FightBattleFrame = Kernel().getWorker().getFrame(FightBattleFrame)
+        fightBattleFrame: FightBattleFrame = Kernel().worker.getFrame(FightBattleFrame)
         if fightBattleFrame and fightBattleFrame.fightIsPaused:
             self.cancelCast()
             return
@@ -636,7 +636,7 @@ class FightSpellCastFrame(Frame):
         self.removeSummoningPreview()
         self.removeTeleportationPreview(True)
         self._cancelTimer.cancel()
-        Kernel().getWorker().removeFrame(self)
+        Kernel().worker.removeFrame(self)
 
     def removeRange(self) -> None:
         s: Selection = SelectionManager().getSelection(self.SELECTION_RANGE)

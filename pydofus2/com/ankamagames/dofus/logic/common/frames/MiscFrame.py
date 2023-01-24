@@ -89,9 +89,9 @@ class MiscFrame(Frame, metaclass=Singleton):
 
         if isinstance(msg, AccountHouseMessage):
             pass
-            # if not Kernel().getWorker().getFrame('HouseFrame'):
-            #     Kernel.getWorker().addFrame(HouseFrame())
-            # houseFrame = Kernel().getWorker().getFrame('HouseFrame')
+            # if not Kernel().worker.getFrame('HouseFrame'):
+            #     Kernel.worker.addFrame(HouseFrame())
+            # houseFrame = Kernel().worker.getFrame('HouseFrame')
             # if houseFrame is not None:
             #     houseFrame.process(msg)
             return True

@@ -52,7 +52,7 @@ class SpellCastInFightManager:
     def resetInitialCooldown(self, hasBeenSummoned: bool = False) -> None:
         spellWrapper: SpellWrapper = None
         spellManager: SpellManager = None
-        spim: "SpellInventoryManagementFrame" = Kernel().getWorker().getFrame("SpellInventoryManagementFrame")
+        spim: "SpellInventoryManagementFrame" = Kernel().worker.getFrame("SpellInventoryManagementFrame")
         spellList: list = spim.getFullSpellListByOwnerId(self.entityId)
         for spellWrapper in spellList:
             if spellWrapper.spellLevelInfos.initialCooldown != 0:

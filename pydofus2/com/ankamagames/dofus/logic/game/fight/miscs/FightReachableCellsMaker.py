@@ -108,7 +108,7 @@ class FightReachableCellsMaker:
         fromCellId: int = -1,
         movementPoint: int = -1,
     ):
-        entitiesFrame: FightEntitiesFrame = Kernel().getWorker().getFrame("FightEntitiesFrame")
+        entitiesFrame: FightEntitiesFrame = Kernel().worker.getFrame("FightEntitiesFrame")
         stats = StatsManager().getStats(infos.contextualId)
         movementPoints: Stat = stats.getStat(StatIds.MOVEMENT_POINTS)
         movementPointsValue: float = float(movementPoints.totalValue) if movementPoints is not None else float(0)

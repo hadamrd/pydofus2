@@ -103,7 +103,7 @@ class FightMarkCellsStep(AbstractSequencable, IFightStep):
             else:
                 logger.warn(f"Unknown mark type ({mi.markType}).")
             FightEventsHelper().sendFightEvent(evt, [mi.associatedSpell.id], 0, self.castingSpellId)
-            ftf = Kernel().getWorker().getFrame("FightTurnFrame")
+            ftf = Kernel().worker.getFrame("FightTurnFrame")
             if ftf and ftf.myTurn and ftf.lastPath:
                 for pe in ftf.lastPath.path:
                     if pe.cellId not in mi.cells:

@@ -1,5 +1,4 @@
 from datetime import datetime
-from pydofus2.com.DofusClient import DofusClientThread
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager, KernelEvts
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
@@ -199,7 +198,7 @@ class GameServerApproachFrame(Frame):
             KernelEventsManager().send(KernelEvts.CHARACTERS_LIST, return_value=PlayerManager().charactersList)
             if PlayerManager().allowAutoConnectCharacter:
                 characterId = PlayerManager().autoConnectOfASpecificCharacterId
-                Kernel().getWorker().process(CharacterSelectionAction.create(characterId, False))
+                Kernel().worker.process(CharacterSelectionAction.create(characterId, False))
             return False
 
         elif isinstance(msg, ServerConnectionFailedMessage):
@@ -227,21 +226,20 @@ class GameServerApproachFrame(Frame):
 
             cssmsg = msg
             self._loadingStart = time.perf_counter()
-            if Kernel().getWorker().getFrame("ServerSelectionFrame"):
-                Kernel().getWorker().removeFrameByName("ServerSelectionFrame")
+            if Kernel().worker.getFrame("ServerSelectionFrame"):
+                Kernel().worker.removeFrameByName("ServerSelectionFrame")
             PlayedCharacterManager().infos = cssmsg.infos
             DataStoreType.CHARACTER_ID = str(cssmsg.infos.id)
-            Kernel().getWorker().addFrame(WorldFrame())
-            Kernel().getWorker().addFrame(SynchronisationFrame())
-            Kernel().getWorker().addFrame(pcuF.PlayedCharacterUpdatesFrame())
-            Kernel().getWorker().addFrame(SpellInventoryManagementFrame())
-            Kernel().getWorker().addFrame(InventoryManagementFrame())
-            Kernel().getWorker().addFrame(ContextChangeFrame())
-            # TODO : Kernel().getWorker().addFrame(ChatFrame())
-            Kernel().getWorker().addFrame(JobsFrame())
-            Kernel().getWorker().addFrame(QuestFrame())
-            # TODO : Kernel().getWorker().addFrame(PartyManagementFrame())
-            Kernel().getWorker().addFrame(AveragePricesFrame())
+            Kernel().worker.addFrame(WorldFrame())
+            Kernel().worker.addFrame(SynchronisationFrame())
+            Kernel().worker.addFrame(pcuF.PlayedCharacterUpdatesFrame())
+            Kernel().worker.addFrame(SpellInventoryManagementFrame())
+            Kernel().worker.addFrame(InventoryManagementFrame())
+            Kernel().worker.addFrame(ContextChangeFrame())
+            Kernel().worker.addFrame(JobsFrame())
+            Kernel().worker.addFrame(QuestFrame())
+            Kernel().worker.addFrame(AveragePricesFrame())
+            KernelEventsManager().send(KernelEvts.CHARACTER_SELECTION_SUCCESS, return_value=cssmsg.infos)
             if Kernel().beingInReconection and not self._reconnectMsgSend:
                 self._reconnectMsgSend = True
                 connh.ConnectionsHandler().conn.send(CharacterSelectedForceReadyMessage())
@@ -254,7 +252,7 @@ class GameServerApproachFrame(Frame):
             self._cssmsg = cssmsg
             PlayedCharacterManager().infos = self._cssmsg.infos
             DataStoreType.CHARACTER_ID = str(self._cssmsg.infos.id)
-            Kernel().getWorker().removeFrame(self)
+            Kernel().worker.removeFrame(self)
             gccrmsg = GameContextCreateRequestMessage()
             connh.ConnectionsHandler().conn.send(gccrmsg)
             now = time.perf_counter()
@@ -304,7 +302,7 @@ class GameServerApproachFrame(Frame):
                     if not perso.deathState or perso.deathState == 0:
                         self._charaListMinusDeadPeople.append(perso)
             else:
-                Kernel().getWorker().removeFrame(self)
+                Kernel().worker.removeFrame(self)
                 logger.warn("Empty Gift List Received")
             return True
 

@@ -75,14 +75,14 @@ class RoleplayContextFrame(Frame):
             else:
                 MapDisplayManager().mapInstanceId = 0
             wp = None
-            if self._entitiesFrame and Kernel().getWorker().contains("RoleplayEntitiesFrame"):
-                Kernel().getWorker().removeFrame(self._entitiesFrame)
-            if self._worldFrame and Kernel().getWorker().contains("RoleplayWorldFrame"):
-                Kernel().getWorker().removeFrame(self._worldFrame)
-            if self._interactivesFrame and Kernel().getWorker().contains("RoleplayInteractivesFrame"):
-                Kernel().getWorker().removeFrame(self._interactivesFrame)
-            if self.movementFrame and Kernel().getWorker().contains("RoleplayMovementFrame"):
-                Kernel().getWorker().removeFrame(self.movementFrame)
+            if self._entitiesFrame and Kernel().worker.contains("RoleplayEntitiesFrame"):
+                Kernel().worker.removeFrame(self._entitiesFrame)
+            if self._worldFrame and Kernel().worker.contains("RoleplayWorldFrame"):
+                Kernel().worker.removeFrame(self._worldFrame)
+            if self._interactivesFrame and Kernel().worker.contains("RoleplayInteractivesFrame"):
+                Kernel().worker.removeFrame(self._interactivesFrame)
+            if self.movementFrame and Kernel().worker.contains("RoleplayMovementFrame"):
+                Kernel().worker.removeFrame(self.movementFrame)
             if PlayedCharacterManager().isInHouse:
                 wp = WorldPointWrapper(
                     mcmsg.mapId,
@@ -100,17 +100,17 @@ class RoleplayContextFrame(Frame):
 
         elif isinstance(msg, MapLoadedMessage):
             # logger.debug("[RoleplayContext] Map loaded will push other roleplay frames")
-            Kernel().getWorker().addFrame(self._entitiesFrame)
-            Kernel().getWorker().addFrame(self._worldFrame)
-            Kernel().getWorker().addFrame(self.movementFrame)
-            Kernel().getWorker().addFrame(self._interactivesFrame)
-            # Kernel().getWorker().process(self._listMapNpcsMsg)
+            Kernel().worker.addFrame(self._entitiesFrame)
+            Kernel().worker.addFrame(self._worldFrame)
+            Kernel().worker.addFrame(self.movementFrame)
+            Kernel().worker.addFrame(self._interactivesFrame)
+            # Kernel().worker.process(self._listMapNpcsMsg)
             self._listMapNpcsMsg = None
             return True
 
         elif isinstance(msg, GameContextDestroyMessage):
             logger.debug("RoleplayContextFrame: will be retrieved from kernel because we are switching to fight")
-            Kernel().getWorker().removeFrame(self)
+            Kernel().worker.removeFrame(self)
 
             return False
 
@@ -121,18 +121,18 @@ class RoleplayContextFrame(Frame):
 
     def pulled(self) -> bool:
         self._interactivesFrame.clear()
-        Kernel().getWorker().removeFrame(self._entitiesFrame)
-        # Kernel().getWorker().removeFrame(self._delayedActionFrame)
-        Kernel().getWorker().removeFrame(self._worldFrame)
-        Kernel().getWorker().removeFrame(self.movementFrame)
-        Kernel().getWorker().removeFrame(self._interactivesFrame)
+        Kernel().worker.removeFrame(self._entitiesFrame)
+        # Kernel().worker.removeFrame(self._delayedActionFrame)
+        Kernel().worker.removeFrame(self._worldFrame)
+        Kernel().worker.removeFrame(self.movementFrame)
+        Kernel().worker.removeFrame(self._interactivesFrame)
         # logger.debug("RoleplayContextFrame pulled")
         # TODO : Don't forget to uncomment this when those frames are implemented dumpass
-        # Kernel().getWorker().removeFrame(self._spectatorManagementFrame)
-        # Kernel().getWorker().removeFrame(self._npcDialogFrame)
-        # Kernel().getWorker().removeFrame(self._documentFrame)
-        # Kernel().getWorker().removeFrame(self._zaapFrame)
-        # Kernel().getWorker().removeFrame(self._paddockFrame)
-        # if Kernel().getWorker().contains("HavenbagFrame"):
-        #     Kernel().getWorker().removeFrame(Kernel().getWorker().getFrame("HavenbagFrame"))
+        # Kernel().worker.removeFrame(self._spectatorManagementFrame)
+        # Kernel().worker.removeFrame(self._npcDialogFrame)
+        # Kernel().worker.removeFrame(self._documentFrame)
+        # Kernel().worker.removeFrame(self._zaapFrame)
+        # Kernel().worker.removeFrame(self._paddockFrame)
+        # if Kernel().worker.contains("HavenbagFrame"):
+        #     Kernel().worker.removeFrame(Kernel().worker.getFrame("HavenbagFrame"))
         return True

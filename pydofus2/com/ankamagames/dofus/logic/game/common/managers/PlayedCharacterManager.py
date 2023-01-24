@@ -216,7 +216,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     @property
     def isInFight(self) -> bool:
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-        return Kernel().getWorker().getFrame("FightContextFrame")
+        return Kernel().worker.getFrame("FightContextFrame")
     
     @property
     def isInKoli(self) -> bool:
@@ -225,7 +225,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         )
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 
-        fightContextFrame: FightContextFrame = Kernel().getWorker().getFrame("FightContextFrame")
+        fightContextFrame: FightContextFrame = Kernel().worker.getFrame("FightContextFrame")
         return fightContextFrame and fightContextFrame.isKolossium
 
     @property

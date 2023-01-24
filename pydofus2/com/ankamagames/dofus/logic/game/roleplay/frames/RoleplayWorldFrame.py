@@ -98,11 +98,11 @@ class RoleplayWorldFrame(Frame):
     def roleplayContextFrame(self) -> "RoleplayContextFrame":
         pass
 
-        return Kernel().getWorker().getFrame("RoleplayContextFrame")
+        return Kernel().worker.getFrame("RoleplayContextFrame")
 
     @property
     def roleplayMovementFrame(self) -> RoleplayMovementFrame:
-        return Kernel().getWorker().getFrame("RoleplayMovementFrame")
+        return Kernel().worker.getFrame("RoleplayMovementFrame")
 
     def pushed(self) -> bool:
         self._allowOnlyCharacterInteraction = False
@@ -181,7 +181,7 @@ class RoleplayWorldFrame(Frame):
             sendInteractiveUseRequest = True
             ieamsg = msg
             interactiveFrame: riF.RoleplayInteractivesFrame = (
-                Kernel().getWorker().getFrame("RoleplayInteractivesFrame")
+                Kernel().worker.getFrame("RoleplayInteractivesFrame")
             )
             if interactiveFrame.usingInteractive:
                 logger.debug("Interactive element already in use")

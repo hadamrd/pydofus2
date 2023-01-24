@@ -33,7 +33,7 @@ class ArenaMaxDuelRankCriterion(icf.ItemCriterionFactory, IDataCenter):
 
     def getCriterion(self) -> int:
         frame: PartyManagementFrame = (
-            Kernel().getWorker().getFrame("PartyManagementFrame")
+            Kernel().worker.getFrame("PartyManagementFrame")
         )
         maxRank: int = 0
         if frame.arenaRankDuelInfos and frame.arenaRankDuelInfos.maxRank > maxRank:

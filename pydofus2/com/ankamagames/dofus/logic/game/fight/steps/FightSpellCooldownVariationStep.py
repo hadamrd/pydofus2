@@ -56,7 +56,7 @@ class FightSpellCooldownVariationStep(AbstractSequencable, IFightStep):
                 self._fighterId
             )
             simf: "SpellInventoryManagementFrame" = (
-                Kernel().getWorker().getFrame("SpellInventoryManagementFrame")
+                Kernel().worker.getFrame("SpellInventoryManagementFrame")
             )
             spellList = simf.getFullSpellListByOwnerId(self._fighterId)
             for spellKnown in spellList:

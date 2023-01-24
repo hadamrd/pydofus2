@@ -45,7 +45,8 @@ class ServerConnection(mp.Thread):
     CONNECTION_TIMEOUT = 7
 
     def __init__(self, id: str = "ServerConnection", receptionQueue: queue.Queue=None):
-        super().__init__(name=id)
+        super().__init__(name=mp.current_thread().name)
+        self.id = id
         self._latencyBuffer = []
         self._remoteSrvHost = None
         self._remoteSrvPort = None
@@ -56,9 +57,9 @@ class ServerConnection(mp.Thread):
         self._paused = mp.Event()
         self.finished = mp.Event()
 
-        self._packetId = None
-        self._msgLenLength = None
-        self._messageLength = None
+        self.__packetId = None
+        self.__msgLenLength = None
+        self.__messageLength = None
 
         self.__receivedStream = ByteArray()
         self.__pauseQueue = list["INetworkMessage"]()
@@ -113,7 +114,7 @@ class ServerConnection(mp.Thread):
         return self._sendSequenceId
 
     @property
-    def connected(self) -> bool:
+    def open(self) -> bool:
         return self._connected.is_set()
 
     @property
@@ -130,21 +131,21 @@ class ServerConnection(mp.Thread):
     @sendTrace
     def close(self) -> None:
         if self.closed:
-            logger.warn(f"[{self.name}] Tried to close a socket while it had already been disconnected.")
+            logger.warn(f"[{self.id}] Tried to close a socket while it had already been disconnected.")
             return
-        logger.debug(f"[{self.name}] Closing connection!")
+        logger.debug(f"[{self.id}] Closing connection...")
         self.__socket.close()
         self.__sendingQueue.clear()
         self._closing.set()
 
     @sendTrace
     def send(self, msg: "INetworkMessage") -> None:
-        if not self.connected:
+        if not self.open:
             if self.connecting:
                 self.__sendingQueue.append(msg)
             return
         if self.DEBUG_DATA:
-            logger.debug(f"[{self.name}] [SND] > {msg}")
+            logger.debug(f"[{self.id}] [SND] > {msg}")
         self.__socket.send(msg.pack())
         self._latestSent = perf_counter()
         self._lastSent = perf_counter()
@@ -155,7 +156,7 @@ class ServerConnection(mp.Thread):
     def __str__(self) -> str:
         status = "Server connection status:\n"
         status += "  Connected:       " + ("Yes" if self.__socket.connected else "No") + "\n"
-        if self.connected:
+        if self.open:
             status += "  Connected to:    " + self._remoteSrvHost + ":" + self._remoteSrvPort + "\n"
         else:
             status += "  Connecting:      " + ("Yes" if self._connecting else "No") + "\n"
@@ -168,7 +169,7 @@ class ServerConnection(mp.Thread):
             status += "  Input buffer:    " + len(self.__receivedStream) + " byte(s)\n"
         if self._handlingSplitedPckt:
             status += "  Splitted message in the input buffer:\n"
-            status += "    Message ID:      " + self._packetId + "\n"
+            status += "    Message ID:      " + self.__packetId + "\n"
             status += "    Awaited length:  " + self._packetLength + "\n"
         return status
 
@@ -186,33 +187,33 @@ class ServerConnection(mp.Thread):
 
     def __parse(self, buffer: ByteArray) -> NetworkMessage:
         while buffer.remaining() and not self._closing.is_set():
-            if self._msgLenLength is None:
+            if self.__msgLenLength is None:
                 if buffer.remaining() < 2: 
                     break
                 staticHeader = buffer.readUnsignedShort()
-                self._packetId = staticHeader >> NetworkMessage.BIT_RIGHT_SHIFT_LEN_PACKET_ID
-                self._msgLenLength = staticHeader & NetworkMessage.BIT_MASK
+                self.__packetId = staticHeader >> NetworkMessage.BIT_RIGHT_SHIFT_LEN_PACKET_ID
+                self.__msgLenLength = staticHeader & NetworkMessage.BIT_MASK
 
-            if self._messageLength is None:
-                if buffer.remaining() < self._msgLenLength: 
+            if self.__messageLength is None:
+                if buffer.remaining() < self.__msgLenLength: 
                     break
-                self._messageLength = int.from_bytes(buffer.read(self._msgLenLength), "big")
+                self.__messageLength = int.from_bytes(buffer.read(self.__msgLenLength), "big")
 
-            if buffer.remaining() >= self._messageLength:
+            if buffer.remaining() >= self.__messageLength:
                 self.updateLatency()
-                msg: NetworkMessage = self.__rawParser.parse(buffer, self._packetId, self._messageLength)
+                msg: NetworkMessage = self.__rawParser.parse(buffer, self.__packetId, self.__messageLength)
                 if msg.unpacked:
                     msg.receptionTime = perf_counter()
-                    msg.sourceConnection = self.name
+                    msg.sourceConnection = self.id
                     if not self._paused.is_set():
                         if self.DEBUG_DATA:
-                            logger.debug(f"[{self.name}] [RCV] {msg}")
+                            logger.debug(f"[{self.id}] [RCV] {msg}")
                         self.__receptionQueue.put(msg)
                     else:
                         self.__pauseQueue.append(msg)
-                self._packetId = None
-                self._msgLenLength = None
-                self._messageLength = None
+                self.__packetId = None
+                self.__msgLenLength = None
+                self.__messageLength = None
             else:
                 break
         buffer.trim()
@@ -227,11 +228,14 @@ class ServerConnection(mp.Thread):
         self._latencyBuffer.append(latency)
         if len(self._latencyBuffer) > self.LATENCY_AVG_BUFFER_SIZE:
             self._latencyBuffer.pop(0)
-
-    def __onConnect(self) -> None:
-        logger.debug(f"[{self.name}] Connection established with the socket. timeout {self.__connectionTimeout}")
+            
+    def stopConnectionTimeout(self) -> None:
         if self.__connectionTimeout:
             self.__connectionTimeout.cancel()
+            
+    def __onConnect(self) -> None:
+        logger.debug(f"[{self.id}] Connection established.")
+        self.stopConnectionTimeout()
         self._connecting.clear()
         self._connected.set()
         for msg in self.__sendingQueue:
@@ -245,18 +249,19 @@ class ServerConnection(mp.Thread):
 
     @sendTrace
     def __onClose(self, err) -> None:
-        if self.__connectionTimeout:
-            self.__connectionTimeout.cancel()
-        logger.debug(f"[{self.name}] Connection closed. {err}")
+        self.stopConnectionTimeout()
+        logger.debug(f"[{self.id}] Connection closed. {err}")
         if self.__lagometer:
             self.__lagometer.stop()
         self.__socket.close()
         self._connected.clear()
         self._connecting.clear()
-        logger.info(f"[{self.name}] Stopped listening for incomming data")
         from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import ServerConnectionClosedMessage
-        self.__receptionQueue.put(ServerConnectionClosedMessage(self.name))
+        self.__receptionQueue.put(ServerConnectionClosedMessage(self.id))
         self.finished.set()
+        logger.info(f"[{self.id}] Finished.")
+        if err:
+            raise err
 
     @property
     def closed(self) -> bool:
@@ -266,26 +271,23 @@ class ServerConnection(mp.Thread):
         from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMessage import (
             ServerConnectionFailedMessage,
         )
-        if self.__connectionTimeout:
-            self.__connectionTimeout.cancel()
-        if self.connected or self.finished.is_set() or self.closed :
+        self.stopConnectionTimeout()
+        if self.open or self.finished.is_set() or self.closed :
             return
         if self.__lagometer:
             self.__lagometer.stop()
         self._connecting.clear()
-        if self.closed:
-            return
         if self._firstConnectionTry:
-            logger.debug(f"[{self.name}] Connection timeout, but WWJD ? Give a second chance !")
+            logger.debug(f"[{self.id}] Connection timeout, but WWJD ? Give a second chance !")
             self.connect(self._remoteSrvHost, self._remoteSrvPort)
             self._firstConnectionTry = False
         else:
-            self.__receptionQueue.put(ServerConnectionFailedMessage(self.name, "Connection timeout!"))
+            self.__receptionQueue.put(ServerConnectionFailedMessage(self.id, "Connection timeout!"))
 
     @sendTrace
     def connect(self, host: str, port: int, timeout=CONNECTION_TIMEOUT) -> None:
         if self.connecting:
-            logger.warn(f"[{self.name}] Tried to connect while already connecting.")
+            logger.warn(f"[{self.id}] Tried to connect while already connecting.")
             return
         self._connected.clear()
         self._connecting.set()
@@ -293,7 +295,7 @@ class ServerConnection(mp.Thread):
         self._firstConnectionTry = True
         self._remoteSrvHost = host
         self._remoteSrvPort = port
-        logger.info(f"[{self.name}] Connecting to {host}:{port}...")
+        logger.info(f"[{self.id}] Connecting to {host}:{port}...")
         self.__connectionTimeout = BenchmarkTimer(timeout, self.__onConnectionTimeout)
         self.__connectionTimeout.start()
         self.__socket.connect((host, port))
@@ -304,7 +306,7 @@ class ServerConnection(mp.Thread):
     @sendTrace
     def run(self):
         err = ""
-        while not self.closed:
+        while not self._closing.is_set() and not self.finished.is_set():
             try:
                 rdata = self.__socket.recv(2056)
                 if rdata:
@@ -313,16 +315,20 @@ class ServerConnection(mp.Thread):
                     self.__receivedStream += rdata
                     self.__parse(self.__receivedStream)
                 else:
-                    logger.debug(f"[{self.name}] Socket closed by remote host")
+                    logger.debug(f"[{self.id}] Connection closed by remote host")
                     self._closing.set()
             except (KeyboardInterrupt, SystemExit) as e:
-                logger.debug(f"[{self.name}] Interrupted suddenly!")
+                logger.debug(f"[{self.id}] Interrupted suddenly!")
                 self._closing.set()
                 err = e
-                break
             except OSError as e:
                 if e.errno == errno.WSAENOTCONN:
-                    sleep(1)
+                    logger.debug(f"[{self.id}] Waiting for socket to connect...")
+                    sleep(0.5)
+                elif e.errno == errno.WSAECONNABORTED:
+                    logger.debug(f"[{self.id}] Connection aborted by user.")
+                    self._closing.set()
                 else:
-                    raise e
+                    err = e
+                    self._closing.set()
         self.__onClose(err)

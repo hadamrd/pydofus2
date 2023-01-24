@@ -45,7 +45,7 @@ class QuestItemCriterion(ItemCriterion, IDataCenter):
         quest: Quest = Quest.getQuestById(self._questId)
         if not quest:
             return False
-        questFrame = Kernel().getWorker().getFrame("QuestFrame")
+        questFrame = Kernel().worker.getFrame("QuestFrame")
         s: str = self._serverCriterionForm[0:2]
         if s == "Qa":
             for questA in questFrame.getActiveQuests():

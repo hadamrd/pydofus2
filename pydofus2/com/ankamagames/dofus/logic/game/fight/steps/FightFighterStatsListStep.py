@@ -43,7 +43,7 @@ class FightFighterStatsListStep(AbstractSequencable, IFightStep):
             self._playerId, self._stats
         )
         characterFrame: "PlayedCharacterUpdatesFrame" = (
-            Kernel().getWorker().getFrame("PlayedCharacterUpdatesFrame")
+            Kernel().worker.getFrame("PlayedCharacterUpdatesFrame")
         )
         if characterFrame and isRealPlayer:
             characterFrame.updateCharacterStatsList(self._stats)

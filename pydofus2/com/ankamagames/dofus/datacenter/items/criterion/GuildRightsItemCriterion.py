@@ -14,7 +14,7 @@ class GuildRightsItemCriterion(ItemCriterion, IDataCenter):
     @property
     def isRespected(self) -> bool:
         hasThisRight:bool = False
-        socialFrame:SocialFrame =Kernel().getWorker().getFrame("SocialFrame")
+        socialFrame:SocialFrame =Kernel().worker.getFrame("SocialFrame")
         if not socialFrame.hasGuild:
             if self._operator.text == ItemCriterionOperator.DIFFERENT:
                 return True

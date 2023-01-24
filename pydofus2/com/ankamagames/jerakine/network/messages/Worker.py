@@ -82,12 +82,6 @@ class Worker(EventDispatcher, MessageHandler):
             efd.EnterFrameDispatcher().addWorker(self)
         self._treatmentsQueue.append(Treatment(object, func, params))
 
-    def addUniqueSingleTreatment(self, object, func: FunctionType, params: list) -> None:
-        if len(self._treatmentsQueue) == 0:
-            efd.EnterFrameDispatcher().addWorker(self)
-        if not self.hasSingleTreatment(object, func, params):
-            self._treatmentsQueue.append(Treatment(object, func, params))
-
     def addForTreatment(self, object, func: FunctionType, params: list, iterations: int) -> None:
         if iterations == 0:
             return

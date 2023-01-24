@@ -226,7 +226,7 @@ class FightResultEntryWrapper(IDataCenter):
                 monsterInfos = infos
                 monster = Monster.getMonsterById(monsterInfos.creatureGenericId)
                 self.name = monster.name
-                breachFrame = Kernel().getWorker().getFrame("BreachFrame")
+                breachFrame = Kernel().worker.getFrame("BreachFrame")
                 if (
                     PlayedCharacterManager().isInBreach
                     and breachFrame

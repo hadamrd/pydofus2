@@ -92,12 +92,12 @@ class BasicBuff:
         self.dispelable = effect.dispelable
         self.source = castingSpell.casterId
         self.dataUid = effect.effectId
-        fightBattleFrame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fightBattleFrame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         currentPlayerId: float = fightBattleFrame.currentPlayerId
         isPlayerId = currentPlayerId != 0
         fighterInfo: GameFightFighterInformations = None
         if isPlayerId:
-            entitiesFrame = Kernel().getWorker().getFrame("FightEntitiesFrame")
+            entitiesFrame = Kernel().worker.getFrame("FightEntitiesFrame")
             if entitiesFrame is not None:
                 fighterInfo = entitiesFrame.getEntityInfos(currentPlayerId)
         if (
@@ -170,7 +170,7 @@ class BasicBuff:
     def getUnuableNextTurn(self) -> bool:
         if self.duration > 1 or self.duration < 0:
             return False
-        frame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        frame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if frame:
             currentPlayerId = frame.currentPlayerId
             playerId = PlayedCharacterManager().id

@@ -32,7 +32,7 @@ class FightTurnListStep(AbstractSequencable, IFightStep):
         return "turnList"
 
     def start(self) -> None:
-        fbf: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fbf: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if fbf:
             fbf.fightersList = self._turnsList
             fbf.deadFightersList = self._deadTurnsList

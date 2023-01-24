@@ -112,7 +112,7 @@ class StateBuff(BasicBuff):
         FightersStateManager().removeStateOnTarget(self.targetId, self.stateId, self.delta)
         stateActivated: bool = FightersStateManager().hasState(self.targetId, self.stateId)
         chatLog: bool = False
-        fbf: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fbf: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if fbf and not fbf.executingSequence and fbf.deadFightersList.find(self.targetId) == -1 and not self.isSilent:
             chatLog = True
         if not stateActivated:

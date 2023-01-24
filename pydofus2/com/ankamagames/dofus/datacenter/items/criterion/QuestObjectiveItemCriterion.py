@@ -31,7 +31,7 @@ class QuestObjectiveItemCriterion(ItemCriterion, IDataCenter):
         obj: QuestObjective = QuestObjective.getQuestObjectiveById(self._objId)
         if not obj:
             return False
-        questFrame: "QuestFrame" = Kernel().getWorker().getFrame("QuestFrame")
+        questFrame: "QuestFrame" = Kernel().worker.getFrame("QuestFrame")
         activeObjs: list[int] = questFrame.getActiveObjectives()
         completedObjs: list[int] = questFrame.getCompletedObjectives()
         s: str = self._serverCriterionForm[0:2]

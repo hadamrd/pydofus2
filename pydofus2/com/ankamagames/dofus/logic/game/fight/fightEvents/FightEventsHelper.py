@@ -160,7 +160,7 @@ class FightEventsHelper(metaclass=Singleton):
         EnterFrameDispatcher().removeEventListener(self.sendEvents)
         self.sendFightEvent(None, None, 0, -1)
         self.sendAllFightEvents()
-        entitiesFrame: "FightEntitiesFrame" = Kernel().getWorker().getFrame("FightEntitiesFrame")
+        entitiesFrame: "FightEntitiesFrame" = Kernel().worker.getFrame("FightEntitiesFrame")
         entitiesList: dict = entitiesFrame.entities if entitiesFrame else dict()
         self.groupAllEventsForDisplay(entitiesList)
 

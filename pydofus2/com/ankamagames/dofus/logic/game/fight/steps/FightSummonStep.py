@@ -60,11 +60,11 @@ class FightSummonStep(AbstractSequencable, IFightStep):
         else:
             gfsgmsg = GameFightShowFighterMessage()
             gfsgmsg.init(self._summonInfos)
-            Kernel().getWorker().getFrame("FightEntitiesFrame").process(gfsgmsg)
+            Kernel().worker.getFrame("FightEntitiesFrame").process(gfsgmsg)
         if EntitiesManager().entitiesScheduledForDestruction.get(self._summonInfos.contextualId):
             del EntitiesManager().entitiesScheduledForDestruction[self._summonInfos.contextualId]
         SpellWrapper.refreshAllPlayerSpellHolder(self._summonerId)
-        fightBattleFrame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fightBattleFrame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if fightBattleFrame and self._summonInfos.contextualId in fightBattleFrame.deadFightersList:
             fightBattleFrame.deadFightersList.remove(self._summonInfos.contextualId)
             buffs = BuffManager().getAllBuff(self._summonInfos.contextualId)

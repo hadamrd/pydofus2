@@ -151,7 +151,7 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
 
     @classmethod
     def getCurrentInstance(cls) -> "FightEntitiesFrame":
-        return krnl.Kernel().getWorker().getFrame("FightEntitiesFrame")
+        return krnl.Kernel().worker.getFrame("FightEntitiesFrame")
 
     def pushed(self) -> bool:
         self._illusionEntities = dict()
@@ -214,13 +214,13 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
                 fullInfos.look = gfrfmsg.informations.look
                 self._realFightersLooks[gfrfmsg.informations.contextualId] = gfrfmsg.informations.look
                 if (
-                    krnl.Kernel().getWorker().contains(fightPreparationFrame.FightPreparationFrame)
+                    krnl.Kernel().worker.contains(fightPreparationFrame.FightPreparationFrame)
                     and gfrfmsg.informations.disposition.cellId == -1
                 ):
                     self.registerActor(gfrfmsg.informations)
                 else:
                     self.updateActor(fullInfos, True)
-            if krnl.Kernel().getWorker().getFrame("FightPreparationFrame"):
+            if krnl.Kernel().worker.getFrame("FightPreparationFrame"):
                 pass
             return True
 
@@ -246,7 +246,7 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
             else:
                 if gfhrsmsg.characterId == pcm.PlayedCharacterManager().id:
                     pass
-            fightPreparationFrame = krnl.Kernel().getWorker().getFrame("FightPreparationFrame")
+            fightPreparationFrame = krnl.Kernel().worker.getFrame("FightPreparationFrame")
             if fightPreparationFrame:
                 pass
             return True

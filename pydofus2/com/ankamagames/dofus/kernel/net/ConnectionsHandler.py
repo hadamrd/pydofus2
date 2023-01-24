@@ -1,5 +1,4 @@
-import queue
-import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionType import ConnectionType
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReason import DisconnectionReason
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
@@ -27,10 +26,7 @@ class ConnectionsHandler(metaclass=Singleton):
         self._hasReceivedMsg: bool = False
         self._hasReceivedNetworkMsg: bool = False
         self._disconnectMessage = ""
-        self._receptionQueue = queue.Queue(200)
 
-    def receive(self):
-        return self._receptionQueue.get()
     
     @property
     def connectionType(self) -> str:
@@ -57,41 +53,36 @@ class ConnectionsHandler(metaclass=Singleton):
         return self._conn
 
     def connectToLoginServer(self, host: str, port: int) -> None:
-        self.closeConnection()
         self.etablishConnection(host, port, ConnectionType.TO_LOGIN_SERVER)
         self._currentConnectionType = ConnectionType.TO_LOGIN_SERVER
 
-    def connectToGameServer(self, gameServerHost: str, gameServerPort: int) -> None:
-        self.closeConnection()
-        self.etablishConnection(gameServerHost, gameServerPort, ConnectionType.TO_GAME_SERVER)
+    def connectToGameServer(self, host: str, port: int) -> None:
+        self.etablishConnection(host, port, ConnectionType.TO_GAME_SERVER)
         self._currentConnectionType = ConnectionType.TO_GAME_SERVER
-        PlayerManager().gameServerPort = gameServerPort
+        PlayerManager().gameServerPort = port
 
-    def closeConnection(self) -> None:
-        logger.debug("[Connhandler] Want to close curr connection")
-        if self.conn:
-            if krnl.Kernel().getWorker().contains("HandshakeFrame"):
-                krnl.Kernel().getWorker().removeFrame(krnl.Kernel().getWorker().getFrame("HandshakeFrame"))
-            if self.conn.connected:
-                self._conn.close()
-                self._conn.finished.wait()
-                self._conn.kill()
-            self._currentConnectionType = ConnectionType.DISCONNECTED
-
+    def restart(self) -> None:
+        self.closeConnection(DisconnectionReasonEnum.RESTARTING)
+                                          
     def handleDisconnection(self) -> DisconnectionReason:
-        self.closeConnection()
         reason: DisconnectionReason = DisconnectionReason(
-            self._wantedSocketLost, self._wantedSocketLostReason, msg=self._disconnectMessage
+            self._wantedSocketLost, self._wantedSocketLostReason, self._disconnectMessage
         )
         self._wantedSocketLost = False
         self._wantedSocketLostReason = DisconnectionReasonEnum.UNEXPECTED
+        self._disconnectMessage = ""
         return reason
 
-    def connectionGonnaBeClosed(self, expectedReason: DisconnectionReasonEnum, msg: str = "") -> None:
-        self._wantedSocketLostReason = expectedReason
+    def closeConnection(self, reason: DisconnectionReasonEnum, message: str = ""):
+        logger.debug(f"[ConnHandler] Close connection : {reason.name}, {message}")
+        self._wantedSocketLostReason = reason
         self._wantedSocketLost = True
-        self._disconnectMessage = msg
-        self._conn.expectConnectionClose(expectedReason, msg)
+        self._disconnectMessage = message
+        if Kernel().worker.contains("HandshakeFrame"):
+            Kernel().worker.removeFrame(Kernel().worker.getFrame("HandshakeFrame"))
+        if self.conn.open:
+            self._conn.close()
+        self._currentConnectionType = ConnectionType.DISCONNECTED
 
     def pause(self) -> None:
         logger.info("Pause connection")
@@ -101,10 +92,10 @@ class ConnectionsHandler(metaclass=Singleton):
         logger.info("Resume connection")
         if self._conn:
             self._conn.resume()
-        krnl.Kernel().getWorker().process(ConnectionResumedMessage())
+        Kernel().worker.process(ConnectionResumedMessage())
         
     def etablishConnection(self, host: str, port: int, id: str) -> None:
-        self._conn = ServerConnection(id, self._receptionQueue)
-        krnl.Kernel().getWorker().addFrame(HandshakeFrame())
+        self._conn = ServerConnection(id)
+        Kernel().worker.addFrame(HandshakeFrame())
         self._conn.start()
         self._conn.connect(host, port)

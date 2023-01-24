@@ -23,7 +23,7 @@ class ArenaMaxTeamRankCriterion(ItemCriterion, IDataCenter):
         return ArenaMaxTeamRankCriterion(self.basicText)
 
     def getCriterion(self) -> int:
-        frame: PartyManagementFrame = Kernel().getWorker().getFrame("PartyManagementFrame")
+        frame: PartyManagementFrame = Kernel().worker.getFrame("PartyManagementFrame")
         maxRank: int = 0
         if frame.arenaRankGroupInfos and frame.arenaRankGroupInfos.maxRank > maxRank:
             maxRank = frame.arenaRankGroupInfos.maxRank

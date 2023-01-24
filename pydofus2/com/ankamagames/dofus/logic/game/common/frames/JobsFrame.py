@@ -235,7 +235,7 @@ class JobsFrame(Frame):
             array = list()
             for esojijob in esokimsg.jobs:
                 array.append(esojijob)
-            Kernel().getWorker().addFrame(self._jobCrafterDirectoryListDialogFrame)
+            Kernel().worker.addFrame(self._jobCrafterDirectoryListDialogFrame)
             return True
         else:
             return False

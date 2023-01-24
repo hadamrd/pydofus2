@@ -56,7 +56,7 @@ class FightTeleportStep(AbstractSequencable, IFightStep):
             carriedEntityInfos = FightEntitiesFrame.getCurrentInstance().getEntityInfos(carriedEntity.id)
             carriedEntityInfos.disposition.cellId = infos.disposition.cellId
         if self._fighterId == PlayedCharacterManager().id:
-            fightTurnFrame: "FightTurnFrame" = Kernel().getWorker().getFrame("FightTurnFrame")
+            fightTurnFrame: "FightTurnFrame" = Kernel().worker.getFrame("FightTurnFrame")
             if fightTurnFrame and fightTurnFrame.myTurn:
                 fightTurnFrame.drawPath()
         FightSpellCastFrame.updateRangeAndTarget()

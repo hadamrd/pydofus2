@@ -58,7 +58,7 @@ class FightThrowCharacterStep(AbstractSequencable, IFightStep):
         return "throwCharacter"
 
     def start(self) -> None:
-        entitiesFrame: FightEntitiesFrame = Kernel().getWorker().getFrame(FightEntitiesFrame)
+        entitiesFrame: FightEntitiesFrame = Kernel().worker.getFrame(FightEntitiesFrame)
         carryingEntity = DofusEntities.getEntity(self._fighterId)
         carryingEntityInfos: GameFightFighterInformations = entitiesFrame.getEntityInfos(self._fighterId)
         carriedEntity: IEntity = DofusEntities.getEntity(self._carriedId)
@@ -79,7 +79,7 @@ class FightThrowCharacterStep(AbstractSequencable, IFightStep):
         if self._cellId != -1:
             fighterInfos.disposition.cellId = self._cellId
         if self._carriedId == CurrentPlayedFighterManager().currentFighterId:
-            fightTurnFrame: "FightTurnFrame" = Kernel().getWorker().getFrame("FightTurnFrame")
+            fightTurnFrame: "FightTurnFrame" = Kernel().worker.getFrame("FightTurnFrame")
             if fightTurnFrame:
                 fightTurnFrame.freePlayer()
         invisibility: bool = False

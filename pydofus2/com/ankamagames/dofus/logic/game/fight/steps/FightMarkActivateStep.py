@@ -27,7 +27,7 @@ class FightMarkActivateStep(AbstractSequencable, IFightStep):
         mark: MarkInstance = MarkedCellsManager().getMarkDatas(self._markId)
         if mark:
             mark.active = self._activate
-            ftf: "FightTurnFrame" = Kernel().getWorker().getFrame("FightTurnFrame")
+            ftf: "FightTurnFrame" = Kernel().worker.getFrame("FightTurnFrame")
             if ftf and ftf.myTurn and ftf.lastPath:
                 for pe in ftf.lastPath.path:
                     if pe.cellId not in mark.cells:

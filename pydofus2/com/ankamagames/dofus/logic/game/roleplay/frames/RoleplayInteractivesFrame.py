@@ -122,11 +122,11 @@ class RoleplayInteractivesFrame(Frame):
 
     @property
     def roleplayWorldFrame(self) -> "RoleplayWorldFrame":
-        return Kernel().getWorker().getFrame("RoleplayWorldFrame")
+        return Kernel().worker.getFrame("RoleplayWorldFrame")
 
     @property
     def movementFrame(self) -> "RoleplayMovementFrame":
-        return Kernel().getWorker().getFrame("RoleplayMovementFrame")
+        return Kernel().worker.getFrame("RoleplayMovementFrame")
 
     @property
     def currentRequestedElementId(self) -> int:
@@ -293,7 +293,7 @@ class RoleplayInteractivesFrame(Frame):
     def registerInteractive(self, ie: InteractiveElement, firstSkill: int) -> None:
         if not MapDisplayManager().isIdentifiedElement(ie.elementId):
             return
-        entitiesFrame: "RoleplayEntitiesFrame" = Kernel().getWorker().getFrame("RoleplayEntitiesFrame")
+        entitiesFrame: "RoleplayEntitiesFrame" = Kernel().worker.getFrame("RoleplayEntitiesFrame")
         if entitiesFrame:
             found = False
             for s, cie in enumerate(entitiesFrame.interactiveElements):
@@ -362,7 +362,7 @@ class RoleplayInteractivesFrame(Frame):
         msg: InteractiveElementActivationMessage = InteractiveElementActivationMessage(
             ie.element, ie.position, ie.skillUID
         )
-        Kernel().getWorker().process(msg)
+        Kernel().worker.process(msg)
 
     def interactiveUsageFinished(self, entityId: float, elementId: int, skillId: int) -> None:
         if entityId == PlayedCharacterManager().id:
@@ -377,4 +377,4 @@ class RoleplayInteractivesFrame(Frame):
                     self._nextInteractiveUsed.skillInstanceId,
                 )
                 self._nextInteractiveUsed = None
-                Kernel().getWorker().process(ieamsg)
+                Kernel().worker.process(ieamsg)

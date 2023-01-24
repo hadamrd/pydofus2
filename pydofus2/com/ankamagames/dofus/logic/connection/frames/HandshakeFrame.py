@@ -1,3 +1,5 @@
+from build.lib.pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEvts
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
@@ -31,42 +33,27 @@ class HandshakeFrame(Frame):
         super().__init__()
 
     def checkProtocolVersions(self, serverVersion: str) -> None:
-        logger.info("Server version is " + serverVersion + ". Client version is " + Metadata.PROTOCOL_BUILD + ".")
+        logger.info(f"Server protocol version {serverVersion}. Client version {Metadata.PROTOCOL_BUILD}.")
         if not serverVersion or not Metadata.PROTOCOL_BUILD:
-            logger.fatal("A protocol version is empty or None. What happened?")
-            krnl.Kernel().panic(
-                PanicMessages.MALFORMED_PROTOCOL,
-                [Metadata.PROTOCOL_BUILD, serverVersion],
-            )
+            KernelEventsManager().send(KernelEvts.CRASH, "MALFORMED_PROTOCOL: A protocol version is empty or None. What happened?")
             return
         clientHash: str = self.extractHashFromProtocolVersion(Metadata.PROTOCOL_BUILD)
         if not clientHash:
             logger.fatal("The client protocol version is malformed: " + Metadata.PROTOCOL_BUILD)
-            krnl.Kernel().panic(
-                PanicMessages.MALFORMED_PROTOCOL,
-                [Metadata.PROTOCOL_BUILD, serverVersion],
-            )
+            KernelEventsManager().send(KernelEvts.CRASH, "MALFORMED_PROTOCOL: The client protocol version is malformed")
             return
         serverHash: str = self.extractHashFromProtocolVersion(serverVersion)
         if not serverHash:
-            logger.fatal("The server protocol version is malformed: " + serverVersion)
-            krnl.Kernel().panic(
-                PanicMessages.MALFORMED_PROTOCOL,
-                [Metadata.PROTOCOL_BUILD, serverVersion],
-            )
+            KernelEventsManager().send(KernelEvts.CRASH, "MALFORMED_PROTOCOL: The server protocol version is malformed")
             return
         if clientHash != serverHash:
-            logger.fatal("Protocol mismatch between the client and the server.")
-            krnl.Kernel().panic(
-                PanicMessages.PROTOCOL_MISMATCH,
-                [Metadata.PROTOCOL_BUILD, serverVersion],
-            )
-
+            KernelEventsManager().send(KernelEvts.CRASH, "PROTOCOL_MISMATCH: The server protocol is different from the client protocol")
+            return
     def extractHashFromProtocolVersion(self, protocolVersion: str) -> str:
         if not protocolVersion:
             return None
         matches: list = protocolVersion.split("-")
-        if matches == None or len(matches) < 2:
+        if matches is None or len(matches) < 2:
             return None
         return matches[1]
 
@@ -82,14 +69,13 @@ class HandshakeFrame(Frame):
         connh.ConnectionsHandler().hasReceivedMsg = True
 
         if isinstance(msg, INetworkMessage):
-            connh.ConnectionsHandler().hasReceivedNetworkMsg = True
             if self._timeoutTimer is not None:
                 self._timeoutTimer.cancel()
 
         if isinstance(msg, ProtocolRequired):
             prmsg = msg
             self.checkProtocolVersions(prmsg.version)
-            krnl.Kernel().getWorker().removeFrame(self)
+            krnl.Kernel().worker.removeFrame(self)
             return True
 
         elif isinstance(msg, ConnectedMessage):
@@ -97,8 +83,7 @@ class HandshakeFrame(Frame):
             self._timeoutTimer.start()
             return True
 
-        else:
-            return False
+        return False
 
     def onTimeout(self) -> None:
         pingMsg: BasicPingMessage = BasicPingMessage(quiet_=True)

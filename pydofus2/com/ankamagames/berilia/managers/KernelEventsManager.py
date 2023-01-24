@@ -14,6 +14,9 @@ class KernelEvts(Enum):
     DEAD = 6
     ALIVE = 7
     ACTORSHOWED = 8
+    CHARACTER_SELECTION_SUCCESS = 9
+    SHUTDOWN = 10
+    RESTART = 11
 class KernelEventsManager(EventDispatcher, metaclass=Singleton):
     __waiting_evts: list[threading.Event]
     __crashMessage = None
@@ -49,7 +52,6 @@ class KernelEventsManager(EventDispatcher, metaclass=Singleton):
     def send(self, event_id: KernelEvts, *args, **kwargs):
         if event_id == KernelEvts.CRASH:
             self.__crashMessage = kwargs.get('message', None)
-            self.reset()
         event = Event()
         event.sender = self
         event.name = event_id

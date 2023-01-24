@@ -86,9 +86,9 @@ class MapDisplayManager(metaclass=Singleton):
         msg = MapLoadedMessage()
         msg.id = self._currentMap.mapId
         self.initIdentifiedElements()
-        if Kernel().getWorker().contains("RoleplayContextFrame"):
-            Kernel().getWorker().getFrame("RoleplayContextFrame").process(msg)
-        elif Kernel().getWorker().contains("FightContextFrame"):
-            Kernel().getWorker().getFrame("FightContextFrame").process(msg)
+        if Kernel().worker.contains("RoleplayContextFrame"):
+            Kernel().worker.getFrame("RoleplayContextFrame").process(msg)
+        elif Kernel().worker.contains("FightContextFrame"):
+            Kernel().worker.getFrame("FightContextFrame").process(msg)
         else:
             logger.warning("No context frame found!")

@@ -135,7 +135,7 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def getSpells(cls, returnBreedSpells: bool) -> list:
-        spim: "SpellInventoryManagementFrame" = Kernel().getWorker().getFrame("SpellInventoryManagementFrame")
+        spim: "SpellInventoryManagementFrame" = Kernel().worker.getFrame("SpellInventoryManagementFrame")
         if returnBreedSpells:
             return spim.getBreedSpellsInVariantslist()
         return spim.getCommonSpellsInVariantslist()
@@ -205,15 +205,15 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def getKnownTitles(cls) -> list[int]:
-        return Kernel().getWorker().getFrame("TinselFrame").knownTitles
+        return Kernel().worker.getFrame("TinselFrame").knownTitles
 
     @classmethod
     def getKnownOrnaments(cls) -> list[int]:
-        return Kernel().getWorker().getFrame("TinselFrame").knownOrnaments
+        return Kernel().worker.getFrame("TinselFrame").knownOrnaments
 
     @classmethod
     def titlesOrnamentsAskedBefore(cls) -> bool:
-        return Kernel().getWorker().getFrame("TinselFrame").titlesOrnamentsAskedBefore
+        return Kernel().worker.getFrame("TinselFrame").titlesOrnamentsAskedBefore
 
     
     @classmethod
@@ -221,8 +221,8 @@ class PlayedCharacterApi(IApi):
     def getEntityInfos(cls) -> GameRolePlayCharacterInformations:
         entitiesFrame: AbstractEntitiesFrame = None
         if cls.isInFight():
-            entitiesFrame = Kernel().getWorker().getFrame("FightEntitiesFrame")
-            entitiesFrame = Kernel().getWorker().getFrame("RoleplayEntitiesFrame")
+            entitiesFrame = Kernel().worker.getFrame("FightEntitiesFrame")
+            entitiesFrame = Kernel().worker.getFrame("RoleplayEntitiesFrame")
         if not entitiesFrame:
             return None
         return entitiesFrame.getEntityInfos(PlayedCharacterManager().id)
@@ -230,7 +230,7 @@ class PlayedCharacterApi(IApi):
     @classmethod
     def getKamasMaxLimit(cls) -> float:
         playedCharacterFrame: pcuF.PlayedCharacterUpdatesFrame = (
-            Kernel().getWorker().getFrame("PlayedCharacterUpdatesFrame")
+            Kernel().worker.getFrame("PlayedCharacterUpdatesFrame")
         )
         if playedCharacterFrame:
             return playedCharacterFrame.kamasLimit
@@ -270,11 +270,11 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def isInFight(cls) -> bool:
-        return Kernel().getWorker().contains("FightContextFrame")
+        return Kernel().worker.contains("FightContextFrame")
 
     @classmethod
     def isInPreFight(cls) -> bool:
-        return Kernel().getWorker().contains("FightPreparationFrame") or Kernel().getWorker().isBeingAdded(
+        return Kernel().worker.contains("FightPreparationFrame") or Kernel().worker.isBeingAdded(
             FightPreparationFrame
         )
 
@@ -312,7 +312,7 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def isMutant(cls) -> bool:
-        rcf: RoleplayContextFrame = Kernel().getWorker().getFrame("RoleplayContextFrame")
+        rcf: RoleplayContextFrame = Kernel().worker.getFrame("RoleplayContextFrame")
         infos: GameRolePlayActorInformations = rcf.entitiesFrame.getEntityInfos(PlayedCharacterManager().id)
         return infos is GameRolePlayMutantInformations
 
@@ -377,7 +377,7 @@ class PlayedCharacterApi(IApi):
         return PlayedCharacterManager().isInHisHouse
 
     # def getPlayerHouses(cls) -> list[HouseWrapper]:
-    #     return Kernel().getWorker().getFrame("HouseFrame").accountHouses
+    #     return Kernel().worker.getFrame("HouseFrame").accountHouses
 
     @classmethod
     def currentMap(cls) -> WorldPointWrapper:
@@ -419,7 +419,7 @@ class PlayedCharacterApi(IApi):
     @classmethod
     def getPlayerSet(cls, objectGID: int) -> PlayerSetInfo:
         return pcuF.PlayedCharacterUpdatesFrame(
-            Kernel().getWorker().getFrame("PlayedCharacterUpdatesFrame")
+            Kernel().worker.getFrame("PlayedCharacterUpdatesFrame")
         ).getPlayerSet(objectGID)
 
     @classmethod
@@ -474,7 +474,7 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def havenbagSharePermissions(cls) -> int:
-        hbFrame: HavenbagFrame = Kernel().getWorker().getFrame("HavenbagFrame")
+        hbFrame: HavenbagFrame = Kernel().worker.getFrame("HavenbagFrame")
         return hbFrame.sharePermissions
 
     @classmethod

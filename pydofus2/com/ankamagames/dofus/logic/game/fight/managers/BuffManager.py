@@ -224,7 +224,7 @@ class BuffManager(metaclass=Singleton):
         fevth.FightEventsHelper().sendAllFightEvent(True)
 
     def markFinishingBuffs(self, targetId: float, currentTurnIsEnding: bool = True) -> None:
-        fightBattleFrame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fightBattleFrame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         fightersCount = 0
         if fightBattleFrame is None:
             return
@@ -457,8 +457,8 @@ class BuffManager(metaclass=Singleton):
 
     def removeLinkedBuff(self, sourceId: float, forceUndispellable: bool = False, dying: bool = False) -> list:
         impactedTarget: list = []
-        entitiesFrame = Kernel().getWorker().getFrame("FightEntitiesFrame")
-        fightBattleFrame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        entitiesFrame = Kernel().worker.getFrame("FightEntitiesFrame")
+        fightBattleFrame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         infos: GameFightFighterInformations = entitiesFrame.getEntityInfos(sourceId)
         if GameDebugManager().buffsDebugActivated:
             logger.debug(f"[BUFFS DEBUG] Retrieving all the buffs casted by {sourceId}")
@@ -493,7 +493,7 @@ class BuffManager(metaclass=Singleton):
                     + ", le nouveau 'lanceur' sera "
                     + next
                 )
-            frame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+            frame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
             dontDecrementBuffThisTurn = False
             if frame.currentPlayerId == sourceId:
                 dontDecrementBuffThisTurn = True
@@ -506,7 +506,7 @@ class BuffManager(metaclass=Singleton):
                         buff.sourceJustReaffected = dontDecrementBuffThisTurn
 
     def getNextFighter(self, sourceId: float) -> float:
-        frame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        frame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if frame is None:
             return 0
         found: bool = False
@@ -555,7 +555,7 @@ class BuffManager(metaclass=Singleton):
 
     @property
     def fightEntitiesFrame(self) -> fenf.FightEntitiesFrame:
-        return Kernel().getWorker().getFrame("FightEntitiesFrame")
+        return Kernel().worker.getFrame("FightEntitiesFrame")
 
     def getBuffIndex(self, targetId: float, buffId: int) -> int:
         for i, sbuff in enumerate(self._buffs.get(targetId, [])):

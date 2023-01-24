@@ -244,7 +244,7 @@ class FightBattleFrame(Frame):
         self._sequenceFrames = []
         DataMapProvider().isInFight = True
         logger.debug(f"FightBattleFrame pushed, dataMapProvider.isInFight = {DataMapProvider().isInFight}")
-        krnl.Kernel().getWorker().addFrame(self._turnFrame)
+        krnl.Kernel().worker.addFrame(self._turnFrame)
         self._destroyed = False
         self._neverSynchronizedBefore = True
         return True
@@ -315,7 +315,7 @@ class FightBattleFrame(Frame):
             return False
 
         elif isinstance(msg, GameFightTurnStartMessage):
-            fightEntitesFrame: "fenf.FightEntitiesFrame" = krnl.Kernel().getWorker().getFrame("FightEntitiesFrame")
+            fightEntitesFrame: "fenf.FightEntitiesFrame" = krnl.Kernel().worker.getFrame("FightEntitiesFrame")
             gftsmsg = msg
             playerId = PlayedCharacterManager().id
             self._currentPlayerId = gftsmsg.id
@@ -375,7 +375,7 @@ class FightBattleFrame(Frame):
                 fighterInfos: "GameFightFighterInformations" = fightEntitesFrame.getEntityInfos(entityId)
                 if fighterInfos and fighterInfos.stats.summoner == gftsmsg.id:
                     self.removeSavedPosition(entityId)
-            krnl.Kernel().getWorker().getFrame("FightContextFrame")
+            krnl.Kernel().worker.getFrame("FightContextFrame")
             return False
 
         elif isinstance(msg, GameFightTurnEndMessage):
@@ -400,7 +400,7 @@ class FightBattleFrame(Frame):
             if not self._sequenceFrameSwitcher:
                 # logger.debug(f"[SEQ DEBUG] Switcher is not set, creating new one")
                 self._sequenceFrameSwitcher = FightSequenceSwitcherFrame()
-                krnl.Kernel().getWorker().addFrame(self._sequenceFrameSwitcher)
+                krnl.Kernel().worker.addFrame(self._sequenceFrameSwitcher)
             self._currentSequenceFrame = fseqf.FightSequenceFrame(self, self._currentSequenceFrame)
             self._sequenceFrameSwitcher.currentFrame = self._currentSequenceFrame
             return False
@@ -421,7 +421,7 @@ class FightBattleFrame(Frame):
                 # logger.debug(
                 #     f"Sequence {self._currentSequenceFrame._instanceId} is root, removing it and executing next sequence"
                 # )
-                krnl.Kernel().getWorker().removeFrame(self._sequenceFrameSwitcher)
+                krnl.Kernel().worker.removeFrame(self._sequenceFrameSwitcher)
                 self._sequenceFrameSwitcher = None
                 self._sequenceFrames.append(self._currentSequenceFrame)
                 self._currentSequenceFrame = None
@@ -506,12 +506,12 @@ class FightBattleFrame(Frame):
         fsf: fseqf.FightSequenceFrame = None
         self.applyDelayedStats()
         DataMapProvider().isInFight = False
-        if krnl.Kernel().getWorker().contains("FightTurnFrame"):
-            krnl.Kernel().getWorker().removeFrame(self._turnFrame)
+        if krnl.Kernel().worker.contains("FightTurnFrame"):
+            krnl.Kernel().worker.removeFrame(self._turnFrame)
         bffm.BuffManager.clear()
-        if self._executingSequence or krnl.Kernel().getWorker().contains("FightSequenceFrame"):
-            fsf = krnl.Kernel().getWorker().getFrame("FightSequenceFrame")
-            krnl.Kernel().getWorker().removeFrame(fsf)
+        if self._executingSequence or krnl.Kernel().worker.contains("FightSequenceFrame"):
+            fsf = krnl.Kernel().worker.getFrame("FightSequenceFrame")
+            krnl.Kernel().worker.removeFrame(fsf)
         self._currentSequenceFrame = None
         self._sequenceFrameSwitcher = None
         self._turnFrame = None
@@ -630,7 +630,7 @@ class FightBattleFrame(Frame):
         if not self._delayCslmsg:
             return
         characterFrame: pcuF.PlayedCharacterUpdatesFrame = (
-            krnl.Kernel().getWorker().getFrame("PlayedCharacterUpdatesFrame")
+            krnl.Kernel().worker.getFrame("PlayedCharacterUpdatesFrame")
         )
         if characterFrame:
             characterFrame.updateCharacterStatsList(self._delayCslmsg.stats)
@@ -706,7 +706,7 @@ class FightBattleFrame(Frame):
         action: Action = None
         if self._autoEndTurn:
             action = GameFightTurnFinishAction()
-            krnl.Kernel().getWorker().process(action)
+            krnl.Kernel().worker.process(action)
             self._autoEndTurn = False
 
     def updateTurnsList(self, turnsList: list[float], deadTurnsList: list[float]) -> None:
@@ -737,8 +737,8 @@ class FightBattleFrame(Frame):
         self._holder: FightEntitiesHolder = FightEntitiesHolder()
         self._holder.reset()
         self._synchroniseFighters = None
-        krnl.Kernel().getWorker().removeFrame(self)
-        fightContextFrame = krnl.Kernel().getWorker().getFrame("FightContextFrame")
+        krnl.Kernel().worker.removeFrame(self)
+        fightContextFrame = krnl.Kernel().worker.getFrame("FightContextFrame")
         fightContextFrame.process(fightEnd)
 
     def onSkipTurnTimeOut(self, event) -> None:
@@ -747,7 +747,7 @@ class FightBattleFrame(Frame):
     def gameFightSynchronize(self, fighters: list[GameFightFighterInformations]) -> None:
         newWaveAppeared: bool = False
         newWaveMonster: bool = False
-        entitiesFrame: fenf.FightEntitiesFrame = krnl.Kernel().getWorker().getFrame("FightEntitiesFrame")
+        entitiesFrame: fenf.FightEntitiesFrame = krnl.Kernel().worker.getFrame("FightEntitiesFrame")
         newWaveMonsterIndex: int = 0
         bffm.BuffManager().synchronize()
         for fighterInfos in fighters:
@@ -777,7 +777,7 @@ class FightBattleFrame(Frame):
             self._neverSynchronizedBefore = False
 
     def removeSavedPosition(self, pEntityId: float) -> None:
-        fightContextFrame: "FightContextFrame" = krnl.Kernel().getWorker().getFrame("FightContextFrame")
+        fightContextFrame: "FightContextFrame" = krnl.Kernel().worker.getFrame("FightContextFrame")
         savedPositions: list = fightContextFrame.fightersPositionsHistory.get(pEntityId)
         if savedPositions:
             nbPos = len(savedPositions)

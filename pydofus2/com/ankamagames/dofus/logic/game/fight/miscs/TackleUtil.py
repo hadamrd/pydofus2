@@ -45,7 +45,7 @@ class TackleUtil:
     ) -> float:
         stats: EntityStats = StatsManager().getStats(playerInfos.contextualId)
         entitiesFrame: "FightEntitiesFrame" = (
-            Kernel().getWorker().getFrame("FightEntitiesFrame")
+            Kernel().worker.getFrame("FightEntitiesFrame")
         )
         if Constants.DETERMINIST_TACKLE:
             if not cls.canBeTackled(playerInfos, position):
@@ -135,7 +135,7 @@ class TackleUtil:
         entity: "AnimatedCharacter" = None
         infos: "GameFightFighterInformations" = None
         entitiesFrame: "FightEntitiesFrame" = (
-            Kernel().getWorker().getFrame("FightEntitiesFrame")
+            Kernel().worker.getFrame("FightEntitiesFrame")
         )
         entities: list[IEntity] = EntitiesManager().getEntitiesOnCell(
             cellId, AnimatedCharacter
@@ -205,7 +205,7 @@ class TackleUtil:
         ):
             return False
         entitiesFrame: "FightEntitiesFrame" = (
-            Kernel().getWorker().getFrame("FightEntitiesFrame")
+            Kernel().worker.getFrame("FightEntitiesFrame")
         )
         infos: "GameFightFighterInformations" = entitiesFrame.getEntityInfos(
             fighter.contextualId

@@ -53,7 +53,7 @@ class FightEntitySlideStep(AbstractSequencable, IFightStep):
         infos: "GameFightFighterInformations" = FightEntitiesFrame.getCurrentInstance().getEntityInfos(fighterId)
         infos.disposition.cellId = endCell.cellId
         self._entity: "AnimatedCharacter" = DofusEntities.getEntity(self._fighterId)
-        self._fightContextFrame: "FightContextFrame" = Kernel().getWorker().getFrame("FightContextFrame")
+        self._fightContextFrame: "FightContextFrame" = Kernel().worker.getFrame("FightContextFrame")
 
     @property
     def stepType(self) -> str:

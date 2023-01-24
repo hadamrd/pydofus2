@@ -45,7 +45,7 @@ class FightEntityMovementStep(AbstractSequencable, IFightStep):
         self._entityId = entityId
         self._path = path
         self.timeout = len(path)
-        self._fightContextFrame: "FightContextFrame" = Kernel().getWorker().getFrame("FightContextFrame")
+        self._fightContextFrame: "FightContextFrame" = Kernel().worker.getFrame("FightContextFrame")
 
     @property
     def stepType(self) -> str:
@@ -55,7 +55,7 @@ class FightEntityMovementStep(AbstractSequencable, IFightStep):
         self._entity = DofusEntities.getEntity(self._entityId)
         if self._entity:
             fighterInfos = FightEntitiesFrame.getCurrentInstance().getEntityInfos(self._entityId)
-            ftf: "FightTurnFrame" = Kernel().getWorker().getFrame("FightTurnFrame")
+            ftf: "FightTurnFrame" = Kernel().worker.getFrame("FightTurnFrame")
             if ftf._playerEntity:
                 ftf._playerEntity.position.cellId = self._path.end.cellId
             self._entity.position.cellId = self._path.end.cellId
@@ -69,7 +69,7 @@ class FightEntityMovementStep(AbstractSequencable, IFightStep):
         return [self._entityId]
 
     def updateCarriedEntitiesPosition(self) -> None:
-        entitiesFrame: "FightEntitiesFrame" = Kernel().getWorker().getFrame("FightEntitiesFrame")
+        entitiesFrame: "FightEntitiesFrame" = Kernel().worker.getFrame("FightEntitiesFrame")
         carriedEntity: "AnimatedCharacter" = self._entity.carriedEntity
         while carriedEntity:
             infos = entitiesFrame.getEntityInfos(carriedEntity.id)

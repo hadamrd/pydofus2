@@ -28,4 +28,4 @@ class FriendlistItemCriterion(ItemCriterion, IDataCenter):
         return FriendlistItemCriterion(self.basicText)
 
     def getCriterion(self) -> int:
-        return Kernel().getWorker().getFrame("SocialFrame")
+        return Kernel().worker.getFrame("SocialFrame")

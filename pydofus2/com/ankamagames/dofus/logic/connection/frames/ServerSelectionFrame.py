@@ -2,7 +2,7 @@ from types import FunctionType
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager, KernelEvts
 from pydofus2.com.ankamagames.dofus.datacenter.servers.Server import Server
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
-import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import (
     DisconnectionReasonEnum,
 )
@@ -87,7 +87,7 @@ class ServerSelectionFrame(Frame):
         return self._serversTypeAvailableSlots
 
     def pushed(self) -> bool:
-        self._worker = krnl.Kernel().getWorker()
+        self._worker = krnl.Kernel().worker
         return True
 
     def process(self, msg: Message) -> bool:
@@ -98,7 +98,7 @@ class ServerSelectionFrame(Frame):
             self._serversList = slmsg.servers
             self._serversList.sort(key=lambda x: x.date)
             self.broadcastServersListUpdate()
-            krnl.Kernel().getWorker().processImmediately(
+            krnl.Kernel().worker.processImmediately(
                 ServerSelectionAction.create(AuthentificationManager()._lva.serverId)
             )
             return False
@@ -128,7 +128,7 @@ class ServerSelectionFrame(Frame):
                     self._waitingServerOnline = False
                     ssmsg = ServerSelectionMessage()
                     ssmsg.init(AuthentificationManager()._lva.serverId)
-                    krnl.Kernel().getWorker().processImmediately(ssmsg)
+                    krnl.Kernel().worker.processImmediately(ssmsg)
                     logger.debug(
                         f"Sending ServerSelectionMessage to server {AuthentificationManager()._lva.serverId}."
                     )
@@ -155,13 +155,13 @@ class ServerSelectionFrame(Frame):
                     ):
                         ssmsg = ServerSelectionMessage()
                         ssmsg.init(ssaction.serverId)
-                        connh.ConnectionsHandler().conn.send(ssmsg)
+                        ConnectionsHandler().conn.send(ssmsg)
                         return True
                     else:
                         logger.debug(
                             f"Server {server.id} not online but has status {ServerStatusEnum(server.status).name}."
                         )
-                        BenchmarkTimer(60, lambda: krnl.Kernel().getWorker().process(msg)).start()
+                        BenchmarkTimer(60, lambda: krnl.Kernel().worker.process(msg)).start()
                         return True
             return True
 
@@ -182,12 +182,12 @@ class ServerSelectionFrame(Frame):
                 )
                 return True
             self._worker.addFrame(GameServerApproachFrame())
-            connh.ConnectionsHandler().connectToGameServer(self._selectedServer.address, self._selectedServer.ports[0])
+            ConnectionsHandler().connectToGameServer(self._selectedServer.address, self._selectedServer.ports[0])
             return True
 
         if isinstance(msg, (SelectedServerDataMessage, SelectedServerDataExtendedMessage)):
             ssdmsg: SelectedServerDataMessage = msg
-            connh.ConnectionsHandler().connectionGonnaBeClosed(DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER)
+            ConnectionsHandler().closeConnection(DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER)
             self._selectedServer = ssdmsg
             AuthentificationManager().gameServerTicket = (
                 AuthentificationManager().decodeWithAES(ssdmsg.ticket).decode()
@@ -195,7 +195,6 @@ class ServerSelectionFrame(Frame):
             PlayerManager().server = Server.getServerById(ssdmsg.serverId)
             PlayerManager().kisServerPort = 0
             self._connexionPorts = ssdmsg.ports
-            logger.debug(f"Connection to game server using ports : {self._connexionPorts}")
             return True
 
     def pulled(self) -> bool:

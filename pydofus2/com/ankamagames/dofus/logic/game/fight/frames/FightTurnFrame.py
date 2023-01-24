@@ -211,11 +211,11 @@ class FightTurnFrame(Frame):
         if isinstance(msg, GameFightSpellCastAction):
             gfsca = msg
             if self._spellCastFrame is not None:
-                Kernel().getWorker().removeFrame(self._spellCastFrame)
+                Kernel().worker.removeFrame(self._spellCastFrame)
             self.removePath()
             if self._myTurn:
                 self.startRemindTurn()
-            bf: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+            bf: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
             playerInformation: "GameFightFighterInformations" = FightEntitiesFrame.getCurrentInstance().getEntityInfos(
                 self._currentFighterId
             )
@@ -223,7 +223,7 @@ class FightTurnFrame(Frame):
                 import pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightSpellCastFrame as fscf
 
                 self._spellCastFrame = fscf.FightSpellCastFrame(gfsca.spellId)
-                Kernel().getWorker().addFrame(self._spellCastFrame)
+                Kernel().worker.addFrame(self._spellCastFrame)
             return True
 
         elif isinstance(msg, CellClickMessage):
@@ -254,7 +254,7 @@ class FightTurnFrame(Frame):
             if not self.myTurn:
                 return False
             self._turnFinishingNoNeedToRedrawMovement = True
-            entitiesFrame: "FightEntitiesFrame" = Kernel().getWorker().getFrame("FightEntitiesFrame")
+            entitiesFrame: "FightEntitiesFrame" = Kernel().worker.getFrame("FightEntitiesFrame")
             playerInfos: "GameFightFighterInformations" = entitiesFrame.getEntityInfos(self._currentFighterId)
             if self._remainingDurationSeconds > 0 and not playerInfos.stats.summoned:
                 basicTurnDuration = CurrentPlayedFighterManager().getBasicTurnDuration()
@@ -300,7 +300,7 @@ class FightTurnFrame(Frame):
             self._intervalTurn.cancel()
         self.removePath()
         self.removeMovementArea()
-        Kernel().getWorker().removeFrame(self._spellCastFrame)
+        Kernel().worker.removeFrame(self._spellCastFrame)
         return True
 
     def drawMovementArea(self) -> list[int]:
@@ -350,9 +350,9 @@ class FightTurnFrame(Frame):
         self._cellsTackled = []
         self._cellsUnreachable = []
         # logger.debug(f"Drawing the move path to {destCell}")
-        if Kernel().getWorker().contains("FightSpellCastFrame"):
+        if Kernel().worker.contains("FightSpellCastFrame"):
             return
-        fcf: "FightContextFrame" = Kernel().getWorker().getFrame("FightContextFrame")
+        fcf: "FightContextFrame" = Kernel().worker.getFrame("FightContextFrame")
         if self._isRequestingMovement:
             logger.debug("Already requesting movement abort")
             return
@@ -413,7 +413,7 @@ class FightTurnFrame(Frame):
         mpCount: int = 0
         apLost = 0
         lastPe: PathElement = None
-        entitiesFrame: "FightEntitiesFrame" = Kernel().getWorker().getFrame("FightEntitiesFrame")
+        entitiesFrame: "FightEntitiesFrame" = Kernel().worker.getFrame("FightEntitiesFrame")
         playerInfos: GameFightFighterInformations = entitiesFrame.getEntityInfos(self.playerEntity.id)
         for pe in path.path:
             if isFirst:
@@ -506,7 +506,7 @@ class FightTurnFrame(Frame):
         path.fillFromCellIds(cells[0:-1])
         path.end = MapPoint.fromCellId(cells[-1])
         path.path[-1].orientation = path.path[-1].step.orientationTo(path.end)
-        fightBattleFrame: "FightBattleFrame" = Kernel().getWorker().getFrame("FightBattleFrame")
+        fightBattleFrame: "FightBattleFrame" = Kernel().worker.getFrame("FightBattleFrame")
         if not fightBattleFrame or not fightBattleFrame.fightIsPaused:
             gmmrmsg = GameMapMovementRequestMessage()
             keyMovements = MapMovementAdapter.getServerMovement(path)
@@ -534,7 +534,7 @@ class FightTurnFrame(Frame):
             self._intervalTurn.cancel()
 
     def showCell(self, cellId: MapPoint) -> None:
-        if not Kernel().getWorker().contains("FightSpellCastFrame"):
+        if not Kernel().worker.contains("FightSpellCastFrame"):
             if DataMapProvider().pointMov(
                 MapPoint.fromCellId(cellId).x,
                 MapPoint.fromCellId(cellId).y,
