@@ -1,12 +1,9 @@
-pycryptodomex
 tqdm
 jinja2
-git+https://github.com/hadamrd/Py3AMF.git#egg=Py3AMF
+Py3AMF
 lupa
-pillow
 pyyaml
 pyppeteer
 cloudscraper
-aiohttp
 requests
 prettytable
