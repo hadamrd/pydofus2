@@ -1,4 +1,9 @@
-pycryptodomex
+tqdm
+jinja2
 Py3AMF
 lupa
-pillow
+pyyaml
+pyppeteer
+cloudscraper
+requests
+prettytable

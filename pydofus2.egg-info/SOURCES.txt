@@ -34,6 +34,7 @@ pydofus2/com/ankamagames/atouin/Atouin.py
 pydofus2/com/ankamagames/atouin/AtouinConstants.py
 pydofus2/com/ankamagames/atouin/BrowserRequests.py
 pydofus2/com/ankamagames/atouin/ErrorsCodes.py
+pydofus2/com/ankamagames/atouin/Haapi.ppteer.py
 pydofus2/com/ankamagames/atouin/Haapi.py
 pydofus2/com/ankamagames/atouin/HappiConfig.py
 pydofus2/com/ankamagames/atouin/ZaapError.py
@@ -63,12 +64,12 @@ pydofus2/com/ankamagames/atouin/messages/MapContainerRollOutMessage.py
 pydofus2/com/ankamagames/atouin/messages/MapLoadedMessage.py
 pydofus2/com/ankamagames/atouin/messages/MapMessage.py
 pydofus2/com/ankamagames/atouin/messages/__init__.py
-pydofus2/com/ankamagames/atouin/types/AtouinOptions.py
-pydofus2/com/ankamagames/atouin/types/GraphicCell.py
-pydofus2/com/ankamagames/atouin/types/Selection.py
-pydofus2/com/ankamagames/atouin/types/__init__.py
-pydofus2/com/ankamagames/atouin/types/sequences/DestroyEntityStep.py
-pydofus2/com/ankamagames/atouin/types/sequences/__init__.py
+pydofus2/com/ankamagames/atouin/rtypes/AtouinOptions.py
+pydofus2/com/ankamagames/atouin/rtypes/GraphicCell.py
+pydofus2/com/ankamagames/atouin/rtypes/Selection.py
+pydofus2/com/ankamagames/atouin/rtypes/__init__.py
+pydofus2/com/ankamagames/atouin/rtypes/sequences/DestroyEntityStep.py
+pydofus2/com/ankamagames/atouin/rtypes/sequences/__init__.py
 pydofus2/com/ankamagames/atouin/utils/CellIdConverter.py
 pydofus2/com/ankamagames/atouin/utils/CellUtil.py
 pydofus2/com/ankamagames/atouin/utils/DataMapProvider.py
@@ -249,7 +250,9 @@ pydofus2/com/ankamagames/dofus/datacenter/optionalFeatures/CustomModeBreedSpell.
 pydofus2/com/ankamagames/dofus/datacenter/optionalFeatures/ForgettableSpell.py
 pydofus2/com/ankamagames/dofus/datacenter/optionalFeatures/__init__.py
 pydofus2/com/ankamagames/dofus/datacenter/quest/Achievement.py
+pydofus2/com/ankamagames/dofus/datacenter/quest/AchievementCategory.py
 pydofus2/com/ankamagames/dofus/datacenter/quest/AchievementObjective.py
+pydofus2/com/ankamagames/dofus/datacenter/quest/AchievementReward.py
 pydofus2/com/ankamagames/dofus/datacenter/quest/NpcMessage.py
 pydofus2/com/ankamagames/dofus/datacenter/quest/Quest.py
 pydofus2/com/ankamagames/dofus/datacenter/quest/QuestCategory.py
@@ -301,6 +304,7 @@ pydofus2/com/ankamagames/dofus/enums/ActionIds.py
 pydofus2/com/ankamagames/dofus/enums/ElementEnum.py
 pydofus2/com/ankamagames/dofus/enums/__init__.py
 pydofus2/com/ankamagames/dofus/internalDatacenter/DataEnum.py
+pydofus2/com/ankamagames/dofus/internalDatacenter/FeatureEnum.py
 pydofus2/com/ankamagames/dofus/internalDatacenter/__init__.py
 pydofus2/com/ankamagames/dofus/internalDatacenter/connection/BasicCharacterWrapper.py
 pydofus2/com/ankamagames/dofus/internalDatacenter/connection/__init__.py
@@ -343,11 +347,13 @@ pydofus2/com/ankamagames/dofus/kernel/net/__init__.py
 pydofus2/com/ankamagames/dofus/logic/__init__.py
 pydofus2/com/ankamagames/dofus/logic/common/__init__.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/AlignmentFrame.py
+pydofus2/com/ankamagames/dofus/logic/common/frames/BidHouseManagementFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/CharacterFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/ChatFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/CleanupCrewFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/LatencyFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/MiscFrame.py
+pydofus2/com/ankamagames/dofus/logic/common/frames/MountDialogFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/NpcFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/QuestFrame.py
 pydofus2/com/ankamagames/dofus/logic/common/frames/QueueFrame.py
@@ -394,9 +400,12 @@ pydofus2/com/ankamagames/dofus/logic/game/common/frames/AveragePricesFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/CommonExchangeManagementFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/ContextChangeFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/ExchangeManagementFrame.py
+pydofus2/com/ankamagames/dofus/logic/game/common/frames/GuildDialogFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/InventoryManagementFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/JobsFrame.py
+pydofus2/com/ankamagames/dofus/logic/game/common/frames/MountFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/PlayedCharacterUpdatesFrame.py
+pydofus2/com/ankamagames/dofus/logic/game/common/frames/SocialFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/SpellInventoryManagementFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/SynchronisationFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/common/frames/WorldFrame.py
@@ -477,7 +486,6 @@ pydofus2/com/ankamagames/dofus/logic/game/fight/managers/BuffManager.py
 pydofus2/com/ankamagames/dofus/logic/game/fight/managers/CurrentPlayedFighterManager.py
 pydofus2/com/ankamagames/dofus/logic/game/fight/managers/FightersStateManager.py
 pydofus2/com/ankamagames/dofus/logic/game/fight/managers/MarkedCellsManager.py
-pydofus2/com/ankamagames/dofus/logic/game/fight/managers/SpellCastInFightManager.py
 pydofus2/com/ankamagames/dofus/logic/game/fight/managers/SpellModifiersManager.py
 pydofus2/com/ankamagames/dofus/logic/game/fight/managers/__init__.py
 pydofus2/com/ankamagames/dofus/logic/game/fight/messages/FightRequestFailed.py
@@ -573,6 +581,7 @@ pydofus2/com/ankamagames/dofus/logic/game/roleplay/actions/FinishMoveSetRequestA
 pydofus2/com/ankamagames/dofus/logic/game/roleplay/actions/PlayerFightRequestAction.py
 pydofus2/com/ankamagames/dofus/logic/game/roleplay/actions/SpellVariantActivationRequestAction.py
 pydofus2/com/ankamagames/dofus/logic/game/roleplay/actions/__init__.py
+pydofus2/com/ankamagames/dofus/logic/game/roleplay/frames/InteractiveElementData.py
 pydofus2/com/ankamagames/dofus/logic/game/roleplay/frames/PartyFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/roleplay/frames/RoleplayContextFrame.py
 pydofus2/com/ankamagames/dofus/logic/game/roleplay/frames/RoleplayEntitiesFrame.py
@@ -597,6 +606,7 @@ pydofus2/com/ankamagames/dofus/logic/shield/ShieldCertifcate.py
 pydofus2/com/ankamagames/dofus/logic/shield/ShieldSecureLevel.py
 pydofus2/com/ankamagames/dofus/logic/shield/__init__.py
 pydofus2/com/ankamagames/dofus/misc/BuildTypeParser.py
+pydofus2/com/ankamagames/dofus/misc/DeviceUtils.py
 pydofus2/com/ankamagames/dofus/misc/ObjectEffectAdapter.py
 pydofus2/com/ankamagames/dofus/misc/__init__.py
 pydofus2/com/ankamagames/dofus/misc/lists/GameDataList.py
@@ -604,6 +614,9 @@ pydofus2/com/ankamagames/dofus/misc/lists/__init__.py
 pydofus2/com/ankamagames/dofus/misc/utils/AbstractAction.py
 pydofus2/com/ankamagames/dofus/misc/utils/GameDataQuery.py
 pydofus2/com/ankamagames/dofus/misc/utils/GameDebugManager.py
+pydofus2/com/ankamagames/dofus/misc/utils/GameID.py
+pydofus2/com/ankamagames/dofus/misc/utils/HaapiEvent.py
+pydofus2/com/ankamagames/dofus/misc/utils/HaapiKeyManager.py
 pydofus2/com/ankamagames/dofus/misc/utils/LuaScriptManager.py
 pydofus2/com/ankamagames/dofus/misc/utils/ParamsDecoder.py
 pydofus2/com/ankamagames/dofus/misc/utils/__init__.py
@@ -655,9 +668,13 @@ pydofus2/com/ankamagames/dofus/network/enums/GameContextEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/GameServerTypeEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/IdentificationFailureReasonsEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/MapObstacleStateEnum.py
+pydofus2/com/ankamagames/dofus/network/enums/MountCharacteristicEnum.py
+pydofus2/com/ankamagames/dofus/network/enums/MountEquipedErrorEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/PartyJoinErrorEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/PlayerLifeStatusEnum.py
+pydofus2/com/ankamagames/dofus/network/enums/PlayerStatusEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/ProtocolConstantsEnum.py
+pydofus2/com/ankamagames/dofus/network/enums/ServerConnectionErrorEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/ServerStatusEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/SocialContactCategoryEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/SpellModifierActionTypeEnum.py
@@ -1228,6 +1245,7 @@ pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/Game
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/GameRolePlayRemoveChallengeMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/GameRolePlayShowChallengeMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/__init__.py
+pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/ArenaFightAnswerAcknowledgementMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/GameRolePlayArenaFightAnswerMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/GameRolePlayArenaFightPropositionMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/GameRolePlayArenaFighterStatusMessage.py
@@ -1242,6 +1260,7 @@ pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/aren
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/GameRolePlayArenaUnregisterMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/GameRolePlayArenaUpdatePlayerInfosMessage.py
+pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/SwitchArenaXpRewardsModeMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/fight/arena/__init__.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/havenbag/ChangeHavenBagRoomRequestMessage.py
 pydofus2/com/ankamagames/dofus/network/messages/game/context/roleplay/havenbag/ChangeThemeRequestMessage.py
@@ -2707,6 +2726,7 @@ pydofus2/dataAdapter/__init__.py
 pydofus2/dataAdapter/dlm.py
 pydofus2/dataAdapter/pak2.py
 pydofus2/dataAdapter/swl.py
+pydofus2/devops/__init__.py
 pydofus2/flash/Capabilities.py
 pydofus2/flash/__init__.py
 pydofus2/flash/geom/Point.py
@@ -2719,4 +2739,11 @@ pydofus2/mx/__init__.py
 pydofus2/mx/CustomSocket/__init__.py
 pydofus2/mx/utils/LinkedList.py
 pydofus2/mx/utils/LinkedListNode.py
+pydofus2/mx/utils/UIDUtil.py
 pydofus2/mx/utils/__init__.py
+pydofus2/sniffer/__init__.py
+pydofus2/sniffer/network/DofusConnection.py
+pydofus2/sniffer/network/DofusSniffer.py
+pydofus2/sniffer/network/Packet.py
+pydofus2/sniffer/network/SnifferBuffer.py
+pydofus2/sniffer/network/__init__.py

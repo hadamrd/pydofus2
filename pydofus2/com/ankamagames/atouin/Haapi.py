@@ -40,12 +40,14 @@ class Haapi(metaclass=Singleton):
             "accept-language": "en-US",
         }
         self.dofus_headers = {
+            "Host": "haapi.ankama.com",
             "x-flash-version": "31,1,1,889",
             "Content-Type": "application/x-www-form-urlencoded",
-            "User-Agent": f"Dofus {BuildInfos().VERSION}",
-            "Accept": "*/*",
+            "User-Agent": f"Dofus Client {BuildInfos().VERSION}",
+            "Accept": "text/xml, application/xml, application/xhtml+xml, text/html;q=0.9, text/plain;q=0.8, text/css, image/png, image/jpeg, image/gif;q=0.8, application/x-shockwave-flash, video/mp4;q=0.9, flv-application/octet-stream;q=0.8, video/x-flv;q=0.7, audio/mp4, application/futuresplash, */*;q=0.5, application/x-mpegURL",
             "Accept-Encoding": "gzip,deflate",
             "Connection": "keep-alive",
+            "Cookie": "LANG=en"
         }
         self.zaap_session.headers.update(self.zaap_headers)
         self.dofus_session.headers.update(self.dofus_headers)
