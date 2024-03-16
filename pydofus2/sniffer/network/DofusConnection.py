@@ -3,15 +3,18 @@ import os
 import socket
 from types import FunctionType
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler, Event
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
-from .Packet import TCPPacket
-from .SnifferBuffer import SnifferBuffer
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (
+    Event, EventsHandler)
 from pydofus2.com.ankamagames.dofus.network.MessageReceiver import \
     MessageReceiver
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
+    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
 
+from .Packet import TCPPacket
+from .SnifferBuffer import SnifferBuffer
 
 LOW_LEVEL_DEBUG = os.environ.get("LOW_LEVEL_DEBUG", False)
 def get_ip():
@@ -83,7 +86,7 @@ class DofusConnection(EventsHandler):
         instance.clientBuffer = SnifferBuffer(id="Client Buffer")
         instance.serverBuffer = SnifferBuffer(id="Server Buffer")
         instance.state = None
-        instance.messagesRecordFile = f"client_{instance.client_ip}_{instance.client_port}_record.txt"
+        instance.messagesRecordFile = f"client_{instance.client_ip}_{instance.client_port}_record.json"
         Logger().debug(f"Created new connection '{instance.id}', localIp {LOCAL_IP}, packet src {p.src}:{p.srcport}, packet dest {p.dst}:{p.dstport}")
         return instance
     

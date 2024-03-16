@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
 from pydofus2.sniffer.network.DofusSniffer import DofusSniffer
 
 
@@ -21,29 +22,28 @@ class DofusSnifferApp:
         print(f"Sniffer crashed with error: {error_trace}")
         self.socketio.emit("sniffer_crash", {"error": error_trace})
 
+    @property
+    def is_sniffer_running(self):
+        return self.sniffer and self.sniffer.running.is_set()
+
     def setup_routes(self):
 
         @self.app.route("/")
         def index():
             return render_template("index.html")
 
-        @self.app.route("/start_sniffer", methods=["POST"])
-        def start_sniffer():
-            if self.sniffer and self.sniffer.running.is_set():
-                return jsonify({"status": "error", "message": "Sniffer already running"})
-            self.sniffer = DofusSniffer(
-                "DofusSnifferApp", on_message=self.handle_new_message, on_crash=self.handle_sniffer_crash
-            )
-            self.sniffer.start()
-            return jsonify({"status": "success", "message": "Sniffer started"})
-
-        @self.app.route("/stop_sniffer", methods=["POST"])
-        def stop_sniffer():
-            if self.sniffer and self.sniffer.running.is_set():
+        @self.app.route("/toggle_sniffer", methods=["POST"])
+        def toggle_sniffer():
+            action = "stopped" if self.is_sniffer_running else "started"
+            if self.is_sniffer_running:
                 self.sniffer.stop()
                 self.sniffer = None
-                return jsonify({"status": "success", "message": "Sniffer stopped"})
-            return jsonify({"status": "error", "message": "Sniffer not running"})
+            else:
+                self.sniffer = DofusSniffer(
+                    "DofusSnifferApp", on_message=self.handle_new_message, on_crash=self.handle_sniffer_crash
+                )
+                self.sniffer.start()
+            return jsonify({"status": "success", "message": f"Sniffer {action}", "action": action})
 
     def run(self, debug=True):
         self.socketio.run(self.app, debug=debug)

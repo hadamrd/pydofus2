@@ -1,3 +1,4 @@
 .devVenv
 *.pyc
 messagesUnableToParse
+*_record.json

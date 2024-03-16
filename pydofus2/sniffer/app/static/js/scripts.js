@@ -1,17 +1,41 @@
 var socket = io(); // This line should be at the top of your scripts.js file
 
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Start sniffer
-    document.getElementById('start-btn').addEventListener('click', function() {
-        sendSnifferCommand('/start_sniffer');
+    // Check sniffer status and update button
+    fetch('/sniffer_status')
+    .then(response => response.json())
+    .then(data => {
+        const button = document.getElementById('toggle-btn');
+        if (data.sniffer_status === "running") {
+            button.textContent = "Stop Sniffer";
+            button.classList.add("button-red");
+        } else {
+            button.textContent = "Start Sniffer";
+            button.classList.remove("button-red");
+        }
     });
 
-    // Stop sniffer
-    document.getElementById('stop-btn').addEventListener('click', function() {
-        sendSnifferCommand('/stop_sniffer');
-    });
+    document.getElementById('toggle-btn').addEventListener('click', toggleSniffer);
 });
+
+function toggleSniffer() {
+    const button = document.getElementById('toggle-btn');
+    fetch('/toggle_sniffer', {
+        method: 'POST',
+    }).then(response => response.json())
+    .then(data => {
+        alert(data.message); // Notify the user about the action
+        if (data.status === "success") {
+            if (data.action === "started") {
+                button.textContent = "Stop Sniffer";
+                button.classList.add("button-red");
+            } else {
+                button.textContent = "Start Sniffer";
+                button.classList.remove("button-red");
+            }
+        }
+    });
+}
 
 socket.on('connect', function() {
     console.log('Socket connected.');
@@ -62,14 +86,14 @@ function updateMessageDisplay(connId, message, fromClient) {
 function createNewTab(connId) {
     var tabLabelsContainer = document.getElementById('tab-labels-container');
     var tabContainer = document.getElementById('tab-container');
+    var isFirstTab = tabLabelsContainer.children.length === 0; // Check if it's the first tab
 
     // Create the tab label with a close button
     var tabLabel = document.createElement('li');
     tabLabel.className = 'tab-label';
     tabLabel.dataset.target = 'tab-content-' + connId;
     tabLabel.innerHTML = 'Connection ' + connId + 
-    '<span class="tab-button-spacing"></span>' + // For spacing
-    '<button class="tab-close-button">×</button>';
+    '<span class="tab-close-button"> × </span>';
     tabLabelsContainer.appendChild(tabLabel);
 
     // Create the tab content with a clear content button
@@ -81,31 +105,37 @@ function createNewTab(connId) {
     // Create a clear content button
     var clearButton = document.createElement('button');
     clearButton.textContent = 'Clear Content';
-    clearButton.className = 'clear-content-button'; // Add a class for styling
+    clearButton.className = 'clear-content-button';
     clearButton.onclick = function() {
         var contentBody = tabContentDiv.querySelector('.tab-content-body');
-        if (!contentBody) {
-            console.error('Could not find tab content body');
-            return;
+        if (contentBody) {
+            contentBody.innerHTML = '';
         }
-        contentBody.innerHTML = '';
     };
     tabContentDiv.appendChild(clearButton);
 
-    // Add a div for the tab content body witrh class 'tab-content-body'
+    // Add a div for the tab content body
     var contentBody = document.createElement('div');
     contentBody.className = 'tab-content-body';
     tabContentDiv.appendChild(contentBody);
-    
-    // Add click event to the tab label for switching tabs
+
+    // Set the first tab as active and focused
+    if (isFirstTab) {
+        tabLabel.classList.add('active');
+        tabContentDiv.style.display = 'block';
+    } else {
+        tabContentDiv.style.display = 'none'; // Ensure other tabs are not displayed by default
+    }
+
     tabLabel.addEventListener('click', function(event) {
         if (event.target.classList.contains('tab-close-button')) {
             // Close tab logic here
             tabLabelsContainer.removeChild(tabLabel);
             tabContainer.removeChild(tabContentDiv);
+            // Optionally, focus another tab if the closed tab was active
             return;
         }
-        
+
         var targetId = this.dataset.target;
         var contents = document.getElementsByClassName('tab-content');
         var labels = document.getElementsByClassName('tab-label');
@@ -123,7 +153,7 @@ function createNewTab(connId) {
 }
 
 function appendMessageToTab(tabContentDiv, msg, fromClient) {
-    console.log('Appending message to tab:', msg);
+    // console.log('Appending message to tab:', msg);
     var messageContainer = document.createElement('div');
     messageContainer.className = 'message-container';
 
