@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementFinishedMessage import AchievementFinishedMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementFinishedMessage import \
+    AchievementFinishedMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchievedRewardable import AchievementAchievedRewardable
+    from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchievedRewardable import \
+        AchievementAchievedRewardable
     
 
 class AchievementFinishedInformationMessage(AchievementFinishedMessage):

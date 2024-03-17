@@ -1,6 +1,5 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristics import (
-    CharacterCharacteristics,
-)
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristics import \
+    CharacterCharacteristics
 
 
 class GameFightCharacteristics:

@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.social.SocialNoticeMessage import SocialNoticeMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.social.SocialNoticeMessage import \
+    SocialNoticeMessage
+
 
 class GuildMotdMessage(SocialNoticeMessage):
     def init(self, content_: str, timestamp_: int, memberId_: int, memberName_: str):

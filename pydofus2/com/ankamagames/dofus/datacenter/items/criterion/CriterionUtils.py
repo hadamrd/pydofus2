@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import IItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionFactory import ItemCriterionFactory
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
-from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import StringUtils
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
+    GroupItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
+    IItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionFactory import \
+    ItemCriterionFactory
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
+from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import \
+    StringUtils
 
 
 class CriterionUtils(IDataCenter):

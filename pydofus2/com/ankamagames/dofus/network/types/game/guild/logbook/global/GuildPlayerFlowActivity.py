@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.guild.logbook.GuildLogbookEntryBasicInformation import GuildLogbookEntryBasicInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.guild.logbook.GuildLogbookEntryBasicInformation import \
+    GuildLogbookEntryBasicInformation
+
 
 class GuildPlayerFlowActivity(GuildLogbookEntryBasicInformation):
     playerId: int

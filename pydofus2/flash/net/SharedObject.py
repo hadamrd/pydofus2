@@ -1,5 +1,7 @@
 import os
+
 import pyamf.sol
+
 
 class DictAsObject(dict):
     """

@@ -1,7 +1,10 @@
 from ast import FunctionType
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import IMovable
+
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import \
+    IMovable
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
+    MovementPath
 
 
 class IMovementBehavior:

@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.NpcDialogCreationMessage import NpcDialogCreationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.NpcDialogCreationMessage import \
+    NpcDialogCreationMessage
+
 
 class PortalDialogCreationMessage(NpcDialogCreationMessage):
     type: int

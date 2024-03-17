@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-import zlib, tempfile, io
+import io
+import tempfile
+import zlib
+
 from pydofus2.com.ankamagames.atouin.data.map.Map import Map
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger

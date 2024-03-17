@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.lockable.LockableStateUpdateAbstractMessage import LockableStateUpdateAbstractMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.lockable.LockableStateUpdateAbstractMessage import \
+    LockableStateUpdateAbstractMessage
+
 
 class LockableStateUpdateHouseDoorMessage(LockableStateUpdateAbstractMessage):
     houseId: int

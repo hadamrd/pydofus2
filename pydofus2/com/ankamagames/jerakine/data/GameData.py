@@ -1,14 +1,18 @@
 import os
 from typing import TYPE_CHECKING, Any
+
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.data.GameDataClassDefinition import GameDataClassDefinition
     from pydofus2.com.ankamagames.jerakine.data.GameDataProcess import GameDataProcess
-from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+
 import threading
+
+from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
+    ThreadSharedSingleton
 
 lock = threading.Lock()
 

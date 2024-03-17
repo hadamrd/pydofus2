@@ -1,7 +1,7 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
-    ItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
     IItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
+    ItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.servers.ServerSeason import \
     ServerSeason
 from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \

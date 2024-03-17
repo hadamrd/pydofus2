@@ -1,13 +1,23 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import AllianceInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.AdditionalTaxCollectorInformation import AdditionalTaxCollectorInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorComplementaryInformations import TaxCollectorComplementaryInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristics import CharacterCharacteristics
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
-    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorOrderedSpell import TaxCollectorOrderedSpell
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristics import \
+        CharacterCharacteristics
+    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.AdditionalTaxCollectorInformation import \
+        AdditionalTaxCollectorInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorComplementaryInformations import \
+        TaxCollectorComplementaryInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorOrderedSpell import \
+        TaxCollectorOrderedSpell
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
+        AllianceInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
+        ObjectItem
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class TaxCollectorInformations(NetworkMessage):

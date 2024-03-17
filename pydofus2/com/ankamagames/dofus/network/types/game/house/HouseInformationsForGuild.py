@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInformations import HouseInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInformations import \
+    HouseInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
+        AccountTagInformation
     
 
 class HouseInformationsForGuild(HouseInformations):

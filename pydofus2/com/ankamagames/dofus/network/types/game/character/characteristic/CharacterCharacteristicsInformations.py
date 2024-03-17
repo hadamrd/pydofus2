@@ -1,9 +1,15 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.alignment.ActorExtendedAlignmentInformations import ActorExtendedAlignmentInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristic import CharacterCharacteristic
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.spellmodifier.SpellModifierMessage import SpellModifierMessage
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.alignment.ActorExtendedAlignmentInformations import \
+        ActorExtendedAlignmentInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristic import \
+        CharacterCharacteristic
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.spellmodifier.SpellModifierMessage import \
+        SpellModifierMessage
     
 
 class CharacterCharacteristicsInformations(NetworkMessage):

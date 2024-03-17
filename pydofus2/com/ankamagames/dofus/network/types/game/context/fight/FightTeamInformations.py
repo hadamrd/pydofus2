@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.AbstractFightTeamInformations import AbstractFightTeamInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.AbstractFightTeamInformations import \
+    AbstractFightTeamInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberInformations import FightTeamMemberInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberInformations import \
+        FightTeamMemberInformations
     
 
 class FightTeamInformations(AbstractFightTeamInformations):

@@ -1,10 +1,15 @@
 from pydofus2.com.ankamagames.dofus.datacenter.breeds.Breed import Breed
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import IItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import ItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import ItemCriterionOperator
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
+    IItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
+    ItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
+    ItemCriterionOperator
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
+    PlayedCharacterManager
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class BreedItemCriterion(ItemCriterion, IDataCenter):

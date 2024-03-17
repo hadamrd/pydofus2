@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestListMessage import QuestListMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestListMessage import \
+    QuestListMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveInformations import QuestActiveInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveInformations import \
+        QuestActiveInformations
     
 
 class WatchQuestListMessage(QuestListMessage):

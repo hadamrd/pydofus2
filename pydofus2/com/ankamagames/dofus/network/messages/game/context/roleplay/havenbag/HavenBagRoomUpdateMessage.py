@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.havenbag.HavenBagRoomPreviewInformation import HavenBagRoomPreviewInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.havenbag.HavenBagRoomPreviewInformation import \
+        HavenBagRoomPreviewInformation
     
 
 class HavenBagRoomUpdateMessage(NetworkMessage):

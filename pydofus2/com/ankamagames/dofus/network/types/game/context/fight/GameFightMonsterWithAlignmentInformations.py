@@ -1,11 +1,19 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import GameFightMonsterInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import \
+    GameFightMonsterInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.alignment.ActorAlignmentInformations import ActorAlignmentInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameContextBasicSpawnInformation import GameContextBasicSpawnInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacteristics import GameFightCharacteristics
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.alignment.ActorAlignmentInformations import \
+        ActorAlignmentInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
+        EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameContextBasicSpawnInformation import \
+        GameContextBasicSpawnInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacteristics import \
+        GameFightCharacteristics
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class GameFightMonsterWithAlignmentInformations(GameFightMonsterInformations):

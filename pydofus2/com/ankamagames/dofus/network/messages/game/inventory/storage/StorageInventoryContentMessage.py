@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.InventoryContentMessage import InventoryContentMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.InventoryContentMessage import \
+    InventoryContentMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
+        ObjectItem
     
 
 class StorageInventoryContentMessage(InventoryContentMessage):

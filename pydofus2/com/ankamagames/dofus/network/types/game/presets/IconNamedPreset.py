@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.presets.PresetsContainerPreset import PresetsContainerPreset
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.presets.PresetsContainerPreset import \
+    PresetsContainerPreset
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.presets.Preset import Preset
+    from pydofus2.com.ankamagames.dofus.network.types.game.presets.Preset import \
+        Preset
     
 
 class IconNamedPreset(PresetsContainerPreset):

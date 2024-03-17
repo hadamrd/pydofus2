@@ -8,6 +8,8 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.mount.MountData import \
     MountData
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
     DofusEntities
+from pydofus2.com.ankamagames.dofus.misc.utils.CharacterIdConverter import \
+    CharacterIdConverter
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import \
     Vertex
 
@@ -422,6 +424,10 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         if self.infos:
             return self.infos.name
         return None
+    
+    @property
+    def extractedServerCharacterIdFromInterserverCharacterId(self) -> int:
+        return CharacterIdConverter.extractServerCharacterIdFromInterserverCharacterId(self.id)
     
     def addInfosAvailableCallback(self, pCallback: Callback) -> None:
         self._infosAvailableCallbacks.append(pCallback)

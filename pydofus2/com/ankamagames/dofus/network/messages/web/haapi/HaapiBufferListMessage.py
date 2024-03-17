@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.web.haapi.BufferInformation import BufferInformation
+    from pydofus2.com.ankamagames.dofus.network.types.web.haapi.BufferInformation import \
+        BufferInformation
     
 
 class HaapiBufferListMessage(NetworkMessage):

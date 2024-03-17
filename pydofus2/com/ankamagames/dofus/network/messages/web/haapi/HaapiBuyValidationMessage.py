@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiValidationMessage import HaapiValidationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiValidationMessage import \
+    HaapiValidationMessage
+
 
 class HaapiBuyValidationMessage(HaapiValidationMessage):
     amount: int

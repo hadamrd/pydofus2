@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.DetailedStats import DetailedStat
+from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.DetailedStats import \
+    DetailedStat
 
 
 class UsableStat(DetailedStat):

@@ -3,7 +3,7 @@ jinja2
 Py3AMF
 lupa
 pyyaml
-pyppeteer
 cloudscraper
 requests
 prettytable
+pycryptodomex

@@ -2,9 +2,10 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterGrade import MonsterGrade
+
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
-from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
+from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 
 class MonsterRace:
@@ -48,9 +49,8 @@ class MonsterRace:
     @property
     def canAttack(self) -> bool:
         if self.aggressiveImmunityCriterion:
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import (
-                GroupItemCriterion,
-            )
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
+                GroupItemCriterion
 
             criterions = GroupItemCriterion(self.aggressiveImmunityCriterion)
             if criterions.isRespected:

@@ -1,8 +1,8 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
-    PlayedCharacterManager,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.Inventory import Inventory
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager as storageoptmgr
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
+    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.Inventory import \
+    Inventory
 
 
 class PlayerInventory(Inventory):

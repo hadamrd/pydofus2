@@ -1,9 +1,10 @@
 from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStep import QuestStep
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
+    PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class QuestStepRewards(IDataCenter):

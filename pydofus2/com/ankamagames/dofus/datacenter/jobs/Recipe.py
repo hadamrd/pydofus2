@@ -1,14 +1,17 @@
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Skill import Skill
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import GameDataQuery
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
+    ItemWrapper
+from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import \
+    GameDataQuery
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import I18nFileAccessor
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import \
+    I18nFileAccessor
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class Recipe(IDataCenter):

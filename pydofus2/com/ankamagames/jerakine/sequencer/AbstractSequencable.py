@@ -1,5 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.sequencer.IPausableSequencable import IPausableSequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import ISequencableListener
+from pydofus2.com.ankamagames.jerakine.sequencer.IPausableSequencable import \
+    IPausableSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import \
+    ISequencableListener
 
 
 class AbstractSequencable(IPausableSequencable):

@@ -1,5 +1,6 @@
 from pydofus2.com.ankamagames.jerakine.pools.Poolable import Poolable
-from pydofus2.com.ankamagames.jerakine.pools.PoolableLinkedListNode import PoolableLinkedListNode
+from pydofus2.com.ankamagames.jerakine.pools.PoolableLinkedListNode import \
+    PoolableLinkedListNode
 from pydofus2.mx.utils.LinkedList import LinkedList
 from pydofus2.mx.utils.LinkedListNode import LinkedListNode
 
@@ -56,7 +57,8 @@ class Pool:
             o = node
         else:
             o = node.value
-            from pydofus2.com.ankamagames.jerakine.pools.PoolsManager import PoolsManager
+            from pydofus2.com.ankamagames.jerakine.pools.PoolsManager import \
+                PoolsManager
 
             PoolsManager.getLinkedListNodePool().checkIn(node)
         return o

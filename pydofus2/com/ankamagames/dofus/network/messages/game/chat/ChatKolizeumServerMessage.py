@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatServerMessage import ChatServerMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatServerMessage import \
+    ChatServerMessage
+
 
 class ChatKolizeumServerMessage(ChatServerMessage):
     originServerId: int

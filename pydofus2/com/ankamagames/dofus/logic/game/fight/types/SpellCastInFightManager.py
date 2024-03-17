@@ -1,14 +1,12 @@
-from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import (
-    SpellManager,
-)
 from typing import TYPE_CHECKING
 
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import \
+    SpellManager
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import (
-        GameFightSpellCooldown,
-    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import \
+        GameFightSpellCooldown
 
 class SpellCastInFightManager:
 
@@ -46,16 +44,16 @@ class SpellCastInFightManager:
                 spellManager.resetInitialCooldown(self.currentTurn)
 
     def updateCooldowns(self, spellCooldowns: list["GameFightSpellCooldown"] = None) -> None:
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
-    CurrentPlayedFighterManager,
-)
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
+            entPlayedFighterManager
         if self.needCooldownUpdate and not spellCooldowns:
             spellCooldowns = self._storedSpellCooldowns
         playedFighterManager = CurrentPlayedFighterManager()
         numCoolDown = len(spellCooldowns)
         for k in range(numCoolDown):
             spellCooldown = spellCooldowns[k]
-            from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
+            from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
+                SpellWrapper
 
             spellW = SpellWrapper.getSpellWrapperById(spellCooldown.spellId, self.entityId)
             if not spellW:

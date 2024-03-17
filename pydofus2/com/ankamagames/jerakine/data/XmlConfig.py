@@ -1,13 +1,16 @@
-from collections import OrderedDict
 import os
-from pathlib import Path
-import xml.etree.ElementTree as ET
 import re
+import threading
+import xml.etree.ElementTree as ET
+from collections import OrderedDict
+from pathlib import Path
+
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
-import threading
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
+    StoreDataManager
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
+    ThreadSharedSingleton
 
 lock = threading.Lock()
 KEY_LANG_INDEX = "langIndex"

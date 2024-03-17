@@ -1,10 +1,11 @@
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Skill import Skill
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IStorageView import IStorageView
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageGenericView import (
-    StorageGenericView,
-)
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
+    ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageGenericView import \
+    StorageGenericView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IStorageView import \
+    IStorageView
 
 
 class StorageSmithMagicFilterView(StorageGenericView):

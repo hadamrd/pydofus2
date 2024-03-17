@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import IInventoryView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import \
+    IInventoryView
 
 
 class IStorageView(IInventoryView):

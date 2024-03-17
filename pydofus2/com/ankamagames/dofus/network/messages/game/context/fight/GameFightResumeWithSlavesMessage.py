@@ -1,11 +1,19 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightResumeMessage import GameFightResumeMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightResumeMessage import \
+    GameFightResumeMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightResumeSlaveInfo import GameFightResumeSlaveInfo
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import GameFightSpellCooldown
-    from pydofus2.com.ankamagames.dofus.network.types.game.action.fight.FightDispellableEffectExtendedInformations import FightDispellableEffectExtendedInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMark import GameActionMark
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEffectTriggerCount import GameFightEffectTriggerCount
+    from pydofus2.com.ankamagames.dofus.network.types.game.action.fight.FightDispellableEffectExtendedInformations import \
+        FightDispellableEffectExtendedInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMark import \
+        GameActionMark
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEffectTriggerCount import \
+        GameFightEffectTriggerCount
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightResumeSlaveInfo import \
+        GameFightResumeSlaveInfo
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import \
+        GameFightSpellCooldown
     
 
 class GameFightResumeWithSlavesMessage(GameFightResumeMessage):

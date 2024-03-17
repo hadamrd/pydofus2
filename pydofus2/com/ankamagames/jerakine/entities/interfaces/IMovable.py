@@ -1,10 +1,14 @@
 from types import FunctionType
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
 from typing import TYPE_CHECKING
 
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
+    IEntity
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-    from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
+    from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import \
+        MapPoint
+    from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
+        MovementPath
 
 
 class IMovable(IEntity):

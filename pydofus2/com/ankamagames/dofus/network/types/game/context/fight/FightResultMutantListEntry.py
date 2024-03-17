@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultFighterListEntry import FightResultFighterListEntry
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultFighterListEntry import \
+    FightResultFighterListEntry
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightLoot import FightLoot
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightLoot import \
+        FightLoot
     
 
 class FightResultMutantListEntry(FightResultFighterListEntry):

@@ -1,26 +1,25 @@
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
-from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSessionConstantsMessage import (
-    ServerSessionConstantsMessage,
-)
-from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSettingsMessage import ServerSettingsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.basic.CurrentServerStatusUpdateMessage import (
-    CurrentServerStatusUpdateMessage,
-)
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.AccountHouseMessage import (
-    AccountHouseMessage,
-)
-from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyMessage import HaapiApiKeyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiAuthErrorMessage import HaapiAuthErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiSessionMessage import HaapiSessionMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantInteger import (
-    ServerSessionConstantInteger,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantLong import (
-    ServerSessionConstantLong,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantString import (
-    ServerSessionConstantString,
-)
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
+    PlayerManager
+from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSessionConstantsMessage import \
+    ServerSessionConstantsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSettingsMessage import \
+    ServerSettingsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.basic.CurrentServerStatusUpdateMessage import \
+    CurrentServerStatusUpdateMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.AccountHouseMessage import \
+    AccountHouseMessage
+from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyMessage import \
+    HaapiApiKeyMessage
+from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiAuthErrorMessage import \
+    HaapiAuthErrorMessage
+from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiSessionMessage import \
+    HaapiSessionMessage
+from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantInteger import \
+    ServerSessionConstantInteger
+from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantLong import \
+    ServerSessionConstantLong
+from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantString import \
+    ServerSessionConstantString
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton

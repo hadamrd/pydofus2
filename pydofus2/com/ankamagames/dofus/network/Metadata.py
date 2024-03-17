@@ -1,4 +1,5 @@
 import json
+
 import pydofus2.com.ankamagames.dofus.Constants as Constants
 
 

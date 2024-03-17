@@ -1,10 +1,14 @@
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
 
-from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import IAdapter
+from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
+    AdapterFactory
+from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import \
+    IAdapter
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
+    IResourceObserver
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
+
 
 class AbstractProtocol(ABC):
 

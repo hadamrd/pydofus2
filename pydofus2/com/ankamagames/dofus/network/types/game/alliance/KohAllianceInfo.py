@@ -1,9 +1,15 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import AllianceInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.alliance.KohAllianceRoleMembers import KohAllianceRoleMembers
-    from pydofus2.com.ankamagames.dofus.network.types.game.alliance.KohScore import KohScore
+    from pydofus2.com.ankamagames.dofus.network.types.game.alliance.KohAllianceRoleMembers import \
+        KohAllianceRoleMembers
+    from pydofus2.com.ankamagames.dofus.network.types.game.alliance.KohScore import \
+        KohScore
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
+        AllianceInformation
     
 
 class KohAllianceInfo(NetworkMessage):

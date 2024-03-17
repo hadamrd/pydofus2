@@ -123,7 +123,6 @@ from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilitySta
     GameActionFightInvisibilityStateEnum
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import \
     GameActionMarkTypeEnum
-
 from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import \
     IMovable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger

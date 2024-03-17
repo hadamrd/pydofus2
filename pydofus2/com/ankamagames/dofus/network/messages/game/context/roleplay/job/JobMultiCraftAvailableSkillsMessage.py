@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.job.JobAllowMultiCraftRequestMessage import JobAllowMultiCraftRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.job.JobAllowMultiCraftRequestMessage import \
+    JobAllowMultiCraftRequestMessage
+
 
 class JobMultiCraftAvailableSkillsMessage(JobAllowMultiCraftRequestMessage):
     playerId: int

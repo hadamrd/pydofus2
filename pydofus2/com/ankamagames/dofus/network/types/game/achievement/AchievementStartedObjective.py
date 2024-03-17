@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementObjective import AchievementObjective
+from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementObjective import \
+    AchievementObjective
+
 
 class AchievementStartedObjective(AchievementObjective):
     value: int

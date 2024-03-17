@@ -1,16 +1,16 @@
 from typing import TYPE_CHECKING
-from pydofus2.com.ankamagames.dofus.datacenter.monsters.AnimFunMonsterData import (
-    AnimFunMonsterData,
-)
+
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.AnimFunMonsterData import \
+    AnimFunMonsterData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterDrop import MonsterDrop
     from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterGrade import MonsterGrade
     from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterRace import MonsterRace
-from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
+from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 
 
 class Monster:
@@ -105,7 +105,8 @@ class Monster:
 
     @property
     def type(self) -> "MonsterRace":
-        from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterRace import MonsterRace
+        from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterRace import \
+            MonsterRace
 
         return MonsterRace.getMonsterRaceById(self.race)
 
@@ -116,9 +117,8 @@ class Monster:
     @property
     def canAttack(self) -> bool:
         if self.aggressiveImmunityCriterion:
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion import (
-                GroupItemCriterion,
-            )
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion import \
+                GroupItemCriterion
 
             criterions = GroupItemCriterion(self.aggressiveImmunityCriterion)
             if criterions.isRespected:

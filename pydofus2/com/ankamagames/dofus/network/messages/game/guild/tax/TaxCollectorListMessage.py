@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.tax.AbstractTaxCollectorListMessage import AbstractTaxCollectorListMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.tax.AbstractTaxCollectorListMessage import \
+    AbstractTaxCollectorListMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorFightersInformation import TaxCollectorFightersInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorInformations import TaxCollectorInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorFightersInformation import \
+        TaxCollectorFightersInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorInformations import \
+        TaxCollectorInformations
     
 
 class TaxCollectorListMessage(AbstractTaxCollectorListMessage):

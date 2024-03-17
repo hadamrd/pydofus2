@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatClientPrivateMessage import ChatClientPrivateMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatClientPrivateMessage import \
+    ChatClientPrivateMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
-    from pydofus2.com.ankamagames.dofus.network.types.common.AbstractPlayerSearchInformation import AbstractPlayerSearchInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AbstractPlayerSearchInformation import \
+        AbstractPlayerSearchInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
+        ObjectItem
     
 
 class ChatClientPrivateWithObjectMessage(ChatClientPrivateMessage):

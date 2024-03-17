@@ -1,9 +1,15 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNamedActorInformations import GameRolePlayNamedActorInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNamedActorInformations import \
+    GameRolePlayNamedActorInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOption import HumanOption
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
+        EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOption import \
+        HumanOption
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class GameRolePlayMerchantInformations(GameRolePlayNamedActorInformations):

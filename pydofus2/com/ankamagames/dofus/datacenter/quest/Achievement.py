@@ -1,4 +1,5 @@
 import re
+from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
     GroupItemCriterion
@@ -22,10 +23,10 @@ from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter
-from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
-    AchievementCategory
+        AchievementCategory
 
 class Achievement(IDataCenter):
 
@@ -124,7 +125,7 @@ class Achievement(IDataCenter):
     def category(self) -> 'AchievementCategory':
         if not self._category:
             from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
-    AchievementCategory
+                entCategory
             self._category = AchievementCategory.getAchievementCategoryById(self.categoryId)
         return self._category
 
@@ -184,7 +185,8 @@ class Achievement(IDataCenter):
         return self._currentLevelRewards
 
     def initCurrentLevelRewards(self, level: int) -> None:
-        from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import AchievementReward
+        from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import \
+            AchievementReward
         criterion: GroupItemCriterion = None
         rewardId: int = 0
         characterRewardsTruncated: bool = False

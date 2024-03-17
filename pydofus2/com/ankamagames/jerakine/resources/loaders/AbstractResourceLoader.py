@@ -1,10 +1,15 @@
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
+    EventsHandler
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.CacheableResource import CacheableResource
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
+from pydofus2.com.ankamagames.jerakine.resources.CacheableResource import \
+    CacheableResource
+from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import \
+    ResourceEvent
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
+    IResourceObserver
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
+
 
 class AbstractResourceLoader(IResourceObserver, EventsHandler):
 

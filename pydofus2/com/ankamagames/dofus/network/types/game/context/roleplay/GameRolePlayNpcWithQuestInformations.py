@@ -1,9 +1,15 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcInformations import GameRolePlayNpcInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcInformations import \
+    GameRolePlayNpcInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.GameRolePlayNpcQuestFlag import GameRolePlayNpcQuestFlag
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
+        EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.GameRolePlayNpcQuestFlag import \
+        GameRolePlayNpcQuestFlag
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class GameRolePlayNpcWithQuestInformations(GameRolePlayNpcInformations):

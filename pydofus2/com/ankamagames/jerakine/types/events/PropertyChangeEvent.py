@@ -1,5 +1,6 @@
 from typing import Any
 
+
 class PropertyChangeEvent:
 
     PROPERTY_CHANGED = "watchPropertyChanged"

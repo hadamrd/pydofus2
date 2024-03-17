@@ -1,5 +1,8 @@
-from pydofus2.com.ankamagames.dofus.network.messages.authorized.AdminCommandMessage import AdminCommandMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.authorized.AdminCommandMessage import \
+    AdminCommandMessage
+
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.Uuid import Uuid
     

@@ -1,11 +1,10 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import (
-    GroupItemCriterion,
-)
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
+    GroupItemCriterion
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class Companion(IDataCenter):

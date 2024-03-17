@@ -2,7 +2,8 @@ import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageClassDefin
 from pydofus2.com.ankamagames.jerakine.logger.Logger import TraceLogger
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
     ByteArray
-from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import FieldSpec, ProtocolSpec
+from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
+    FieldSpec, ProtocolSpec)
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 

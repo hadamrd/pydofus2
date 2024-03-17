@@ -1,13 +1,15 @@
 import re
-from typing import Any
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellType import SpellType
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import SpellVariant
+from typing import TYPE_CHECKING, Any
+
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellType import \
+    SpellType
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import \
+    SpellVariant
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
-from typing import TYPE_CHECKING
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 if TYPE_CHECKING:
     pass
@@ -90,7 +92,8 @@ class Spell(IDataCenter):
 
     @property
     def spellLevelsInfo(self) -> list:
-        from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
+        from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
+            SpellLevel
 
         if self._spellLevels is None or len(self._spellLevels) != len(self.spellLevels):
             self._spellLevels = [SpellLevel.getLevelById(spellLvl) for spellLvl in self.spellLevels]

@@ -37,7 +37,7 @@ class ConnectionsHandler(metaclass=Singleton):
     GAME_SERVER: str = "game_server"
     KOLI_SERVER: str = "koli_server"
     CONNECTION_TIMEOUT: int = 3
-    MINTIME_BETWEEN_SENDS = 1
+    MINTIME_BETWEEN_SENDS = 1.2
 
     def __init__(self):
         self._conn: ServerConnection = None

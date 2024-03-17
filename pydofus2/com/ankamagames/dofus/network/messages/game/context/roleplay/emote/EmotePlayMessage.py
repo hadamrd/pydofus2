@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.emote.EmotePlayAbstractMessage import EmotePlayAbstractMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.emote.EmotePlayAbstractMessage import \
+    EmotePlayAbstractMessage
+
 
 class EmotePlayMessage(EmotePlayAbstractMessage):
     actorId: int

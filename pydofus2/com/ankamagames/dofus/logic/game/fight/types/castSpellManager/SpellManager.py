@@ -12,9 +12,8 @@ from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
     SpellModifierTypeEnum
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastInFightManager import (
-        SpellCastInFightManager,
-    )
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastInFightManager import \
+        SpellCastInFightManager
 
 
 class SpellManager:

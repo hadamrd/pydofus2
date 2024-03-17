@@ -2,7 +2,7 @@ Metadata-Version: 2.1
 Name: pydofus2
 Version: 1.1.0
 Summary: Light python client for dofus2 offi.
-Home-page: https://github.com/kmajdoub/pydofus2
+Home-page: https://github.com/hadamrd/pyd2bot
 Author: majdoub khalid
 Author-email: majdoub.khalid@gmail.com
 Classifier: Programming Language :: Python :: 3.9
@@ -14,10 +14,10 @@ Requires-Dist: jinja2
 Requires-Dist: Py3AMF
 Requires-Dist: lupa
 Requires-Dist: pyyaml
-Requires-Dist: pyppeteer
 Requires-Dist: cloudscraper
 Requires-Dist: requests
 Requires-Dist: prettytable
+Requires-Dist: pycryptodomex
 
 # pydofus2
 

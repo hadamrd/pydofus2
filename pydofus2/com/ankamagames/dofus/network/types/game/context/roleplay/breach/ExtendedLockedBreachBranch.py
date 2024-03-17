@@ -1,9 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.ExtendedBreachBranch import ExtendedBreachBranch
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.ExtendedBreachBranch import \
+    ExtendedBreachBranch
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.BreachReward import BreachReward
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import MonsterInGroupLightInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import MonsterInGroupLightInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.BreachReward import \
+        BreachReward
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import \
+        MonsterInGroupLightInformations
     
 
 class ExtendedLockedBreachBranch(ExtendedBreachBranch):

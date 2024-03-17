@@ -1,9 +1,14 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristics import \
+        CharacterCharacteristics
+    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorOrderedSpell import \
+        TaxCollectorOrderedSpell
     from pydofus2.com.ankamagames.dofus.network.types.game.Uuid import Uuid
-    from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorOrderedSpell import TaxCollectorOrderedSpell
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristics import CharacterCharacteristics
     
 
 class TaxCollectorPreset(NetworkMessage):

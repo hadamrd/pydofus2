@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveMessage import ExchangeObjectMoveMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveMessage import \
+    ExchangeObjectMoveMessage
+
 
 class ExchangeObjectMovePricedMessage(ExchangeObjectMoveMessage):
     price: int

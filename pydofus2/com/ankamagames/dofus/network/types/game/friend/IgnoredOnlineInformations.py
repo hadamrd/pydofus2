@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.friend.IgnoredInformations import IgnoredInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.friend.IgnoredInformations import \
+    IgnoredInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
+        AccountTagInformation
     
 
 class IgnoredOnlineInformations(IgnoredInformations):

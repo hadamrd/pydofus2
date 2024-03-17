@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.PaginationAnswerAbstractMessage import PaginationAnswerAbstractMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.PaginationAnswerAbstractMessage import \
+    PaginationAnswerAbstractMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.application.SocialApplicationInformation import SocialApplicationInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.application.SocialApplicationInformation import \
+        SocialApplicationInformation
     
 
 class GuildListApplicationAnswerMessage(PaginationAnswerAbstractMessage):

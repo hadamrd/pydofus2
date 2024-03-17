@@ -4,18 +4,20 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import (
         EffectInstanceDice,
     )
-from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
+
 import pydofus2.com.ankamagames.dofus.datacenter.spells.Spell as spellmod
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ICellZoneProvider import (
-    ICellZoneProvider,
-)
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import IZoneShape
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ZoneEffect import ZoneEffect
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ICellZoneProvider import \
+    ICellZoneProvider
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import \
+    IZoneShape
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ZoneEffect import \
+    ZoneEffect
 
 
 class SpellLevel(ICellZoneProvider, IDataCenter):

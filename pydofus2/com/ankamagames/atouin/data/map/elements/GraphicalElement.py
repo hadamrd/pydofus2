@@ -1,10 +1,14 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
-from pydofus2.com.ankamagames.atouin.data.map.elements.BasicElement import BasicElement
-from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import ElementTypesEnum
+from pydofus2.com.ankamagames.atouin.data.map.elements.BasicElement import \
+    BasicElement
+from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import \
+    ElementTypesEnum
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
-from pydofus2.com.ankamagames.jerakine.types.ColorMultiplicator import ColorMultiplicator
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
+    ByteArray
+from pydofus2.com.ankamagames.jerakine.types.ColorMultiplicator import \
+    ColorMultiplicator
 from pydofus2.flash.geom.Point import Point
 
 

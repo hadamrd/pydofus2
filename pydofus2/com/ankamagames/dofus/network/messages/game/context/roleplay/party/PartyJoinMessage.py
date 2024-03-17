@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party.AbstractPartyMessage import AbstractPartyMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party.AbstractPartyMessage import \
+    AbstractPartyMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyMemberInformations import PartyMemberInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyGuestInformations import PartyGuestInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyGuestInformations import \
+        PartyGuestInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyMemberInformations import \
+        PartyMemberInformations
     
 
 class PartyJoinMessage(AbstractPartyMessage):

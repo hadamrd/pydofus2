@@ -1,29 +1,29 @@
 from typing import List, Type, Union
 
-from pydofus2.com.ankamagames.dofus.internalDatacenter.quests.TreasureHuntStepWrapper import TreasureHuntStepWrapper
-from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntFlagStateEnum import TreasureHuntFlagStateEnum
-from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntTypeEnum import TreasureHuntTypeEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntFlag import (
-    TreasureHuntFlag,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStep import (
-    TreasureHuntStep,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFight import (
-    TreasureHuntStepFight,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFollowDirection import (
-    TreasureHuntStepFollowDirection,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFollowDirectionToHint import (
-    TreasureHuntStepFollowDirectionToHint,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFollowDirectionToPOI import (
-    TreasureHuntStepFollowDirectionToPOI,
-)
-from pydofus2.com.ankamagames.dofus.types.enums.TreasureHuntStepTypeEnum import TreasureHuntStepTypeEnum
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.quests.TreasureHuntStepWrapper import \
+    TreasureHuntStepWrapper
+from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntFlagStateEnum import \
+    TreasureHuntFlagStateEnum
+from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntTypeEnum import \
+    TreasureHuntTypeEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntFlag import \
+    TreasureHuntFlag
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStep import \
+    TreasureHuntStep
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFight import \
+    TreasureHuntStepFight
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFollowDirection import \
+    TreasureHuntStepFollowDirection
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFollowDirectionToHint import \
+    TreasureHuntStepFollowDirectionToHint
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasureHunt.TreasureHuntStepFollowDirectionToPOI import \
+    TreasureHuntStepFollowDirectionToPOI
+from pydofus2.com.ankamagames.dofus.types.enums.TreasureHuntStepTypeEnum import \
+    TreasureHuntStepTypeEnum
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
+    DirectionsEnum
 
 
 class TreasureHuntWrapper(IDataCenter):

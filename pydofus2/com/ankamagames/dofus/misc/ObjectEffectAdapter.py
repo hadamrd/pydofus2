@@ -1,63 +1,46 @@
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
+    EffectInstance
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceCreature import \
+    EffectInstanceCreature
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDate import \
+    EffectInstanceDate
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import \
+    EffectInstanceDice
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDuration import \
+    EffectInstanceDuration
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import \
+    EffectInstanceInteger
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceLadder import \
+    EffectInstanceLadder
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceMinMax import \
+    EffectInstanceMinMax
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceMount import \
+    EffectInstanceMount
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceString import \
+    EffectInstanceString
+from pydofus2.com.ankamagames.dofus.datacenter.items.IncarnationLevel import \
+    IncarnationLevel
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceCreature import (
-    EffectInstanceCreature,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDate import (
-    EffectInstanceDate,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import (
-    EffectInstanceDice,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDuration import (
-    EffectInstanceDuration,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import (
-    EffectInstanceInteger,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceLadder import (
-    EffectInstanceLadder,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceMinMax import (
-    EffectInstanceMinMax,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceMount import (
-    EffectInstanceMount,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceString import (
-    EffectInstanceString,
-)
-from pydofus2.com.ankamagames.dofus.datacenter.items.IncarnationLevel import IncarnationLevel
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import (
-    ObjectEffect,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectCreature import (
-    ObjectEffectCreature,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectDate import (
-    ObjectEffectDate,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectDice import (
-    ObjectEffectDice,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectDuration import (
-    ObjectEffectDuration,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectInteger import (
-    ObjectEffectInteger,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectLadder import (
-    ObjectEffectLadder,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectMinMax import (
-    ObjectEffectMinMax,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectMount import (
-    ObjectEffectMount,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectString import (
-    ObjectEffectString,
-)
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import \
+    ObjectEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectCreature import \
+    ObjectEffectCreature
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectDate import \
+    ObjectEffectDate
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectDice import \
+    ObjectEffectDice
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectDuration import \
+    ObjectEffectDuration
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectInteger import \
+    ObjectEffectInteger
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectLadder import \
+    ObjectEffectLadder
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectMinMax import \
+    ObjectEffectMinMax
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectMount import \
+    ObjectEffectMount
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectString import \
+    ObjectEffectString
 
 
 class ObjectEffectAdapter:

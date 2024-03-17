@@ -1,6 +1,5 @@
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import (
-    GameActionMarkTypeEnum,
-)
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import \
+    GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.types.entities.Projectile import Projectile
 from pydofus2.com.ankamagames.jerakine.interfaces.IObstacle import IObstacle
 

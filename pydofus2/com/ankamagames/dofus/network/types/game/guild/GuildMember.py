@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import CharacterMinimalInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import \
+    CharacterMinimalInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import PlayerStatus
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.guild.note.PlayerNote import PlayerNote
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.guild.note.PlayerNote import \
+        PlayerNote
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
+        PlayerStatus
     
 
 class GuildMember(CharacterMinimalInformations):

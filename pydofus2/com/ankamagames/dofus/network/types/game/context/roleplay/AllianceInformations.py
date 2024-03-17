@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicNamedAllianceInformations import BasicNamedAllianceInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicNamedAllianceInformations import \
+    BasicNamedAllianceInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildEmblem import GuildEmblem
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildEmblem import \
+        GuildEmblem
     
 
 class AllianceInformations(BasicNamedAllianceInformations):

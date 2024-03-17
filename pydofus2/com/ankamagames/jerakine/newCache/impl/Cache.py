@@ -4,8 +4,10 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.newCache.ICacheGarbageCollector import (
         ICacheGarbageCollector,
     )
+
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.newCache.impl.InfiniteCache import InfiniteCache
+from pydofus2.com.ankamagames.jerakine.newCache.impl.InfiniteCache import \
+    InfiniteCache
 
 
 class Cache(InfiniteCache, ICache):

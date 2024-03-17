@@ -5,9 +5,9 @@
 
 
 from collections import OrderedDict
-from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pathlib import Path
 
+from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

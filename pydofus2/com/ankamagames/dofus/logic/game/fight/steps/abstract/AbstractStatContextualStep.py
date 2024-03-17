@@ -1,6 +1,9 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
+    DofusEntities
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
+    IEntity
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
 
 
 class AbstractStatContextualStep(AbstractSequencable):

@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicStatMessage import BasicStatMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicStatMessage import \
+    BasicStatMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.basic.StatisticData import StatisticData
+    from pydofus2.com.ankamagames.dofus.network.types.common.basic.StatisticData import \
+        StatisticData
     
 
 class BasicStatWithDataMessage(BasicStatMessage):

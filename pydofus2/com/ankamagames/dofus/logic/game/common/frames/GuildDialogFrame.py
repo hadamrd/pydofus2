@@ -1,10 +1,15 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
+    KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import DialogTypeEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import LeaveDialogMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildInvitationAnswerMessage import GuildInvitationAnswerMessage
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
+    ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import \
+    DialogTypeEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import \
+    LeaveDialogMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildInvitationAnswerMessage import \
+    GuildInvitationAnswerMessage
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 

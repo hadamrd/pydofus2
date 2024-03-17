@@ -1,13 +1,15 @@
 import functools
-import objgraph
 import os
 import sys
 import threading
 import traceback
 import tracemalloc
+
+import objgraph
 import psutil
 
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
+    ThreadSharedSingleton
 
 
 class MemoryProfiler(threading.Thread, metaclass=ThreadSharedSingleton):

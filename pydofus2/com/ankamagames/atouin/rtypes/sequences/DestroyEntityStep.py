@@ -1,6 +1,9 @@
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
+    EntitiesManager
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
+    IEntity
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
 
 
 class DestroyEntityStep(AbstractSequencable):

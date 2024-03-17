@@ -1,14 +1,23 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
+    KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import GuildDialogFrame
-from pydofus2.com.ankamagames.dofus.network.enums.PlayerStatusEnum import PlayerStatusEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateMessage import PlayerStatusUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateRequestMessage import PlayerStatusUpdateRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildInvitedMessage import GuildInvitedMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import PlayerStatus
-from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatusExtended import PlayerStatusExtended
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
+    ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import \
+    GuildDialogFrame
+from pydofus2.com.ankamagames.dofus.network.enums.PlayerStatusEnum import \
+    PlayerStatusEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateMessage import \
+    PlayerStatusUpdateMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateRequestMessage import \
+    PlayerStatusUpdateRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildInvitedMessage import \
+    GuildInvitedMessage
+from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
+    PlayerStatus
+from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatusExtended import \
+    PlayerStatusExtended
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority

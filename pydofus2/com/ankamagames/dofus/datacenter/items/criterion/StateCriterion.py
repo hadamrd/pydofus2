@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import IItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import ItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import ItemCriterionOperator
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import FightersStateManager
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
+    IItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
+    ItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
+    ItemCriterionOperator
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import \
+    FightersStateManager
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class StateCriterion(ItemCriterion, IDataCenter):
@@ -11,9 +16,8 @@ class StateCriterion(ItemCriterion, IDataCenter):
 
     @property
     def isRespected(self) -> bool:
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
-            CurrentPlayedFighterManager,
-        )
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
+            CurrentPlayedFighterManager
         states: list = FightersStateManager().getStates(CurrentPlayedFighterManager().currentFighterId)
         if self._operator.text == ItemCriterionOperator.EQUAL:
             return self.criterionValue in states

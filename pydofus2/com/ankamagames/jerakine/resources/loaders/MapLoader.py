@@ -1,9 +1,10 @@
+import threading
 from functools import lru_cache
 from pathlib import Path
+
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.dataAdapter.dlm import DLM
-import threading
 
 lock = threading.Lock()
 

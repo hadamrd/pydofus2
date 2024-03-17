@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatAbstractClientMessage import ChatAbstractClientMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatAbstractClientMessage import \
+    ChatAbstractClientMessage
+
 
 class ChatClientMultiMessage(ChatAbstractClientMessage):
     channel: int

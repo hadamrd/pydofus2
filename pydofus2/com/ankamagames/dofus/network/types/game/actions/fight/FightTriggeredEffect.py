@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import AbstractFightDispellableEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import \
+    AbstractFightDispellableEffect
+
 
 class FightTriggeredEffect(AbstractFightDispellableEffect):
     param1: int

@@ -1,4 +1,5 @@
 from types import FunctionType
+
 from pydofus2.com.ankamagames.jerakine.messages.Treatment import Treatment
 
 

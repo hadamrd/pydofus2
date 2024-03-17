@@ -1,5 +1,6 @@
 from enum import IntEnum
 
+
 class TreasureHuntDigRequestEnum(IntEnum):
     TREASURE_HUNT_DIG_ERROR_UNDEFINED = 0
     TREASURE_HUNT_DIG_NEW_HINT = 1

@@ -1,5 +1,7 @@
 import os
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
+    ByteArray
 from pydofus2.com.hurlan.crypto.symmetric.IPad import IPad
 
 

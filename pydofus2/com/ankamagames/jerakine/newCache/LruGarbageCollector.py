@@ -1,9 +1,9 @@
-from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
-from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.newCache.ICacheGarbageCollector import (
-    ICacheGarbageCollector,
-)
 import pydofus2.com.ankamagames.jerakine.pools.Pool as pool
+from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import \
+    IDestroyable
+from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
+from pydofus2.com.ankamagames.jerakine.newCache.ICacheGarbageCollector import \
+    ICacheGarbageCollector
 from pydofus2.com.ankamagames.jerakine.pools.Poolable import Poolable
 
 

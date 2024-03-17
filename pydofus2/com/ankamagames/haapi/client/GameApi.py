@@ -1,7 +1,9 @@
 import datetime
 import math
 from urllib.parse import urlencode
+
 import requests
+
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger

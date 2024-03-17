@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightEndMessage import GameFightEndMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightEndMessage import \
+    GameFightEndMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultListEntry import FightResultListEntry
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeamWithOutcome import NamedPartyTeamWithOutcome
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultListEntry import \
+        FightResultListEntry
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeamWithOutcome import \
+        NamedPartyTeamWithOutcome
     
 
 class BreachGameFightEndMessage(GameFightEndMessage):

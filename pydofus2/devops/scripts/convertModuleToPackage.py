@@ -1,4 +1,5 @@
 import os
+
 path="../pyd2bot/pyd2bot"
 
 for root, dirs, files in os.walk(path):

@@ -1,13 +1,23 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInformations import HouseInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayActorInformations import GameRolePlayActorInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
-    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import StatedElement
-    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.MapObstacle import MapObstacle
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightCommonInformations import FightCommonInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightStartingPositions import FightStartingPositions
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightCommonInformations import \
+        FightCommonInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightStartingPositions import \
+        FightStartingPositions
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayActorInformations import \
+        GameRolePlayActorInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInformations import \
+        HouseInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
+        InteractiveElement
+    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.MapObstacle import \
+        MapObstacle
+    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import \
+        StatedElement
     
 
 class MapComplementaryInformationsDataMessage(NetworkMessage):

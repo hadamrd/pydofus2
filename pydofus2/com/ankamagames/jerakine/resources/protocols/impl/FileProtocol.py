@@ -1,12 +1,16 @@
-from pathlib import Path
 import platform
+from pathlib import Path
 from typing import Any, Dict, List, Optional
+
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractFileProtocol import AbstractFileProtocol
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
+    IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractFileProtocol import \
+    AbstractFileProtocol
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
+
 
 class FileProtocol(AbstractFileProtocol):
     localDirectory: Optional[str] = None

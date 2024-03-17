@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
 
 
 class AbstractDodgePointLossStep(AbstractSequencable):

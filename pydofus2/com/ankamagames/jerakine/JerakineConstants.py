@@ -1,6 +1,6 @@
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
-
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
+    DataStoreEnum
 
 LOADERS_POOL_INITIAL_SIZE: int = 5
 

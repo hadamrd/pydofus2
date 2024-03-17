@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.guild.logbook.GuildLogbookEntryBasicInformation import GuildLogbookEntryBasicInformation
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.guild.logbook.GuildLogbookEntryBasicInformation import \
+    GuildLogbookEntryBasicInformation
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.rank.RankMinimalInformation import RankMinimalInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.rank.RankMinimalInformation import \
+        RankMinimalInformation
     
 
 class GuildRankActivity(GuildLogbookEntryBasicInformation):

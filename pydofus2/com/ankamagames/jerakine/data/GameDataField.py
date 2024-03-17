@@ -1,9 +1,12 @@
 from typing import TYPE_CHECKING
-from pydofus2.com.ankamagames.jerakine.enum.GameDataTypeEnum import GameDataTypeEnum
+
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
+from pydofus2.com.ankamagames.jerakine.enum.GameDataTypeEnum import \
+    GameDataTypeEnum
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
+    from pydofus2.com.ankamagames.jerakine.data.ModuleReader import \
+        ModuleReader
 
 
 class GameDataField:

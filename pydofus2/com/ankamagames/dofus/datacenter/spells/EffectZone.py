@@ -1,5 +1,7 @@
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
+    EffectInstance
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class EffectZone(IDataCenter):

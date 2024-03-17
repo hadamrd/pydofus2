@@ -1,9 +1,9 @@
-from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifier import SpellModifier
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.UpdateSpellModifierAction import (
-    UpdateSpellModifierAction,
-)
 import pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager as spellmm
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifier import \
+    SpellModifier
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.UpdateSpellModifierAction import \
+    UpdateSpellModifierAction
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

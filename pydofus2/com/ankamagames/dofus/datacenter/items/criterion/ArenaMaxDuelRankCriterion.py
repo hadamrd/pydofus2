@@ -4,13 +4,14 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import (
         IItemCriterion,
     )
+
 import pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionFactory as icf
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import (
-    ItemCriterionOperator,
-)
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
+    ItemCriterionOperator
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class ArenaMaxDuelRankCriterion(icf.ItemCriterionFactory, IDataCenter):

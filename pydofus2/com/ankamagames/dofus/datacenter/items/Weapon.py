@@ -1,6 +1,7 @@
 from pydofus2.com.ankamagames.dofus.datacenter.items.Item import Item
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class Weapon(Item, IDataCenter):

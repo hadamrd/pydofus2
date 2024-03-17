@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import CharacterMinimalInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import \
+    CharacterMinimalInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class CharacterMinimalPlusLookInformations(CharacterMinimalInformations):

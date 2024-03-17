@@ -1,6 +1,5 @@
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightRemoveSubEntityStep import (
-    FightRemoveSubEntityStep,
-)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightRemoveSubEntityStep import \
+    FightRemoveSubEntityStep
 
 
 class FightRemoveCarriedEntityStep(FightRemoveSubEntityStep):

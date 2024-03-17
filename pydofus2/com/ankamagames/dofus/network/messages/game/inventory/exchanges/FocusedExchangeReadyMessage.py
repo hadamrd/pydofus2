@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeReadyMessage import ExchangeReadyMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeReadyMessage import \
+    ExchangeReadyMessage
+
 
 class FocusedExchangeReadyMessage(ExchangeReadyMessage):
     focusActionId: int

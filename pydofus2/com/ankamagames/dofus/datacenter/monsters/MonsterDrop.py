@@ -1,13 +1,15 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MonsterGroupChallengeCriterion import (
-    MonsterGroupChallengeCriterion,
-)
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
+    GroupItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MonsterGroupChallengeCriterion import \
+    MonsterGroupChallengeCriterion
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterDropCoefficient import (
         MonsterDropCoefficient,
     )
+
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 
 

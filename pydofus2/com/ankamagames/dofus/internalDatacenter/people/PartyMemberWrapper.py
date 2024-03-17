@@ -1,5 +1,7 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+    EntityLook
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class PartyMemberWrapper(IDataCenter):

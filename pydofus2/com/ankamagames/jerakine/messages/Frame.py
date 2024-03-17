@@ -1,6 +1,8 @@
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.messages.MessageHandler import MessageHandler
-from pydofus2.com.ankamagames.jerakine.utils.misc.Priotizable import Prioritizable
+from pydofus2.com.ankamagames.jerakine.messages.MessageHandler import \
+    MessageHandler
+from pydofus2.com.ankamagames.jerakine.utils.misc.Priotizable import \
+    Prioritizable
 
 
 class Frame(MessageHandler, Prioritizable):

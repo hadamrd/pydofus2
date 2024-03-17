@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.social.BulletinMessage import BulletinMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.social.BulletinMessage import \
+    BulletinMessage
+
 
 class AllianceBulletinMessage(BulletinMessage):
     def init(self, content_: str, timestamp_: int, memberId_: int, memberName_: str):

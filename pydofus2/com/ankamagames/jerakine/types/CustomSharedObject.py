@@ -1,10 +1,12 @@
 # utf-8
 import io
-from pathlib import Path
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 import os
-from pydofus2.com.ankamagames.dofus import Constants as Constants
+from pathlib import Path
+
 import pyamf
+
+from pydofus2.com.ankamagames.dofus import Constants as Constants
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class CustomSharedObjectFileFormatError(Exception):

@@ -1,8 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.prism.PrismInformation import PrismInformation
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.prism.PrismInformation import \
+    PrismInformation
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
+        ObjectItem
     
 
 class AllianceInsiderPrismInformation(PrismInformation):

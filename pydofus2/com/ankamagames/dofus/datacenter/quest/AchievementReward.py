@@ -1,5 +1,7 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.LevelItemCriterion import LevelItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
+    GroupItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.LevelItemCriterion import \
+    LevelItemCriterion
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 
@@ -34,7 +36,8 @@ class AchievementReward:
     @property
     def achievement(self):
         if not self._achievement:
-            from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
+            from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
+                Achievement
 
             self._achievement = Achievement.getAchievementById(self.achievementId)
         return self._achievement

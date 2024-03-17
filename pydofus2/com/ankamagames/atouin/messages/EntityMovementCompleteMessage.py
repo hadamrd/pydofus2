@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
+    IEntity
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 
 

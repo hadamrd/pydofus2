@@ -1,7 +1,8 @@
 import threading
 from typing import TYPE_CHECKING
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementCancelMessage import GameMapMovementCancelMessage
 
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementCancelMessage import \
+    GameMapMovementCancelMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 if TYPE_CHECKING:
@@ -28,7 +29,8 @@ class MovementBehavior(threading.Thread):
 
     def tearDown(self, success):
         if not success:
-            from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+            from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
+                ConnectionsHandler
 
             Logger().warning(f"Movement animation interrupted")
             msg = GameMapMovementCancelMessage()

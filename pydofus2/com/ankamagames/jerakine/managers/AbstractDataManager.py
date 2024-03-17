@@ -1,11 +1,16 @@
 import math
+
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
-from pydofus2.com.ankamagames.jerakine.newCache.LruGarbageCollector import LruGarbageCollector
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
+    StoreDataManager
 from pydofus2.com.ankamagames.jerakine.newCache.iCache import ICache
 from pydofus2.com.ankamagames.jerakine.newCache.impl.cache import Cache
-from pydofus2.com.ankamagames.jerakine.newCache.impl.infiniteCache import InfiniteCache
-from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
+from pydofus2.com.ankamagames.jerakine.newCache.impl.infiniteCache import \
+    InfiniteCache
+from pydofus2.com.ankamagames.jerakine.newCache.LruGarbageCollector import \
+    LruGarbageCollector
+from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import \
+    CustomSharedObject
 
 
 class AbstractDataManager(object):

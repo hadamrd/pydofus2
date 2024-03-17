@@ -1,29 +1,30 @@
-from pydofus2.com.ankamagames.dofus.datacenter.jobs.Skill import Skill
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
-from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-import pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager as inventorymgr
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import IInventoryView
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IStorageView import IStorageView
 from typing import TYPE_CHECKING
+
+import pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager as inventorymgr
+from pydofus2.com.ankamagames.dofus.datacenter.jobs.Skill import Skill
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
+    ItemWrapper
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import \
+    IInventoryView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IStorageView import \
+    IStorageView
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.game.common.misc.Inventory import Inventory
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankAssociatedRunesView import (
-    BankAssociatedRunesView,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.ForgettableSpellsFilterView import (
-    ForgettableSpellsFilterView,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageBidHouseFilterView import (
-    StorageBidHouseFilterView,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageCraftFilterView import (
-    StorageCraftFilterView,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageSmithMagicFilterView import (
-    StorageSmithMagicFilterView,
-)
-from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import ItemCategoryEnum
+
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankAssociatedRunesView import \
+    BankAssociatedRunesView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.ForgettableSpellsFilterView import \
+    ForgettableSpellsFilterView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageBidHouseFilterView import \
+    StorageBidHouseFilterView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageCraftFilterView import \
+    StorageCraftFilterView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageSmithMagicFilterView import \
+    StorageSmithMagicFilterView
+from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import \
+    ItemCategoryEnum
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 

@@ -1,21 +1,23 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
+    SpellWrapper
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame import (
         PlayedCharacterUpdatesFrame,
     )
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
-    CurrentPlayedFighterManager,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicDetailed import (
-    CharacterCharacteristicDetailed,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import (
-    CharacterCharacteristicsInformations,
-)
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
+    CurrentPlayedFighterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
+    IFightStep
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicDetailed import \
+    CharacterCharacteristicDetailed
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import \
+    CharacterCharacteristicsInformations
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
 
 
 class FightFighterStatsListStep(AbstractSequencable, IFightStep):

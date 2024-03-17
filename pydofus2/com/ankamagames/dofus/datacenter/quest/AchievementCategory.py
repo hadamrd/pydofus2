@@ -38,7 +38,7 @@ class AchievementCategory:
     def achievements(self):
         if not self._achievements:
             from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
-    Achievement
+                ent
             self._achievements = [Achievement.getAchievementById(achievementId)
                                   for achievementId in self.achievementIds]
         return self._achievements

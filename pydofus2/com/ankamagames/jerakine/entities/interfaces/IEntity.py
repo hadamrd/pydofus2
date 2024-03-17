@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
+    from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import \
+        MapPoint
 
 
 class IEntity:

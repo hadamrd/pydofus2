@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
+    GuildInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicNamedAllianceInformations import BasicNamedAllianceInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import SocialEmblem
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicNamedAllianceInformations import \
+        BasicNamedAllianceInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import \
+        SocialEmblem
     
 
 class AlliancedGuildFactSheetInformations(GuildInformations):

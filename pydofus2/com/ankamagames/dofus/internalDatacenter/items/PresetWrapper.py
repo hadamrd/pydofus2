@@ -1,11 +1,14 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager as inventorymgr
-from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import (
-    CharacterInventoryPositionEnum,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.presets.ItemForPreset import ItemForPreset
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
-from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import ISlotDataHolder
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
+    ItemWrapper
+from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import \
+    CharacterInventoryPositionEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.presets.ItemForPreset import \
+    ItemForPreset
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import \
+    ISlotDataHolder
 
 
 class PresetWrapper(ItemWrapper, IDataCenter):

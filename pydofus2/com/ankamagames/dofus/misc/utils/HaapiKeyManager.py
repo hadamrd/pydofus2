@@ -1,13 +1,17 @@
 from threading import Timer
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
+    EventsHandler
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
+    ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
-from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyRequestMessage import HaapiApiKeyRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyRequestMessage import \
+    HaapiApiKeyRequestMessage
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+
 
 class HaapiKeyManager(EventsHandler, metaclass=Singleton):
     _instance = None

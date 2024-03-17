@@ -1,4 +1,5 @@
 import threading
+
 from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.DetailedStats import \
     DetailedStat
 from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import \
@@ -16,6 +17,7 @@ from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.
     CharacterUsableCharacteristicDetailed
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+
 
 class StatsManager(metaclass=Singleton):
     DEFAULT_IS_VERBOSE = True
@@ -72,7 +74,7 @@ class StatsManager(metaclass=Singleton):
 
     def deleteStats(self, entityId: float) -> bool:
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-                PlayedCharacterManager
+            PlayedCharacterManager
         with self._lock:
             playersIDs = [float(player.id) for instId, player in PlayedCharacterManager.getInstances()]
             entityId = float(entityId)

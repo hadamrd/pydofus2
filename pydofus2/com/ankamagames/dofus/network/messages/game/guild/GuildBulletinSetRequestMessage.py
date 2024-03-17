@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.social.SocialNoticeSetRequestMessage import SocialNoticeSetRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.social.SocialNoticeSetRequestMessage import \
+    SocialNoticeSetRequestMessage
+
 
 class GuildBulletinSetRequestMessage(SocialNoticeSetRequestMessage):
     content: str

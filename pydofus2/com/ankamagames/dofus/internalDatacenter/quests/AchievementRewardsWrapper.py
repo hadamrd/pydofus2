@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import AchievementReward
+from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import \
+    AchievementReward
 
 
 class AchievementRewardsWrapper(AchievementReward):

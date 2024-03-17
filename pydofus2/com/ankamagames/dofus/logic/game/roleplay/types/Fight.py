@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.FightTeam import FightTeam
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.FightTeam import \
+    FightTeam
 
 
 class Fight:

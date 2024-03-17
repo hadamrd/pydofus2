@@ -1,5 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
+    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
+    INetworkMessage
 
 
 class IConnectionProxy:

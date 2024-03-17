@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterRemodelingInformation import CharacterRemodelingInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterRemodelingInformation import \
+    CharacterRemodelingInformation
+
 
 class CharacterToRemodelInformations(CharacterRemodelingInformation):
     possibleChangeMask: int

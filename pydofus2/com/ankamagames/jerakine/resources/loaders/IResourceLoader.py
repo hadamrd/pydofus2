@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
+from typing import Any
+
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
-from typing import Any
+
 
 class IResourceLoader(ABC):
 

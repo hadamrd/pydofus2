@@ -1,21 +1,25 @@
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
-from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightTurnFrame import FightTurnFrame
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import (
-    MarkedCellsManager,
-)
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.FightEventEnum import FightEventEnum
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import MarkInstance
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import (
-    GameActionMarkTypeEnum,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import (
-    GameActionMarkedCell,
-)
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
+    SpellLevel
+from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightTurnFrame import \
+    FightTurnFrame
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import \
+    MarkedCellsManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
+    IFightStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.FightEventEnum import \
+    FightEventEnum
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import \
+    MarkInstance
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import \
+    GameActionMarkTypeEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import \
+    GameActionMarkedCell
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import PathElement
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import \
+    PathElement
 
 
 class FightMarkCellsStep(AbstractSequencable, IFightStep):

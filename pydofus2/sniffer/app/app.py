@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
     NetworkMessage

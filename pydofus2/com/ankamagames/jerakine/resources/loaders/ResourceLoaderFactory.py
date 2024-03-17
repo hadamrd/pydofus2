@@ -1,7 +1,10 @@
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import ResourceLoaderType
-from pydofus2.com.ankamagames.jerakine.resources.loaders.impl.ParallelResourceLoader import ParallelResourceLoader
-from pydofus2.com.ankamagames.jerakine.resources.loaders.impl.SingleResourceLoader import SingleRessourceLoader
+from pydofus2.com.ankamagames.jerakine.resources.loaders.impl.ParallelResourceLoader import \
+    ParallelResourceLoader
+from pydofus2.com.ankamagames.jerakine.resources.loaders.impl.SingleResourceLoader import \
+    SingleRessourceLoader
+from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import \
+    ResourceLoaderType
 
 
 class ResourceLoaderFactory:

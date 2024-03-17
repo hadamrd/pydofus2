@@ -1,5 +1,7 @@
 import math
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
+
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
+    IDataMapProvider
 from pydofus2.com.ankamagames.jerakine.types.zones.ZRectangle import ZRectangle
 
 

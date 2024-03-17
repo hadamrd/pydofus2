@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessMessage import IdentificationSuccessMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessMessage import \
+    IdentificationSuccessMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
+        AccountTagInformation
     
 
 class IdentificationSuccessWithLoginTokenMessage(IdentificationSuccessMessage):

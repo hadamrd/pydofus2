@@ -1,11 +1,12 @@
 import importlib
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
-from pydofus2.com.ankamagames.jerakine.data.IPostInit import IPostInit
+
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.data.GameDataField import GameDataField
+from pydofus2.com.ankamagames.jerakine.data.IPostInit import IPostInit
 
 
 class GameDataClassDefinition:

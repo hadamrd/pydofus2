@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.friend.AcquaintanceInformation import AcquaintanceInformation
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.friend.AcquaintanceInformation import \
+    AcquaintanceInformation
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import PlayerStatus
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
+        AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
+        PlayerStatus
     
 
 class AcquaintanceOnlineInformation(AcquaintanceInformation):

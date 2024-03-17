@@ -307,7 +307,8 @@ class BasicBuff:
         self._removed = False
 
     def __eq__(self, other: "BasicBuff", ignoreSpell: bool = False) -> bool:
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
+            StateBuff
 
 
         if (
@@ -422,7 +423,8 @@ class BasicBuff:
             ActionIds.ACTION_FIGHT_UNSET_STATE,
             ActionIds.ACTION_FIGHT_DISABLE_STATE,
         ]:
-            from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
+            from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
+                StateBuff
 
             if type(self) == StateBuff and type(buff) == StateBuff:
                 additionDetails += f"\rdelta : {self.delta} à {self.delta + buff}"

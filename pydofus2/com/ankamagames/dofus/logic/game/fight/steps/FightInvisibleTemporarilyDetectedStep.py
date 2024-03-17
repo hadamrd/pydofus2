@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
+    EntitiesManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
+    IFightStep
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
+    AnimatedCharacter
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
 
 
 class FightInvisibleTemporarilyDetectedStep(AbstractSequencable, IFightStep):

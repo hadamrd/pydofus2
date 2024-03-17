@@ -1,10 +1,12 @@
 from typing import TYPE_CHECKING
+
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.flash.geom.Point import Point
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.atouin.data.map.Map import Map
+
 import math
 
 

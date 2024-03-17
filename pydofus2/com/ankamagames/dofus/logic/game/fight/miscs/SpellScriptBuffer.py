@@ -1,6 +1,9 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.ISpellCastProvider import ISpellCastProvider
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import CastingSpell
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.ISpellCastProvider import \
+    ISpellCastProvider
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import \
+    CastingSpell
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
+    ISequencable
 
 
 class SpellScriptBuffer(ISpellCastProvider):

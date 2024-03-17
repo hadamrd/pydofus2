@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataMessage import SelectedServerDataMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataMessage import \
+    SelectedServerDataMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import GameServerInformations
+    from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import \
+        GameServerInformations
     
 
 class SelectedServerDataExtendedMessage(SelectedServerDataMessage):

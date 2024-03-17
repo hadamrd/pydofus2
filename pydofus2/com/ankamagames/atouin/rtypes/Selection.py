@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
+    MapDisplayManager
 from pydofus2.com.ankamagames.jerakine.types.zones.IZone import IZone
 
 

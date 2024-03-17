@@ -1,9 +1,10 @@
-import os
-from pathlib import Path
-from urllib.parse import urlparse, unquote
 import hashlib
-from pydofus2.com.ankamagames.dofus import Constants
+import os
 import platform
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+from pydofus2.com.ankamagames.dofus import Constants
 
 
 class Uri:
@@ -129,7 +130,8 @@ class Uri:
         if tmp.is_absolute():
             return tmp
         if self._protocol == "mod":
-            from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
+            from pydofus2.com.ankamagames.jerakine.managers.LangManager import \
+                LangManager
 
             uiRoot = Path(LangManager().getEntry("config.mod.path"))
             if not uiRoot.is_absolute():

@@ -1,4 +1,5 @@
-from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import ISlotDataHolder
+from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import \
+    ISlotDataHolder
 
 
 class ISlotData:

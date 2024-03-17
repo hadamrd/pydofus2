@@ -1,8 +1,8 @@
 import os
 
-from .Packet import TCPPacket
-
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+
+from .Packet import TCPPacket
 
 LOW_LEVEL_DEBUG = os.environ.get("LOW_LEVEL_DEBUG", False)
 

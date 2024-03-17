@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.PaginationRequestAbstractMessage import PaginationRequestAbstractMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.PaginationRequestAbstractMessage import \
+    PaginationRequestAbstractMessage
+
 
 class AllianceSummaryRequestMessage(PaginationRequestAbstractMessage):
     filterType: int

@@ -1,9 +1,11 @@
-import os
-from pathlib import Path
-import sys
-from jinja2 import Template
 import json
+import os
+import sys
+from pathlib import Path
+
+from jinja2 import Template
 from tqdm import tqdm
+
 import pydofus2.com.ankamagames.dofus.Constants as Constants
 
 PRIMITIVES = ["int", "float", "bool", "str", "list", "dict", "bytearray"]

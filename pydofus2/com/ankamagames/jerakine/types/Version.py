@@ -1,6 +1,9 @@
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import IExternalizable
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
+    IExternalizable
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
+    ByteArray
 
 
 class Version(IExternalizable, IDataCenter):

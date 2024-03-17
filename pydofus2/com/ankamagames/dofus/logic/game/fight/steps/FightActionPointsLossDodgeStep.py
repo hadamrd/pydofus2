@@ -1,7 +1,7 @@
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.abstract.AbstractDodgePointLossStep import (
-    AbstractDodgePointLossStep,
-)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.abstract.AbstractDodgePointLossStep import \
+    AbstractDodgePointLossStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
+    IFightStep
 
 
 class FightActionPointsLossDodgeStep(AbstractDodgePointLossStep, IFightStep):

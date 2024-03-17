@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
+
 from tqdm import tqdm
+
 import pydofus2.com.ankamagames.dofus.Constants as Constants
 from pydofus2.dataAdapter.pak2 import PakProtocol2
 

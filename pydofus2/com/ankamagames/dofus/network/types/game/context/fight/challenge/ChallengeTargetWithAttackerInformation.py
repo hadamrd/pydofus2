@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.challenge.ChallengeTargetInformation import ChallengeTargetInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.challenge.ChallengeTargetInformation import \
+    ChallengeTargetInformation
+
 
 class ChallengeTargetWithAttackerInformation(ChallengeTargetInformation):
     attackersIds: list[int]

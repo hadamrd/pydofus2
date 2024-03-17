@@ -1,8 +1,13 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.presets.Preset import Preset
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.presets.Preset import \
+    Preset
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.presets.ItemForPreset import ItemForPreset
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.presets.ItemForPreset import \
+        ItemForPreset
     
 
 class ItemsPreset(Preset):

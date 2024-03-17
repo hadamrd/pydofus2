@@ -1,11 +1,19 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import GameFightFighterInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
+    GameFightFighterInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import PlayerStatus
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameContextBasicSpawnInformation import GameContextBasicSpawnInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacteristics import GameFightCharacteristics
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
+        PlayerStatus
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
+        EntityDispositionInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameContextBasicSpawnInformation import \
+        GameContextBasicSpawnInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacteristics import \
+        GameFightCharacteristics
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class GameFightFighterNamedInformations(GameFightFighterInformations):

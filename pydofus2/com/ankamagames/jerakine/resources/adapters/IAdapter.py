@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 
+
 class IAdapter(ABC):
     
     @abstractmethod

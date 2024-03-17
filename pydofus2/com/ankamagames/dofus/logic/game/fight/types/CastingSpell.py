@@ -1,5 +1,6 @@
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
+    SpellLevel
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 

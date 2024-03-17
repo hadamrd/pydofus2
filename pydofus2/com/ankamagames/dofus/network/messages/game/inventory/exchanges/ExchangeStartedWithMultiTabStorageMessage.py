@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedMessage import ExchangeStartedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedMessage import \
+    ExchangeStartedMessage
+
 
 class ExchangeStartedWithMultiTabStorageMessage(ExchangeStartedMessage):
     storageMaxSlot: int

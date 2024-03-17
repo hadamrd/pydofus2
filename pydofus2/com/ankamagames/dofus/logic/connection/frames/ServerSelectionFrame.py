@@ -273,12 +273,18 @@ class ServerSelectionFrame(Frame):
                 if ServerStatusEnum(server.status) == ServerStatusEnum.ONLINE:
                     self.requestServerSelection(server.id)
                 else:
-                    err_type = ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS
-                    KernelEventsManager().send(
-                        KernelEvent.SelectedServerRefused,
-                        server.id,
-                        err_type,
-                        server.status,
-                        self.getSelectionErrorText(err_type, server.status),
-                        self.getSelectableServers(),
-                    )
+                    if server.status == ServerStatusEnum.SAVING:
+                        self._waitingServerOnline = True
+                        Logger().info(f"Server {server.id} is saving, waiting for it to be online.")
+                        Kernel().worker.terminated.wait(60)
+                        self.requestServerSelection(server.id)
+                    else:
+                        err_type = ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS
+                        KernelEventsManager().send(
+                            KernelEvent.SelectedServerRefused,
+                            server.id,
+                            err_type,
+                            server.status,
+                            self.getSelectionErrorText(err_type, server.status),
+                            self.getSelectableServers(),
+                        )

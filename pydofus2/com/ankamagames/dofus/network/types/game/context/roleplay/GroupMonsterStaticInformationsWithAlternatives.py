@@ -1,9 +1,15 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GroupMonsterStaticInformations import GroupMonsterStaticInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GroupMonsterStaticInformations import \
+    GroupMonsterStaticInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AlternativeMonstersInGroupLightInformations import AlternativeMonstersInGroupLightInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import MonsterInGroupLightInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupInformations import MonsterInGroupInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AlternativeMonstersInGroupLightInformations import \
+        AlternativeMonstersInGroupLightInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupInformations import \
+        MonsterInGroupInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import \
+        MonsterInGroupLightInformations
     
 
 class GroupMonsterStaticInformationsWithAlternatives(GroupMonsterStaticInformations):

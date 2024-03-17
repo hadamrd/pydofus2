@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildJoinedMessage import GuildJoinedMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildJoinedMessage import \
+    GuildJoinedMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
+        GuildInformations
     
 
 class GuildMembershipMessage(GuildJoinedMessage):

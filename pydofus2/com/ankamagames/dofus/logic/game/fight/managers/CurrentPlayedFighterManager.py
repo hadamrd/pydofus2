@@ -11,7 +11,8 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersMana
     SpellModifiersManager
 from pydofus2.com.ankamagames.dofus.network.enums.CharacterSpellModificationTypeEnum import \
     CharacterSpellModificationTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import SpellModifierTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
+    SpellModifierTypeEnum
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 if TYPE_CHECKING:
@@ -20,7 +21,6 @@ if TYPE_CHECKING:
     )
     from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
     from pydofus2.com.ankamagames.dofus.datacenter.items.Weapon import Weapon
-
 
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager as pcm
 import pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastInFightManager as scifm

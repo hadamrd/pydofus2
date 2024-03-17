@@ -1,4 +1,3 @@
-from enum import Enum
 from time import perf_counter
 
 from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (

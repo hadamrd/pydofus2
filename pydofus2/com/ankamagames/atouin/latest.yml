@@ -1,24 +1,24 @@
-version: 3.12.5
+version: 3.12.10
 files:
   - url: 'Ankama Launcher-Setup.exe'
-    sha512: nm64klMgV6wN8s8A0UwAVENYRrup9i3eAPcx16bv/2biznlR3/oCCutFPGqY9/Lq8WhnLTbKoNxjTtdIw9FBpA==
+    sha512: +7Oai7z6P2IheV60IwLiLHkKCIy/04hEMmR30pnxksqZa7BZr3QbQOPnO+VPEChZQ56EjXJqF1Z+aYmfhHLcjQ==
   - url: 'Ankama Launcher-Setup-x64.exe'
-    sha512: 1LYB8IAu24vUc/9WRxCbamO/66SN5g96W+AG50/i3hivfSUNHdxlQpaTi5ak8JChXjJWkfsUNwnLOth+HaB06A==
+    sha512: kLFKg84UzVcFwSEp+akur0ZnUxazuPcnzRNkDxxCBBqM9BlrrMDnfbwzpuy1ETNNvg6vfpPvqxIrj0OVO4fBqA==
   - url: 'Ankama Launcher-Setup-ia32.exe'
-    sha512: pVVzHAkJNTbZa/aNdRKy1bTG1oKZ2RBu4oWxt3qB6ZgluodRqZ3/4TgU3vZF1EJ0xzr9KT9n8Sa6zouSncyiww==
+    sha512: KDZhoXdivGb1UMQRFBGfeosx0FxO34OnRSyr7+H+qbYSjaNSyrdivjNq94BOTV+3VkaS6t7FNZs2Kw0yEnjeIA==
 path: 'Ankama Launcher-Setup.exe'
-sha512: nm64klMgV6wN8s8A0UwAVENYRrup9i3eAPcx16bv/2biznlR3/oCCutFPGqY9/Lq8WhnLTbKoNxjTtdIw9FBpA==
+sha512: +7Oai7z6P2IheV60IwLiLHkKCIy/04hEMmR30pnxksqZa7BZr3QbQOPnO+VPEChZQ56EjXJqF1Z+aYmfhHLcjQ==
 packages:
   ia32:
-    size: 91751236
-    sha512: cHHOL7Ae0qyRgobG3nYIOun+rFItnX5S+jxwKPBz3BSNQ/Gtb3XMDveZ7EXt9Gv3oMD7lL8BYuuMgMUX/rR7pQ==
-    blockMapSize: 96415
+    size: 93053393
+    sha512: kAYXA2NTgm6kA6SYPpNIp5cSLOBmRpkPxk5PxK5bjGa7e66uf/j4+cCiytVkbs3VqpEVQXasr7P6e3obevb+nQ==
+    blockMapSize: 97986
     path: 'Ankama Launcher-Setup-ia32.nsis.7z'
     file: 'Ankama Launcher-Setup-ia32.nsis.7z'
   x64:
-    size: 93769676
-    sha512: GHnRWsMe5eAO+yCHIrnb/Tqez5xV8h8L3ruNG5GaA/buBnCfPTdHY8G2fD9Yh/JCLfrSp4Bb7JhraXD9oQD+sQ==
-    blockMapSize: 98364
+    size: 95137028
+    sha512: el5lrYXTmRigUNEofqmxi/j42oD6CHhFKuuzecmZXvZPURYRq5MmcG95zoff3YfO4o+OKcdMADTImmEvyd1B6w==
+    blockMapSize: 100548
     path: 'Ankama Launcher-Setup-x64.nsis.7z'
     file: 'Ankama Launcher-Setup-x64.nsis.7z'
-releaseDate: '2024-01-16T09:53:05.303Z'
+releaseDate: '2024-03-06T13:57:21.858Z'

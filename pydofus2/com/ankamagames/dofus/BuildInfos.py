@@ -1,8 +1,9 @@
+import pydofus2.com.ankamagames.dofus.Constants as Constants
 from pydofus2.com.ankamagames.dofus.misc.BuildTypeParser import BuildTypeParser
-from pydofus2.com.ankamagames.dofus.network.enums.BuildTypeEnum import BuildTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.BuildTypeEnum import \
+    BuildTypeEnum
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.Version import Version
-import pydofus2.com.ankamagames.dofus.Constants as Constants
 
 
 class BuildInfos(metaclass=Singleton):

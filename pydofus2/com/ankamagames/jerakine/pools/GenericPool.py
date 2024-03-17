@@ -1,4 +1,5 @@
 from typing import Any
+
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.pools.Poolable import Poolable
 

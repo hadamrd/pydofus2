@@ -3,7 +3,8 @@ from typing import Any
 
 import requests
 
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
+    IResourceObserver
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 

@@ -1,8 +1,8 @@
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobDescription import (
-    JobDescription,
-)
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobDescription import \
+    JobDescription
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class KnownJobWrapper(IDataCenter):

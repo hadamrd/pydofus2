@@ -1,6 +1,7 @@
 import json
 import re
 import sys
+
 import pydofus2.com.ankamagames.dofus.Constants as Constants
 
 IMPORT_REGX = "^\s*import (?P<module_prefix>\S+(?:\.\S+)*)\.(?P<cls_name>\S+);"

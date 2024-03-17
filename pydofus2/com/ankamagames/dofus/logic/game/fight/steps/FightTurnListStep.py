@@ -1,10 +1,14 @@
-from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.sequencer.ISequencer import ISequencer
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
+    IFightStep
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
+    AbstractSequencable
 
 
 class FightTurnListStep(AbstractSequencable, IFightStep):

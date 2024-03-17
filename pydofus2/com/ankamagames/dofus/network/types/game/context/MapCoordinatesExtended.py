@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinatesAndId import MapCoordinatesAndId
+from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinatesAndId import \
+    MapCoordinatesAndId
+
 
 class MapCoordinatesExtended(MapCoordinatesAndId):
     subAreaId: int

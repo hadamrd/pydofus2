@@ -3,8 +3,10 @@ from ast import FunctionType
 from collections.abc import Iterable
 
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
-from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import I18nFileAccessor
-from pydofus2.com.ankamagames.jerakine.enum.GameDataTypeEnum import GameDataTypeEnum
+from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import \
+    I18nFileAccessor
+from pydofus2.com.ankamagames.jerakine.enum.GameDataTypeEnum import \
+    GameDataTypeEnum
 
 
 class GameDataProcess:

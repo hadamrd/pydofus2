@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeCraftResultMessage import ExchangeCraftResultMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeCraftResultMessage import \
+    ExchangeCraftResultMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItemNotInContainer import ObjectItemNotInContainer
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItemNotInContainer import \
+        ObjectItemNotInContainer
     
 
 class ExchangeCraftResultWithObjectDescMessage(ExchangeCraftResultMessage):

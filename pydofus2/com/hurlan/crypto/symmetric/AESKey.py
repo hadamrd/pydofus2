@@ -1,7 +1,9 @@
 import math
 import random
 import threading
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
+    ByteArray
 
 
 class AESKey:

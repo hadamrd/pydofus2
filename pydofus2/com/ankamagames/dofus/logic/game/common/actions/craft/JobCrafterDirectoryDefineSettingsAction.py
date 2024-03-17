@@ -1,10 +1,13 @@
 import sys
-from pydofus2.com.ankamagames.dofus.internalDatacenter.jobs.KnownJobWrapper import KnownJobWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.misc.utils.AbstractAction import AbstractAction
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobCrafterDirectorySettings import (
-    JobCrafterDirectorySettings,
-)
+
+from pydofus2.com.ankamagames.dofus.internalDatacenter.jobs.KnownJobWrapper import \
+    KnownJobWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
+    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.misc.utils.AbstractAction import \
+    AbstractAction
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobCrafterDirectorySettings import \
+    JobCrafterDirectorySettings
 from pydofus2.com.ankamagames.jerakine.handlers.messages.Action import Action
 
 

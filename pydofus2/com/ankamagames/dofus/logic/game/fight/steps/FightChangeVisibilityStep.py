@@ -15,6 +15,7 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
     AbstractSequencable
 
+
 class FightChangeVisibilityStep(AbstractSequencable, IFightStep):
 
     _entityId: float

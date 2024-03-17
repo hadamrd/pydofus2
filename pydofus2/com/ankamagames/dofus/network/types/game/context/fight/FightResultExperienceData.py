@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultAdditionalData import FightResultAdditionalData
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultAdditionalData import \
+    FightResultAdditionalData
+
 
 class FightResultExperienceData(FightResultAdditionalData):
     experience: int

@@ -1,4 +1,5 @@
 from typing import Any
+
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
 
 

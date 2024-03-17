@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.presets.SimpleCharacterCharacteristicForPreset import SimpleCharacterCharacteristicForPreset
+from pydofus2.com.ankamagames.dofus.network.types.game.presets.SimpleCharacterCharacteristicForPreset import \
+    SimpleCharacterCharacteristicForPreset
+
 
 class CharacterCharacteristicForPreset(SimpleCharacterCharacteristicForPreset):
     stuff: int

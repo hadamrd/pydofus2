@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.ObjectItemInRolePlay import ObjectItemInRolePlay
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.ObjectItemInRolePlay import \
+    ObjectItemInRolePlay
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.mount.ItemDurability import ItemDurability
+    from pydofus2.com.ankamagames.dofus.network.types.game.mount.ItemDurability import \
+        ItemDurability
     
 
 class PaddockItem(ObjectItemInRolePlay):

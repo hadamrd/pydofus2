@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorComplementaryInformations import TaxCollectorComplementaryInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorComplementaryInformations import \
+    TaxCollectorComplementaryInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.fight.ProtectedEntityWaitingForHelpInfo import ProtectedEntityWaitingForHelpInfo
+    from pydofus2.com.ankamagames.dofus.network.types.game.fight.ProtectedEntityWaitingForHelpInfo import \
+        ProtectedEntityWaitingForHelpInfo
     
 
 class TaxCollectorWaitingForHelpInformations(TaxCollectorComplementaryInformations):

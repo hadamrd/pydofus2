@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItemToSell import ObjectItemToSell
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItemToSell import \
+    ObjectItemToSell
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import ObjectEffect
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import \
+        ObjectEffect
     
 
 class ObjectItemToSellInBid(ObjectItemToSell):

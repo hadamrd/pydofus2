@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.replay.CharacterReplayRequestMessage import CharacterReplayRequestMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.replay.CharacterReplayRequestMessage import \
+    CharacterReplayRequestMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.RemodelingInformation import RemodelingInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.RemodelingInformation import \
+        RemodelingInformation
     
 
 class CharacterReplayWithRemodelRequestMessage(CharacterReplayRequestMessage):

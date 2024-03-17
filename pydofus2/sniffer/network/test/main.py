@@ -1,13 +1,12 @@
 
+import random
+import string
 from time import perf_counter
+from typing import List
+
 from pydofus2.sniffer.network.Packet import TCPPacket
 from pydofus2.sniffer.network.SnifferBuffer import SnifferBuffer
 
-
-
-import random
-import string
-from typing import List
 
 def generate_test_data(size: int = 10000024, chunk_size_range=(1000, 10000)) -> List[TCPPacket]:
     data = ''.join(random.choices(string.ascii_letters + string.digits, k=size))

@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.AbstractGameActionFightTargetedAbilityMessage import AbstractGameActionFightTargetedAbilityMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.AbstractGameActionFightTargetedAbilityMessage import \
+    AbstractGameActionFightTargetedAbilityMessage
+
 
 class GameActionFightCloseCombatMessage(AbstractGameActionFightTargetedAbilityMessage):
     weaponGenericId: int

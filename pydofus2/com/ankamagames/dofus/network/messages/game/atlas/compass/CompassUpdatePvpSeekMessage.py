@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassUpdateMessage import CompassUpdateMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassUpdateMessage import \
+    CompassUpdateMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinates import MapCoordinates
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinates import \
+        MapCoordinates
     
 
 class CompassUpdatePvpSeekMessage(CompassUpdateMessage):

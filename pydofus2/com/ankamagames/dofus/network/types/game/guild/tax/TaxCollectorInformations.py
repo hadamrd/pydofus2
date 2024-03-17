@@ -1,9 +1,15 @@
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
+    NetworkMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.AdditionalTaxCollectorInformations import AdditionalTaxCollectorInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorComplementaryInformations import TaxCollectorComplementaryInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.AdditionalTaxCollectorInformations import \
+        AdditionalTaxCollectorInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorComplementaryInformations import \
+        TaxCollectorComplementaryInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
+        EntityLook
     
 
 class TaxCollectorInformations(NetworkMessage):

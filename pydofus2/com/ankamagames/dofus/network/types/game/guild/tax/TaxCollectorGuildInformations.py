@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorComplementaryInformations import TaxCollectorComplementaryInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorComplementaryInformations import \
+    TaxCollectorComplementaryInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicGuildInformations import BasicGuildInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicGuildInformations import \
+        BasicGuildInformations
     
 
 class TaxCollectorGuildInformations(TaxCollectorComplementaryInformations):

@@ -1,7 +1,9 @@
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
-from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import PathElement
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
+    MovementPath
+from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import \
+    PathElement
 
 
 class MapMovementAdapter:

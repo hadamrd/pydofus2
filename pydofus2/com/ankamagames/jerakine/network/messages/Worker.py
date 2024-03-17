@@ -53,7 +53,8 @@ class Worker(MessageHandler):
     def run(self) -> None:
         while not self._terminating.is_set():
             msg = self._queue.get()
-            # Logger().debug(f"[RCV] {msg}")
+            if self.DEBUG_MESSAGES:
+                Logger().debug(f"[RCV] {msg}")
             if type(msg).__name__ == "AccountLoggingKickedMessage":
                 KernelEventsManager().send(KernelEvent.ClientShutdown, "Account banned")
                 break
@@ -76,7 +77,7 @@ class Worker(MessageHandler):
 
     def process(self, msg: Message) -> bool:
         if self._terminated.is_set():
-            return Logger().warning(f"Can't process message because the worker is terminated")
+            return Logger().warning(f"Can't process message '{msg.__class__.__name__}' because the worker is terminated")
         self._queue.put(msg)
 
     def addFrame(self, frame: Frame) -> None:

@@ -1,6 +1,8 @@
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
+    MapPosition
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
+    IDataCenter
 
 
 class MapCoordinates(IDataCenter):

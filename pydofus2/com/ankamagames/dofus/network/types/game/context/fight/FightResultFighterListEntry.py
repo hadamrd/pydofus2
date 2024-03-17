@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultListEntry import FightResultListEntry
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultListEntry import \
+    FightResultListEntry
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightLoot import FightLoot
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightLoot import \
+        FightLoot
     
 
 class FightResultFighterListEntry(FightResultListEntry):

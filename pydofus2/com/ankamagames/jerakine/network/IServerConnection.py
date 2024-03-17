@@ -1,7 +1,10 @@
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
-from pydofus2.com.ankamagames.jerakine.messages.MessageHandler import MessageHandler
+from pydofus2.com.ankamagames.jerakine.messages.MessageHandler import \
+    MessageHandler
 from pydofus2.com.ankamagames.jerakine.network.ILagometer import ILagometer
-from pydofus2.com.ankamagames.jerakine.network.RawDataParser import RawDataParser
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
+    INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.RawDataParser import \
+    RawDataParser
 
 
 class IServerConnection:

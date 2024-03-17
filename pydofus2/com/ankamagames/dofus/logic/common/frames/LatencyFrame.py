@@ -1,19 +1,18 @@
 from datetime import datetime
 from time import perf_counter
+
 import pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler as connh
-from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPongMessage import (
-    BasicPongMessage,
-)
-from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicLatencyStatsMessage import (
-    BasicLatencyStatsMessage,
-)
-from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicLatencyStatsRequestMessage import (
-    BasicLatencyStatsRequestMessage,
-)
+from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPongMessage import \
+    BasicPongMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicLatencyStatsMessage import \
+    BasicLatencyStatsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicLatencyStatsRequestMessage import \
+    BasicLatencyStatsRequestMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.network.IServerConnection import IServerConnection
+from pydofus2.com.ankamagames.jerakine.network.IServerConnection import \
+    IServerConnection
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 

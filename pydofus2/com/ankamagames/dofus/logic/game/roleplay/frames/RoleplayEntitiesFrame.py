@@ -1,4 +1,5 @@
 import threading
+
 from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
     EntitiesManager
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
@@ -43,7 +44,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRem
     GameContextRemoveElementMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveMultipleElementsMessage import \
     GameContextRemoveMultipleElementsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHavenBagMessage import MapComplementaryInformationsDataInHavenBagMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.MapComplementaryInformationsAnomalyMessage import \
     MapComplementaryInformationsAnomalyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayRemoveChallengeMessage import \
@@ -54,6 +54,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameR
     GameRolePlayShowActorMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameRolePlayShowMultipleActorsMessage import \
     GameRolePlayShowMultipleActorsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHavenBagMessage import \
+    MapComplementaryInformationsDataInHavenBagMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHouseMessage import \
     MapComplementaryInformationsDataInHouseMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import \
@@ -101,6 +103,7 @@ from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
+
 
 class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
     MAX_MAPDATA_REQ_FAILS = 3

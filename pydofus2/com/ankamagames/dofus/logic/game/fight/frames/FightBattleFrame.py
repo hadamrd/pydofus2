@@ -1,4 +1,5 @@
 from types import FunctionType
+
 import pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame as pcuF
 import pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightSequenceFrame as fseqf
 import pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager as bffm
@@ -46,8 +47,10 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.actions.sequence.Seque
     SequenceEndMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.actions.sequence.SequenceStartMessage import \
     SequenceStartMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.spellmodifier.ApplySpellModifierMessage import ApplySpellModifierMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.spellmodifier.RemoveSpellModifierMessage import RemoveSpellModifierMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.spellmodifier.ApplySpellModifierMessage import \
+    ApplySpellModifierMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.spellmodifier.RemoveSpellModifierMessage import \
+    RemoveSpellModifierMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterStatsListMessage import \
     CharacterStatsListMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.UpdateSpellModifierMessage import \
@@ -79,6 +82,7 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
+
 
 class FightBattleFrame(Frame):
 

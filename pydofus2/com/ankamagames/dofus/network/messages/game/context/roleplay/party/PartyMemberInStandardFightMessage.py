@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party.AbstractPartyMemberInFightMessage import AbstractPartyMemberInFightMessage
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party.AbstractPartyMemberInFightMessage import \
+    AbstractPartyMemberInFightMessage
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinatesExtended import MapCoordinatesExtended
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinatesExtended import \
+        MapCoordinatesExtended
     
 
 class PartyMemberInStandardFightMessage(AbstractPartyMemberInFightMessage):

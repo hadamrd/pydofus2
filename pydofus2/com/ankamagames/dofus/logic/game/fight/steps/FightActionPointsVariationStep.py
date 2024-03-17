@@ -1,9 +1,11 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.abstract.AbstractStatContextualStep import (
-    AbstractStatContextualStep,
-)
-from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import GameContextEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
+    SpellWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.abstract.AbstractStatContextualStep import \
+    AbstractStatContextualStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
+    IFightStep
+from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import \
+    GameContextEnum
 
 
 class FightActionPointsVariationStep(AbstractStatContextualStep, IFightStep):

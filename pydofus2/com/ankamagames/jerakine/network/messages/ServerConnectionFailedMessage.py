@@ -1,8 +1,10 @@
-from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from typing import TYPE_CHECKING
 
+from pydofus2.com.ankamagames.jerakine.messages.Message import Message
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.jerakine.network.ServerConnection import ServerConnection
+    from pydofus2.com.ankamagames.jerakine.network.ServerConnection import \
+        ServerConnection
 
 
 class ServerConnectionFailedMessage(Message):

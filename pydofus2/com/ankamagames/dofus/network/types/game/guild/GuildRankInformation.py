@@ -1,4 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildRankMinimalInformation import GuildRankMinimalInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildRankMinimalInformation import \
+    GuildRankMinimalInformation
+
 
 class GuildRankInformation(GuildRankMinimalInformation):
     order: int

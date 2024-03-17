@@ -2742,6 +2742,9 @@ pydofus2/mx/utils/LinkedListNode.py
 pydofus2/mx/utils/UIDUtil.py
 pydofus2/mx/utils/__init__.py
 pydofus2/sniffer/__init__.py
+pydofus2/sniffer/app/client_192.168.1.82_54275_record.json
+pydofus2/sniffer/app/client_192.168.1.82_60677_record.json
+pydofus2/sniffer/app/client_192.168.1.82_60678_record.json
 pydofus2/sniffer/network/DofusConnection.py
 pydofus2/sniffer/network/DofusSniffer.py
 pydofus2/sniffer/network/Packet.py

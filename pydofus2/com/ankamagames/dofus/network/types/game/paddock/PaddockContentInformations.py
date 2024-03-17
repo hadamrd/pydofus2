@@ -1,7 +1,11 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.paddock.PaddockInformations import PaddockInformations
 from typing import TYPE_CHECKING
+
+from pydofus2.com.ankamagames.dofus.network.types.game.paddock.PaddockInformations import \
+    PaddockInformations
+
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.paddock.MountInformationsForPaddock import MountInformationsForPaddock
+    from pydofus2.com.ankamagames.dofus.network.types.game.paddock.MountInformationsForPaddock import \
+        MountInformationsForPaddock
     
 
 class PaddockContentInformations(PaddockInformations):

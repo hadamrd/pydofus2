@@ -1,5 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
 from xml.etree.ElementTree import Element, ElementTree
+
+from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
+
 
 class LangMetaData:
     def __init__(self):
