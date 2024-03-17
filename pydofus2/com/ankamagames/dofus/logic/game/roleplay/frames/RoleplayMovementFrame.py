@@ -105,6 +105,8 @@ class RoleplayMovementFrame(Frame):
             endCell = clientMovePath.end.cellId
             if msg.actorId == PlayedCharacterManager().id:
                 Logger().debug(f"Current Player moving from {startCell} to {endCell}.")
+            else:
+                Logger().debug(f"Entity '{msg.actorId}' moving from {startCell} to {endCell}.")
             if movedEntity:
                 movedEntity.position.cellId = endCell
                 self.entitiesFrame.updateEntityCellId(msg.actorId, endCell)

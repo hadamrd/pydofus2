@@ -120,6 +120,10 @@ class AbstractEntitiesFrame(Frame):
             if infos.contextualId == pcm.PlayedCharacterManager().id:
                 Logger().info(f"Current Player added to the sceene")
                 KernelEventsManager().send(KernelEvent.PlayerAddedToSceene, characterEntity)
+            else:
+                Logger().info(f"Actor {infos.contextualId} added to the sceene")
+                KernelEventsManager().send(KernelEvent.ActorShowed, characterEntity)
+            
         else:
             if infos.contextualId == pcm.PlayedCharacterManager().id:
                 Logger().info(f"Current Player updated on the sceene")

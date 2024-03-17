@@ -55,18 +55,18 @@ class Haapi(metaclass=Singleton):
         }
         self.zaap_session.headers.update(self.zaap_headers)
         self.dofus_session.headers.update(self.dofus_headers)
-        self.dofus_session.proxies.update(
-            {
-                "http": "http://localhost:8080",
-                "https": "http://localhost:8080",
-            }
-        )
-        self.zaap_session.proxies.update(
-            {
-                "http": "http://localhost:8080",
-                "https": "http://localhost:8080",
-            }
-        )
+        # self.dofus_session.proxies.update(
+        #     {
+        #         "http": "http://localhost:8080",
+        #         "https": "http://localhost:8080",
+        #     }
+        # )
+        # self.zaap_session.proxies.update(
+        #     {
+        #         "http": "http://localhost:8080",
+        #         "https": "http://localhost:8080",
+        #     }
+        # )
         self.verify_ssl = False
 
     def getUrl(self, request, params={}):
