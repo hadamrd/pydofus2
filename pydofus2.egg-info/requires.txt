@@ -7,3 +7,4 @@ cloudscraper
 requests
 prettytable
 pycryptodomex
+lxml

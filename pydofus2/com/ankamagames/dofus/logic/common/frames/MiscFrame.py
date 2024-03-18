@@ -1,5 +1,13 @@
+from pydofus2.com.ankamagames.atouin.Haapi import Haapi
+from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
+    KernelEventsManager
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
+    HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.network.enums.HaapiSessionTypeEnum import \
+    HaapiSessionTypeEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSessionConstantsMessage import \
     ServerSessionConstantsMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSettingsMessage import \
@@ -20,6 +28,7 @@ from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionCon
     ServerSessionConstantLong
 from pydofus2.com.ankamagames.dofus.network.types.game.approach.ServerSessionConstantString import \
     ServerSessionConstantString
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
@@ -101,22 +110,20 @@ class MiscFrame(Frame, metaclass=Singleton):
             return True
 
         if isinstance(msg, HaapiSessionMessage):
-            pass
-            # if hsm.type == HaapiSessionTypeEnum.HAAPI_ACCOUNT_SESSION:
-            #     HaapiKeyManager().saveAccountSessionId(hsm.key)
-            # else:
-            #     if hsm.type != HaapiSessionTypeEnum.HAAPI_GAME_SESSION:
-            #         return False
-            #     HaapiKeyManager().saveGameSessionId(hsm.key)
+            if msg.type == HaapiSessionTypeEnum.HAAPI_ACCOUNT_SESSION:
+                HaapiKeyManager().saveAccountSessionId(msg.key)
+            elif msg.type == HaapiSessionTypeEnum.HAAPI_GAME_SESSION:
+                HaapiKeyManager().saveGameSessionId(msg.key)
+            else:
+                return False
             return True
 
         if isinstance(msg, HaapiApiKeyMessage):
-            pass
-            # logStr = "RECEIVED API KEY : "
-            # if hakmsg != null and hakmsg.token != null and len(hakmsg.token) >= 5:
-            #     logStr += hakmsg.token.substr(0, 5)
-            # Logger().debug(logStr)
-            # HaapiKeyManager().saveApiKey(hakmsg.token)
+            logStr = "RECEIVED API KEY : "
+            if msg.token is not None and len(msg.token) >= 5:
+                logStr += msg.token[:5]
+            Logger().debug(logStr)
+            KernelEventsManager().send(KernelEvent.HaapiApiKeyReady, msg.token)
             return True
 
         if isinstance(msg, HaapiAuthErrorMessage):

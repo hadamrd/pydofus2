@@ -48,7 +48,7 @@ class ServerSelectionFrame(Frame):
     def __init__(self):
         self._serversList: list[GameServerInformations] = []
         self._serversUsedList: list[GameServerInformations] = []
-        self._selectedServer: SelectedServerDataMessage = None
+        self.selectedServer: SelectedServerDataMessage = None
         self._worker: Worker = None
         self._alreadyConnectedToServerId: int = 0
         self._serverSelectionAction: ServerSelectionAction = None
@@ -121,7 +121,7 @@ class ServerSelectionFrame(Frame):
 
             if msg.reason == DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER:
                 Kernel().worker.addFrame(GameServerApproachFrame())
-                ConnectionsHandler().connectToGameServer(self._selectedServer.address, self._selectedServer.ports[0])
+                ConnectionsHandler().connectToGameServer(self.selectedServer.address, self.selectedServer.ports[0])
             elif msg.reason == DisconnectionReasonEnum.CHANGING_SERVER:
                 if not AuthentificationManager()._lva or AuthentificationManager()._lva.serverId is None:
                     Logger().error(f"Closed connection to change server but no serverId is specified in Auth Manager")
@@ -144,7 +144,7 @@ class ServerSelectionFrame(Frame):
             return True
 
         if isinstance(msg, (SelectedServerDataMessage, SelectedServerDataExtendedMessage)):
-            self._selectedServer = msg
+            self.selectedServer = msg
             AuthentificationManager().gameServerTicket = (
                 AuthentificationManager().decodeWithAES(msg.ticket).decode()
             )
@@ -259,7 +259,7 @@ class ServerSelectionFrame(Frame):
 
     def getSelectedServerInformations(self) -> GameServerInformations:
         for server in self._serversList:
-            if server.id == self._selectedServer.serverId:
+            if server.id == self.selectedServer.serverId:
                 return server
             
     def selectServer(self, serverId: int) -> None:

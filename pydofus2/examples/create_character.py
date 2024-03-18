@@ -20,7 +20,7 @@ if __name__ == "__main__":
     DOFUS_GAMEID = 1 # Dofus 2
     
     characterCreator = CharacterCreator()
-    token = Haapi.getLoginToken(DOFUS_GAMEID, apiKey=api_key, certId=int(certId), certHash=certHash)
+    token = Haapi.createToken(DOFUS_GAMEID, apiKey=api_key, certId=int(certId), certHash=certHash)
     
     print(f"Token : {token}")
     if not token:
@@ -37,7 +37,7 @@ if __name__ == "__main__":
         
     def onNewCharacterEnded(error, character: BasicCharacterWrapper):
         if character:
-            client.shutdown(msg=f"Character {character.name} created successfully")
+            client.shutdown(message=f"Character {character.name} created successfully")
         else:
             client.crash(None, message=f"Character creation ended with error : {error}")
             

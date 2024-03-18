@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import pytz
-from ankalauncher.pythonversion.Device import Device
 
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
@@ -15,13 +14,11 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 
 class HaapiEventsManager(metaclass=Singleton):
-    SCREEN_SIZE = 17
-    GPU = "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.15.2206)"
-    RAM = 32768
     DMG_PREV = True
     FORCE_CPU = False
+    SCREEN_SIZE = 17
     QUALITY = 0
-    
+
     def __init__(self):
         self._events = {}
 
@@ -34,89 +31,10 @@ class HaapiEventsManager(metaclass=Singleton):
         formatted_date = formatted_date[:-2] + ":" + formatted_date[-2:]
         return formatted_date
 
-    def get_krozmos_launch_event(self, lang="en"):
-        return {
-            "event_id": 659,
-            "date": self.get_date(),
-            "data": {
-                "device": "DESKTOP",
-                "app_name": "ZAAP",
-                "universe": "KROSMOZ",
-                "account_id": PlayerManager().accountId,
-                "last_route": "/Krosmoz/games/game/dofus/main",
-                "auto_launch": False,
-                "auto_connect": True,
-                "lang": "en",
-                "games_install": '{"1":{"AU":true},"22":{"AU":true}}',
-                "connection_type": "ankama",
-            },
-        }
-
-    def get_dofus_laucnh_event(self):
-        return {
-            "event_id": 662,
-            "date": self.get_date(),
-            "data": {
-                "device": "DESKTOP",
-                "app_name": "ZAAP",
-                "universe": "KROSMOZ",
-                "main_account_id": PlayerManager().accountId,
-                "account_id": PlayerManager().accountId,
-                "launch_game": 1,
-                "launch_session": 1,
-            },
-        }
-
-    def get_device_data(self):
-        cpu_count, cpu_model = Device.get_cpu_info()
-        return {
-            "event_id": InternalStatisticTypeEnum.KOLIZEUM,
-            "date": self.get_date(),
-            "data": {
-                "device": "DESKTOP",
-                "app_name": "ZAAP",
-                "universe": "KROSMOZ",
-                "account_id": PlayerManager().accountId,
-                "machine_id": Device.machine_id(),
-                "os": 0,
-                "os_version": 10,
-                "os_arch_is64": True,
-                "cpu": [cpu_count, cpu_model, 3600],
-                "gpu": [self.GPU],
-                "ram": self.RAM,
-                "gpu_directx": 0,
-                "screens": [[1920, 1080, 1, 0, 0], [1920, 1080, 1, 0, 0]],
-                "resolution": [1920, 1032],
-                "maximized": False,
-                "zoom": 1,
-                "pic_quality": "lq",
-                "anim_desac": True,
-                "video_desac": True,
-                "webtoon_auto_unlock": False,
-                "zaap_version": Haapi().getZaapVersion(),
-                "theme": "krosmoz",
-            },
-        }
-
-    def get_num_connected_event(self, connected_accounts=1, active_accounts=1):
-        return {
-            "event_id": 711,
-            "date": self.get_date(),
-            "data": {
-                "device": "DESKTOP",
-                "app_name": "ZAAP",
-                "universe": "KROSMOZ",
-                "account_id": PlayerManager().accountId,
-                "main_account_id": PlayerManager().accountId,
-                "total_accounts_connected": connected_accounts,
-                "active_accounts": active_accounts,
-            },
-        }
-
     def sendStartEvent(self):
         Haapi().sendEvent(
             game=GameID.DOFUS,
-            session_id=Haapi()._session_id,
+            session_id=Haapi().game_sessionId,
             event_id=InternalStatisticTypeEnum.START_SESSION,
             data={"account_id": PlayerManager().accountId, "client_open": 1},
         )
@@ -124,7 +42,7 @@ class HaapiEventsManager(metaclass=Singleton):
     def sendEndEvent(self, num_client=1):
         Haapi().sendEvent(
             game=GameID.DOFUS,
-            session_id=Haapi()._session_id,
+            session_id=Haapi().game_sessionId,
             event_id=InternalStatisticTypeEnum.END_SESSION,
             data={
                 "screen_size": self.SCREEN_SIZE,
@@ -148,29 +66,24 @@ class HaapiEventsManager(metaclass=Singleton):
 
     def sendCharacteristicsOpenEvent(self):
         data = self.getButtonEventData(1, "Characteristics")
-        Haapi().sendEvent(GameID.DOFUS, Haapi()._session_id, InternalStatisticTypeEnum.BANNER, data)
+        Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
 
     def sendInventoryOpenEvent(self):
         data = self.getButtonEventData(3, "Inventory")
-        Haapi().sendEvent(GameID.DOFUS, Haapi()._session_id, InternalStatisticTypeEnum.BANNER, data)
+        Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
 
     def sendQuestsOpenEvent(self):
         data = self.getButtonEventData(4, "Quests")
-        Haapi().sendEvent(GameID.DOFUS, Haapi()._session_id, InternalStatisticTypeEnum.BANNER, data)
+        Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
     
     def sendMapOpenEvent(self):
         data = self.getButtonEventData(5, "Map")
-        Haapi().sendEvent(GameID.DOFUS, Haapi()._session_id, InternalStatisticTypeEnum.BANNER, data)
+        Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
 
     def sendSocialOpenEvent(self):
         data = self.getButtonEventData(6, "Social")
-        Haapi().sendEvent(GameID.DOFUS, Haapi()._session_id, InternalStatisticTypeEnum.BANNER, data)
+        Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
 
-    def sendEndEvents(self):
-        events = [
-            self.get_krozmos_launch_event(),
-            self.get_dofus_laucnh_event(),
-            self.get_device_data(),
-            self.get_num_connected_event(),
-        ]
-        Haapi().sendEvents(game=GameID.ZAAP, session_id=Haapi()._session_id, events=events)
+    def sendProfessionsOpenEvent(self):
+        data = self.getButtonEventData(9, "Professions")
+        Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)

@@ -1,0 +1,24 @@
+version: 3.12.10
+files:
+  - url: 'Ankama Launcher-Setup.exe'
+    sha512: +7Oai7z6P2IheV60IwLiLHkKCIy/04hEMmR30pnxksqZa7BZr3QbQOPnO+VPEChZQ56EjXJqF1Z+aYmfhHLcjQ==
+  - url: 'Ankama Launcher-Setup-x64.exe'
+    sha512: kLFKg84UzVcFwSEp+akur0ZnUxazuPcnzRNkDxxCBBqM9BlrrMDnfbwzpuy1ETNNvg6vfpPvqxIrj0OVO4fBqA==
+  - url: 'Ankama Launcher-Setup-ia32.exe'
+    sha512: KDZhoXdivGb1UMQRFBGfeosx0FxO34OnRSyr7+H+qbYSjaNSyrdivjNq94BOTV+3VkaS6t7FNZs2Kw0yEnjeIA==
+path: 'Ankama Launcher-Setup.exe'
+sha512: +7Oai7z6P2IheV60IwLiLHkKCIy/04hEMmR30pnxksqZa7BZr3QbQOPnO+VPEChZQ56EjXJqF1Z+aYmfhHLcjQ==
+packages:
+  ia32:
+    size: 93053393
+    sha512: kAYXA2NTgm6kA6SYPpNIp5cSLOBmRpkPxk5PxK5bjGa7e66uf/j4+cCiytVkbs3VqpEVQXasr7P6e3obevb+nQ==
+    blockMapSize: 97986
+    path: 'Ankama Launcher-Setup-ia32.nsis.7z'
+    file: 'Ankama Launcher-Setup-ia32.nsis.7z'
+  x64:
+    size: 95137028
+    sha512: el5lrYXTmRigUNEofqmxi/j42oD6CHhFKuuzecmZXvZPURYRq5MmcG95zoff3YfO4o+OKcdMADTImmEvyd1B6w==
+    blockMapSize: 100548
+    path: 'Ankama Launcher-Setup-x64.nsis.7z'
+    file: 'Ankama Launcher-Setup-x64.nsis.7z'
+releaseDate: '2024-03-06T13:57:21.858Z'

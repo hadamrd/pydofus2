@@ -117,6 +117,7 @@ from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyReques
     HaapiApiKeyRequestMessage
 from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import \
     ProtocolConstantsEnum
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionResumedMessage import \
@@ -171,9 +172,9 @@ class GameServerApproachFrame(Frame):
             return True
 
         elif isinstance(msg, AuthenticationTicketAcceptedMessage):
+            BenchmarkTimer(0.5, self.requestCharactersList).start()
             self.authenticationTicketAccepted = True
-            self.requestHaapiApiKey()
-            self.requestCharactersList()
+            KernelEventsManager().send(KernelEvent.AuthenticationTicketAccepted)
             return True
 
         elif isinstance(msg, AuthenticationTicketRefusedMessage):

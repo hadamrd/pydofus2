@@ -2,6 +2,7 @@ MANIFEST.in
 README.md
 pyproject.toml
 setup.py
+pydofus2/ZaapDecoy.py
 pydofus2/__init__.py
 pydofus2.egg-info/PKG-INFO
 pydofus2.egg-info/SOURCES.txt
@@ -36,8 +37,10 @@ pydofus2/com/ankamagames/atouin/BrowserRequests.py
 pydofus2/com/ankamagames/atouin/ErrorsCodes.py
 pydofus2/com/ankamagames/atouin/Haapi.ppteer.py
 pydofus2/com/ankamagames/atouin/Haapi.py
+pydofus2/com/ankamagames/atouin/HaapiEventsManager.py
 pydofus2/com/ankamagames/atouin/HappiConfig.py
 pydofus2/com/ankamagames/atouin/ZaapError.py
+pydofus2/com/ankamagames/atouin/Zaapi.py
 pydofus2/com/ankamagames/atouin/__init__.py
 pydofus2/com/ankamagames/atouin/data/__init__.py
 pydofus2/com/ankamagames/atouin/data/map/Cell.py
@@ -611,7 +614,20 @@ pydofus2/com/ankamagames/dofus/misc/ObjectEffectAdapter.py
 pydofus2/com/ankamagames/dofus/misc/__init__.py
 pydofus2/com/ankamagames/dofus/misc/lists/GameDataList.py
 pydofus2/com/ankamagames/dofus/misc/lists/__init__.py
+pydofus2/com/ankamagames/dofus/misc/openApi/ApiUserCredentials.py
+pydofus2/com/ankamagames/dofus/misc/openApi/__init__.py
+pydofus2/com/ankamagames/dofus/misc/stats/IHookStats.py
+pydofus2/com/ankamagames/dofus/misc/stats/IStatsClass.py
+pydofus2/com/ankamagames/dofus/misc/stats/InternalStatisticEnum.py
+pydofus2/com/ankamagames/dofus/misc/stats/StatisticsEvent.py
+pydofus2/com/ankamagames/dofus/misc/stats/StatisticsManager.py
+pydofus2/com/ankamagames/dofus/misc/stats/StatsAction.py
+pydofus2/com/ankamagames/dofus/misc/stats/__init__.py
+pydofus2/com/ankamagames/dofus/misc/stats/custom/SessionEndStats.py
+pydofus2/com/ankamagames/dofus/misc/stats/custom/SessionStartStats.py
+pydofus2/com/ankamagames/dofus/misc/stats/custom/__init__.py
 pydofus2/com/ankamagames/dofus/misc/utils/AbstractAction.py
+pydofus2/com/ankamagames/dofus/misc/utils/CharacterIdConverter.py
 pydofus2/com/ankamagames/dofus/misc/utils/GameDataQuery.py
 pydofus2/com/ankamagames/dofus/misc/utils/GameDebugManager.py
 pydofus2/com/ankamagames/dofus/misc/utils/GameID.py
@@ -666,6 +682,7 @@ pydofus2/com/ankamagames/dofus/network/enums/GameActionMarkCellsTypeEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/GameActionMarkTypeEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/GameContextEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/GameServerTypeEnum.py
+pydofus2/com/ankamagames/dofus/network/enums/HaapiSessionTypeEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/IdentificationFailureReasonsEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/MapObstacleStateEnum.py
 pydofus2/com/ankamagames/dofus/network/enums/MountCharacteristicEnum.py

@@ -1,4 +1,8 @@
 from time import perf_counter
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
+from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
 
 import pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame as gsaF
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
@@ -19,10 +23,12 @@ from pydofus2.com.ankamagames.jerakine.network.messages.UnexpectedSocketClosureM
 from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import \
     ServerConnectionClosedMessage
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
-
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
+    LoginValidationWithTokenAction as LVA_WithToken
 
 class DisconnectionHandlerFrame(Frame):
-    
+    MAX_CONN_TRIES = 3
+
     def __init__(self):
         super().__init__()
 
@@ -31,11 +37,69 @@ class DisconnectionHandlerFrame(Frame):
         return Priority.LOW
 
     def pushed(self) -> bool:
+        self._connectionUnexpectedFailureTimes = []
+        self._conxTries = 0
         return True
 
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, ServerConnectionClosedMessage):
+            reason = ConnectionsHandler().handleDisconnection()
+            Logger().info(f"Connection '{msg.closedConnection}' closed for reason : {reason}")
+            if ConnectionsHandler().hasReceivedMsg:
+                if (
+                    not reason.expected
+                    and not ConnectionsHandler().hasReceivedNetworkMsg
+                    and self._conxTries < self.MAX_CONN_TRIES
+                ):
+                    Logger().error(
+                        f"The connection was closed unexpectedly. Reconnection attempt {self._conxTries}/{self.MAX_CONN_TRIES}."
+                    )
+                    self._conxTries += 1
+                    self._connectionUnexpectedFailureTimes.append(perf_counter())
+                    KernelEventsManager().send(KernelEvent.ClientRestart, reason.message)
+                else:
+                    if not reason.expected:
+                        self._connectionUnexpectedFailureTimes.append(perf_counter())
+                        KernelEventsManager().send(KernelEvent.ClientRestart, "The connection was closed unexpectedly.")
+                    else:
+                        if reason.type == DisconnectionReasonEnum.EXCEPTION_THROWN:
+                            KernelEventsManager().send(KernelEvent.ClientCrashed, reason.message, reason.type)
+                        elif reason.type == DisconnectionReasonEnum.WANTED_SHUTDOWN:
+                            KernelEventsManager().send(KernelEvent.ClientShutdown, reason.type, reason.message)
+                        elif reason.type in [
+                            DisconnectionReasonEnum.RESTARTING,
+                            DisconnectionReasonEnum.DISCONNECTED_BY_POPUP,
+                            DisconnectionReasonEnum.CONNECTION_LOST,
+                        ]:
+                            KernelEventsManager().send(KernelEvent.ClientRestart, reason.message)
+                        elif reason.type == DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER: 
+                            Kernel().worker.addFrame(gsaF.GameServerApproachFrame())
+                            ConnectionsHandler().connectToGameServer(
+                                Kernel().serverSelectionFrame.selectedServer.address,
+                                Kernel().serverSelectionFrame.selectedServer.ports[0],
+                            )
+                        elif reason.type == DisconnectionReasonEnum.CHANGING_SERVER:
+                            lva = AuthentificationManager()._lva
+                            targetServerId = lva.serverId if lva else None
+                            if targetServerId is None:
+                                Logger().error(
+                                    f"Closed connection to change server but no serverId is specified in Auth Manager"
+                                )
+                            else:
+                                Logger().info(f"Switching to target server {targetServerId} server ...")
+                                Kernel().worker.addFrame(AuthentificationFrame())
+                                Kernel().worker.addFrame(QueueFrame())
+                                lva = LVA_WithToken.create(targetServerId != 0, targetServerId)
+                                Kernel().worker.process(lva)
+
+                        elif reason.type == DisconnectionReasonEnum.SWITCHING_TO_HUMAN_VENDOR:
+                            pass
+
+                        elif reason.type == DisconnectionReasonEnum.DISCONNECTED_BY_USER:
+                            pass
+            else:
+                Logger().warning("The connection hasn't even start or already closed.")
             KernelEventsManager().send(KernelEvent.ClientClosed, msg.closedConnection)
             return True
 

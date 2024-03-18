@@ -18,6 +18,7 @@ Requires-Dist: cloudscraper
 Requires-Dist: requests
 Requires-Dist: prettytable
 Requires-Dist: pycryptodomex
+Requires-Dist: lxml
 
 # pydofus2
 
