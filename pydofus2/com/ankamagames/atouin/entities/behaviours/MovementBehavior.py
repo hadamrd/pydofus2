@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
     PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementCancelMessage import GameMapMovementCancelMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 if TYPE_CHECKING:
@@ -28,13 +29,15 @@ class MovementBehavior(threading.Thread):
         return self.running.is_set()
 
     def tearDown(self, success):
+        from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+
         if not success:
             Logger().warning(f"Movement animation interrupted")
             if PlayedCharacterManager().isFighting:
                 return
-            # msg = GameMapMovementCancelMessage()
-            # msg.init(self.currStep.cellId)
-            # ConnectionsHandler().send(msg)
+            msg = GameMapMovementCancelMessage()
+            msg.init(self.currStep.cellId)
+            ConnectionsHandler().send(msg)
         else:
             Logger().info(f"Movement animation completed")
         self.parent.isMoving = False

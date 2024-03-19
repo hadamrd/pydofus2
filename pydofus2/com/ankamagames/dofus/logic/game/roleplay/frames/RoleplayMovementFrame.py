@@ -105,8 +105,8 @@ class RoleplayMovementFrame(Frame):
             endCell = clientMovePath.end.cellId
             if msg.actorId == PlayedCharacterManager().id:
                 Logger().debug(f"Current Player moving from {startCell} to {endCell}.")
-            else:
-                Logger().debug(f"Entity '{msg.actorId}' moving from {startCell} to {endCell}.")
+            # else:
+            #     Logger().debug(f"Entity '{msg.actorId}' moving from {startCell} to {endCell}.")
             if movedEntity:
                 movedEntity.position.cellId = endCell
                 self.entitiesFrame.updateEntityCellId(msg.actorId, endCell)
@@ -139,7 +139,7 @@ class RoleplayMovementFrame(Frame):
             gmmcmsg = GameMapMovementConfirmMessage()
             ConnectionsHandler().send(gmmcmsg)
         else:
-            Logger().error("Player didnt complete movement")
+            Logger().debug("Player didnt complete movement")
         KernelEventsManager().send(KernelEvent.PlayerMovementCompleted, success)
 
     def pulled(self) -> bool:

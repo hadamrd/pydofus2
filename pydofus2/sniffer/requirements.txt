@@ -1,4 +1,5 @@
 pyshark
 wdom
 flask
+flask_socketio
 pyshark
