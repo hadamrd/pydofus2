@@ -28,16 +28,14 @@ if __name__ == "__main__":
     breedId = 10 # Sadida breed id example
     DOFUS_GAMEID = 1 # Dofus 2
     
-    characterCreator = CharacterCreator()
-    token = Haapi.getLoginTokenCloudScraper(DOFUS_GAMEID, apiKey=api_key, certId=int(certId), certHash=certHash)
-    
+    characterCreator = CharacterCreator()    
     print(f"Token : {token}")
     if not token:
         raise Exception("Token is None")
     
     client = DofusClient(api_key)
-    client.setAutoServerSelection(serverId)
-    client.setLoginToken(token)
+    client.setApiKey(apikey)
+    client.setCertificate(certid, certhash)
     client.start()
 
     eventsManager = KernelEventsManager.WaitThreadRegister(api_key, 25)
