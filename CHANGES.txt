@@ -20,3 +20,11 @@ MAJ 17.03.2024:
 - J'ai fait une petite mise à jour de forme de l'interface de sniffing
 - Haapi maintenant implémente beaucoup plus d'Endpoint et enregistre les cookies
 - Les tests sont en cours pour voir si les bots se font moins ban grâce à l'envoie des events
+
+MAJ 19.03.2024:
+- Ajout de latence entre l'envoie de certains messages
+- Ajout d'un module qui simule le launcher : ZaapDecoy
+- Amélioration de fetch characters du AccountManager
+- Le bon maintenant envoie aussi des events de usage de shortcut lors des combats et en déplacement
+- Tests montrent que les bots se font de moins en spot, j'ai réussi à en faire tourner un de fight pendant plus d'une heure avec le stup actuel des latences et des envois d'events
+- J'ai créé un serveur discord pour essayer de rassembler les gens passionnés par ce projet : https://cadernis.fr/TC2AeJOY83hK6jINUIVHGJyVR7mS
