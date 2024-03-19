@@ -29,10 +29,6 @@ if __name__ == "__main__":
     DOFUS_GAMEID = 1 # Dofus 2
     
     characterCreator = CharacterCreator()    
-    print(f"Token : {token}")
-    if not token:
-        raise Exception("Token is None")
-    
     client = DofusClient(api_key)
     client.setApiKey(apikey)
     client.setCertificate(certid, certhash)
