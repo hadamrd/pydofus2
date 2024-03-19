@@ -19,7 +19,7 @@ PY_PRIMITIVES = {int, float, str, bool}
 class NetworkMessageEncoder:
     
     @classmethod
-    def encode(cls, inst: "bnm.NetworkMessage", data=None, random_hash=True) -> ByteArray:
+    def encode(cls, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         spec = inst.getSpec()
         try:
             return cls._encode(spec, inst, data, random_hash)
@@ -27,7 +27,7 @@ class NetworkMessageEncoder:
             raise Exception(f"Error while encoding {inst.__class__.__name__} : {inst.__dict__}.\n{e}") from e
 
     @classmethod
-    def jsonEncode(cls, inst: "bnm.NetworkMessage", random_hash=True) -> dict:
+    def jsonEncode(cls, inst: "bnm.NetworkMessage", random_hash=False) -> dict:
         spec = inst.getSpec()
         return cls._jsonEncode(spec, inst, random_hash)
 
@@ -41,7 +41,7 @@ class NetworkMessageEncoder:
         return data
     
     @classmethod
-    def _encode(cls, spec, inst: "bnm.NetworkMessage", data=None, random_hash=True) -> ByteArray:
+    def _encode(cls, spec, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         if data is None:
             data = ByteArray()
         if type(spec) is FieldSpec:
@@ -75,9 +75,6 @@ class NetworkMessageEncoder:
                     raise
         if hasattr(inst, "hash_function"):
             data.write(getattr(inst, "hash_function"))
-        elif spec.hash_function and random_hash:
-            hash = bytes(random.getrandbits(8) for _ in range(48))
-            data.write(hash)
         return data
 
     @classmethod

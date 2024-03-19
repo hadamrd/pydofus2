@@ -38,7 +38,8 @@ class Listener:
 
     def call(self, event, *args, **kwargs):
         if self._deleted:
-            return Logger().warning("Callback called of a deleted listener")
+            # Logger().warning("Callback called of a deleted listener")
+            return
         self.cancelTimer()
         self.callback(event, *args, **kwargs)
 

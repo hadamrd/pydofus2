@@ -111,7 +111,7 @@ class RoleplayMovementFrame(Frame):
                 movedEntity.position.cellId = endCell
                 self.entitiesFrame.updateEntityCellId(msg.actorId, endCell)
             else:
-                Logger().error(f"Actor '{msg.actorId}' moved before it was added to the scene.")
+                Logger().warning(f"Actor '{msg.actorId}' moved before it was added to the scene.")
             if msg.actorId == PlayedCharacterManager().id:
                 PlayedCharacterManager().entity.move(clientMovePath, self.onPlayerMovementEnded)
             KernelEventsManager().send(KernelEvent.EntityMoving, msg.actorId, clientMovePath)

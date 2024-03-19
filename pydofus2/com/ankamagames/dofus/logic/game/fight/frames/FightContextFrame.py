@@ -476,7 +476,6 @@ class FightContextFrame(Frame):
             return True
 
         elif isinstance(msg, GameFightStartMessage):
-            gfsm = msg
             preFightIsActive = False
             Kernel().worker.removeFrame(self._preparationFrame)
             CurrentPlayedFighterManager().getSpellCastManager().resetInitialCooldown()

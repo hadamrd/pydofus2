@@ -47,7 +47,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.mainAccount = self.fetchAccountData(mainAccountApiKey)
         self.haapi.listWithApiKey(self.mainAccountApiKey)
         self.haapi.getAccountStatus(self.mainAccountApiKey)
-        self.zaap_sessionId = self.haapi.startSessionWithApiKey(self.mainAccount['id'])
+        self.zaap_sessionId = self.haapi.startSessionWithApiKey(self.mainAccount['id'], apikey=self.mainAccountApiKey)
         atexit.register(self.send_exit_events, self.mainAccountApiKey, self.mainAccount['id'], self.zaap_sessionId)
         Logger().info(f"Session started with id {self.zaap_sessionId}")
         self.haapi.getFromCms("NEWS", "LAUNCHEREVENTS", self.settings["LANGUAGE"], 1, 1)
@@ -74,8 +74,11 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.haapi.getFromCms("BLOG", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
 
     def fetchAccountData(self, apikey):
-        return self.haapi.signOnWithApikey(GameID.ZAAP, apikey)
-    
+        result = self.haapi.signOnWithApikey(GameID.ZAAP, apikey)
+        if "reason" in result:
+            raise ZaapError(f"Failed to sign on with apikey: {result['reason']}")
+        return result
+
     def find_main_account_apikey(self):
         for account in self.settings["USER_ACCOUNTS"]:
             if account["isMain"]:

@@ -222,7 +222,7 @@ class Zaapi(metaclass=Singleton):
                 "date": date,
             },
         )
-        response = self.zaap_session.get(url, headers={"apikey": self.zaap_apikey}, verify=self.verify_ssl)
+        response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         self.zaap_session.cookies.update(response.cookies)
         self.session_id = response.json()
         return response.json()

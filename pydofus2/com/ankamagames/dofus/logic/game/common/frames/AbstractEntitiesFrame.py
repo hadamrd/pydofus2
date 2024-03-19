@@ -118,7 +118,7 @@ class AbstractEntitiesFrame(Frame):
                 characterEntity.speedAdjust = Monster.getMonsterById(infos.creatureGenericId).speedAdjust
             EntitiesManager().addEntity(infos.contextualId, characterEntity)
             if infos.contextualId == pcm.PlayedCharacterManager().id:
-                Logger().info(f"Current Player added to the sceene")
+                # Logger().info(f"Current Player added to the sceene")
                 KernelEventsManager().send(KernelEvent.PlayerAddedToSceene, characterEntity)
             else:
                 # Logger().info(f"Actor {infos.contextualId} added to the sceene")
@@ -126,8 +126,8 @@ class AbstractEntitiesFrame(Frame):
             
         else:
             if infos.contextualId == pcm.PlayedCharacterManager().id:
-                Logger().info(f"Current Player updated on the sceene")
-            pass
+                # Logger().info(f"Current Player updated on the sceene")
+                pass
         if isinstance(infos, GameRolePlayHumanoidInformations):
             if infos.contextualId == pcm.PlayedCharacterManager().id:
                 pcm.PlayedCharacterManager().restrictions = infos.humanoidInfo.restrictions

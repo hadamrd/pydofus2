@@ -11,8 +11,7 @@ class ItemCriterionFactory:
         s = pServerCriterionForm[0:2]
 
         if s == "BI":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.UnusableItemCriterion import \
-                ItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.UnusableItemCriterion import UnusableItemCriterion
             criterion = UnusableItemCriterion(pServerCriterionForm)
 
         elif s in [
@@ -45,32 +44,32 @@ class ItemCriterionFactory:
             "cw",
         ]:
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
-                erion
+    ItemCriterion
             criterion = ItemCriterion(pServerCriterionForm)
 
         elif s == "EA":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MonsterGroupChallengeCriterion import \
-                roupChallengeCriterion
+    MonsterGroupChallengeCriterion
             criterion = MonsterGroupChallengeCriterion(pServerCriterionForm)
 
         elif s == "EB":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.NumberOfMountBirthedCriterion import \
-                MountBirthedCriterion
+    NumberOfMountBirthedCriterion
             criterion = NumberOfMountBirthedCriterion(pServerCriterionForm)
 
         elif s == "Ec":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.NumberOfItemMadeCriterion import \
-                ItemMadeCriterion
+    NumberOfItemMadeCriterion
             criterion = NumberOfItemMadeCriterion(pServerCriterionForm)
 
         elif s == "Eu":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.RuneByBreakingItemCriterion import \
-                eakingItemCriterion
+    RuneByBreakingItemCriterion
             criterion = RuneByBreakingItemCriterion(pServerCriterionForm)
 
         elif s == "Kd":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ArenaDuelRankCriterion import \
-                lRankCriterion
+    ArenaDuelRankCriterion
             criterion = ArenaDuelRankCriterion(pServerCriterionForm)
 
         elif s == "KD":
@@ -93,76 +92,74 @@ class ItemCriterionFactory:
 
         elif s == "Kt":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ArenaTeamRankCriterion import \
-                mRankCriterion
+    ArenaTeamRankCriterion
             criterion = ArenaTeamRankCriterion(pServerCriterionForm)
 
         elif s == "KT":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ArenaMaxTeamRankCriterion import \
-                TeamRankCriterion
+    ArenaMaxTeamRankCriterion
             criterion = ArenaMaxTeamRankCriterion(pServerCriterionForm)
 
         elif s == "MK":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MapCharactersItemCriterion import \
-                ctersItemCriterion
+    MapCharactersItemCriterion
             criterion = MapCharactersItemCriterion(pServerCriterionForm)
 
         elif s == "Oa":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementPointsItemCriterion import \
-                entPointsItemCriterion
+    AchievementPointsItemCriterion
 
             criterion = AchievementPointsItemCriterion(pServerCriterionForm)
 
         elif s == "OA":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementItemCriterion import \
-                entItemCriterion
+    AchievementItemCriterion
             criterion = AchievementItemCriterion(pServerCriterionForm)
 
         elif s == "Ob":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementAccountItemCriterion import \
-                entAccountItemCriterion
+    AchievementAccountItemCriterion
             criterion = AchievementAccountItemCriterion(pServerCriterionForm)
 
         elif s == "Of":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MountFamilyItemCriterion import \
-                ilyItemCriterion
+    MountFamilyItemCriterion
             criterion = MountFamilyItemCriterion(pServerCriterionForm)
 
         elif s == "OH":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.NewHavenbagItemCriterion import \
-                bagItemCriterion
+    NewHavenbagItemCriterion
 
             criterion = NewHavenbagItemCriterion(pServerCriterionForm)
 
         elif s == "OO":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementObjectiveValidated import \
-                entObjectiveValidated
+    AchievementObjectiveValidated
             criterion = AchievementObjectiveValidated(pServerCriterionForm)
 
         elif s == "Os":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SmileyPackItemCriterion import \
-                ckItemCriterion
+    SmileyPackItemCriterion
 
             criterion = SmileyPackItemCriterion(pServerCriterionForm)
 
         elif s == "OV":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SubscriptionDurationItemCriterion import \
-                tionDurationItemCriterion
+    SubscriptionDurationItemCriterion
             criterion = SubscriptionDurationItemCriterion(pServerCriterionForm)
 
         elif s == "Ow":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AllianceItemCriterion import \
-                ItemCriterion
+    AllianceItemCriterion
             criterion = AllianceItemCriterion(pServerCriterionForm)
 
         elif s == "Ox":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AllianceRightsItemCriterion import \
-                AllianceRightsItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AllianceRightsItemCriterion import AllianceRightsItemCriterion
 
             criterion = AllianceRightsItemCriterion(pServerCriterionForm)
 
         elif s == "Oz":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AllianceAvAItemCriterion import \
-                AllianceAvAItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AllianceAvAItemCriterion import AllianceAvAItemCriterion
 
             criterion = AllianceAvAItemCriterion(pServerCriterionForm)
 
@@ -174,65 +171,63 @@ class ItemCriterionFactory:
 
         elif s == "PA":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SoulStoneItemCriterion import \
-                eItemCriterion
+    SoulStoneItemCriterion
             criterion = SoulStoneItemCriterion(pServerCriterionForm)
 
         elif s == "Pb":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.FriendlistItemCriterion import \
-                stItemCriterion
+    FriendlistItemCriterion
             criterion = FriendlistItemCriterion(pServerCriterionForm)
 
         elif s == "PB":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SubareaItemCriterion import \
-                temCriterion
+    SubareaItemCriterion
             criterion = SubareaItemCriterion(pServerCriterionForm)
 
         elif s == "Pe":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.PremiumAccountItemCriterion import \
-                ccountItemCriterion
+    PremiumAccountItemCriterion
             criterion = PremiumAccountItemCriterion(pServerCriterionForm)
 
         elif s == "PE":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.EmoteItemCriterion import \
-                EmoteItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.EmoteItemCriterion import EmoteItemCriterion
 
             criterion = EmoteItemCriterion(pServerCriterionForm)
 
         elif s == "Pf":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.RideItemCriterion import \
-                RideItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.RideItemCriterion import RideItemCriterion
 
             criterion = RideItemCriterion(pServerCriterionForm)
 
         elif s == "Pg":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GiftItemCriterion import \
-                Criterion
+    GiftItemCriterion
             criterion = GiftItemCriterion(pServerCriterionForm)
 
         elif s == "PG":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.BreedItemCriterion import \
-                mCriterion
+    BreedItemCriterion
             criterion = BreedItemCriterion(pServerCriterionForm)
 
         elif s in ["Pi", "PI"]:
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SkillItemCriterion import \
-                mCriterion
+    SkillItemCriterion
 
             criterion = SkillItemCriterion(pServerCriterionForm)
 
         elif s in ["PJ", "Pj"]:
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.JobItemCriterion import \
-                riterion
+    JobItemCriterion
             criterion = JobItemCriterion(pServerCriterionForm)
 
         elif s == "Pk":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.BonusSetItemCriterion import \
-                ItemCriterion
+    BonusSetItemCriterion
             criterion = BonusSetItemCriterion(pServerCriterionForm)
 
         elif s == "PK":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.KamaItemCriterion import \
-                Criterion
+    KamaItemCriterion
             criterion = KamaItemCriterion(pServerCriterionForm)
 
         elif s == "PL":
@@ -243,148 +238,139 @@ class ItemCriterionFactory:
 
         elif s == "Pl":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.PrestigeLevelItemCriterion import \
-                LevelItemCriterion
+    PrestigeLevelItemCriterion
 
             criterion = PrestigeLevelItemCriterion(pServerCriterionForm)
 
         elif s == "Pm":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MapItemCriterion import \
-                MapItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MapItemCriterion import MapItemCriterion
 
             criterion = MapItemCriterion(pServerCriterionForm)
 
         elif s == "PN":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.NameItemCriterion import \
-                NameItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.NameItemCriterion import NameItemCriterion
 
             criterion = NameItemCriterion(pServerCriterionForm)
 
         elif s == "PO":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ObjectItemCriterion import \
-                emCriterion
+    ObjectItemCriterion
             criterion = ObjectItemCriterion(pServerCriterionForm)
 
         elif s == "Po":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AreaItemCriterion import \
-                AreaItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AreaItemCriterion import AreaItemCriterion
 
             criterion = AreaItemCriterion(pServerCriterionForm)
 
         elif s in ["Pp", "PP"]:
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.PVPRankItemCriterion import \
-                PVPRankItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.PVPRankItemCriterion import PVPRankItemCriterion
 
             criterion = PVPRankItemCriterion(pServerCriterionForm)
 
         elif s == "Pr":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SpecializationItemCriterion import \
-                zationItemCriterion
+    SpecializationItemCriterion
 
             criterion = SpecializationItemCriterion(pServerCriterionForm)
 
         elif s == "PR":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MariedItemCriterion import \
-                MariedItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MariedItemCriterion import MariedItemCriterion
             criterion = MariedItemCriterion(pServerCriterionForm)
 
         elif s == "Ps":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AlignmentItemCriterion import \
-                AlignmentItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AlignmentItemCriterion import AlignmentItemCriterion
 
             criterion = AlignmentItemCriterion(pServerCriterionForm)
 
         elif s == "PS":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SexItemCriterion import \
-                SexItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SexItemCriterion import SexItemCriterion
             criterion = SexItemCriterion(pServerCriterionForm)
 
         elif s == "PT":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SpellItemCriterion import \
-                mCriterion
+    SpellItemCriterion
             criterion = SpellItemCriterion(pServerCriterionForm)
 
         elif s == "PU":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.BonesItemCriterion import \
-                mCriterion
+    BonesItemCriterion
             criterion = BonesItemCriterion(pServerCriterionForm)
 
         elif s == "Pw":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GuildItemCriterion import \
-                mCriterion
+    GuildItemCriterion
             criterion = GuildItemCriterion(pServerCriterionForm)
 
         elif s == "PW":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.WeightItemCriterion import \
-                emCriterion
+    WeightItemCriterion
 
             criterion = WeightItemCriterion(pServerCriterionForm)
 
         elif s == "Px":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GuildRightsItemCriterion import \
-                GuildRightsItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GuildRightsItemCriterion import GuildRightsItemCriterion
             criterion = GuildRightsItemCriterion(pServerCriterionForm)
 
         elif s == "PX":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AccountRightsItemCriterion import \
-                ightsItemCriterion
+    AccountRightsItemCriterion
     
             criterion = AccountRightsItemCriterion(pServerCriterionForm)
 
         elif s == "Py":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GuildLevelItemCriterion import \
-                elItemCriterion
+    GuildLevelItemCriterion
             criterion = GuildLevelItemCriterion(pServerCriterionForm)
 
         elif s in ["Pz", "PZ"]:
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.SubscribeItemCriterion import \
-                eItemCriterion
+    SubscribeItemCriterion
             criterion = SubscribeItemCriterion(pServerCriterionForm)
 
         elif s in ["Qa", "Qc", "Qf"]:
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.QuestItemCriterion import \
-                mCriterion
+    QuestItemCriterion
             criterion = QuestItemCriterion(pServerCriterionForm)
 
         elif s == "Qo":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.QuestObjectiveItemCriterion import \
-                ectiveItemCriterion
+    QuestObjectiveItemCriterion
             criterion = QuestObjectiveItemCriterion(pServerCriterionForm)
 
         elif s == "SC":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ServerTypeItemCriterion import \
-                peItemCriterion
+    ServerTypeItemCriterion
 
             criterion = ServerTypeItemCriterion(pServerCriterionForm)
 
         elif s == "Sc":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.StaticCriterionItemCriterion import \
-                iterionItemCriterion
+    StaticCriterionItemCriterion
             criterion = StaticCriterionItemCriterion(pServerCriterionForm)
 
         elif s == "Sd":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.DayItemCriterion import \
-                riterion
+    DayItemCriterion
             criterion = DayItemCriterion(pServerCriterionForm)
 
         elif s == "SG":
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MonthItemCriterion import \
-                MonthItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.MonthItemCriterion import MonthItemCriterion
 
             criterion = MonthItemCriterion(pServerCriterionForm)
 
         elif s == "SI":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ServerItemCriterion import \
-                emCriterion
+    ServerItemCriterion
             criterion = ServerItemCriterion(pServerCriterionForm)
 
         elif s == "ST":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ServerSeasonTemporisCriterion import \
-                asonTemporisCriterion
+    ServerSeasonTemporisCriterion
             criterion = ServerSeasonTemporisCriterion(pServerCriterionForm)
 
         elif s == "Sy":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.CommunityItemCriterion import \
-                yItemCriterion
+    CommunityItemCriterion
             criterion = CommunityItemCriterion(pServerCriterionForm)
 
         else:

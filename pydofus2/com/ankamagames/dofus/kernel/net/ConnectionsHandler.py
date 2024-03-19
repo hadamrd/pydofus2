@@ -21,8 +21,11 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFigh
     GameFightTurnReadyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementConfirmMessage import \
     GameMapMovementConfirmMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.challenge.ChallengeModSelectMessage import ChallengeModSelectMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.ChangeMapMessage import \
     ChangeMapMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayAttackMonsterRequestMessage import \
+    GameRolePlayAttackMonsterRequestMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import \
     MapInformationsRequestMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -122,21 +125,26 @@ class ConnectionsHandler(metaclass=Singleton):
                 return Logger().warning(
                     f"Can't send message when no connection is established!, maybe we are shuting down?"
                 )
-            if type(msg) not in [
-                GameMapMovementConfirmMessage,
-                GameActionAcknowledgementMessage,
-                GameFightTurnFinishMessage,
-                GameFightTurnReadyMessage,
-                MapInformationsRequestMessage,
-                ChangeMapMessage
-            ]:
-                if self.last_send_time is not None:
+            if self.last_send_time is not None:
+                if type(msg) in [
+                    GameMapMovementConfirmMessage,
+                    GameActionAcknowledgementMessage,
+                    GameFightTurnFinishMessage,
+                    GameFightTurnReadyMessage,
+                    MapInformationsRequestMessage,
+                    ChangeMapMessage,
+                    GameRolePlayAttackMonsterRequestMessage,
+                    GameActionAcknowledgementMessage,
+                    ChallengeModSelectMessage
+                ]:
+                    minNextSendTime = self.last_send_time + abs(random.gauss(0.25, 0.1))
+                else:
                     minNextSendTime = (
-                        self.last_send_time + 0.1 + abs(random.gauss(0, 0.3))
+                        self.last_send_time + 1 + abs(random.gauss(0, 0.5))
                     )
-                    diff = minNextSendTime - perf_counter()
-                    if diff > 0:
-                        Kernel().worker.terminated.wait(diff)
+                diff = minNextSendTime - perf_counter()
+                if diff > 0:
+                    Kernel().worker.terminated.wait(diff)
             self.last_send_time = perf_counter()
             self._conn.send(msg)
 
