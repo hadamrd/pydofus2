@@ -339,8 +339,7 @@ class SpellWrapper(ISlotData, ICellZoneProvider, IDataCenter):
     def getEntityId(self):
         if not math.isnan(self.playerId) and self.playerId != 0:
             return self.playerId
-        from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import \
-            edCharacterApi
+        from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharacterApi
         if PlayedCharacterApi().isInFight():
             return cpfm.CurrentPlayedFighterManager().currentFighterId
         return PlayedCharacterManager().id

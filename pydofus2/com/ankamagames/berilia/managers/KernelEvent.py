@@ -36,6 +36,7 @@ class KernelEvent(Enum):
     # map 
     MapLoaded = auto()
     MapDataProcessed = auto()
+    MapFightCount = auto()
     
     # Fight
     FightSwordShowed = auto()

@@ -15,6 +15,7 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
 from pydofus2.com.ankamagames.dofus.network.messages.game.actions.GameActionAcknowledgementMessage import \
     GameActionAcknowledgementMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightOptionToggleMessage import GameFightOptionToggleMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnFinishMessage import \
     GameFightTurnFinishMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnReadyMessage import \
@@ -135,7 +136,8 @@ class ConnectionsHandler(metaclass=Singleton):
                     ChangeMapMessage,
                     GameRolePlayAttackMonsterRequestMessage,
                     GameActionAcknowledgementMessage,
-                    ChallengeModSelectMessage
+                    ChallengeModSelectMessage,
+                    GameFightOptionToggleMessage
                 ]:
                     minNextSendTime = self.last_send_time + abs(random.gauss(0.25, 0.1))
                 else:

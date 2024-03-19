@@ -45,7 +45,7 @@ class SpellCastInFightManager:
 
     def updateCooldowns(self, spellCooldowns: list["GameFightSpellCooldown"] = None) -> None:
         from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-            entPlayedFighterManager
+            CurrentPlayedFighterManager
         if self.needCooldownUpdate and not spellCooldowns:
             spellCooldowns = self._storedSpellCooldowns
         playedFighterManager = CurrentPlayedFighterManager()

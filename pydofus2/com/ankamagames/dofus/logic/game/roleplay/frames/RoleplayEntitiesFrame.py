@@ -48,6 +48,7 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRem
     GameContextRemoveMultipleElementsMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapChangeOrientationMessage import \
     GameMapChangeOrientationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightCountMessage import MapFightCountMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.MapComplementaryInformationsAnomalyMessage import \
     MapComplementaryInformationsAnomalyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayRemoveChallengeMessage import \
@@ -400,6 +401,10 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         elif isinstance(msg, ListMapNpcsQuestStatusUpdateMessage):
             return True
 
+        elif isinstance(msg, MapFightCountMessage):
+            KernelEventsManager().send(KernelEvent.MapFightCount, msg.fightCount)
+            return True
+        
     def checkPlayerInHouse(self, msg: MapComplementaryInformationsDataInHouseMessage):
         isPlayerHouse = (
             PlayerManager().nickname == msg.currentHouse.houseInfos.ownerTag.nickname
