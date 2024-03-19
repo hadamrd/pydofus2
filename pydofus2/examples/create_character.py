@@ -11,27 +11,16 @@ from pydofus2.com.DofusClient import DofusClient
 from pydofus2.examples.CharacterCreator import CharacterCreator
 
 if __name__ == "__main__":
-    api_key = "YOUR_API_KEY"
-    certId = "YOUR_CERT_ID"
-    certHash = "YOUR_CERT_HASH"
+    account_login = "YOUR_LOGIN"
     
     serverId = 293 # Tylezia server id example
     breedId = 10 # Sadida breed id example
     DOFUS_GAMEID = 1 # Dofus 2
     
     characterCreator = CharacterCreator()
-    token = Haapi.createToken(DOFUS_GAMEID, apiKey=api_key, certId=int(certId), certHash=certHash)
-    
-    print(f"Token : {token}")
-    if not token:
-        raise Exception("Token is None")
-    
-    client = DofusClient(api_key)
+    client = DofusClient(account_login)
     client.setAutoServerSelection(serverId)
-    client.setLoginToken(token)
-    client.start()
-
-    eventsManager = KernelEventsManager.waitThreadRegister(api_key, 25)
+    eventsManager = KernelEventsManager.waitThreadRegister(account_login, 25)
 
     Logger().info("Kernel event manager instance created")
         

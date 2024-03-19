@@ -55,6 +55,7 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.Charac
     CharacterExperienceGainMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpInformationMessage import \
     CharacterLevelUpInformationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpMessage import CharacterLevelUpMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterStatsListMessage import \
     CharacterStatsListMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapSpeedMovementMessage import \
@@ -217,17 +218,13 @@ class PlayedCharacterUpdatesFrame(Frame):
             KernelEventsManager().send(KernelEvent.StatsUpgradeResult, surmsg.result, surmsg.nbCharacBoost)
             return True
 
-        if isinstance(msg, CharacterLevelUpInformationMessage):
-            Logger().info(f"Player {msg.name} ({msg.id}) leveled up, new {msg.newLevel}")
-            if msg.id == pcm.PlayedCharacterManager().id:
-                clumsg = msg
+        if isinstance(msg, CharacterLevelUpMessage):
+            if type(msg) is CharacterLevelUpMessage:
                 entityInfos = None
-                newLevel = None
                 previousLevel = pcm.PlayedCharacterManager().infos.level
-                Logger().warning(f"Received a player new level {msg.newLevel}, previous level {pcm.PlayedCharacterManager().infos.level}.")
                 newLevel = msg.newLevel
                 pcm.PlayedCharacterManager().infos.level = newLevel
-                Logger().info(f"Player {pcm.PlayedCharacterManager().id} leveled up, new level {newLevel}")
+                Logger().warning(f"Received a player new level {msg.newLevel}, previous level {pcm.PlayedCharacterManager().infos.level}.")
                 if newLevel == 10 and PlayerManager().server.gameTypeId != GameServerTypeEnum.SERVER_TYPE_TEMPORIS:
                     newSpellWrappers = []
                     playerBreed = Breed.getBreedById(pcm.PlayedCharacterManager().infos.breed)
@@ -237,23 +234,24 @@ class PlayedCharacterUpdatesFrame(Frame):
                                 spellLevelBreed = SpellLevel.getLevelById(spellLevelBreedId)
                                 if spellLevelBreed:
                                     obtentionLevel = spellLevelBreed.minPlayerLevel
-                                    if obtentionLevel <= clumsg.newLevel and obtentionLevel > previousLevel:
+                                    if obtentionLevel <= msg.newLevel and obtentionLevel > previousLevel:
                                         newSpellWrappers.append(
                                             swmod.SpellWrapper.create(spellBreed.id, spellLevelBreed.grade, False)
                                         )
                     for spellWrapper in pcm.PlayedCharacterManager().spellsInventory:
                         spellWrapper.updateSpellLevelAndEffectsAccordingToPlayerLevel()
-
                     if self.roleplayContextFrame:
                         entityInfos = self.roleplayContextFrame.entitiesFrame.getEntityInfos(
                             pcm.PlayedCharacterManager().id
                         )
-
                     if entityInfos:
                         for option in entityInfos.humanoidInfo.options:
                             if isinstance(option, HumanOptionOrnament):
                                 option.level = newLevel
                 KernelEventsManager().send(KernelEvent.PlayerLeveledUp, previousLevel, msg.newLevel)
+                
+            elif isinstance(msg, CharacterLevelUpInformationMessage):
+                Logger().info(f"Player {msg.name} ({msg.id}) leveled up, new {msg.newLevel}")
             return True
 
         if isinstance(msg, CharacterExperienceGainMessage):
