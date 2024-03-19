@@ -121,7 +121,7 @@ class AbstractEntitiesFrame(Frame):
                 Logger().info(f"Current Player added to the sceene")
                 KernelEventsManager().send(KernelEvent.PlayerAddedToSceene, characterEntity)
             else:
-                Logger().info(f"Actor {infos.contextualId} added to the sceene")
+                # Logger().info(f"Actor {infos.contextualId} added to the sceene")
                 KernelEventsManager().send(KernelEvent.ActorShowed, characterEntity)
             
         else:

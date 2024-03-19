@@ -13,7 +13,7 @@ from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory i
     ResourceLoaderFactory
 from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import \
     ResourceLoaderType
-from pydofus2.com.ankamagames.jerakine.types.events.FileEvent import FileEvent
+# from pydofus2.com.ankamagames.jerakine.types.events.FileEvent import FileEvent
 from pydofus2.com.ankamagames.jerakine.types.LangMetaData import LangMetaData
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils

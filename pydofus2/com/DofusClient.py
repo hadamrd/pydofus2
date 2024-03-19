@@ -1,3 +1,4 @@
+import atexit
 import locale
 import sys
 import threading
@@ -80,6 +81,7 @@ class DofusClient(threading.Thread):
         self._shutDownListeners = []
         self.kernel = None
         self.terminated = threading.Event()
+        self._ended_correctly = False
 
     def initListeners(self):
         KernelEventsManager().once(
@@ -110,6 +112,7 @@ class DofusClient(threading.Thread):
 
     def init(self):
         Logger().info("Initializing ...")
+        atexit.register(self.at_extit)
         self.zaap = ZaapDecoy()
         self.kernel = Kernel()
         self.kernel.init()
@@ -174,12 +177,13 @@ class DofusClient(threading.Thread):
         HaapiKeyManager().on(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
         Haapi().getLoadingScreen(page=1, accountId=PlayerManager().accountId, lang="en", count=20)
         Haapi().getAlmanaxEvent(lang="en")
-        Haapi().getCmsFeeds(site="DOFUS", page=0, lang="en", count=20, apikey=self._apikey)
         HaapiKeyManager().askToken(GameID.CHAT)
 
     def onGameSessionReady(self, event, gameSessionId):
         Haapi().game_sessionId = gameSessionId
         HaapiEventsManager().sendStartEvent(gameSessionId)
+        Haapi().getCmsFeeds(site="DOFUS", page=0, lang="en", count=20, apikey=self._apikey)
+        HaapiKeyManager().callWithApiKey(lambda apikey: Haapi().pollInGameGet(count=20, site="DOFUS", lang="en", page=1, apikey=apikey))
         
     def onCharacterImpossibleSelection(self, event):
         self.shutdown(
@@ -194,6 +198,17 @@ class DofusClient(threading.Thread):
 
     def onConnectionClosed(self, event, connId):
         pass
+    
+    def at_extit(self):
+        if not self._ended_correctly:
+            if Haapi().game_sessionId:
+                HaapiEventsManager().sendEndEvent()
+                self.kernel.reset()
+                Logger().info("goodby crual world")
+                self.terminated.set()
+                for callback in self._shutDownListeners:
+                    Logger().info(f"Calling shutdown callback {callback}")
+                    callback(self.name, self._shutDownMessage, self._shutDownReason)
 
     def prepareLogin(self):
         PlayedCharacterManager().instanceId = self.name
@@ -292,9 +307,12 @@ class DofusClient(threading.Thread):
 
         if Haapi().game_sessionId:
             HaapiEventsManager().sendEndEvent()
+
         Kernel().reset()
         Logger().info("goodby crual world")
         self.terminated.set()
         for callback in self._shutDownListeners:
             Logger().info(f"Calling shutdown callback {callback}")
             callback(self.name, self._shutDownMessage, self._shutDownReason)
+        
+        self._ended_correctly = True

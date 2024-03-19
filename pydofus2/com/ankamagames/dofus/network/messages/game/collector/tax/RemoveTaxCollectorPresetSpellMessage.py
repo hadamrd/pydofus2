@@ -4,7 +4,7 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
     NetworkMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.Uuid import Uuid
+    from pydofus2.com.ankamagames.dofus.network.types.game.uuid import Uuid
     
 
 class RemoveTaxCollectorPresetSpellMessage(NetworkMessage):

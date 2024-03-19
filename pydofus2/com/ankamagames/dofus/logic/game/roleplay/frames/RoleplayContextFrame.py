@@ -95,7 +95,7 @@ class RoleplayContextFrame(Frame):
 
     def pushed(self) -> bool:
         self.movementFrame = RoleplayMovementFrame()
-        # self._worldFrame = rplWF.RoleplayWorldFrame()
+        self._worldFrame = rplWF.RoleplayWorldFrame()
         self._entitiesFrame = ref.RoleplayEntitiesFrame()
         self._interactivesFrame = rif.RoleplayInteractivesFrame()
         self._exchangeManagementFrame = ExchangeManagementFrame()
@@ -125,8 +125,8 @@ class RoleplayContextFrame(Frame):
             Kernel().worker.pause()
             if self._entitiesFrame:
                 Kernel().worker.removeFrame(self._entitiesFrame)
-            # if self._worldFrame:
-            #     Kernel().worker.removeFrame(self._worldFrame)
+            if self._worldFrame:
+                Kernel().worker.removeFrame(self._worldFrame)
             if self._interactivesFrame:
                 Kernel().worker.removeFrame(self._interactivesFrame)
             if self.movementFrame:
@@ -148,7 +148,7 @@ class RoleplayContextFrame(Frame):
 
         elif isinstance(msg, MapLoadedMessage):
             Kernel().worker.addFrame(self._entitiesFrame)
-            # Kernel().worker.addFrame(self._worldFrame)
+            Kernel().worker.addFrame(self._worldFrame)
             Kernel().worker.addFrame(self.movementFrame)
             Kernel().worker.addFrame(self._interactivesFrame)
             Kernel().worker.resume()

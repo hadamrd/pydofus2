@@ -1,3 +1,9 @@
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
+    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightStartPositionsUpdateMessage import \
+    MapFightStartPositionsUpdateMessage
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightStartingPositions import \
+    FightStartingPositions
 from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
     AnimatedCharacter
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
@@ -17,6 +23,11 @@ class RoleplayWorldFrame(Frame):
     pivotingCharacter: bool
 
     def __init__(self):
+        self._playerEntity = None
+        self._playerName = ""
+        self._allowOnlyCharacterInteraction = True
+        self.pivotingCharacter = False
+        self._fightPositions: FightStartingPositions = None
         super().__init__()
 
     @property
@@ -27,7 +38,11 @@ class RoleplayWorldFrame(Frame):
         return True
 
     def process(self, msg: Message) -> bool:
-        return False
+
+        if isinstance(msg, MapFightStartPositionsUpdateMessage):
+            if PlayedCharacterManager().currentMap and msg.mapId == PlayedCharacterManager().currentMap.mapId:
+                self._fightPositions = msg.fightStartPositions
+            return True
 
     def pulled(self) -> bool:
         return True

@@ -40,10 +40,14 @@ from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessa
     BasicPingMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import \
     GameFightUpdateTeamMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import \
+    GameContextRefreshEntityLookMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveElementMessage import \
     GameContextRemoveElementMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveMultipleElementsMessage import \
     GameContextRemoveMultipleElementsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapChangeOrientationMessage import \
+    GameMapChangeOrientationMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.MapComplementaryInformationsAnomalyMessage import \
     MapComplementaryInformationsAnomalyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayRemoveChallengeMessage import \
@@ -54,6 +58,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameR
     GameRolePlayShowActorMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameRolePlayShowMultipleActorsMessage import \
     GameRolePlayShowMultipleActorsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.HousePropertiesMessage import \
+    HousePropertiesMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHavenBagMessage import \
     MapComplementaryInformationsDataInHavenBagMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHouseMessage import \
@@ -64,6 +70,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapCo
     MapComplementaryInformationsWithCoordsMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import \
     MapInformationsRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.ListMapNpcsQuestStatusUpdateMessage import \
+    ListMapNpcsQuestStatusUpdateMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveMapUpdateMessage import \
     InteractiveMapUpdateMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import \
@@ -378,6 +386,18 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             gcrmemsg = msg
             for element_id in gcrmemsg.elementsIds:
                 self.process(GameContextRemoveElementMessage(element_id))
+            return True
+
+        elif isinstance(msg, HousePropertiesMessage):
+            return True
+    
+        elif isinstance(msg, GameContextRefreshEntityLookMessage):
+            return True
+
+        elif isinstance(msg, GameMapChangeOrientationMessage):
+            return True
+        
+        elif isinstance(msg, ListMapNpcsQuestStatusUpdateMessage):
             return True
 
     def checkPlayerInHouse(self, msg: MapComplementaryInformationsDataInHouseMessage):

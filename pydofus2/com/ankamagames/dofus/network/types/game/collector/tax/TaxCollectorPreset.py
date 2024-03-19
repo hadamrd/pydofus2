@@ -8,7 +8,7 @@ if TYPE_CHECKING:
         CharacterCharacteristics
     from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorOrderedSpell import \
         TaxCollectorOrderedSpell
-    from pydofus2.com.ankamagames.dofus.network.types.game.Uuid import Uuid
+    from pydofus2.com.ankamagames.dofus.network.types.game.uuid import Uuid
     
 
 class TaxCollectorPreset(NetworkMessage):

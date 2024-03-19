@@ -26,7 +26,7 @@ from typing import Optional, Type, TypeVar
 T = TypeVar("T", bound="Frame")
 class Worker(MessageHandler):
     DEBUG_FRAMES: bool = False
-    DEBUG_MESSAGES: bool = True
+    DEBUG_MESSAGES: bool = False
     DEBUG_FRAMES_PROCESSING: bool = False
     LOCK = threading.Lock()
     CONDITION = threading.Condition(LOCK)
@@ -64,7 +64,8 @@ class Worker(MessageHandler):
             self.processMessage(msg)
         self.reset()
         self._terminated.set()
-        Logger().warning("Worker terminated!")
+        Logger().warning("Worker terminated")
+
     def pause(self) -> None:
         self.paused.set()
         self.resumed.clear()

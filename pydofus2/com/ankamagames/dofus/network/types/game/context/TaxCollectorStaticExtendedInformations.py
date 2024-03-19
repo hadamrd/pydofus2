@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class TaxCollectorStaticExtendedInformations(TaxCollectorStaticInformations):
     allianceIdentity: 'AllianceInformations'
-    def init(self, allianceIdentity_: 'AllianceInformations', firstNameId_: int, lastNameId_: int, allianceIdentity_: 'AllianceInformation', callerId_: int):
+    def init(self, firstNameId_: int, lastNameId_: int, allianceIdentity_: 'AllianceInformation', callerId_: int):
         self.allianceIdentity = allianceIdentity_
         
         super().init(firstNameId_, lastNameId_, allianceIdentity_, callerId_)

@@ -223,8 +223,8 @@ class PlayedCharacterUpdatesFrame(Frame):
                 entityInfos = None
                 previousLevel = pcm.PlayedCharacterManager().infos.level
                 newLevel = msg.newLevel
-                pcm.PlayedCharacterManager().infos.level = newLevel
                 Logger().warning(f"Received a player new level {msg.newLevel}, previous level {pcm.PlayedCharacterManager().infos.level}.")
+                pcm.PlayedCharacterManager().infos.level = newLevel
                 if newLevel == 10 and PlayerManager().server.gameTypeId != GameServerTypeEnum.SERVER_TYPE_TEMPORIS:
                     newSpellWrappers = []
                     playerBreed = Breed.getBreedById(pcm.PlayedCharacterManager().infos.breed)

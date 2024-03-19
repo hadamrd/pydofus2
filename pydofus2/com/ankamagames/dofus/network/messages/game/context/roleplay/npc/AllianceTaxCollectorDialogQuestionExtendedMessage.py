@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class AllianceTaxCollectorDialogQuestionExtendedMessage(TaxCollectorDialogQuestionExtendedMessage):
     alliance: 'BasicNamedAllianceInformations'
-    def init(self, alliance_: 'BasicNamedAllianceInformations', maxPods_: int, prospecting_: int, alliance_: 'BasicNamedAllianceInformations', taxCollectorsCount_: int, taxCollectorAttack_: int, pods_: int, itemsValue_: int, allianceInfo_: 'BasicAllianceInformations'):
+    def init(self, maxPods_: int, prospecting_: int, alliance_: 'BasicNamedAllianceInformations', taxCollectorsCount_: int, taxCollectorAttack_: int, pods_: int, itemsValue_: int, allianceInfo_: 'BasicAllianceInformations'):
         self.alliance = alliance_
         
         super().init(maxPods_, prospecting_, alliance_, taxCollectorsCount_, taxCollectorAttack_, pods_, itemsValue_, allianceInfo_)

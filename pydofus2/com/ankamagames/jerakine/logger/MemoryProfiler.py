@@ -5,7 +5,7 @@ import threading
 import traceback
 import tracemalloc
 
-import objgraph
+# import objgraph
 import psutil
 
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \

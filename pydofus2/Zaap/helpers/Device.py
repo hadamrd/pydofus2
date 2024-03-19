@@ -9,7 +9,7 @@ import psutil
 import pythoncom
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import \
-    Logger  # Ensure pythoncom is imported
+    Logger
 
 
 class Device:

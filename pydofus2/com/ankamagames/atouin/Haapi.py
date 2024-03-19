@@ -1,14 +1,19 @@
 import json
 import os
+import sys
 import ssl
 from datetime import datetime
 from time import sleep
+import traceback
 from urllib.parse import urlencode
+import functools
 
 import pytz
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 
+from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -19,6 +24,24 @@ class HaapiException(Exception):
     pass
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+def sendTrace(func):
+    @functools.wraps(func)
+    def wrapped(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            _, exc_value, exc_traceback = sys.exc_info()
+            traceback_in_var = traceback.format_tb(exc_traceback)
+            error_trace = "\n".join(traceback_in_var) + "\n" + str(exc_value)
+            cause = e.__cause__
+            while cause:
+                cause_traceback = traceback.format_tb(cause.__traceback__)
+                error_trace += "\n\n-- Chained Exception --\n"
+                error_trace += "\n".join(cause_traceback) + "\n" + str(cause)
+                cause = cause.__cause__
+            KernelEventsManager().send(KernelEvent.ClientCrashed, error_trace)
+    return wrapped
 
 class Haapi(metaclass=Singleton):
     MAX_CREATE_API_KEY_RETRIES = 5
@@ -48,6 +71,7 @@ class Haapi(metaclass=Singleton):
         )
         self.verify_ssl = False
 
+    @sendTrace
     def getUrl(self, request, params={}):
         result = (
             self.BASE_URL
@@ -60,19 +84,32 @@ class Haapi(metaclass=Singleton):
                 "GET_ALMANAX_EVENT": "/Ankama/v4/Almanax/GetEvent",
                 "GET_LOADING_SCREEN": "/Ankama/v4/Cms/Items/Loadingscreen/Get",
                 "GET_CMS_FEEDS": "/Ankama/v4/Cms/Items/GetFeeds",
+                "POLLIN_GAME_GET": "/Ankama/v4/Cms/PollInGame/Get",
             }[request]
         )
         if params:
             result += "?" + urlencode(params)
         return result
 
+    @sendTrace
     def getLoadingScreen(self, page, accountId, lang, count):
         url = self.getUrl("GET_LOADING_SCREEN", {"page": page, "accountId": accountId, "lang": lang, "count": count})
+        Logger().debug("[HAAPI] GET url: %s" % url)
         response = self.dofus_session.get(url, verify=self.verify_ssl)
         self.dofus_session.cookies.update(response.cookies)
         return response.json()
 
+    @sendTrace
+    def pollInGameGet(self, count, site, lang, page, apikey=None):
+        if not apikey:
+            apikey = self.account_apikey
+        url = self.getUrl("POLLIN_GAME_GET", {"count": count, "site": site, "lang": lang, "page": page})
+        Logger().debug("[HAAPI] GET url: %s" % url)
+        response = self.dofus_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
+        self.dofus_session.cookies.update(response.cookies)
+        return response.json()
 
+    @sendTrace
     def getCmsFeeds(self, site, page, lang, count, apikey=None):
         if not apikey:
             apikey = self.account_apikey
@@ -85,16 +122,20 @@ class Haapi(metaclass=Singleton):
                 "count": count,
             },
         )
+        Logger().debug("[HAAPI] GET url: %s" % url)
         response = self.dofus_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         self.dofus_session.cookies.update(response.cookies)
         return response.json()
     
+    @sendTrace
     def getAlmanaxEvent(self, lang):
         url = self.getUrl("GET_ALMANAX_EVENT", {"lang": lang, "date": self.get_date()})
+        Logger().debug("[HAAPI] GET url: %s" % url)
         response = self.dofus_session.get(url, verify=self.verify_ssl)
         self.dofus_session.cookies.update(response.cookies)
         return response.json()
 
+    @sendTrace
     def sendEvents(self, game: int, session_id: int, events: str):
         if not session_id:
             session_id = self.game_sessionId
@@ -111,6 +152,7 @@ class Haapi(metaclass=Singleton):
             raise Exception(f"Error while sending events: {response.text}")
         return response
 
+    @sendTrace
     def sendEvent(self, game: int, session_id: int, event_id: int, data: str, date=None):
         if not session_id:
             session_id = self.game_sessionId
@@ -146,6 +188,7 @@ class Haapi(metaclass=Singleton):
         self._account_apikey = api_key
 
     @staticmethod
+    @sendTrace
     def get_date():
         timezone = pytz.timezone("UTC")
         now = datetime.now(timezone)
@@ -153,7 +196,7 @@ class Haapi(metaclass=Singleton):
         formatted_date = formatted_date[:-2] + ":" + formatted_date[-2:]
         return formatted_date
 
-
+    @sendTrace
     def createToken(self, game_id, certId="", certHash="", apikey=None):
         nbrtries = 0
         while nbrtries < 5:
@@ -168,7 +211,7 @@ class Haapi(metaclass=Singleton):
                         "certificate_hash": certHash,
                     },
                 )
-                Logger().debug("[HAAPI] Calling HAAPI to get Login Token, url: %s" % url)
+                Logger().debug("[HAAPI] GET url: %s" % url)
                 response = self.dofus_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
                 self.dofus_session.cookies.update(response.cookies)
                 if response.headers["content-type"] == "application/json":
