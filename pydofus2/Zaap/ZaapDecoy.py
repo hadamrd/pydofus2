@@ -7,15 +7,16 @@ import cloudscraper
 import pytz
 import yaml
 
-from pydofus2.Zaap.Zaapi import Zaapi
 from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import \
     InternalStatisticTypeEnum
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
     ThreadSharedSingleton
-from pydofus2.Zaap.helpers.Device import Device
 from pydofus2.Zaap.helpers.CryptoHelper import CryptoHelper
+from pydofus2.Zaap.helpers.Device import Device
+from pydofus2.Zaap.Zaapi import Zaapi
+
 
 class ZaapError(Exception):
     pass
@@ -26,15 +27,15 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     VERSION = None
     
     
-    def __init__(self, mainAccountApiKey: str=None):
-        self.haapi = Zaapi(self.version)
+    def __init__(self, mainAccountApiKey: str=""):
+        self.haapi = Zaapi(zaap_version=self.version)
         appdata_path = os.getenv("APPDATA")
         settings_file_path = os.path.join(appdata_path, "zaap", "Settings")
         self._apikeys = CryptoHelper.get_all_stored_apikeys()
         self._certs = CryptoHelper.get_all_stored_certificates()
         with open(settings_file_path, "r") as file:
-            self.settings = json.load(file)
-        if mainAccountApiKey is None:
+            self.settings = json.load(fp=file)
+        if not mainAccountApiKey:
             mainAccountApiKey = self.find_main_account_apikey()
         self.mainAccountApiKey = mainAccountApiKey
         self.haapi.zaap_apikey = mainAccountApiKey
@@ -43,7 +44,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         for account in self.settings["USER_ACCOUNTS"]:
             if account["active"]:
                 self.active_accounts += 1
-        self.mainAccount = self.haapi.signOnWithApikey(GameID.ZAAP, self.mainAccountApiKey)
+        self.mainAccount = self.fetchAccountData(mainAccountApiKey)
         self.haapi.listWithApiKey(self.mainAccountApiKey)
         self.haapi.getAccountStatus(self.mainAccountApiKey)
         self.zaap_sessionId = self.haapi.startSessionWithApiKey(self.mainAccount['id'])
@@ -62,7 +63,8 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             device_uid=self.settings["DEVICE_UID"],
             apikey=self.mainAccountApiKey,
         )
-        self.haapi.getCmsById("LAUNCHEREVENTS", self.settings["LANGUAGE"], self.settings["ANNOUNCEMENTS"])
+        if "ANNOUNCEMENTS" in self.settings:
+            self.haapi.getCmsById("LAUNCHEREVENTS", self.settings["LANGUAGE"], self.settings["ANNOUNCEMENTS"])
         self.haapi.getFromCms("CHANGELOG", "LAUNCHER", "en", 1, 20)
         self._chatApiKey = self.haapi.createToken(GameID.CHAT, apikey=self.mainAccountApiKey)
         self.haapi.getCarouselForLauncher("DOFUS", self.settings["LANGUAGE"], 1, 1)
@@ -71,6 +73,9 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.haapi.getFromCms("NEWS", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
         self.haapi.getFromCms("BLOG", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
 
+    def fetchAccountData(self, apikey):
+        return self.haapi.signOnWithApikey(GameID.ZAAP, apikey)
+    
     def find_main_account_apikey(self):
         for account in self.settings["USER_ACCOUNTS"]:
             if account["isMain"]:
@@ -118,7 +123,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         # Parse the YAML content
         try:
             data = yaml.safe_load(response.content)
-        except yaml.YAMLError as e:
+        except yaml.YAMLError:
             raise ZaapError("Failed to parse Zaap version YAML file")
 
         # Save the file locally
@@ -171,7 +176,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                 "resolution": [1920, 1032],
                 "maximized": False,
                 "zoom": 1,
-                "pic_quality": self.settings["PRESELECT_PERFORMANCE"],
+                "pic_quality": self.settings.get("PRESELECT_PERFORMANCE", "lp"),
                 "anim_desac": True,
                 "video_desac": True,
                 "webtoon_auto_unlock": False,
@@ -240,20 +245,10 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                     break
         if apikey is None:
             raise ZaapError(f"No apikey found for login {login}")
-        if not certid or not certhash:
-            if not login:
-                raise ZaapError("No login provided to find certificate")
+        if not certid or not certhash and login:
             for cert in self._certs:
                 if cert["cert"]["login"] == login:
                     certid = cert["cert"]["id"]
                     certhash = cert["hash"]
                     break
-        if not certid or not certhash:
-            raise ZaapError(f"No certificate found for login {login}")
         return self.haapi.createToken(game, certid, certhash, apikey)
-
-if __name__ == "__main__":
-    Logger().activateConsolLogging()
-    zaap = ZaapDecoy()
-    print(zaap.getLoginToken(GameID.DOFUS, login="m72044942@gmail.com"))
-    

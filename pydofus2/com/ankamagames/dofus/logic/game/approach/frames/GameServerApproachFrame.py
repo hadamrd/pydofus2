@@ -49,6 +49,8 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.frames.WorldFrame import \
     WorldFrame
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import \
     FeatureManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import \
+    InactivityManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
     PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
@@ -117,7 +119,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyReques
     HaapiApiKeyRequestMessage
 from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import \
     ProtocolConstantsEnum
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
+    BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionResumedMessage import \
@@ -167,8 +170,11 @@ class GameServerApproachFrame(Frame):
         ConnectionsHandler().send(atmsg)
 
     def process(self, msg: Message) -> bool:
+
         if isinstance(msg, HelloGameMessage):
             self.sendAuthTicket()
+            InactivityManager().start()
+            KernelEventsManager().send(KernelEvent.AuthenticationTicket)
             return True
 
         elif isinstance(msg, AuthenticationTicketAcceptedMessage):

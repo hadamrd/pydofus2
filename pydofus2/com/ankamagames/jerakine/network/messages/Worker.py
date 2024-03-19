@@ -26,7 +26,7 @@ from typing import Optional, Type, TypeVar
 T = TypeVar("T", bound="Frame")
 class Worker(MessageHandler):
     DEBUG_FRAMES: bool = False
-    DEBUG_MESSAGES: bool = False
+    DEBUG_MESSAGES: bool = True
     DEBUG_FRAMES_PROCESSING: bool = False
     LOCK = threading.Lock()
     CONDITION = threading.Condition(LOCK)
@@ -57,8 +57,7 @@ class Worker(MessageHandler):
                 Logger().debug(f"[RCV] {msg}")
             if type(msg).__name__ == "AccountLoggingKickedMessage":
                 KernelEventsManager().send(KernelEvent.ClientShutdown, "Account banned")
-                break
-            if type(msg).__name__ == "TerminateWorkerMessage":
+            if isinstance(msg, TerminateWorkerMessage):
                 self._terminating.set()
                 break
             self.processFramesInAndOut()
@@ -66,7 +65,6 @@ class Worker(MessageHandler):
         self.reset()
         self._terminated.set()
         Logger().warning("Worker terminated!")
-
     def pause(self) -> None:
         self.paused.set()
         self.resumed.clear()

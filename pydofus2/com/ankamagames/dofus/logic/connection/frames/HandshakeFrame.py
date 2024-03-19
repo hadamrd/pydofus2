@@ -23,7 +23,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 class HandshakeFrame(Frame):
     
-    TIMEOUT_DELAY: int = 20
+    TIMEOUT_DELAY: int = 3
     TIMEOUT_REPEAT_COUNT: int = 1
 
     def __init__(self):
@@ -83,7 +83,6 @@ class HandshakeFrame(Frame):
         ConnectionsHandler().send(pingMsg)
 
     def pulled(self) -> bool:
-        if self._timeoutTimer is not None:
+        if self._timeoutTimer:
             self._timeoutTimer.cancel()
-            self._timeoutTimer = None
         return True

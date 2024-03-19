@@ -36,6 +36,8 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import \
+    InactivityManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
     PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.messages.FightEndingMessage import \
@@ -287,6 +289,7 @@ class FightContextFrame(Frame):
         return self._fightersPositionsHistory
 
     def pushed(self) -> bool:
+        InactivityManager().pause(True)
         self.currentCell = -1
         self._entitiesFrame = FightEntitiesFrame()
         self._preparationFrame = FightPreparationFrame(self)
@@ -681,6 +684,7 @@ class FightContextFrame(Frame):
             simf.deleteSpellsGlobalCoolDownsData()
         PlayedCharacterManager().isSpectator = False
         EntitiesManager().clearEntities()
+        InactivityManager().pause(False)
         Logger().debug("FightContextFrame pulled")
         return True
 

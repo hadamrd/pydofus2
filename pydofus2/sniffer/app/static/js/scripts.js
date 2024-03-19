@@ -84,78 +84,92 @@ function updateMessageDisplay(connId, message, fromClient) {
 }
 
 function createNewTab(connId) {
-    var tabLabelsContainer = document.getElementById('tab-labels-container');
-    var tabContainer = document.getElementById('tab-container');
-    var isFirstTab = tabLabelsContainer.children.length === 0; // Check if it's the first tab
+    const tabLabelsContainer = document.getElementById('tab-labels-container');
+    const tabContainer = document.getElementById('tab-container');
+    const isFirstTab = tabLabelsContainer.children.length === 0; // Check if it's the first tab
 
-    // Create the tab label with a close button
-    var tabLabel = document.createElement('li');
+    // Create the tab label with a close button using template literals for clarity
+    const tabLabel = document.createElement('li');
     tabLabel.className = 'tab-label';
-    tabLabel.dataset.target = 'tab-content-' + connId;
-    tabLabel.innerHTML = 'Connection ' + connId + 
-    '<span class="tab-close-button"> × </span>';
+    tabLabel.dataset.target = `tab-content-${connId}`;
+    const labelContent = document.createTextNode(connId);
+    const closeButton = document.createElement('span');
+    closeButton.className = 'tab-close-button';
+    closeButton.textContent = '×';
+    tabLabel.appendChild(labelContent);
+    tabLabel.appendChild(closeButton);
     tabLabelsContainer.appendChild(tabLabel);
 
     // Create the tab content with a clear content button
-    var tabContentDiv = document.createElement('div');
-    tabContentDiv.id = 'tab-content-' + connId;
+    const tabContentDiv = document.createElement('div');
+    tabContentDiv.id = `tab-content-${connId}`;
     tabContentDiv.className = 'tab-content';
     tabContainer.appendChild(tabContentDiv);
 
     // Create a clear content button
-    var clearButton = document.createElement('button');
+    const clearButton = document.createElement('button');
     clearButton.textContent = 'Clear Content';
     clearButton.className = 'clear-content-button';
-    clearButton.onclick = function() {
-        var contentBody = tabContentDiv.querySelector('.tab-content-body');
+    clearButton.addEventListener('click', () => {
+        const contentBody = tabContentDiv.querySelector('.tab-content-body');
         if (contentBody) {
             contentBody.innerHTML = '';
         }
-    };
+    });
     tabContentDiv.appendChild(clearButton);
 
     // Add a div for the tab content body
-    var contentBody = document.createElement('div');
+    const contentBody = document.createElement('div');
     contentBody.className = 'tab-content-body';
     tabContentDiv.appendChild(contentBody);
 
-    // Set the first tab as active and focused
+    // Toggle display based on whether it's the first tab
+    tabContentDiv.style.display = isFirstTab ? 'block' : 'none';
     if (isFirstTab) {
         tabLabel.classList.add('active');
-        tabContentDiv.style.display = 'block';
-    } else {
-        tabContentDiv.style.display = 'none'; // Ensure other tabs are not displayed by default
     }
 
+    // Handling tab and close button clicks
     tabLabel.addEventListener('click', function(event) {
+        // Handle close button click within the tab label
         if (event.target.classList.contains('tab-close-button')) {
-            // Close tab logic here
             tabLabelsContainer.removeChild(tabLabel);
             tabContainer.removeChild(tabContentDiv);
-            // Optionally, focus another tab if the closed tab was active
+            // Optionally, set another tab as active if this was the active tab
+            if (tabLabel.classList.contains('active') && tabLabelsContainer.children.length > 0) {
+                tabLabelsContainer.children[0].click(); // Activate the first tab
+            }
             return;
         }
 
-        var targetId = this.dataset.target;
-        var contents = document.getElementsByClassName('tab-content');
-        var labels = document.getElementsByClassName('tab-label');
-
-        // Hide all contents and remove active class from labels
-        for (var i = 0; i < contents.length; i++) {
-            contents[i].style.display = 'none';
-            labels[i].classList.remove('active');
-        }
-
-        // Show the clicked tab content and set label as active
-        document.getElementById(targetId).style.display = 'block';
-        this.classList.add('active');
+        // Tab activation logic
+        activateTab(this.dataset.target);
     });
+}
+
+// Function to activate a tab by its content ID
+function activateTab(targetId) {
+    const contents = document.querySelectorAll('.tab-content');
+    const labels = document.querySelectorAll('.tab-label');
+
+    // Hide all contents and remove active class from labels
+    contents.forEach(content => content.style.display = 'none');
+    labels.forEach(label => label.classList.remove('active'));
+
+    // Show the clicked tab content and set label as active
+    document.getElementById(targetId).style.display = 'block';
+    document.querySelector(`[data-target="${targetId}"]`).classList.add('active');
 }
 
 function appendMessageToTab(tabContentDiv, msg, fromClient) {
     // console.log('Appending message to tab:', msg);
     var messageContainer = document.createElement('div');
     messageContainer.className = 'message-container';
+    messageContainer.style.display = 'flex';
+    messageContainer.style.alignItems = 'center';
+    messageContainer.style.justifyContent = 'space-between';
+
+    var messageContentDiv = document.createElement('div');
 
     var toggleLabel = document.createElement('label');
     toggleLabel.className = 'message-toggle';
@@ -174,7 +188,30 @@ function appendMessageToTab(tabContentDiv, msg, fromClient) {
         detailsDiv.style.display = detailsDiv.style.display === 'none' ? 'block' : 'none';
     };
 
-    messageContainer.appendChild(toggleLabel);
-    messageContainer.appendChild(detailsDiv);
-    tabContentDiv.appendChild(messageContainer);
+    // Create a delete button with a trash icon
+    var deleteButton = document.createElement('button');
+    deleteButton.className = 'delete-message';
+    deleteButton.innerHTML = '<i class="fa fa-trash-o" aria-hidden="true"></i>'; // Using FontAwesome icon
+    deleteButton.style.fontSize = '1.5em'; // Increase the font size for better visibility
+    deleteButton.style.color = '#dc3545'; // Optional: color for the delete button
+    deleteButton.style.marginLeft = '10px'; // Add some space around the button
+    deleteButton.style.background = 'none';
+    deleteButton.style.border = 'none';
+    deleteButton.style.cursor = 'pointer';
+
+    // Append elements to message content div
+    messageContentDiv.appendChild(toggleLabel);
+    messageContentDiv.appendChild(detailsDiv);
+
+    // Append message content and delete button to the message container
+    messageContainer.appendChild(messageContentDiv);
+    messageContainer.appendChild(deleteButton);
+
+    // Add functionality to delete the message
+    deleteButton.onclick = function() {
+        messageContainer.remove();
+    };
+
+    // Insert the message container at the top
+    tabContentDiv.insertBefore(messageContainer, tabContentDiv.firstChild);
 }

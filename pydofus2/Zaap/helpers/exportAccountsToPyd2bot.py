@@ -1,8 +1,9 @@
 
 from pyd2bot.logic.managers.AccountManager import AccountManager
 from pyd2bot.thriftServer.pyd2botService.ttypes import D2BotError
-from pydofus2.Zaap.helpers.CryptoHelper import CryptoHelper
+
 from pydofus2.com.ankamagames.atouin.BrowserRequests import HttpError
+from pydofus2.Zaap.helpers.CryptoHelper import CryptoHelper
 
 apikeys = CryptoHelper.get_all_stored_apikeys()
 certs = CryptoHelper.get_all_stored_certificates()

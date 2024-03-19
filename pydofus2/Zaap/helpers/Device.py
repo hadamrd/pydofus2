@@ -6,7 +6,10 @@ import re
 import subprocess
 
 import psutil
-import pythoncom  # Ensure pythoncom is imported
+import pythoncom
+
+from pydofus2.com.ankamagames.jerakine.logger.Logger import \
+    Logger  # Ensure pythoncom is imported
 
 
 class Device:
@@ -27,9 +30,9 @@ class Device:
             return Device.__uuid
 
         id = Device.machine_id()
-        print(f"Machine id : {id}")
+        # Logger().debug(f"Machine id : {id}")
         cpu_count, cpu_model = Device.get_cpu_info()
-        print(f"cpu_count : {cpu_count}, cpu_model : {cpu_model}")
+        # Logger().debug(f"cpu_count : {cpu_count}, cpu_model : {cpu_model}")
         plt, arch = Device.get_platform_and_architecture()
         Device.__uuid = ",".join([plt, arch, id, str(cpu_count), cpu_model])
         return Device.__uuid
@@ -67,10 +70,10 @@ class Device:
                 import wmi
                 w = wmi.WMI()
             except Exception as e:
-                print(f"Error while getting wmi : {e}")
+                Logger().error(f"Error while getting wmi : {e}", exc_info=True)
             cpu_info = w.Win32_Processor()[0]
             cpu_model = cpu_info.Name
-            print(f"cpu_model : {cpu_model}")
+            # Logger().debug(f"cpu_model : {cpu_model}")
             
         # For Unix/Linux
         elif psutil.LINUX or psutil.MACOS or psutil.UNIX:
@@ -143,7 +146,7 @@ class Device:
                     value, _ = winreg.QueryValueEx(reg_key, key_name)
                     return value
         except Exception as e:
-            print(f"An error occurred: {e}")
+            Logger().error(f"An error occurred: {e}")
             return None
         
     @staticmethod

@@ -71,6 +71,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFigh
     GameFightTurnEndMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnListMessage import \
     GameFightTurnListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnReadyRequestMessage import \
+    GameFightTurnReadyRequestMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.SlaveNoLongerControledMessage import \
     SlaveNoLongerControledMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import \
@@ -116,6 +118,7 @@ class FightBattleFrame(Frame):
         self._newWaveId: int = 0
         self._newWave = False
         self._sequenceFrameCached: fseqf.FightSequenceFrame = None
+        self._endBattle = False
         super().__init__()
 
     @property
@@ -236,9 +239,9 @@ class FightBattleFrame(Frame):
         elif isinstance(msg, SequenceEndMessage):
             semsg = msg
             if not self._currentSequenceFrame:
-                Logger().warn("I got a Sequence End but no Sequence Start!")
+                Logger().warn("Got a Sequence End but no Sequence Start!")
                 return True
-            self._currentSequenceFrame.mustAck = semsg.authorId == int(CurrentPlayedFighterManager().currentFighterId)
+            self._currentSequenceFrame.mustAck = (semsg.authorId == int(CurrentPlayedFighterManager().currentFighterId))
             self._currentSequenceFrame.ackIdent = semsg.actionId
             self._sequenceFrameSwitcher.currentFrame = None
             if not self._currentSequenceFrame.parent:
@@ -283,7 +286,17 @@ class FightBattleFrame(Frame):
             gfemsg = msg
             maxEndRescue = 5
             maxEndRescue -= 1
-            self.endBattle(gfemsg)
+            while self._currentSequenceFrame and maxEndRescue > 0:
+                Logger().error("/!\\ Fight end but no SequenceEnd was received")
+                seqEnd = SequenceEndMessage()
+                seqEnd.init(0, 0, 0)
+                self.process(seqEnd)
+            if self._executingSequence:
+                Logger().error("Delaying fight end because we\'re still in a sequence.")
+                self._endBattle = True
+                self._battleResults = gfemsg
+            else:
+                self.endBattle(gfemsg)
             FightersStateManager().endFight()
             CurrentPlayedFighterManager().endFight()
             return False
@@ -330,7 +343,7 @@ class FightBattleFrame(Frame):
             if msg.id == CurrentPlayedFighterManager().currentFighterId:
                 self._turnFrame.myTurn = False
             return True
-        
+
         else:
             return False
 
@@ -431,6 +444,12 @@ class FightBattleFrame(Frame):
                 self.gameFightSynchronize(self._synchroniseFighters)
                 self._synchroniseFighters = None
             self.applyDelayedStats()
+            if self._endBattle:
+                Logger().warning("This fight must end ! Finishing things now.")
+                self._endBattle = False
+                self.endBattle(self._battleResults)
+                self._battleResults = False
+                return
             KernelEventsManager().send(KernelEvent.SequenceExecFinished)
         return function
 

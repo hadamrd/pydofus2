@@ -16,7 +16,10 @@ class DofusSnifferApp:
     def handle_new_message(self, conn_id: str, msg: NetworkMessage, from_client: bool):
         msg_json = self.sniffer.messagesRecord[conn_id][-1]
         client, server = conn_id.split(" <-> ")
-        self.socketio.emit("new_message", {"conn_id": server, "message": msg_json, "from_client": from_client})
+        _, _, client_port = client.split(":")
+        _, server_host, _ = server.split(":")
+        connid = f"{client_port}::{server_host}"
+        self.socketio.emit("new_message", {"conn_id": connid, "message": msg_json, "from_client": from_client})
 
     def handle_sniffer_crash(self, error_trace):
         print(f"Sniffer crashed with error: {error_trace}")
@@ -45,8 +48,8 @@ class DofusSnifferApp:
                 self.sniffer.start()
             return jsonify({"status": "success", "message": f"Sniffer {action}", "action": action})
 
-    def run(self, debug=True):
-        self.socketio.run(self.app, debug=debug)
+    def run(self, debug=True, port=8700):
+        self.socketio.run(self.app, debug=debug, port=port)
 
 
 if __name__ == "__main__":

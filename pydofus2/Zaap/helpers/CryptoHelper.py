@@ -5,12 +5,12 @@ import json
 import os
 from pathlib import Path
 
-from pydofus2.Zaap.helpers.Device import Device
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+from pydofus2.Zaap.helpers.Device import Device
 
 
 class CryptoHelper:
@@ -80,7 +80,7 @@ class CryptoHelper:
     def decrypt_from_file(file_path, uuid=None):
         if uuid is None:
             uuid = Device.get_uuid()
-        Logger().debug(f"Decrypting file {file_path} with uuid {uuid}")
+        # Logger().debug(f"Decrypting file {file_path} with uuid {uuid}")
         with open(file_path, 'r', encoding='utf-8') as file:
             data = file.read()
         return CryptoHelper.decrypt(data, uuid)
@@ -121,7 +121,7 @@ class CryptoHelper:
             if not cert_file.startswith(".certif"):
                 continue
             cert_path = Path(cert_folder) / cert_file
-            Logger().debug(f"processing file {cert_path}")
+            # Logger().debug(f"processing file {cert_path}")
             cert = CryptoHelper.decrypt_from_file(str(cert_path))
             hash = CryptoHelper.generate_hash_from_cert(cert, encoders["hm1"], encoders["hm2"])
             deciphered_certs.append({"hash": hash, "certFile": cert_file, "cert": cert})
@@ -137,9 +137,9 @@ class CryptoHelper:
             if not apikey_file.startswith(".key"):
                 continue
             apikey_files_path = Path(apikeys_folder) / apikey_file
-            Logger().debug(f"processing file {apikey_files_path}")
+            # Logger().debug(f"processing file {apikey_files_path}")
             apikey_data = CryptoHelper.decrypt_from_file(str(apikey_files_path))
-            Logger().debug(f"Apikey data : {apikey_data}")
+            # Logger().debug(f"Apikey data : {apikey_data}")
             deciphered_apikeys.append({"apikeyFile": apikey_file, "apikey": apikey_data})
         return deciphered_apikeys
     
@@ -151,7 +151,7 @@ class CryptoHelper:
         os_version = Device.get_os_version()
         ram = Device.get_computer_ram()
         machine_infos = [arch, plt, id, username, str(int(os_version)), str(ram)]
-        Logger().debug(f"Machine infos : {machine_infos}, len : {len(machine_infos)}")
+        # Logger().debug(f"Machine infos : {machine_infos}, len : {len(machine_infos)}")
         machine_infos = "".join([arch, plt, id, username, str(int(os_version)), str(ram)])
         hm1 = CryptoHelper.create_hash_from_string_sha256(machine_infos)
         hm2 = hm1[::-1]

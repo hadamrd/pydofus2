@@ -17,6 +17,7 @@ class KernelEvent(Enum):
     CharacterCreationStart = auto()
     CharacterSelectedForce = auto()
     AuthenticationTicketAccepted = auto()
+    AuthenticationTicket = auto()
     
     # client 
     ClientCrashed = auto()
@@ -28,6 +29,9 @@ class KernelEvent(Enum):
     ClientShutdown = auto()
     ClientRestart = auto()
     HaapiApiKeyReady = auto()
+    
+    # Inactivity
+    InactivityNotification = auto()
     
     # map 
     MapLoaded = auto()

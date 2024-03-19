@@ -2,6 +2,7 @@ from time import perf_counter
 
 import pydofus2.com.ankamagames.atouin.utils.DataMapProvider as dmpm
 from pydofus2.com.ankamagames.atouin.data.map.Layer import Layer
+from pydofus2.com.ankamagames.atouin.data.map.Map import Map
 from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import \
     ElementTypesEnum
 from pydofus2.com.ankamagames.atouin.messages.MapLoadedMessage import \
@@ -19,7 +20,7 @@ class MapDisplayManager(metaclass=Singleton):
     def __init__(self) -> None:
         self._currentMapRendered = True
         self._currentMap = None
-        self.currentDataMap = None
+        self.currentDataMap: Map = None
         self._lastMap: WorldPoint = None
         self._nMapLoadStart = 0
         self._nMapLoadEnd = 0
@@ -27,7 +28,7 @@ class MapDisplayManager(metaclass=Singleton):
         self._identifiedElement = dict[int, MapPoint]()
 
     @property
-    def dataMap(self):
+    def dataMap(self) -> Map:
         return self.currentDataMap
 
     @property

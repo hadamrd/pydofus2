@@ -16,15 +16,9 @@ from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
 
 
 class KernelEventsManager(EventsHandler, metaclass=Singleton):
+
     def __init__(self):
         super().__init__()
-
-    def onFramePush(self, frameName, callback, args=[], originator=None):
-        def onEvt(e, frame):
-            if str(frame) == frameName:
-                callback(*args)
-
-        return self.on(KernelEvent.FramePushed, onEvt, originator=originator)
 
     def onceFramePushed(self, frameName, callback, args=[], originator=None):
         def onEvt(evt: Event, frame):

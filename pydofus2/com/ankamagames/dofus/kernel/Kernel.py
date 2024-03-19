@@ -17,6 +17,7 @@ from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 if TYPE_CHECKING:
     from pyd2bot.logic.common.frames.BotRPCFrame import BotRPCFrame
     from pyd2bot.logic.roleplay.behaviors.fight.FarmFights import FarmFights
+
     from pydofus2.com.ankamagames.dofus.logic.common.frames.AlignmentFrame import \
         AlignmentFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.BidHouseManagementFrame import \
@@ -106,6 +107,8 @@ class Kernel(metaclass=Singleton):
         self,
         reloadData: bool = False,
     ) -> None:
+        from pydofus2.com.ankamagames.atouin.HaapiEventsManager import \
+            HaapiEventsManager
         from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
             KernelEventsManager
         from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
@@ -116,6 +119,8 @@ class Kernel(metaclass=Singleton):
             StatsManager
         from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AveragePricesFrame import \
             AveragePricesFrame
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import \
+            InactivityManager
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
             PlayedCharacterManager
         from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
@@ -141,6 +146,9 @@ class Kernel(metaclass=Singleton):
         PlayerManager.clear()
         DataMapProvider.clear()
         SpellModifiersManager.clear()
+        HaapiEventsManager.clear()
+        InactivityManager().stop()
+        InactivityManager.clear()
         if not reloadData:
             self._worker.terminate()
         else:

@@ -1,4 +1,5 @@
 import re
+from typing import Any
 
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -6,12 +7,6 @@ from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
     StoreDataManager
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
     ThreadSharedSingleton
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import \
-    ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import \
-    ResourceLoaderFactory
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import \
-    ResourceLoaderType
 
 
 class LangManager(metaclass=ThreadSharedSingleton):
@@ -22,7 +17,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
     def __init__(self) -> None:
         
         self._parseReference = dict()
-        self._aLang:dict[str, str] = StoreDataManager().getSetData(
+        self._aLang:dict[str, Any] = StoreDataManager().getSetData(
             JerakineConstants.DATASTORE_LANG, self.KEY_LANG_INDEX, list()
         )
         self._aCategory = StoreDataManager().getSetData(
@@ -60,8 +55,8 @@ class LangManager(metaclass=ThreadSharedSingleton):
                         sNewVal = I18n.getUiText(sKey)
                     if sKey[0] == "~":
                         continue
-                    if self._replaceErrorCallback is not None:
-                        sNewVal = self._replaceErrorCallback(sKey)
+                    # if self._replaceErrorCallback is not None:
+                    #     sNewVal = self._replaceErrorCallback(sKey)
                     if sNewVal is None:
                         sNewVal = "[" + sKey + "]"
                         aFind = self.getCategory(sKey)
@@ -93,7 +88,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
                     aResult[key] = self._aLang[key]
         return aResult
 
-    def setEntry(self, sKey:str, sValue:str, sType:str=None):
+    def setEntry(self, sKey:str, sValue:str, sType:str=""):
         if not sType:
             self._aLang[sKey] = sValue
         else:

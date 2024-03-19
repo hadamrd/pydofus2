@@ -5,7 +5,6 @@ import traceback
 from datetime import datetime
 from time import perf_counter
 from typing import TYPE_CHECKING
-from pydofus2.Zaap.ZaapDecoy import ZaapDecoy
 
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.atouin.HaapiEventsManager import \
@@ -21,6 +20,8 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
     DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.common.frames.MiscFrame import \
+    MiscFrame
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
@@ -31,15 +32,18 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterMa
     PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
-from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
+    HaapiKeyManager
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
     TerminateWorkerMessage
 from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
     AdapterFactory
+from pydofus2.Zaap.ZaapDecoy import ZaapDecoy
 
 if TYPE_CHECKING:
+    from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
     from pydofus2.com.ankamagames.jerakine.network.ServerConnection import \
         ServerConnection
 
@@ -74,6 +78,7 @@ class DofusClient(threading.Thread):
         self._shutDownMessage = ""
         self._reconnectRecord = []
         self._shutDownListeners = []
+        self.kernel = None
         self.terminated = threading.Event()
 
     def initListeners(self):
@@ -106,10 +111,12 @@ class DofusClient(threading.Thread):
     def init(self):
         Logger().info("Initializing ...")
         self.zaap = ZaapDecoy()
-        Kernel().init()
+        self.kernel = Kernel()
+        self.kernel.init()
+        self.registerInitFrame(MiscFrame)
         AdapterFactory.addAdapter("ele", ElementsAdapter)
         # AdapterFactory.addAdapter("dlm", MapsAdapter)
-        Kernel().isMule = self._mule
+        self.kernel.isMule = self._mule
         ModuleReader._clearObjectsCache = True
         self._shutDownReason = None
         self.initListeners()
@@ -121,14 +128,18 @@ class DofusClient(threading.Thread):
     def setLoginToken(self, token):
         self._loginToken = token
 
+    def setCertificate(self, certId, certHash):
+        self._certId = certId
+        self._certHash = certHash
+        
     def setAutoServerSelection(self, serverId, characterId=None):
         self._serverId = serverId
         self._characterId = characterId
 
-    def registerInitFrame(self, frame):
+    def registerInitFrame(self, frame: "Frame"):
         self._registredInitFrames.append(frame)
 
-    def registerGameStartFrame(self, frame):
+    def registerGameStartFrame(self, frame: "Frame"):
         self._registredGameStartFrames.append(frame)
 
     def onCharacterSelectionSuccess(self, event, return_value):
@@ -196,13 +207,13 @@ class DofusClient(threading.Thread):
         if not self._loginToken:
             if self._apikey is None:
                 return self.shutdown(
-                    DisconnectionReasonEnum.EXCEPTION_THROWN,
+                    reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                     message="Unable to login for reason : No apikey and certificate or login token provided!",
                 )
             self._loginToken = self.zaap.getLoginToken(GameID.DOFUS, self._certId, self._certHash, self._apikey)
             if self._loginToken is None:
                 return self.shutdown(
-                    DisconnectionReasonEnum.EXCEPTION_THROWN,
+                    reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                     message="Unable to login for reason : Unable to generate login token!",
                 )
         AuthentificationManager().setToken(self._loginToken)
@@ -232,9 +243,9 @@ class DofusClient(threading.Thread):
     def shutdown(self, message="", reason=None):
         self._shutDownReason = reason if reason else DisconnectionReasonEnum.WANTED_SHUTDOWN
         self._shutDownMessage = message if message else "Wanted shutdown"
-        if Kernel.getInstance(self.name):
+        if self.kernel:
             Logger().info(f"Shutting down client {self.name} for reason : {self._shutDownReason}")
-            Kernel.getInstance(self.name).worker.process(TerminateWorkerMessage())
+            self.kernel.worker.process(TerminateWorkerMessage())
         else:
             Logger().warning("Kernel is not running, kernel running instances : " + str(Kernel._instances))
         return
@@ -261,7 +272,7 @@ class DofusClient(threading.Thread):
             self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
             self.worker.run()
         except Exception as e:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
+            _, exc_value, exc_traceback = sys.exc_info()
             traceback_in_var = traceback.format_tb(exc_traceback)
             # Start with the current exception's traceback
             error_trace = "\n".join(traceback_in_var) + "\n" + str(exc_value)
@@ -276,24 +287,14 @@ class DofusClient(threading.Thread):
             self._crashed = True
             self._shutDownReason = DisconnectionReasonEnum.EXCEPTION_THROWN
 
-        if self._shutDownReason:
-            Logger().info(f"Wanted shutdown for reason : {self._shutDownReason}")
-            if self._shutDownMessage:
-                Logger().error(f"Crashed for reason : {self._shutDownReason} :\n{self._shutDownMessage}")
-        HaapiEventsManager().sendEndEvent()
+        if self._shutDownReason != DisconnectionReasonEnum.WANTED_SHUTDOWN:
+            Logger().error(f"Crashed for reason : {self._shutDownReason} :\n{self._shutDownMessage}")
+
+        if Haapi().game_sessionId:
+            HaapiEventsManager().sendEndEvent()
         Kernel().reset()
         Logger().info("goodby crual world")
         self.terminated.set()
         for callback in self._shutDownListeners:
             Logger().info(f"Calling shutdown callback {callback}")
             callback(self.name, self._shutDownMessage, self._shutDownReason)
-
-
-if __name__ == "__main__":
-    client = DofusClient()
-    client.setApiKey("APIKEY")
-    client.setAutoServerSelection(0)
-    client.start()
-    client.terminated.wait()
-    Logger().info("Client terminated")
-    sys.exit(0)

@@ -4,9 +4,11 @@ import ssl
 from datetime import datetime
 from time import sleep
 from urllib.parse import urlencode
+
 import pytz
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from urllib3.exceptions import InsecureRequestWarning
+
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -83,7 +85,7 @@ class Haapi(metaclass=Singleton):
                 "count": count,
             },
         )
-        response = self.dofus_session.get(url, headers={"apikey": self.account_apikey}, verify=self.verify_ssl)
+        response = self.dofus_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         self.dofus_session.cookies.update(response.cookies)
         return response.json()
     
@@ -116,7 +118,7 @@ class Haapi(metaclass=Singleton):
                 raise Exception("Need a session_id to send events")
         if not date:
             date = self.get_date()
-        url = self.getUrl("SEND_EVENT_V4")
+        url = self.getUrl("SEND_EVENT")
         response = self.dofus_session.post(
             url,
             data={
@@ -156,17 +158,17 @@ class Haapi(metaclass=Singleton):
         nbrtries = 0
         while nbrtries < 5:
             try:
-                Logger().debug("[HAAPI] Calling HAAPI to get Login Token, url: %s" % url)
                 if apikey is None:
                     apikey = self.account_apikey
                 url = self.getUrl(
-                    "GET_LOGIN_TOKEN_V4",
+                    "CREATE_TOKEN",
                     {
                         "game": game_id,
                         "certificate_id": certId,
                         "certificate_hash": certHash,
                     },
                 )
+                Logger().debug("[HAAPI] Calling HAAPI to get Login Token, url: %s" % url)
                 response = self.dofus_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
                 self.dofus_session.cookies.update(response.cookies)
                 if response.headers["content-type"] == "application/json":

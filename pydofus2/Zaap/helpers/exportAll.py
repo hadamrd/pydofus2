@@ -2,7 +2,6 @@ import json
 
 from pydofus2.Zaap.helpers.CryptoHelper import CryptoHelper
 
-
 apikeys = CryptoHelper.get_all_stored_apikeys()
 certs = CryptoHelper.get_all_stored_certificates()
 

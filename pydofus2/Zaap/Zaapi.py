@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 
 import pytz
 import requests
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from urllib3.exceptions import InsecureRequestWarning
 
 from pydofus2.com.ankamagames.atouin.HappiConfig import (AUTH_STATES,
                                                          ZAAP_CONFIG)
@@ -175,7 +175,6 @@ class Zaapi(metaclass=Singleton):
         url = self.getUrl("SIGN_ON_WITH_APIKEY", {"game": game_id})
         response = self.zaap_session.post(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         body = response.json()
-        print(body)
         if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
             Logger().error("[AUTH] Mail not confirmed by user")
             raise Exception(AUTH_STATES.USER_EMAIL_INVALID)
@@ -193,7 +192,7 @@ class Zaapi(metaclass=Singleton):
         url = self.getUrl("LIST_WITH_API_KEY")
         response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         self.zaap_session.cookies.update(response.cookies)
-        with open(f"{apikey}_tracking.json", "w") as f:
+        with open(f"tracking.json", "w") as f:
             f.write(response.text)
 
     def getAccountStatus(self, apikey=None):
@@ -201,7 +200,6 @@ class Zaapi(metaclass=Singleton):
             apikey = self.zaap_apikey
         url = self.getUrl("ANKAMA_ACCOUNT_STATUS")
         response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
-        print(response.text)
         self.zaap_session.cookies.update(response.cookies)
 
     @staticmethod

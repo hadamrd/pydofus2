@@ -17,7 +17,7 @@ T = TypeVar("T")
 class LoggerSingleton(type):
     _instances = dict[str, object]()
 
-    def __call__(cls, *args, **kwargs) -> object:
+    def __call__(cls: Type[T], *args, **kwargs) -> T:
         threadName = threading.current_thread().name
         if threadName not in LoggerSingleton._instances:
             LoggerSingleton._instances[threadName] = super(LoggerSingleton, cls).__call__(*args, **kwargs)
@@ -102,6 +102,7 @@ class MyFormatter(logging.Formatter):
         return f"{color}{super().format(record)}\033[0m"
 
 class Logger(logging.Logger, metaclass=LoggerSingleton):
+    logToConsole = False
     
     def __init__(self, name="DofusLogger", consoleOut=False):
         self.name = name
@@ -118,7 +119,7 @@ class Logger(logging.Logger, metaclass=LoggerSingleton):
         fileHandler = logging.FileHandler(self.outputFile)
         fileHandler.setFormatter(self.formatter)
         self.addHandler(fileHandler)
-        if consoleOut:
+        if Logger.logToConsole:
             streamHandler = logging.StreamHandler(sys.stdout)
             streamHandler.setFormatter(self.formatter)
             self.addHandler(streamHandler)

@@ -98,7 +98,7 @@ class ConnectionsHandler(metaclass=Singleton):
             self.conn.close()
             self.conn.join()
         if self._currentConnectionType == ConnectionType.TO_GAME_SERVER:
-            for instId, inst in Kernel.getInstances():
+            for _, inst in Kernel.getInstances():
                 if inst != Kernel():
                     inst.worker.process(
                         PlayerDisconnectedMessage(

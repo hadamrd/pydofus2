@@ -13,6 +13,8 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyRequestMessage import \
     HaapiApiKeyRequestMessage
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
+    BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
@@ -29,7 +31,8 @@ class HaapiKeyManager(EventsHandler, metaclass=Singleton):
         self._askedApiKey = threading.Event()
         self._askedToken = False
         self._askedTokens = []  # Vector equivalent in Python
-        self._apiKeyExpirationTimer = Timer(self.ONE_HOUR_IN_S, self.onApiKeyExpiration)
+        self._apiKeyExpirationTimer = BenchmarkTimer(self.ONE_HOUR_IN_S, self.onApiKeyExpiration)
+        self._apikey_listeners = []
         super().__init__()
 
     def onApiKeyExpiration(self):
@@ -82,16 +85,20 @@ class HaapiKeyManager(EventsHandler, metaclass=Singleton):
             callback(self._apiKey)
         else:
             Logger().debug("CALL WITH API KEY :: API KEY IS NULL")
+            if not Kernel().gameServerApproachFrame:
+                return KernelEventsManager().onceFramePushed("GameServerApproachFrame", lambda: self.callWithApiKey(callback))
+            self._apikey_listeners.append(callback)
+            if self._askedApiKey.is_set():
+                return
             KernelEventsManager().once(KernelEvent.HaapiApiKeyReady, lambda _, haapikey: self.saveApiKey(haapikey), priority=10)
-            KernelEventsManager().once(KernelEvent.HaapiApiKeyReady, lambda _, haapikey: callback(haapikey))
             if not Kernel().gameServerApproachFrame.authenticationTicketAccepted:
                 Logger().debug("Cannot call with API key, until authentication ticket is accepted")
                 KernelEventsManager().once(KernelEvent.AuthenticationTicketAccepted, self.onAuthTicketAccepted)
             elif not self._askedApiKey.is_set():
-                Logger().debug("CALL WITH API KEY :: ASK FOR API KEY")
                 self.onAuthTicketAccepted()
-
+        
     def onAuthTicketAccepted(self, event=None):
+        Logger().debug("CALL WITH API KEY :: ASK FOR API KEY")
         self._askedApiKey.set()
         ConnectionsHandler().send(HaapiApiKeyRequestMessage())
              
@@ -100,12 +107,15 @@ class HaapiKeyManager(EventsHandler, metaclass=Singleton):
         self._apiKey = haapiKey
         self._askedApiKey.clear()
         Haapi().account_apikey = haapiKey
-        self._apiKeyExpirationTimer = Timer(self.ONE_HOUR_IN_S, self.onApiKeyExpiration)
+        self._apiKeyExpirationTimer = BenchmarkTimer(self.ONE_HOUR_IN_S, self.onApiKeyExpiration)
         self._apiKeyExpirationTimer.start()
+        for listener in self._apikey_listeners:
+            listener(haapiKey)
+        self._apikey_listeners = []
 
     def saveGameSessionId(self, key):
         self._gameSessionId = int(key)
-        Haapi().game_sessionId = key
+        Haapi().game_sessionId = int(key)
         self.send(HaapiEvent.GameSessionReadyEvent, self._gameSessionId)
 
     def saveAccountSessionId(self, key):

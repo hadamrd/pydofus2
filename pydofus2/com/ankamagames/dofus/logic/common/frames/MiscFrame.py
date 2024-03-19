@@ -1,4 +1,3 @@
-from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -110,6 +109,7 @@ class MiscFrame(Frame, metaclass=Singleton):
             return True
 
         if isinstance(msg, HaapiSessionMessage):
+            Logger().debug(f"HaapiSessionMessage received : {msg.key}")
             if msg.type == HaapiSessionTypeEnum.HAAPI_ACCOUNT_SESSION:
                 HaapiKeyManager().saveAccountSessionId(msg.key)
             elif msg.type == HaapiSessionTypeEnum.HAAPI_GAME_SESSION:

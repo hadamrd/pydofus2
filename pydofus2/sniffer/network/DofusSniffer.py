@@ -7,6 +7,8 @@ import threading
 
 import pyshark
 
+from pydofus2.com.ankamagames.dofus.network.MessageReceiver import \
+    MessageReceiver
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
     NetworkMessage

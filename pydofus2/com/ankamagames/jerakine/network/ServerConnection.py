@@ -35,7 +35,7 @@ def sendTrace(func):
         try:
             return func(self, *args, **kwargs)
         except Exception as e:
-            exc_type, exc_value, exc_traceback = sys.exc_info()
+            _, exc_value, exc_traceback = sys.exc_info()
             traceback_in_var = traceback.format_tb(exc_traceback)
             error_trace = "\n".join(traceback_in_var) + "\n" + str(exc_value)
             cause = e.__cause__

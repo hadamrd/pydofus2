@@ -37,6 +37,7 @@ class BenchmarkTimer(threading.Thread):
     def start(self) -> None:
         BenchmarkTimer._started_timers_count += 1
         self.startedTime = perf_counter()
+        self.finished.clear()
         super().start()
     
     def debugData(self):
