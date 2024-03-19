@@ -140,7 +140,7 @@ _mule_fight_messages_to_discard = {
 
 class MessageReceiver(RawDataParser, metaclass=Singleton):
 
-    def __init__(self, optimise=False):
+    def __init__(self, optimise=True):
         self.infight = False
         self.discard = optimise
         self.msgLenLen = None

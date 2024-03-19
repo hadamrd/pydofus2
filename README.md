@@ -7,6 +7,10 @@ Its used by the pyd2bot module, that adds extra frames to the worker process, th
 
 Full code is in the examples folder
 
+## Join discord community
+
+<https://discord.gg/kGeUTyTd>
+
 ### Main 
 ```python
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
