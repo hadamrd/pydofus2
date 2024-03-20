@@ -209,6 +209,8 @@ class DofusClient(threading.Thread):
                 for callback in self._shutDownListeners:
                     Logger().info(f"Calling shutdown callback {callback}")
                     callback(self.name, self._shutDownMessage, self._shutDownReason)
+            else:
+                Logger().info("Haapi game session not ready, not sending end event")
 
     def prepareLogin(self):
         PlayedCharacterManager().instanceId = self.name

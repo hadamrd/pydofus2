@@ -7,8 +7,6 @@ import threading
 
 import pyshark
 
-from pydofus2.com.ankamagames.dofus.network.MessageReceiver import \
-    MessageReceiver
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
     NetworkMessage
@@ -85,7 +83,7 @@ class DofusSniffer(threading.Thread):
             import sys
             import traceback
             Logger().error(f"Error in sniffer thread: {e}", exc_info=True)
-            exc_type, exc_value, exc_traceback = sys.exc_info()
+            _, exc_value, exc_traceback = sys.exc_info()
             traceback_in_var = traceback.format_tb(exc_traceback)
             # Start with the current exception's traceback
             error_trace = "\n".join(traceback_in_var) + "\n" + str(exc_value)

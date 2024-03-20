@@ -121,11 +121,12 @@ class ConnectionsHandler(metaclass=Singleton):
         self._conn.connect(host, port)
 
     def send(self, msg: INetworkMessage) -> None:
+        if not self._conn:
+            # Logger().warning(
+            #     f"Can't send message when no connection is established!, maybe we are shuting down?"
+            # )
+            return
         with self.sendMessageLock:
-            if not self._conn:
-                return Logger().warning(
-                    f"Can't send message when no connection is established!, maybe we are shuting down?"
-                )
             if self.last_send_time is not None:
                 if type(msg) in [
                     GameMapMovementConfirmMessage,

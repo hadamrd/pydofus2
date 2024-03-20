@@ -1,5 +1,4 @@
 import json
-import os
 import sys
 import ssl
 from datetime import datetime
@@ -11,6 +10,8 @@ import functools
 import pytz
 import requests
 from urllib3.exceptions import InsecureRequestWarning
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
@@ -62,6 +63,16 @@ class Haapi(metaclass=Singleton):
             "Connection": "keep-alive",
             "Cookie": "LANG=en",
         }
+        retry_strategy = Retry(
+            total=3,
+            read=3,
+            connect=3,
+            backoff_factor=0.3,
+            status_forcelist=(502,),
+        )
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        self.dofus_session.mount("http://", adapter)
+        self.dofus_session.mount("https://", adapter)
         self.dofus_session.headers.update(self.dofus_headers)
         self.dofus_session.proxies.update(
             {

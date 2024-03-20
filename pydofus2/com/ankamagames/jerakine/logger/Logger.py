@@ -37,6 +37,16 @@ GREEN_COLOR = '\033[0;32m'
 ORANGE_COLOR = '\033[38;5;208m'
 DARK_GRAY_COLOR = '\033[90m'
 
+ansi_to_color_style = {
+    CYAN_COLOR: "color: cyan;",
+    YELLOW_COLOR: "color: yellow;",
+    RED_COLOR: "color: red;",
+    MAGNETA_COLOR: "color: magenta;",
+    GREEN_COLOR: "color: green;",
+    ORANGE_COLOR: "color: orange;",
+    DARK_GRAY_COLOR: "color: darkgray;"
+}
+
 COLORS = {
     "ServerConnection": CYAN_COLOR,
     "ConnectionsHandler": CYAN_COLOR,
@@ -79,7 +89,23 @@ COLORS = {
     "NetworkMessageClassDefinition": GREEN_COLOR,
     "NetworkMessageDataField": MAGNETA_COLOR
 }
-class MyFormatter(logging.Formatter):
+
+def getRecordColor(record: logging.LogRecord, type='ansi') -> str:
+    if record.levelno == logging.ERROR:
+        color = RED_COLOR
+    elif record.levelno == logging.WARNING:
+        color = YELLOW_COLOR
+    elif "Step" in record.module:
+        color = DARK_GRAY_COLOR
+    else:
+        color = COLORS.get(record.module, '')
+    if type == 'html':
+        if not color:
+            return 'color: #888;'
+        return ansi_to_color_style.get(color, '')
+    return color
+
+class AnsiFormatter(logging.Formatter):
     
     def __init__(self, fmt=None, datefmt=None, style='%'):
         super().__init__(fmt, datefmt, style)
@@ -89,18 +115,41 @@ class MyFormatter(logging.Formatter):
         self.levelname_format = 6
 
     def format(self, record):
-        if record.levelno == logging.ERROR:
-            color = RED_COLOR
-        elif record.levelno == logging.WARNING:
-            color = YELLOW_COLOR
-        elif "Step" in record.module:
-            color = DARK_GRAY_COLOR
-        else:
-            color = COLORS.get(record.module, '')
+        color = getRecordColor(record)
+        # Use local variables for formatted module and levelname
+        formatted_module = f"{record.module[:self.module_format]:{self.module_format}}"
+        formatted_levelname = f"{record.levelname[:self.levelname_format]:{self.levelname_format}}"
+        
+        # Create a copy of the original format to insert formatted module and levelname
+        original_format = self._fmt
+        try:
+            # Temporarily adjust the formatter's format string to include the changes
+            self._fmt = self._fmt.replace('%(module)s', formatted_module).replace('%(levelname)s', formatted_levelname)
+            
+            # Now format the record with the adjusted format
+            formatted_message = super().format(record)
+        finally:
+            # Ensure the formatter's format is reset, even if an error occurs
+            self._fmt = original_format
+        
+        return f"{color}{formatted_message}\033[0m"
+
+class HtmlFormatter(logging.Formatter):
+    
+    def __init__(self, fmt=None, datefmt=None, style='%'):
+        super().__init__(fmt, datefmt, style)
+        self.max_module_length = max(len(module) for module in COLORS)
+        self.max_level_length = max(len(levelname) for levelname in logging._nameToLevel)
+        self.module_format = 12
+        self.levelname_format = 6
+
+    def format(self, record):
+        color_style = getRecordColor(record, 'html')
         record.module = f"{record.module[:self.module_format]:{self.module_format}}"
         record.levelname = f"{record.levelname[:self.levelname_format]:{self.levelname_format}}"
-        return f"{color}{super().format(record)}\033[0m"
-
+        record.msg = f"<span style='{color_style}'>{super().format(record)}</span>"
+        return record.msg
+    
 class Logger(logging.Logger, metaclass=LoggerSingleton):
     logToConsole = False
     
@@ -109,11 +158,11 @@ class Logger(logging.Logger, metaclass=LoggerSingleton):
         self.prefix = threading.current_thread().name
         super().__init__(self.prefix)
         self.setLevel(logging.DEBUG)
-        self.formatter = MyFormatter(
+        self.formatter = AnsiFormatter(
             "%(asctime)s.%(msecs)03d | %(levelname)s | [%(module)s] %(message)s", datefmt="%H:%M:%S"
         )
         now = datetime.datetime.now()
-        self.outputFile = LOGS_PATH / f"{self.prefix}_{now.strftime('%Y-%m-%d')}.log"
+        self.outputFile = str(LOGS_PATH / f"{self.prefix}_{now.strftime('%Y-%m-%d')}.log")
         if not os.path.exists(LOGS_PATH):
             os.makedirs(LOGS_PATH)
         fileHandler = logging.FileHandler(self.outputFile)
@@ -133,7 +182,7 @@ class Logger(logging.Logger, metaclass=LoggerSingleton):
         format_row = "\n{:<50} {:^30} {:>70}\n"
         text = format_row.format(separator * 50, msg, separator * 70)
         self.info(text)
-        
+    
 class TraceLoggerSingleton(type):
     _instances = dict[str, object]()
 
@@ -156,7 +205,7 @@ class TraceLogger(logging.Logger, metaclass=TraceLoggerSingleton):
         self.prefix = "TraceLogger_" + threading.current_thread().name
         super().__init__(self.prefix)
         self.setLevel(logging.DEBUG)
-        formatter = MyFormatter("%(asctime)s.%(msecs)03d | %(levelname)s | [%(module)s] %(message)s", datefmt="%H:%M:%S")
+        formatter = AnsiFormatter("%(asctime)s.%(msecs)03d | %(levelname)s | [%(module)s] %(message)s", datefmt="%H:%M:%S")
         now = datetime.datetime.now()
         fileHandler = logging.FileHandler(LOGS_PATH / f"{self.prefix}_{now.strftime('%Y-%m-%d')}.log")
         fileHandler.setFormatter(formatter)

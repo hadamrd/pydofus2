@@ -109,9 +109,8 @@ class DofusConnection(EventsHandler):
         elif p.flags_reset:
             self.clientBuffer.clear()
             self.serverBuffer.clear()
-        elif p.flags_ack and p.len < 1:
-            if self.state is None:
-                self.state = ConnState.ESTABLISHED    
+        elif p.flags_ack and p.len < 1 and self.state is None:
+            self.state = ConnState.ESTABLISHED    
         else:
             if self.state is None:
                 Logger().debug(f"[{self.id}] Connection established")
