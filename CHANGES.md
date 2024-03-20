@@ -1,0 +1,44 @@
+# Changelog Mise à Jour (Update Log)
+
+## 16.01.2024
+
+Répositories Mise à Jour: Post-mise à jour, actualisation des dépôts.
+Nouveau Outil d'Extraction de Données: Intégration d'ankalauncher hackerino pour l'extraction de données des comptes via le launcher.
+
+## 18.01.2024
+
+Ajout d'une Application Flask: Déploiement d'une application Flask basique sous le répertoire app. Appel aux contributeurs frontend pour enrichir l'application avec des fonctionnalités telles que la gestion de formulaires de lancement, la création de chemins, et un bouton d'import de comptes depuis le launcher. L'application est actuellement à un stade rudimentaire.
+Traduction des Modules de Statistiques: Début de la traduction des modules pour la collecte de statistiques de jeu, visant à contourner la détection de bots par Ankama.
+
+## 21.01.2024
+
+Import de Comptes via Launcher: Implémentation d'un bouton pour l'import de comptes depuis le launcher dans l'application.
+Progression sur les Modules de Statistiques: Avancement significatif dans l'implémentation des modules de collecte de statistiques.
+Diverses Corrections: Apport de multiples corrections à travers le projet.
+Amélioration Anti-Ban pour Bots: Nécessité d'intégrer l'envoi de statistiques et la signature des appels API avec cookies pour réduire les bannissements.
+
+## 22.01.2024
+
+Mise à Jour de l'Interface de Sniffing: Introduction d'un bouton toggle start/stop et d'une option de suppression des messages. Le premier onglet est désormais sélectionné automatiquement.
+
+## 17.03.2024
+
+Système de Mimic d'Envoi de Stats: Travail continu sur l'amélioration du système d'imitation de l'envoi de statistiques.
+Mise à Jour de l'Interface de Sniffing: Légers ajustements de forme.
+Expansion de l'API Haapi: Ajout d'endpoints et gestion des cookies dans Haapi.
+Tests de Détection de Bots: Les tests indiquent une réduction des détections de bots, grâce à l'intégration des envois d'événements.
+
+## 19.03.2024
+
+Introduction de Latences: Ajout de délais entre certains envois de messages pour mimiquer le comportement humain.
+Module Simulant le Launcher: Développement de ZaapDecoy.
+Améliorations sur AccountManager: Optimisation de la fonctionnalité de récupération de personnages.
+Envoi d'Événements lors de l'Usage de Raccourcis: Les bots émettent désormais des événements lors de l'utilisation de raccourcis en combat ou en déplacement.
+Réduction des Détections de Bots: Les ajustements actuels semblent réduire significativement la détection des bots par les systèmes automatisés.
+Serveur Discord pour le Projet: Création d'un serveur pour rassembler la communauté intéressée.
+
+## 20.03.2024
+
+Amélioration de l'Interface WebUI: Refonte de l'interface du bot manager avec ajout d'une fonctionnalité de lancement de combats et affichage du niveau des bots.
+Polling des Logs via SocketIO: Intégration d'un handler custom pour le logger, permettant l'envoi de logs formatés en HTML via SocketIO.
+Correction de Bugs: Résolution de problèmes dans les modules autotripUseZaap, Haapi, et dans le cadre de gestion des combats du bot, améliorant la stabilité générale.

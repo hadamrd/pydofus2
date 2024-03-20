@@ -140,10 +140,10 @@ class ConnectionsHandler(metaclass=Singleton):
                     ChallengeModSelectMessage,
                     GameFightOptionToggleMessage
                 ]:
-                    minNextSendTime = self.last_send_time + abs(random.gauss(0.25, 0.1))
+                    minNextSendTime = self.last_send_time + 0.2 + abs(random.gauss(0.05, 0.01))
                 else:
                     minNextSendTime = (
-                        self.last_send_time + 1 + abs(random.gauss(0, 0.5))
+                        self.last_send_time + 1.2 + abs(random.gauss(0.5, 0.1))
                     )
                 diff = minNextSendTime - perf_counter()
                 if diff > 0:
