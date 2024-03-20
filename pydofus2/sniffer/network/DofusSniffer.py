@@ -4,7 +4,6 @@ import base64
 import json
 import os
 import threading
-
 import pyshark
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -52,7 +51,7 @@ class DofusSniffer(threading.Thread):
         except Exception as e:
             Logger().error(f"Error while handling {p.all_fields()}: {e}", exc_info=True)
             self.stop()
-        
+
     def handle(self, conn: DofusConnection, msg: NetworkMessage, from_client: bool):
         if msg.unpacked:
             if self.recordMessages:

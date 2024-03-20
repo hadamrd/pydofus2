@@ -462,9 +462,9 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         self._knownZaapMapIds = knownZaapMapIds
 
     def isZaapKnown(self, mapId: float) -> bool:
-        if self._knownZaapMapIds == None or len(self._knownZaapMapIds) <= 0:
+        if not self._knownZaapMapIds:
             return False
-        return mapId in self._knownZaapMapIds
+        return (mapId in self._knownZaapMapIds)
 
     def jobsNumber(self, onlyLevelOne: bool = False) -> int:
         length: int = 0

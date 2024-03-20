@@ -192,8 +192,7 @@ class Zaapi(metaclass=Singleton):
         url = self.getUrl("LIST_WITH_API_KEY")
         response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         self.zaap_session.cookies.update(response.cookies)
-        with open(f"tracking.json", "w") as f:
-            f.write(response.text)
+        return response.json()
 
     def getAccountStatus(self, apikey=None):
         if not apikey:
