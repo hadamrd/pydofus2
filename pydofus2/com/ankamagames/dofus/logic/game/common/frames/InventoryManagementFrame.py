@@ -108,8 +108,10 @@ class InventoryManagementFrame(Frame):
             return True
 
         if type(msg) is InventoryContentMessage:
+            Logger().debug("Inventory content received")
             InventoryManager().inventory.initializeFromObjectItems(msg.objects)
             InventoryManager().inventory.kamas = msg.kamas
+            Logger().debug(f"Player inventgory Kamas: {msg.kamas}")
             KernelEventsManager().send(KernelEvent.KamasUpdate, msg.kamas)
             equipmentView = InventoryManager().inventory.getView("equipment")
             if equipmentView and equipmentView.content:

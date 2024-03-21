@@ -29,6 +29,12 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight
     GameRolePlayAttackMonsterRequestMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import \
     MapInformationsRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.AcquaintancesGetListMessage import AcquaintancesGetListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.FriendsGetListMessage import FriendsGetListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.IgnoredGetListMessage import IgnoredGetListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.SpouseGetInformationsMessage import SpouseGetInformationsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildGetInformationsMessage import GuildGetInformationsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.GuildGetPlayerApplicationMessage import GuildGetPlayerApplicationMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
@@ -138,7 +144,14 @@ class ConnectionsHandler(metaclass=Singleton):
                     GameRolePlayAttackMonsterRequestMessage,
                     GameActionAcknowledgementMessage,
                     ChallengeModSelectMessage,
-                    GameFightOptionToggleMessage
+                    GameFightOptionToggleMessage,
+                    AcquaintancesGetListMessage,
+                    FriendsGetListMessage,
+                    IgnoredGetListMessage,
+                    SpouseGetInformationsMessage,
+                    GuildGetInformationsMessage,
+                    GuildGetPlayerApplicationMessage
+                    
                 ]:
                     minNextSendTime = self.last_send_time + 0.2 + abs(random.gauss(0.05, 0.01))
                 else:

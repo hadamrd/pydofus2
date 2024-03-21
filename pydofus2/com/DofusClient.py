@@ -116,7 +116,6 @@ class DofusClient(threading.Thread):
         self.zaap = ZaapDecoy()
         self.kernel = Kernel()
         self.kernel.init()
-        self.registerInitFrame(MiscFrame)
         AdapterFactory.addAdapter("ele", ElementsAdapter)
         # AdapterFactory.addAdapter("dlm", MapsAdapter)
         self.kernel.isMule = self._mule

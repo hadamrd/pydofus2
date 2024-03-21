@@ -1,7 +1,6 @@
 DOFUSINVOKER = D://Dofus//DofusInvoker.swf
 PYDOFUS_DIR = D://botdev//pydofus2
 PYD2BOT_DIR = D://botdev//pyd2bot
-GRINDER_DIR = D://botdev/Grinder
 VENV_DIR = D://botdev//.venv
 FFDEC = $(CURDIR)/FFDec/ffdec.bat
 DOFUS_SRC_DIR = $(CURDIR)/protocolBuilder/sources
@@ -10,11 +9,13 @@ SELECTCLASS = com.ankamagames.dofus.BuildInfos,com.ankamagames.dofus.network.++,
 PYDOFUS_BINARY_DATA_DIR = $(PYDOFUS_DIR)/pydofus2/binaryData
 # Dist and build paths
 PYD2BOT_BUILD_DIR = $(CURDIR)/pyd2botBuild
-PYD2BOT_DIST_DIR = $(GRINDER_DIR)/dist_electron/pyd2bot/
 PYD2BOT_BUILDENV = $(PYD2BOT_BUILD_DIR)/.buildEnv
 SNIFFER_APP_DIR = $(CURDIR)/sniffer
 PD2B_THRSERVER_DIR = $(PYD2BOT_DIR)/pyd2bot/thriftServer
 PYD2BOT_THRIFT_SERVICE = $(PD2B_THRSERVER_DIR)/pyd2botService.thrift
+# (old)
+GRINDER_DIR = D://botdev/Grinder
+PYD2BOT_DIST_DIR = $(GRINDER_DIR)/dist_electron/pyd2bot/
 GRINDER_THRIFT_DIR = $(GRINDER_DIR)/src/services
 
 .ONESHELL:
@@ -136,13 +137,10 @@ bdist:
 
 gen-thrift:
 	@cd $(PD2B_THRSERVER_DIR)
-	@source $(CURDIR)/spinner.sh
-	@./thrift-0.16.0.exe -r --gen js:node,ts,es6,with_ns $(PYD2BOT_THRIFT_SERVICE) \
-	&& mv gen-nodejs/* $(GRINDER_THRIFT_DIR) \
-	&& rm -rf gen-nodejs & spinner "Generating thrift service for grinder"
+	@./thrift-0.16.0.exe -r --gen js:node,ts,es6,with_ns $(PYD2BOT_THRIFT_SERVICE) && rm -rf gen-nodejs
 	@./thrift-0.16.0.exe -r --gen py $(PYD2BOT_THRIFT_SERVICE) \
 	&& cp -r gen-py/* $(PD2B_THRSERVER_DIR) \
-	&& rm -rf gen-py & spinner "Generating thrift service for pyd2bot"
+	&& rm -rf gen-py
 
 black:
 	@source $(VENV_DIR)/Scripts/activate

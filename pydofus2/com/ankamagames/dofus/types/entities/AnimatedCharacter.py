@@ -103,6 +103,7 @@ class AnimatedCharacter(IMovable, IEntity, IObstacle, IDisplayable):
     def stop_move(self) -> None:
         if self._movementAnimation:
             self._movementAnimation.stop()
+            self._movementAnimation.join()
             self._movementAnimation = None
 
     def move(self, path, callback):
