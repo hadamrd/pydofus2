@@ -74,12 +74,12 @@ class Haapi(metaclass=Singleton):
         self.dofus_session.mount("http://", adapter)
         self.dofus_session.mount("https://", adapter)
         self.dofus_session.headers.update(self.dofus_headers)
-        self.dofus_session.proxies.update(
-            {
-                "http": "http://localhost:8080",
-                "https": "http://localhost:8080",
-            }
-        )
+#        self.dofus_session.proxies.update(
+#            {
+#                "http": "http://localhost:8080",
+#                "https": "http://localhost:8080",
+#            }
+#        )
         self.verify_ssl = False
 
     @sendTrace

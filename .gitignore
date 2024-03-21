@@ -2,3 +2,5 @@ build
 __pycache__
 apis.json
 certs.json
+pydofus2.egg-info
+latest.yml

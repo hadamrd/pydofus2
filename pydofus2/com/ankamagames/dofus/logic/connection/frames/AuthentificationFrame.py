@@ -30,6 +30,10 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSu
     IdentificationSuccessWithLoginTokenMessage
 from pydofus2.com.ankamagames.dofus.network.messages.subscription.AccountSubscriptionElapsedDurationMessage import \
     AccountSubscriptionElapsedDurationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import \
+    ClientKeyMessage
+from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
+    InterClientManager
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
@@ -69,6 +73,9 @@ class AuthentificationFrame(Frame):
             return True
 
         elif isinstance(msg, HelloConnectMessage):
+            flashKeyMsg = ClientKeyMessage()
+            flashKeyMsg.init(InterClientManager().getFlashKey())
+            ConnectionsHandler().send(flashKeyMsg)
             AuthentificationManager().setPublicKey(msg.key)
             AuthentificationManager().setSalt(msg.salt)
             AuthentificationManager().initAESKey()
