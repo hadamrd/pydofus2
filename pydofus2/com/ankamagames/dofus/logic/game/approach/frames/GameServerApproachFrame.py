@@ -15,6 +15,7 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.frames.AlignmentFrame import \
     AlignmentFrame
+from pydofus2.com.ankamagames.dofus.logic.common.frames.MiscFrame import MiscFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.NpcFrame import \
     NpcFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import \
@@ -421,6 +422,7 @@ class GameServerApproachFrame(Frame):
         return True
 
     def pushed(self) -> bool:
+        Kernel().worker.addFrame(MiscFrame())
         return True
 
     def requestCharactersList(self) -> None:
