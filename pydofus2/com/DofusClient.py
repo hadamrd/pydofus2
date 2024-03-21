@@ -21,8 +21,6 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
     DisconnectionReasonEnum
-from pydofus2.com.ankamagames.dofus.logic.common.frames.MiscFrame import \
-    MiscFrame
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
@@ -191,9 +189,9 @@ class DofusClient(threading.Thread):
         )
 
     def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):            
-        self._shutDownReason = f"Server selection refused for reason : {error_text}"
-        self._crashed = True
-        self.shutdown(DisconnectionReasonEnum.EXCEPTION_THROWN, error_text)
+        Logger().error(f"Server selection refused for reason : {error_text}")
+        # self._crashed = True
+        # self.shutdown(DisconnectionReasonEnum.EXCEPTION_THROWN, error_text)
 
     def onConnectionClosed(self, event, connId):
         pass
