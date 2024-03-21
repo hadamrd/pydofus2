@@ -20,8 +20,6 @@ from pydofus2.com.ankamagames.dofus.logic.common.frames.NpcFrame import \
     NpcFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import \
     QuestFrame
-from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
-    InterClientManager
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
@@ -112,8 +110,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActions
     StartupActionsListMessage
 from pydofus2.com.ankamagames.dofus.network.messages.secure.TrustStatusMessage import \
     TrustStatusMessage
-from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import \
-    ClientKeyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.subscription.AccountSubscriptionElapsedDurationMessage import \
     AccountSubscriptionElapsedDurationMessage
 from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyRequestMessage import \
@@ -329,9 +325,6 @@ class GameServerApproachFrame(Frame):
 
         elif isinstance(msg, CharacterLoadingCompleteMessage):
             Kernel().worker.removeFrame(self)
-            flashKeyMsg = ClientKeyMessage()
-            flashKeyMsg.init(InterClientManager().getFlashKey())
-            ConnectionsHandler().send(flashKeyMsg)
             gccrmsg = GameContextCreateRequestMessage()
             ConnectionsHandler().send(gccrmsg)
             return True

@@ -41,12 +41,12 @@ class Zaapi(metaclass=Singleton):
             "accept-language": "en-US",
         }
         self.zaap_session.headers.update(self.zaap_headers)
-        self.zaap_session.proxies.update(
-            {
-                "http": "http://localhost:8080",
-                "https": "http://localhost:8080",
-            }
-        )
+#        self.zaap_session.proxies.update(
+#            {
+#                "http": "http://localhost:8080",
+#                "https": "http://localhost:8080",
+#            }
+#        )
         self.verify_ssl = False
 
     def getUrl(self, request, params={}):
