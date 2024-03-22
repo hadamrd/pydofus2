@@ -1,4 +1,3 @@
-from distutils.log import Log
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -29,8 +28,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSu
     IdentificationSuccessMessage
 from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessWithLoginTokenMessage import \
     IdentificationSuccessWithLoginTokenMessage
-from pydofus2.com.ankamagames.dofus.network.messages.subscription.AccountSubscriptionElapsedDurationMessage import \
-    AccountSubscriptionElapsedDurationMessage
 from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import \
     ClientKeyMessage
 from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \

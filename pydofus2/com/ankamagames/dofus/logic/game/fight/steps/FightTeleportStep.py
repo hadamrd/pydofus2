@@ -1,8 +1,6 @@
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
     DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightEntitiesFrame import \
-    FightEntitiesFrame
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
     IFightStep
 from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \

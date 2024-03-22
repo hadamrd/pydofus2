@@ -16,8 +16,7 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayEntitiesFrame import \
-        RoleplayEntitiesFrame
+    pass
 
 
 class MapCharactersItemCriterion(ItemCriterion, IDataCenter):

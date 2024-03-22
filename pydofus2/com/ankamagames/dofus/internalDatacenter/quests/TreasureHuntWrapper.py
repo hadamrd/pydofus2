@@ -1,4 +1,4 @@
-from typing import List, Type, Union
+from typing import List
 
 from pydofus2.com.ankamagames.dofus.internalDatacenter.quests.TreasureHuntStepWrapper import \
     TreasureHuntStepWrapper

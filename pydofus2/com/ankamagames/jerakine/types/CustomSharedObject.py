@@ -5,7 +5,6 @@ from pathlib import Path
 
 import pyamf
 
-from pydofus2.com.ankamagames.dofus import Constants as Constants
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

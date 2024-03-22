@@ -9,8 +9,6 @@ from pydofus2.com.ankamagames.dofus.misc.stats.IStatsClass import IStatsClass
 from pydofus2.com.ankamagames.dofus.misc.stats.StatsAction import StatsAction
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
-from pydofus2.com.ankamagames.jerakine.managers.OptionManager import \
-    OptionManager
 
 
 class SessionEndStats(IHookStats, IStatsClass):

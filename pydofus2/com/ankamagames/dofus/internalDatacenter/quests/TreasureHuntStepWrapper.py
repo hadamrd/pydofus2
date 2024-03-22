@@ -1,7 +1,6 @@
 from pydofus2.com.ankamagames.dofus.datacenter.npcs.Npc import Npc
 from pydofus2.com.ankamagames.dofus.datacenter.quest.treasureHunt.PointOfInterest import \
     PointOfInterest
-from pydofus2.com.ankamagames.dofus.datacenter.world.Area import Area
 from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
     MapPosition
 from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea

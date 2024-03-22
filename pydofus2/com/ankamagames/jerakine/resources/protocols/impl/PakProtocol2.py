@@ -2,7 +2,7 @@ import os
 from collections import defaultdict
 from io import BufferedReader
 from pathlib import Path
-from typing import Dict, Optional, Union
+from typing import Dict
 
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -76,11 +76,9 @@ class PakProtocol2(AbstractProtocol):
         vMax = 0
         vMin = 0
         dataOffset = 0
-        dataCount = 0
         indexOffset = 0
         indexCount = 0
         propertiesOffset = 0
-        propertiesCount = 0
         propertyName = None
         propertyValue = None
         filePath = None
@@ -105,11 +103,11 @@ class PakProtocol2(AbstractProtocol):
                 return None
             fs.seek(-24, os.SEEK_END)
             dataOffset = fs.readUnsignedInt()
-            dataCount = fs.readUnsignedInt()
+            fs.readUnsignedInt()
             indexOffset = fs.readUnsignedInt()
             indexCount = fs.readUnsignedInt()
             propertiesOffset = fs.readUnsignedInt()
-            propertiesCount = fs.readUnsignedInt()
+            fs.readUnsignedInt()
             fs.position = propertiesOffset
             file = None
             propertyName = str(fs.readUTF())

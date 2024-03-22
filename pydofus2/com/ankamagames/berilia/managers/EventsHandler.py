@@ -1,6 +1,6 @@
 import operator
 import threading
-from typing import Any, List
+from typing import Any
 
 from pydofus2.com.ankamagames.berilia.managers.Listener import Listener
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger

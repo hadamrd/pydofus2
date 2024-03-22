@@ -9,7 +9,6 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRole
     GameRolePlayHumanoidInformations
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyMemberInformations import \
     PartyMemberInformations
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
     MovementPath
@@ -61,7 +60,7 @@ class KernelEventsManager(EventsHandler, metaclass=Singleton):
         )
 
     def send(self, event_id: KernelEvent, *args, **kwargs):
-        event_listeners = self._listeners.get(event_id, [])
+        self._listeners.get(event_id, [])
         # Logger().info(f"Sending event {event_id} to {len(event_listeners)} listeners : {event_listeners}")
         if event_id == KernelEvent.ClientCrashed:
             self._crashMessage = kwargs.get("message", None)

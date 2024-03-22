@@ -1,4 +1,3 @@
-from concurrent.futures import thread
 import math
 import random
 import threading
@@ -31,7 +30,7 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
             key = cacheKey
         self.used_keys.add(key)
         self._client_key_map[threading.current_thread().name] = key
-        nbrKeys = len(self.used_keys)
+        len(self.used_keys)
         # suffix = f"#{0 if nbrKeys < 10 else ''}{nbrKeys}"
         suffix = f"#01"
         self._numClients += 1

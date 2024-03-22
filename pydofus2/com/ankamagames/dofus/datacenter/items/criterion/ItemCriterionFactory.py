@@ -1,7 +1,6 @@
 
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
     IItemCriterion
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class ItemCriterionFactory:

@@ -4,12 +4,6 @@ import pydofus2.com.ankamagames.atouin.managers.MapDisplayManager as mdmm
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
     EntitiesManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import \
-    TransitionTypeEnum
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
-    WorldGraph
 from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
     AnimatedCharacter
 from pydofus2.com.ankamagames.jerakine.interfaces.IObstacle import IObstacle

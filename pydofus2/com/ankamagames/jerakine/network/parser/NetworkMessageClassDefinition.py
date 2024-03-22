@@ -1,5 +1,3 @@
-import importlib
-import os
 
 import pydofus2.com.ankamagames.jerakine.network.NetworkMessage as bnm
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageDataField as nmdf

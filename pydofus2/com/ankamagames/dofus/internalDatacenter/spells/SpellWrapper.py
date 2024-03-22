@@ -16,9 +16,6 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import (
         EffectInstance,
     )
-    from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifiers import (
-        SpellModifiers,
-    )
 
 import threading
 
@@ -36,8 +33,6 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import 
     ItemWrapper
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import \
     WeaponWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import \
-    EntityStats
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
     StatsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \

@@ -1,4 +1,4 @@
-from typing import Dict, Type, Union
+from typing import Dict, Type
 
 from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.FileProtocol import \
     FileProtocol

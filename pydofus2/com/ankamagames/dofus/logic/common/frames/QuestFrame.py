@@ -8,8 +8,6 @@ from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
     Achievement
 from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import \
     AchievementReward
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
 from pydofus2.com.ankamagames.dofus.internalDatacenter.FeatureEnum import \
     FeatureEnum
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \

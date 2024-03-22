@@ -1,5 +1,4 @@
 import threading
-from threading import Timer
 
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \

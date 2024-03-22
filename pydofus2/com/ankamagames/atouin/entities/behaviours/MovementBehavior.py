@@ -51,8 +51,10 @@ class MovementBehavior(threading.Thread):
         for pe in self.movePath.path[1:] + [self.movePath.end]:
             stepDuration = self.movePath.getStepDuration(self.currStep.orientation)
             if not self.parent.isMoving:
+                Logger().info(f"Movement animation detected player not moving")
                 return self.tearDown(False)
             if self.stopEvt.wait(stepDuration):
+                Logger().info(f"Movement animation received stop event")
                 return self.tearDown(False)
             self.currStep = pe
         self.tearDown(True)

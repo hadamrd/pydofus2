@@ -11,7 +11,6 @@ from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
 from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import \
     NormalGraphicalElementData
 from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
-from pydofus2.com.ankamagames.atouin.data.map.Layer import Layer
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
     MapDisplayManager
 from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import \
@@ -106,7 +105,7 @@ class MapRenderer(QGraphicsScene):
         nged: NormalGraphicalElementData = uri.tag
         cellId = MapDisplayManager().dataMap.getGfxCell(nged.gfxId)
         
-        imageCenter = Cell.cellPixelCoords(cellId)
+        Cell.cellPixelCoords(cellId)
         
         pixmapItem = QGraphicsPixmapItem(pixmap)  # Create QGraphicsPixmapItem
         pixmapItem.setToolTip(str(nged.gfxId))

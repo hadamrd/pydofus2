@@ -3,8 +3,6 @@ import math
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
     EntitiesManager
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
-    WorldGraph
 from pydofus2.com.ankamagames.jerakine.interfaces.IObstacle import IObstacle
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \

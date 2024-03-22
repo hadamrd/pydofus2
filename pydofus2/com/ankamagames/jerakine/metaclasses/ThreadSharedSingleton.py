@@ -1,5 +1,5 @@
 import threading
-from typing import Any, List, Tuple, Type, TypeVar
+from typing import Any, Type, TypeVar
 
 lock = threading.RLock()
 _locks = dict[type, threading.RLock]()

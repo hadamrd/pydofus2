@@ -117,8 +117,6 @@ class Kernel(metaclass=Singleton):
             PlayerManager
         from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
             StatsManager
-        from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AveragePricesFrame import \
-            AveragePricesFrame
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import \
             InactivityManager
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \

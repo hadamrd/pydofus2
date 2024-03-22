@@ -7,8 +7,6 @@ from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
     StoreDataManager
 from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import \
     ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.loaders.IResourceLoader import \
-    IResourceLoader
 from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import \
     ResourceLoaderFactory
 from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import \

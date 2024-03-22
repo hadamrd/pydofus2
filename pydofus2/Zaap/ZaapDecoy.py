@@ -29,10 +29,9 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     
     def __init__(self, mainAccountApiKey: str=""):
         self.haapi = Zaapi(zaap_version=self.version)
-        appdata_path = os.getenv("APPDATA")
-        settings_file_path = os.path.join(appdata_path, "zaap", "Settings")
-        self._apikeys = CryptoHelper.get_all_stored_apikeys()
-        self._certs = CryptoHelper.get_all_stored_certificates()
+        settings_file_path = os.path.join(self.getZaapPath(), "Settings")
+        self._apikeys = self.get_all_stored_apikeys()
+        self._certs = self.get_all_stored_certificates()
         with open(settings_file_path, "r") as file:
             self.settings = json.load(fp=file)
         if not mainAccountApiKey:
@@ -255,3 +254,49 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                     certhash = cert["hash"]
                     break
         return self.haapi.createToken(game, certid, certhash, apikey)
+
+    @classmethod
+    def getZaapPath(cls):
+        return os.path.join(os.environ['APPDATA'], 'zaap')
+
+    @classmethod
+    def get_certificate_folder_path(cls):
+        return os.path.join(cls.getZaapPath(), "certificate")
+    
+    @classmethod
+    def get_apikey_folder_path(cls):
+        return os.path.join(cls.getZaapPath(), "keydata")
+
+    @classmethod
+    def get_all_stored_certificates(cls, cert_folder=None):
+        if not cert_folder:
+            cert_folder = cls.get_certificate_folder_path()
+        cert_files = os.listdir(cert_folder)
+        deciphered_certs = []
+        encoders = CryptoHelper.create_hm_encoder()
+        for cert_file in cert_files:
+            if not cert_file.startswith(".certif"):
+                continue
+            cert_path = os.path.join(cert_folder, cert_file)
+            # Logger().debug(f"processing file {cert_path}")
+            cert = CryptoHelper.decrypt_from_file(str(cert_path))
+            hash = CryptoHelper.generate_hash_from_cert(cert, encoders["hm1"], encoders["hm2"])
+            deciphered_certs.append({"hash": hash, "certFile": cert_file, "cert": cert})
+        return deciphered_certs
+    
+    @classmethod
+    def get_all_stored_apikeys(cls, apikeys_folder=None):
+        if not apikeys_folder:
+            apikeys_folder = cls.get_apikey_folder_path()
+        apikeys_files = os.listdir(apikeys_folder)
+        deciphered_apikeys = []
+        for apikey_file in apikeys_files:
+            if not apikey_file.startswith(".key"):
+                continue
+            apikey_files_path = os.path.join(apikeys_folder, apikey_file)
+            # Logger().debug(f"processing file {apikey_files_path}")
+            apikey_data = CryptoHelper.decrypt_from_file(str(apikey_files_path))
+            # Logger().debug(f"Apikey data : {apikey_data}")
+            deciphered_apikeys.append({"apikeyFile": apikey_file, "apikey": apikey_data})
+        return deciphered_apikeys
+    

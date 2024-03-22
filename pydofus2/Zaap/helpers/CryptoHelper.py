@@ -3,29 +3,15 @@ import getpass
 import hashlib
 import json
 import os
-from pathlib import Path
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.Zaap.helpers.Device import Device
 
 
 class CryptoHelper:
-
-    @staticmethod
-    def getZaapPath():
-        return os.path.join(os.environ['APPDATA'], 'zaap')
-
-    @staticmethod
-    def get_certificate_folder_path():
-        return os.path.join(CryptoHelper.getZaapPath(), "certificate")
-    
-    @staticmethod
-    def get_apikey_folder_path():
-        return os.path.join(CryptoHelper.getZaapPath(), "keydata")
     
     @staticmethod
     def create_hash_from_string_md5(string):
@@ -111,39 +97,6 @@ class CryptoHelper:
             return 0
 
     @staticmethod
-    def get_all_stored_certificates(cert_folder=None):
-        if not cert_folder:
-            cert_folder = CryptoHelper.get_certificate_folder_path()
-        cert_files = os.listdir(cert_folder)
-        deciphered_certs = []
-        encoders = CryptoHelper.create_hm_encoder()
-        for cert_file in cert_files:
-            if not cert_file.startswith(".certif"):
-                continue
-            cert_path = Path(cert_folder) / cert_file
-            # Logger().debug(f"processing file {cert_path}")
-            cert = CryptoHelper.decrypt_from_file(str(cert_path))
-            hash = CryptoHelper.generate_hash_from_cert(cert, encoders["hm1"], encoders["hm2"])
-            deciphered_certs.append({"hash": hash, "certFile": cert_file, "cert": cert})
-        return deciphered_certs
-    
-    @staticmethod
-    def get_all_stored_apikeys(apikeys_folder=None):
-        if not apikeys_folder:
-            apikeys_folder = CryptoHelper.get_apikey_folder_path()
-        apikeys_files = os.listdir(apikeys_folder)
-        deciphered_apikeys = []
-        for apikey_file in apikeys_files:
-            if not apikey_file.startswith(".key"):
-                continue
-            apikey_files_path = Path(apikeys_folder) / apikey_file
-            # Logger().debug(f"processing file {apikey_files_path}")
-            apikey_data = CryptoHelper.decrypt_from_file(str(apikey_files_path))
-            # Logger().debug(f"Apikey data : {apikey_data}")
-            deciphered_apikeys.append({"apikeyFile": apikey_file, "apikey": apikey_data})
-        return deciphered_apikeys
-    
-    @staticmethod
     def create_hm_encoder():
         plt, arch = Device.get_platform_and_architecture()
         id = Device.machine_id()
@@ -156,9 +109,3 @@ class CryptoHelper:
         hm1 = CryptoHelper.create_hash_from_string_sha256(machine_infos)
         hm2 = hm1[::-1]
         return {"hm1": hm1, "hm2": hm2}
-
-if __name__ == "__main__":
-    certs = CryptoHelper.get_all_stored_certificates()
-    apis = CryptoHelper.get_all_stored_apikeys()
-    json.dump(certs, open("certs.json", "w"), indent=4)
-    json.dump(apis, open("apis.json", "w"), indent=4)

@@ -124,8 +124,6 @@ class Achievement(IDataCenter):
     @property
     def category(self) -> 'AchievementCategory':
         if not self._category:
-            from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
-                entCategory
             self._category = AchievementCategory.getAchievementCategoryById(self.categoryId)
         return self._category
 

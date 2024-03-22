@@ -1,6 +1,4 @@
-import threading
 
-from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager

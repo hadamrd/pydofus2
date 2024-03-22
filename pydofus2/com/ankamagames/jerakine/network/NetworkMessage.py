@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageClassDefinition as nmcd
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageEncoder as nmencoder
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
     ByteArray
 from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \

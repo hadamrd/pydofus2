@@ -5,15 +5,12 @@ from pydofus2.com.ankamagames.dofus.datacenter.communication.InfoMessage import 
     InfoMessage
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionType import \
-    ConnectionType
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import \
     FeatureManager
 from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import \
     BasicPingMessage
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
     BenchmarkTimer
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import \
     Singleton  # Assuming a logger module exists
 

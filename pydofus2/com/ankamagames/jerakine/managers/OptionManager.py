@@ -5,8 +5,6 @@ from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
     DataStoreEnum
-from pydofus2.com.ankamagames.jerakine.types.events.PropertyChangeEvent import \
-    PropertyChangeEvent
 
 _optionsManager = {}
 
@@ -69,7 +67,7 @@ class OptionManager:
 
     def setOption(self, name, value):
         if name in self._useCache:
-            oldValue = self._properties[name]
+            self._properties[name]
             self._properties[name] = value
             if self._useCache[name] and not isinstance(value, QObject):
                 StoreDataManager().setData(self._dataStore, name, value)

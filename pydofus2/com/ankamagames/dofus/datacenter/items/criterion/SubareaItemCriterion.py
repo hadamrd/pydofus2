@@ -16,7 +16,7 @@ class SubareaItemCriterion(ItemCriterion):
 
     @property
     def isRespected(self) -> bool:
-        playerPosition = PlayedCharacterManager().currentSubArea.id
+        PlayedCharacterManager().currentSubArea.id
         if self._operator.text in [ItemCriterionOperator.EQUAL, ItemCriterionOperator.DIFFERENT]:
             return super().isRespected
         else:

@@ -29,7 +29,6 @@ from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerSt
     PlayerStatus
 from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatusExtended import \
     PlayerStatusExtended
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority

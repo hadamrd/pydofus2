@@ -36,7 +36,6 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
     from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
     from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
-    from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
     from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import WeaponWrapper
     from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 

@@ -1,4 +1,3 @@
-from pyparsing import Any
 
 from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import \
     RecipesFilterWrapper

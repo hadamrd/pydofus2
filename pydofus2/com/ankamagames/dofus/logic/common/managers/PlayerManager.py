@@ -5,8 +5,7 @@ from typing import TYPE_CHECKING
 from pydofus2.com.ankamagames.dofus.datacenter.houses.HavenbagTheme import \
     HavenbagTheme
 from pydofus2.com.ankamagames.dofus.datacenter.servers.Server import Server
-from pydofus2.com.ankamagames.dofus.internalDatacenter.connection.BasicCharacterWrapper import \
-    BasicCharacterWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
@@ -113,7 +112,7 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         Logger().debug(f"Player is subscribed untill : {self._subscriptionEndDateUpdateTime}")
 
     def isBasicAccount(self) -> bool:
-        return self.subscriptionEndDate <= 0 and not self.hasRights
+        return self.subscriptionEndDate <= TimeManager().getUtcTimestamp() and not self.hasRights
 
     def isMapInHavenbag(self, mapId: int) -> bool:
         return HavenbagTheme.isMapIdInHavenbag(mapId)

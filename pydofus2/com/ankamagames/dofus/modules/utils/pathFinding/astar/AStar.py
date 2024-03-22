@@ -1,5 +1,4 @@
 import heapq
-from time import perf_counter
 from typing import List, Union
 
 from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \

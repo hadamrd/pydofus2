@@ -282,10 +282,9 @@ class Recipes:
         self.updateRecipes(True)
 
     def onSelectItem(self, target, selectMethod, isNewSelection):
-        item = None
         if target == self.gd_recipes:
             if selectMethod != SelectMethodEnum.AUTO and self._currentJob is not None:
-                item = self.gd_recipes["selectedItem"]
+                self.gd_recipes["selectedItem"]
                 # self.sysApi.dispatchHook(KernelEvent.RecipeSelected, item, self._currentJob.id)
         elif target == self.cb_type:
             if not isNewSelection or self._currentRecipesFilter.typeId == self.cb_type["selectedItem"]["id"]:

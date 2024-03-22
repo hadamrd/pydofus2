@@ -53,8 +53,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.character.spellmodifie
     RemoveSpellModifierMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterStatsListMessage import \
     CharacterStatsListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.UpdateSpellModifierMessage import \
-    UpdateSpellModifierMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightEndMessage import \
     GameFightEndMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightLeaveMessage import \
@@ -71,8 +69,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFigh
     GameFightTurnEndMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnListMessage import \
     GameFightTurnListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnReadyRequestMessage import \
-    GameFightTurnReadyRequestMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.SlaveNoLongerControledMessage import \
     SlaveNoLongerControledMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import \

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
     EffectInstance

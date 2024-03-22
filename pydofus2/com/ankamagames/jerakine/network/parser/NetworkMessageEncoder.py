@@ -1,4 +1,3 @@
-import random
 from functools import reduce
 
 import pydofus2.com.ankamagames.jerakine.network.NetworkMessage as bnm

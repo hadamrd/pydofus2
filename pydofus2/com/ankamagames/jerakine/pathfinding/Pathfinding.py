@@ -1,5 +1,4 @@
 import heapq
-import math
 
 import pydofus2.mapTools.MapTools as MapTools
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
@@ -10,7 +9,6 @@ from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTy
     TransitionTypeEnum
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
     WorldGraph
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \

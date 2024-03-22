@@ -15,7 +15,6 @@ from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.
     CharacterCharacteristicValue
 from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterUsableCharacteristicDetailed import \
     CharacterUsableCharacteristicDetailed
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 

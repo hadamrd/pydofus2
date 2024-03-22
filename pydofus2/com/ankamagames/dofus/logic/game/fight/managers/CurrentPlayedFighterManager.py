@@ -9,8 +9,6 @@ from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.StateCriterion im
 from pydofus2.com.ankamagames.dofus.datacenter.items.Item import Item
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
     SpellModifiersManager
-from pydofus2.com.ankamagames.dofus.network.enums.CharacterSpellModificationTypeEnum import \
-    CharacterSpellModificationTypeEnum
 from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
     SpellModifierTypeEnum
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n

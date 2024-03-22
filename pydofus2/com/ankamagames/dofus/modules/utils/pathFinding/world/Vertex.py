@@ -43,3 +43,7 @@ class Vertex:
             "zoneId": self._zoneId,
             "vertexUid": self._uid,
         }
+    
+    @classmethod
+    def from_dict(cls, data):
+        return cls(data['mapId'], data['zoneId'])

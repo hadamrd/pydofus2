@@ -1,6 +1,5 @@
 from time import perf_counter
 
-from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import \
     Edge
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import \

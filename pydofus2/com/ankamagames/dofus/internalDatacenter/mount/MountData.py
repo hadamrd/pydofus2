@@ -1,4 +1,3 @@
-import math
 
 from pydofus2.com.ankamagames.dofus.datacenter.mounts.Mount import Mount
 from pydofus2.com.ankamagames.dofus.datacenter.mounts.MountBehavior import \
@@ -7,8 +6,6 @@ from pydofus2.com.ankamagames.dofus.datacenter.mounts.MountFamily import \
     MountFamily
 from pydofus2.com.ankamagames.dofus.misc.ObjectEffectAdapter import \
     ObjectEffectAdapter
-from pydofus2.com.ankamagames.dofus.network.types.game.mount.MountClientData import \
-    MountClientData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter

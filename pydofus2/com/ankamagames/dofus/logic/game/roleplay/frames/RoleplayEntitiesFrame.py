@@ -20,8 +20,6 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AbstractEntitiesFrame import \
     AbstractEntitiesFrame
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \

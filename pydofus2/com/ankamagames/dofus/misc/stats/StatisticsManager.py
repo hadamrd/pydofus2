@@ -10,8 +10,6 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
     PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.misc.DeviceUtils import DeviceUtils
-from pydofus2.com.ankamagames.dofus.misc.openApi.ApiUserCredentials import \
-    ApiUserCredentials
 from pydofus2.com.ankamagames.dofus.misc.stats.custom.SessionEndStats import \
     SessionEndStats
 from pydofus2.com.ankamagames.dofus.misc.stats.custom.SessionStartStats import \
@@ -25,7 +23,6 @@ from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
 from pydofus2.com.ankamagames.haapi.client.GameApi import GameApi
-from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
     StoreDataManager

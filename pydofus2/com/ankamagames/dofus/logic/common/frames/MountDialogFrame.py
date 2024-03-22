@@ -8,7 +8,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Ex
     ExchangeLeaveMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountStableErrorMessage import \
     ExchangeMountStableErrorMessage
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 
 

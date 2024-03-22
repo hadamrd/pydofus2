@@ -1,7 +1,6 @@
 import os
 from typing import TYPE_CHECKING, Any
 
-from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 
 if TYPE_CHECKING:

@@ -170,7 +170,6 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightTa
     GameFightTaxCollectorInformations
 from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
     GameContextActorInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.idol.Idol import Idol
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame

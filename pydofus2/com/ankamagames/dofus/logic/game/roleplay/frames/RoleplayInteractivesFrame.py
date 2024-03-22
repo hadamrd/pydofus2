@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Tuple
+from typing import Tuple
 
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
     MapDisplayManager
@@ -17,8 +17,6 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterMa
     PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.InteractiveElementData import \
     InteractiveElementData
-from pydofus2.com.ankamagames.dofus.network.enums.MapObstacleStateEnum import \
-    MapObstacleStateEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import \
     GameContextDestroyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapObstacleUpdateMessage import \
@@ -182,7 +180,7 @@ class RoleplayInteractivesFrame(Frame):
             return True
 
         if isinstance(msg, MapObstacleUpdateMessage):
-            moumsg = msg
+            pass
             # for mo in moumsg.obstacles:
             #     InteractiveCellManager().updateCell(
             #         mo.obstacleCellId, mo.state == MapObstacleStateEnum.OBSTACLE_OPENED

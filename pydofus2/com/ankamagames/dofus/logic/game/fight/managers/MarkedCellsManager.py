@@ -1,6 +1,4 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.enums.PlacementStrataEnums import \
-    PlacementStrataEnums
 from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
     DataMapProvider

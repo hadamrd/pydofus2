@@ -49,12 +49,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Jo
     JobBookSubscribeRequestMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.social.ContactLookRequestByIdMessage import \
     ContactLookRequestByIdMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobBookSubscription import \
-    JobBookSubscription
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobCrafterDirectorySettings import \
     JobCrafterDirectorySettings
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobDescription import \
-    JobDescription
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobExperience import \
     JobExperience
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n

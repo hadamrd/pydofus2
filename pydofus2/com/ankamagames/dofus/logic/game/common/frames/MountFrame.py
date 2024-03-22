@@ -87,8 +87,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Up
     UpdateMountCharacteristicsMessage
 from pydofus2.com.ankamagames.dofus.network.types.game.mount.UpdateMountIntegerCharacteristic import \
     UpdateMountIntegerCharacteristic
-from pydofus2.com.ankamagames.dofus.types.enums.AnimationEnum import \
-    AnimationEnum
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame

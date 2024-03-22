@@ -1,6 +1,5 @@
 import tempfile
 import zlib
-from io import BytesIO
 from typing import Optional, Union
 
 from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements

@@ -221,14 +221,14 @@ class DofusClient(threading.Thread):
         if not self._loginToken:
             if self._apikey is None:
                 return self.shutdown(
-                    reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                     message="Unable to login for reason : No apikey and certificate or login token provided!",
+                    reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                 )
             self._loginToken = self.zaap.getLoginToken(GameID.DOFUS, self._certId, self._certHash, self._apikey)
             if self._loginToken is None:
                 return self.shutdown(
-                    reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                     message="Unable to login for reason : Unable to generate login token!",
+                    reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                 )
         AuthentificationManager().setToken(self._loginToken)
         self.waitNextLogin()

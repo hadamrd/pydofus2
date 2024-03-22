@@ -81,8 +81,6 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.FightEntityDispos
     FightEntityDispositionInformations
 from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
     GameContextActorInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorPositionInformations import \
-    GameContextActorPositionInformations
 from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
     InteractiveElement
 from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import \

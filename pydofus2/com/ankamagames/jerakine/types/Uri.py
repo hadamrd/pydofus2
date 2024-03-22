@@ -1,8 +1,7 @@
 import hashlib
-import os
 import platform
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import urlparse
 
 from pydofus2.com.ankamagames.dofus import Constants
 

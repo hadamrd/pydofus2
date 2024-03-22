@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from collections import defaultdict
 
 from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
     AdapterFactory
