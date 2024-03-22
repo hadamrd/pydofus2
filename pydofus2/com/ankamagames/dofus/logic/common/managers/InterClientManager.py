@@ -5,6 +5,7 @@ import threading
 
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
     ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
 
 
 class InterClientManager(metaclass=ThreadSharedSingleton):
@@ -18,9 +19,16 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
         self._numClients = 0
 
     def getFlashKey(self):
-        key = self.get_random_flash_key()
-        while key in self.used_keys:
+        so = CustomSharedObject.getLocal("uid")
+        cacheKey = str(so.data["identity"])
+        if not cacheKey or len(cacheKey) > self.KEY_SIZE - 3:
             key = self.get_random_flash_key()
+            while key in self.used_keys:
+                key = self.get_random_flash_key()
+            so.data["identity"] = key
+            so.flush()
+        else:
+            key = cacheKey
         self.used_keys.add(key)
         self._client_key_map[threading.current_thread().name] = key
         nbrKeys = len(self.used_keys)
@@ -30,8 +38,6 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
         return key + suffix
 
     def freeFlashKey(self):
-        key = self._client_key_map[threading.current_thread().name]
-        self.used_keys.remove(key)
         del self._client_key_map[threading.current_thread().name]
         self._numClients -= 1
         
