@@ -54,4 +54,4 @@ class DofusSnifferApp:
 
 if __name__ == "__main__":
     app = DofusSnifferApp()
-    app.run(debug=True)
+    app.run(debug=False)

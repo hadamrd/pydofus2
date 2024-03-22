@@ -1,3 +1,4 @@
+from distutils.log import Log
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -75,6 +76,7 @@ class AuthentificationFrame(Frame):
         elif isinstance(msg, HelloConnectMessage):
             flashKeyMsg = ClientKeyMessage()
             flashKeyMsg.init(InterClientManager().getFlashKey())
+            Logger().info(f"Sending flash key to server: {flashKeyMsg.key}")
             ConnectionsHandler().send(flashKeyMsg)
             AuthentificationManager().setPublicKey(msg.key)
             AuthentificationManager().setSalt(msg.salt)

@@ -13,28 +13,6 @@ from pydofus2.com.ankamagames.dofus.kernel.net.PlayerDisconnectedMessage import 
     PlayerDisconnectedMessage
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.GameActionAcknowledgementMessage import \
-    GameActionAcknowledgementMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightOptionToggleMessage import GameFightOptionToggleMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnFinishMessage import \
-    GameFightTurnFinishMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnReadyMessage import \
-    GameFightTurnReadyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementConfirmMessage import \
-    GameMapMovementConfirmMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.challenge.ChallengeModSelectMessage import ChallengeModSelectMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.ChangeMapMessage import \
-    ChangeMapMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayAttackMonsterRequestMessage import \
-    GameRolePlayAttackMonsterRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import \
-    MapInformationsRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.AcquaintancesGetListMessage import AcquaintancesGetListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.FriendsGetListMessage import FriendsGetListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.IgnoredGetListMessage import IgnoredGetListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.SpouseGetInformationsMessage import SpouseGetInformationsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildGetInformationsMessage import GuildGetInformationsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.GuildGetPlayerApplicationMessage import GuildGetPlayerApplicationMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
@@ -134,26 +112,30 @@ class ConnectionsHandler(metaclass=Singleton):
             return
         with self.sendMessageLock:
             if self.last_send_time is not None:
-                if msg.__class__.__name__ in ["SequenceNumberMessage", "BasicLatencyStatsMessage", "BasicPingMessage"]:
+                msgtype = msg.__class__.__name__
+                if msgtype in ["SequenceNumberMessage", "BasicLatencyStatsMessage", "BasicPingMessage"]:
                     minNextSendTime = self.last_send_time + 0.05
-                elif type(msg) in [
-                    GameMapMovementConfirmMessage,
-                    GameActionAcknowledgementMessage,
-                    GameFightTurnFinishMessage,
-                    GameFightTurnReadyMessage,
-                    MapInformationsRequestMessage,
-                    ChangeMapMessage,
-                    GameRolePlayAttackMonsterRequestMessage,
-                    GameActionAcknowledgementMessage,
-                    ChallengeModSelectMessage,
-                    GameFightOptionToggleMessage,
-                    AcquaintancesGetListMessage,
-                    FriendsGetListMessage,
-                    IgnoredGetListMessage,
-                    SpouseGetInformationsMessage,
-                    GuildGetInformationsMessage,
-                    GuildGetPlayerApplicationMessage
-                    
+                elif msgtype in [
+                    "GameMapMovementConfirmMessage",
+                    "GameActionAcknowledgementMessage",
+                    "GameFightTurnFinishMessage",
+                    "GameFightTurnReadyMessage",
+                    "MapInformationsRequestMessage",
+                    "ChangeMapMessage",
+                    "GameRolePlayAttackMonsterRequestMessage",
+                    "GameActionAcknowledgementMessage",
+                    "ChallengeModSelectMessage",
+                    "GameFightOptionToggleMessage",
+                    "AcquaintancesGetListMessage",
+                    "FriendsGetListMessage",
+                    "IgnoredGetListMessage",
+                    "SpouseGetInformationsMessage",
+                    "GuildGetInformationsMessage",
+                    "GuildGetPlayerApplicationMessage",
+                    "GuildRanksRequestMessage",
+                    "AllianceGetPlayerApplicationMessage",
+                    "AllianceRanksRequestMessage",
+                    "GameContextCreateRequestMessage" 
                 ]:
                     minNextSendTime = self.last_send_time + 0.2 + abs(random.gauss(0.05, 0.01))
                 else:

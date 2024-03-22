@@ -133,6 +133,8 @@ class Kernel(metaclass=Singleton):
             SpellModifiersManager
         from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
             BenchmarkTimer
+        from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import InterClientManager
+
 
         Logger().debug("Resetting ...")
         BenchmarkTimer.reset()
@@ -149,6 +151,8 @@ class Kernel(metaclass=Singleton):
         HaapiEventsManager.clear()
         InactivityManager().stop()
         InactivityManager.clear()
+        InterClientManager().freeFlashKey()
+    
         if not reloadData:
             self._worker.terminate()
         else:

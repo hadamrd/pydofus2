@@ -1,5 +1,7 @@
+from concurrent.futures import thread
 import math
 import random
+import threading
 
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
     ThreadSharedSingleton
@@ -9,6 +11,7 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
     KEY_SIZE = 21
     hex_chars = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]
     used_keys = set()
+    _client_key_map = {}
 
     def __init__(self):
         self.used_keys = set()
@@ -19,16 +22,24 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
         while key in self.used_keys:
             key = self.get_random_flash_key()
         self.used_keys.add(key)
+        self._client_key_map[threading.current_thread().name] = key
         nbrKeys = len(self.used_keys)
-        suffix = f"#{0 if nbrKeys < 10 else ''}{nbrKeys}"
+        # suffix = f"#{0 if nbrKeys < 10 else ''}{nbrKeys}"
+        suffix = f"#01"
         self._numClients += 1
         return key + suffix
 
+    def freeFlashKey(self):
+        key = self._client_key_map[threading.current_thread().name]
+        self.used_keys.remove(key)
+        del self._client_key_map[threading.current_thread().name]
+        self._numClients -= 1
+        
     @classmethod
     def get_random_flash_key(cls) -> str:
         s_sentence: str = ""
         n_len: int = cls.KEY_SIZE - 4
-        for i in range(n_len):
+        for _ in range(n_len):
             s_sentence += cls.get_random_char()
         return s_sentence + cls.checksum(s_sentence)
 
@@ -41,7 +52,7 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
 
     @classmethod
     def get_random_char(cls) -> str:
-        n: int = math.ceil(random.random() * 100)
+        n = math.ceil(random.random() * 100)
         if n <= 40:
             return chr(math.floor(random.random() * 26) + 65)
         if n <= 80:
