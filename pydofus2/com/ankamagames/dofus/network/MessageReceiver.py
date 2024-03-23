@@ -96,7 +96,14 @@ _messages_to_discard = {
     "MapFightStartPositionsUpdateMessage",
     "GameDataPaddockObjectAddMessage",
     "GameDataPlayFarmObjectAnimationMessage",
-    "PrismRemoveMessage"
+    "PrismRemoveMessage",
+    "GameRolePlayArenaUpdatePlayerInfosMessage",
+    "FriendsListMessage",
+    "AcquaintancesListMessage",
+    "IgnoredListMessage",
+    "GuildPlayerNoApplicationInformationMessage",
+    "AlliancePlayerNoApplicationInformationMessage"
+    
 }
 
 _mule_fight_messages_to_discard = {

@@ -135,7 +135,8 @@ class ConnectionsHandler(metaclass=Singleton):
                     "GuildRanksRequestMessage",
                     "AllianceGetPlayerApplicationMessage",
                     "AllianceRanksRequestMessage",
-                    "GameContextCreateRequestMessage" 
+                    "GameContextCreateRequestMessage",
+                    "InteractiveUseRequestMessage"
                 ]:
                     minNextSendTime = self.last_send_time + 0.2 + abs(random.gauss(0.05, 0.01))
                 else:

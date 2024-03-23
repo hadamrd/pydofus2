@@ -4,8 +4,6 @@ from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion imp
     ItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
     ItemCriterionOperator
-from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
-    Achievement
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
@@ -35,6 +33,7 @@ class AchievementAccountItemCriterion(ItemCriterion, IDataCenter):
 
     @property
     def text(self) -> str:
+        from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
         readableValue = " '" + Achievement.getAchievementById(self._criterionValue).name + "'"
         readableCriterion: str = I18n.getUiText("ui.tooltip.unlockAchievement", [readableValue])
         if self._operator.text == ItemCriterionOperator.DIFFERENT:

@@ -47,7 +47,7 @@ class AchievementCategory:
     @property
     def visible(self):
         if self.visibilityCriterion is None:
-            Logger().error("Visibility criterion is null for category " + str(self.id))
+            Logger().warning("Visibility criterion is null for category " + str(self.id))
             self.visibilityCriterion = ""
         gic = GroupItemCriterion(self.visibilityCriterion)
         return gic.isRespected
