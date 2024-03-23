@@ -1,8 +1,6 @@
 class Vertex:
     _mapId: float
-
     _zoneId: int
-
     _uid: float
 
     def __init__(self, mapId: float, zoneId: int, vertexUid: float):

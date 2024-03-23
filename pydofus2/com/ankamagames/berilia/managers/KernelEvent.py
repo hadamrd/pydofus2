@@ -4,6 +4,9 @@ from enum import Enum, auto
 class KernelEvent(Enum):
     # Infos
     TextInformation = auto()
+    
+    # popups
+    NonSubscriberPopup = auto()
 
     # Server
     ServersList = auto()
@@ -18,6 +21,7 @@ class KernelEvent(Enum):
     CharacterSelectedForce = auto()
     AuthenticationTicketAccepted = auto()
     AuthenticationTicket = auto()
+    Banned = auto()
     
     # client 
     ClientCrashed = auto()
@@ -176,6 +180,7 @@ class KernelEvent(Enum):
     AchievementRewardSuccess = auto()
     RewardableAchievementsVisible = auto()
     AchievementFinished = auto()
+    AchievementList = auto()
     
     # Mount 
     MountSterilized = auto()

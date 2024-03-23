@@ -80,6 +80,7 @@ class DofusClient(threading.Thread):
         self.kernel = None
         self.terminated = threading.Event()
         self._ended_correctly = False
+        self._banned = False
 
     def initListeners(self):
         KernelEventsManager().once(
@@ -303,6 +304,9 @@ class DofusClient(threading.Thread):
 
         if self._shutDownReason != DisconnectionReasonEnum.WANTED_SHUTDOWN:
             Logger().error(f"Crashed for reason : {self._shutDownReason} :\n{self._shutDownMessage}")
+
+        if self._shutDownReason == DisconnectionReasonEnum.BANNED:
+            self._banned = True
 
         if Haapi().game_sessionId:
             HaapiEventsManager().sendEndEvent()

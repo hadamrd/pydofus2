@@ -2,6 +2,7 @@ import math
 import random
 import threading
 
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
     ThreadSharedSingleton
 from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
@@ -27,17 +28,14 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
             so.data["identity"] = key
             so.flush()
         else:
+            Logger().info(f"Found key in locals: {cacheKey}")
             key = cacheKey
         self.used_keys.add(key)
         self._client_key_map[threading.current_thread().name] = key
-        len(self.used_keys)
-        # suffix = f"#{0 if nbrKeys < 10 else ''}{nbrKeys}"
-        suffix = f"#01"
         self._numClients += 1
-        return key + suffix
+        return key + "#01"
 
     def freeFlashKey(self):
-        del self._client_key_map[threading.current_thread().name]
         self._numClients -= 1
         
     @classmethod

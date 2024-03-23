@@ -95,6 +95,10 @@ class AuthentificationFrame(Frame):
             PlayerManager().nickname = ismsg.accountTag.nickname
             PlayerManager().tag = ismsg.accountTag.tagNumber
             PlayerManager().subscriptionEndDate = ismsg.subscriptionEndDate
+            if PlayerManager().isBasicAccount():
+                Logger().info("Player has basic account")
+            else:
+                Logger().info(f"Player subscription end date: {PlayerManager().subscriptionEndDate}")
             PlayerManager().accountCreation = ismsg.accountCreation
             PlayerManager().wasAlreadyConnected = ismsg.wasAlreadyConnected
             DataStoreType.ACCOUNT_ID = str(ismsg.accountId)
@@ -106,11 +110,16 @@ class AuthentificationFrame(Frame):
             return True
 
         elif isinstance(msg, IdentificationFailedMessage):
-            reasonName = IdentificationFailureReasonEnum(msg.reason).name
+            reason = IdentificationFailureReasonEnum(msg.reason)
             PlayerManager().destroy()
-            ConnectionsHandler().closeConnection(
-                DisconnectionReasonEnum.EXCEPTION_THROWN, f"Identification failed for reason : {reasonName}"
-            )
+            if reason == IdentificationFailureReasonEnum.BANNED:
+                ConnectionsHandler().closeConnection(
+                    DisconnectionReasonEnum.BANNED, f"Identification failed for reason : {reason.name}"
+                )
+            else:
+                ConnectionsHandler().closeConnection(
+                    DisconnectionReasonEnum.EXCEPTION_THROWN, f"Identification failed for reason : {reason.name}"
+                )
             return True
 
         elif isinstance(msg, LoginValidationAction):

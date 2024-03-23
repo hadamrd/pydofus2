@@ -29,4 +29,6 @@ class DisconnectionReasonEnum(Enum):
     
     CONNECTION_PROCESS_CRASHED = 11
     
+    BANNED = 12
+    
     

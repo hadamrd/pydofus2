@@ -35,6 +35,7 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.ServerStatusUpda
     ServerStatusUpdateMessage
 from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import \
     GameServerInformations
+from pydofus2.com.ankamagames.jerakine.benchmark import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
@@ -101,6 +102,9 @@ class ServerSelectionFrame(Frame):
                 self._serversList.sort(key=lambda x: x.date)
             serverStatus = ServerStatusEnum(msg.server.status)
             Logger().info(f"Server {msg.server.id} status changed to {serverStatus.name}.")
+            if self._waitingServerOnline and self._waitingServerOnline == msg.server.id:
+                self.selectServer(msg.server.id)
+                self._waitingServerOnline = False
             self.broadcastServersListUpdate()
             KernelEventsManager().send(KernelEvent.ServerStatusUpdate, msg.server)
             return True
@@ -272,19 +276,16 @@ class ServerSelectionFrame(Frame):
             if str(server.id) == str(serverId):
                 if ServerStatusEnum(server.status) == ServerStatusEnum.ONLINE:
                     self.requestServerSelection(server.id)
+                elif ServerStatusEnum(server.status) == ServerStatusEnum.SAVING:
+                    self._waitingServerOnline = server.id
+                    Logger().info(f"Server {server.id} is saving, waiting for it to be online.")
                 else:
-                    if server.status == ServerStatusEnum.SAVING:
-                        self._waitingServerOnline = True
-                        Logger().info(f"Server {server.id} is saving, waiting for it to be online.")
-                        Kernel().worker.terminated.wait(60)
-                        self.requestServerSelection(server.id)
-                    else:
-                        err_type = ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS
-                        KernelEventsManager().send(
-                            KernelEvent.SelectedServerRefused,
-                            server.id,
-                            err_type,
-                            server.status,
-                            self.getSelectionErrorText(err_type, server.status),
-                            self.getSelectableServers(),
-                        )
+                    err_type = ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS
+                    KernelEventsManager().send(
+                        KernelEvent.SelectedServerRefused,
+                        server.id,
+                        err_type,
+                        server.status,
+                        self.getSelectionErrorText(err_type, server.status),
+                        self.getSelectableServers(),
+                    )

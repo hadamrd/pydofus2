@@ -1,6 +1,7 @@
 import re
 from typing import TYPE_CHECKING
 
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementAccountItemCriterion import AchievementAccountItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
     GroupItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
@@ -23,10 +24,10 @@ from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter
-
-if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
+from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
         AchievementCategory
+if TYPE_CHECKING:
+    pass
 
 class Achievement(IDataCenter):
 
@@ -129,13 +130,6 @@ class Achievement(IDataCenter):
 
     @property
     def canBeStarted(self) -> bool:
-        ach: Achievement = None
-        objId: int = 0
-        achObj: AchievementObjective = None
-        achObjValue: list = None
-        qu: Quest = None
-        quObj: QuestObjective = None
-        questsIds: list[int] = None
         for objId in self.objectiveIds:
             achObj = AchievementObjective.getAchievementObjectiveById(objId)
             if achObj:

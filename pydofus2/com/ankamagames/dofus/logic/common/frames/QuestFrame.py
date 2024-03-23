@@ -18,8 +18,10 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper impor
     SpellWrapper
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.AccountManager import AccountManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import \
     FeatureManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
     TimeManager
 from pydofus2.com.ankamagames.dofus.misc.utils.ParamsDecoder import \
@@ -87,6 +89,8 @@ class QuestFrame(Frame):
     FIRST_TEMPORIS_REWARD_ACHIEVEMENT_ID: int = 2903
 
     FIRST_TEMPORIS_COMPANION_REWARD_ACHIEVEMENT_ID: int = 2906
+    
+    EXPEDITION_ACHIEVEMENT_CATEGORY_ID = 136
 
     TEMPORIS_CATEGORY: int = 107
 
@@ -230,11 +234,57 @@ class QuestFrame(Frame):
         self._treasureHunts = dict()
         self._achievementsList = AchievementListMessage()
         self._achievementsList.init(list[AchievementAchieved]())
+        self._nbAllAchievements = len(Achievement.getAchievements())
         return True
 
-    def processAchievements(self, b):
-        # TODO: implement this method if needed
-        pass
+    def processAchievements(self, resetRewards=False):
+        rewardsUiNeedOpening = False
+        playerAchievementsCount = 0
+        accountAchievementsCount = 0
+        playerPoints = 0
+        accountPoints = 0
+        achievementDone = {}
+
+        self._finishedAchievements = []
+        self._finishedCharacterAchievementIds = []
+
+        if resetRewards:
+            self._rewardableAchievements = []
+
+        for achievedAchievement in self._achievementsList.finishedAchievements:
+            ach = Achievement.getAchievementById(achievedAchievement.id)
+            if ach is not None and ach.category and (ach.category.visible or ach.category.id == self.EXPEDITION_ACHIEVEMENT_CATEGORY_ID):
+                if isinstance(achievedAchievement, AchievementAchievedRewardable) and achievedAchievement not in self._rewardableAchievements:
+                    self._rewardableAchievements.append(achievedAchievement)
+                if achievedAchievement not in self._finishedAchievements:
+                    self._finishedAchievements.append(achievedAchievement)
+                accountPoints += ach.points
+                accountAchievementsCount += 1
+                if ach.id not in self._finishedAccountAchievementIds:
+                    self._finishedAccountAchievementIds.append(ach.id)
+                if achievedAchievement.achievedBy == PlayedCharacterManager().id:
+                    playerPoints += ach.points
+                    playerAchievementsCount += 1
+                    self._finishedCharacterAchievementIds.append(ach.id)
+                achievementDone[achievedAchievement.id] = True
+            elif ach is None:
+                Logger().warning("Achievement " + str(achievedAchievement.id) + " not exported")
+
+        PlayedCharacterManager().achievementPercent = int(playerAchievementsCount / self._nbAllAchievements * 100)
+        PlayedCharacterManager().achievementPoints = playerPoints
+        AccountManager().achievementPercent = int(accountAchievementsCount / self._nbAllAchievements * 100)
+        AccountManager().achievementPoints = accountPoints
+        KernelEventsManager().send(KernelEvent.AchievementList)
+        rewardsUiNeedOpening = self.doesRewardsUiNeedOpening()
+        if not self._rewardableAchievementsVisible and rewardsUiNeedOpening:
+            self._rewardableAchievementsVisible = True
+            KernelEventsManager().send(KernelEvent.RewardableAchievementsVisible, self._rewardableAchievementsVisible)
+        if self._rewardableAchievementsVisible and not rewardsUiNeedOpening:
+            self._rewardableAchievementsVisible = False
+            KernelEventsManager().send(KernelEvent.RewardableAchievementsVisible, self._rewardableAchievementsVisible)
+
+        self._achievementsListProcessed = True
+
     
     def process(self, msg: Message) -> bool:
 
@@ -343,6 +393,20 @@ class QuestFrame(Frame):
 
         elif isinstance(msg, AchievementFinishedMessage):
             KernelEventsManager().send(KernelEvent.AchievementFinished, msg.achievement.id, msg.achievement.finishedlevel)
+            return True
+
+        if isinstance(msg, AchievementListMessage):
+            self._achievementsList = msg  # Direct assignment since Python does not require casting
+
+            if self._achievementsFinishedCache is not None:
+                for achievement_finished_rewardable in self._achievementsFinishedCache:
+                    self._achievementsList.finishedAchievements.append(achievement_finished_rewardable)
+                self._achievementsFinishedCache = None
+
+            player = PlayedCharacterManager()
+            if player and player.characteristics:
+                self.processAchievements(True)
+            
             return True
         
         elif isinstance(msg, TreasureHuntMessage):
