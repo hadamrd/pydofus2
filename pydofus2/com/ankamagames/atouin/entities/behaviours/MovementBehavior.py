@@ -22,7 +22,7 @@ class MovementBehavior(threading.Thread):
         self.running = threading.Event()
         self.callback = callback
         
-    def stop(self):
+    def stop(self, callback=None):
         self.stopEvt.set()
 
     def isRunning(self):
