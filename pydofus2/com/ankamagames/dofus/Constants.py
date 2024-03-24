@@ -1,4 +1,5 @@
 import os
+import json
 from pathlib import Path
 
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
@@ -49,19 +50,49 @@ MAX_LOGIN_ATTEMPTS = 3
 
 ROOTDIR = Path(os.path.dirname(__file__))
 
-DOFUS_ROOTDIR = Path("D:/Dofus")
+APPDATA_DIR = Path(os.getenv("APPDATA"))
 
-LOGS_DIR = Path("D:/botdev/logs")
 
-MAPS_PATH = Path(os.getenv("APPDATA")) / "pydofus2" / "content" / "maps"
+PYDOFUS2_APPDIR = APPDATA_DIR / "pydofus2"
 
-AVERAGE_PRICES_PATH = Path(os.getenv("APPDATA")) / "pydofus2" / "content" / "average_prices.json"
+# If the directory does not exist, create it
+if not PYDOFUS2_APPDIR.exists():
+    PYDOFUS2_APPDIR.mkdir()
+
+SETTINGS_DIR = PYDOFUS2_APPDIR / "settings.json"
+# check if settings file exists
+if not SETTINGS_DIR.exists():
+    with open(SETTINGS_DIR, "w") as fs:
+        json.dump({}, fs)
+
+with open(SETTINGS_DIR, "r") as fs:
+    SETTINGS = json.load(fs)
+
+DOFUS_HOME = SETTINGS.get("DOFUS_HOME")
+LOGS_DIR = SETTINGS.get("LOGS_DIR")
+
+if not DOFUS_HOME:
+    DOFUS_HOME = Path(os.getenv("DOFUS_HOME"))
+
+if not LOGS_DIR:
+    LOGS_DIR = Path(os.getenv("LOGS_DIR"))
+    
+if not DOFUS_HOME:
+    raise Exception("DOFUS_HOME not found in settings and not in environment!")
+
+if not LOGS_DIR:
+    # default logs dir in roaming folder
+    LOGS_DIR = PYDOFUS2_APPDIR / "Logs"
+
+MAPS_PATH = PYDOFUS2_APPDIR / "content" / "maps"
+
+AVERAGE_PRICES_PATH = PYDOFUS2_APPDIR / "content" / "average_prices.json"
 
 PROTOCOL_SPEC_PATH = ROOTDIR.parent / "jerakine" / "network" / "parser" / "D2protocol.json"
 
 PROTOCOL_MSG_SHUFFLE_PATH = ROOTDIR / "network" / "MsgShuffle.json"
 
-GAME_VERSION_PATH = DOFUS_ROOTDIR / "VERSION"
+GAME_VERSION_PATH = DOFUS_HOME / "VERSION"
 
 BINARY_DATA_DIR = ROOTDIR.parent.parent.parent / "binaryData"
 

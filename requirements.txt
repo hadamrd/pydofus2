@@ -8,3 +8,6 @@ requests
 prettytable
 pycryptodomex
 lxml
+psutil
+wmi
+cryptography

@@ -1,7 +1,12 @@
-DOFUSINVOKER = D://Dofus//DofusInvoker.swf
-PYDOFUS_DIR = D://botdev//pydofus2
-PYD2BOT_DIR = D://botdev//pyd2bot
-VENV_DIR = D://botdev//.venv
+
+ifeq ($(OS),Windows_NT)
+	DOFUS_HOME := $(subst \,/,$(DOFUS_HOME))
+	PYBOTDEV_HOME := $(subst \,/,$(PYBOTDEV_HOME))
+endif
+DOFUSINVOKER = $(DOFUS_HOME)/DofusInvoker.swf
+PYDOFUS_DIR = $(PYBOTDEV_HOME)/pydofus2
+PYD2BOT_DIR = $(PYBOTDEV_HOME)/pyd2bot
+VENV_DIR = $(PYBOTDEV_HOME)/.venv
 FFDEC = $(CURDIR)/FFDec/ffdec.bat
 DOFUS_SRC_DIR = $(CURDIR)/protocolBuilder/sources
 VENVACTIVATE = $(VENV_DIR)/Scripts/activate
@@ -10,21 +15,8 @@ PYDOFUS_BINARY_DATA_DIR = $(PYDOFUS_DIR)/pydofus2/binaryData
 # Dist and build paths
 PYD2BOT_BUILD_DIR = $(CURDIR)/pyd2botBuild
 PYD2BOT_BUILDENV = $(PYD2BOT_BUILD_DIR)/.buildEnv
-SNIFFER_APP_DIR = $(CURDIR)/sniffer
-PD2B_THRSERVER_DIR = $(PYD2BOT_DIR)/pyd2bot/thriftServer
-PYD2BOT_THRIFT_SERVICE = $(PD2B_THRSERVER_DIR)/pyd2botService.thrift
-# (old)
-GRINDER_DIR = D://botdev/Grinder
-PYD2BOT_DIST_DIR = $(GRINDER_DIR)/dist_electron/pyd2bot/
-GRINDER_THRIFT_DIR = $(GRINDER_DIR)/src/services
-
-.ONESHELL:
-.PHONY: setup
-
-paths:
-	@source "$(CURDIR)/spinner.sh"
-	echo "$(PYDOFUS_DIR)" >> $(VENV_DIR)/pydofus2.pth
-	echo "$(PYD2BOT_DIR)" >> $(VENV_DIR)/pyd2bot.pth
+SNIFFER_APP_DIR = $(PYDOFUS_DIR)/sniffer/app
+PYD2BOT_APP_DIR = $(PYD2BOT_DIR)/app
 
 venv:
 	@source "$(CURDIR)/spinner.sh"
@@ -32,33 +24,14 @@ venv:
 	@source $(VENV_DIR)/Scripts/activate & spinner "Activating dev env"
 	@pip install --upgrade pip --quiet\
 	&& pip install --upgrade setuptools --quiet & spinner "Upgrading pip and setuptools"
-
-deps:
-	@source "$(CURDIR)/spinner.sh"
-	@pip install -r $(PYDOFUS_DIR)/requirements.txt --quiet & spinner "Installing pydofus2 requirements"
-	@pip install -r $(PYD2BOT_DIR)/requirements.txt --quiet & spinner "Installing pyd2bot requirements"
-	@pip install -r $(SNIFFER_APP_DIR)/requirements.txt & spinner "Installing snifferApp requirements"
-	@tput cnorm
-.ONESHELL:
-setup-env: venv paths deps
-
-
-setupSniffer:
-	cd sniffer
-	python -m venv $(SNIFFER_APP_DIR)/.devVenv
-	source $(SNIFFER_APP_DIR)/.devVenv/Scripts/activate
-	pip install --upgrade pip
-	pip install --upgrade setuptools
-	echo "$(PYDOFUS_DIR)" >> $(SNIFFER_APP_DIR)/.devVenv/pydofus2.pth
-	echo "$(PYD2BOT_DIR)" >> $(SNIFFER_APP_DIR)/.devVenv/pyd2bot.pth
-	echo $(CURDIR) >> $(SNIFFER_APP_DIR)/.devVenv/pyd2botDevTools.pth
-	pip install -r $(PYDOFUS_DIR)/requirements.txt --quiet
-	pip install -r $(PYD2BOT_DIR)/requirements.txt --quiet
-	pip install -r $(SNIFFER_APP_DIR)/requirements.txt
 	
 sniff:
-	@source $(VENV_DIR)/Scripts/activate
-	@python $(SNIFFER_APP_DIR)/network/DofusSniffer.py
+	@source $(VENVACTIVATE)
+	@python $(SNIFFER_APP_DIR)/app.py
+
+serve:
+	@source $(VENVACTIVATE)
+	@python $(PYD2BOT_APP_DIR)/app.py
 
 update: decompile gen-protocol gen-msgClasses gen-msgShuffle extract-keys unpack-maps
 
@@ -72,13 +45,13 @@ extract-keys:
 	@$(FFDEC) -config parallelSpeedUp=true -export binaryData $(PYDOFUS_BINARY_DATA_DIR) $(DOFUSINVOKER)
 
 gen-protocol:
-	@source $(VENV_DIR)/Scripts/activate
+	@source $(VENVACTIVATE)
 	@echo "Generating protocol..."
 	@python protocolBuilder/protocolParser.py $(DOFUS_SRC_DIR)
 	@echo "Protocol generated"
 
 gen-msgClasses:
-	@source $(VENV_DIR)/Scripts/activate
+	@source $(VENVACTIVATE)
 	@pip install jinja2
 	@pip install tqdm
 	@echo "Generating msgClasses..."
@@ -86,7 +59,7 @@ gen-msgClasses:
 	@echo "msgClasses generated"
 
 gen-msgShuffle:
-	@source $(VENV_DIR)/Scripts/activate
+	@source $(VENVACTIVATE)
 	@$(FFDEC) -config parallelSpeedUp=true -selectclass com.ankamagames.dofus.network.MessageReceiver -export script $(DOFUS_SRC_DIR) $(DOFUSINVOKER)
 	@python protocolBuilder/extractMsgShuffle.py $(DOFUS_SRC_DIR)/scripts/com/ankamagames/dofus/network/MessageReceiver.as
 	@echo "msgShuffle generated"
@@ -134,13 +107,6 @@ bdist:
 	@cp -a build/exe.win-amd64-3.9/* $(PYD2BOT_DIST_DIR) & spinner "Copying pyd2bot to dist"
 	@tput cnorm
 	@echo "Build completed in $$((SECONDS - bstart_time)) seconds"
-
-gen-thrift:
-	@cd $(PD2B_THRSERVER_DIR)
-	@./thrift-0.16.0.exe -r --gen js:node,ts,es6,with_ns $(PYD2BOT_THRIFT_SERVICE) && rm -rf gen-nodejs
-	@./thrift-0.16.0.exe -r --gen py $(PYD2BOT_THRIFT_SERVICE) \
-	&& cp -r gen-py/* $(PD2B_THRSERVER_DIR) \
-	&& rm -rf gen-py
 
 black:
 	@source $(VENV_DIR)/Scripts/activate

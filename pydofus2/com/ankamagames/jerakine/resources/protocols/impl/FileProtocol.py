@@ -41,7 +41,7 @@ class FileProtocol(AbstractFileProtocol):
     def extractPath(self, path_str: str) -> str:
         absoluteFile = Path(path_str)
         if not absoluteFile.is_absolute():
-            path =  Constants.DOFUS_ROOTDIR / absoluteFile
+            path =  Constants.DOFUS_HOME / absoluteFile
         absoluteFile = path.resolve()
         path_str = str(absoluteFile).replace("file:///", "")
 

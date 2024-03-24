@@ -134,9 +134,9 @@ class Uri:
 
             uiRoot = Path(LangManager().getEntry("config.mod.path"))
             if not uiRoot.is_absolute():
-                return Constants.DOFUS_ROOTDIR / uiRoot / tmp
+                return Constants.DOFUS_HOME / uiRoot / tmp
             return uiRoot / tmp
-        return Constants.DOFUS_ROOTDIR / tmp
+        return Constants.DOFUS_HOME / tmp
 
     @property
     def fileType(self):

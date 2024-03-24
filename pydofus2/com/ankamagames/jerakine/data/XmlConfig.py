@@ -18,7 +18,7 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
     def __init__(self) -> None:
         from pydofus2.com.ankamagames.dofus import Constants
 
-        config_file_path = Constants.DOFUS_ROOTDIR / "config.xml"
+        config_file_path = Constants.DOFUS_HOME / "config.xml"
         pattern = "(\[\S+(?:\.\S+)*\])"
         tree = ET.parse(config_file_path)
         root = tree.getroot()
@@ -35,7 +35,7 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
                 else:
                     v = v.replace(m.group(0), self._constants[var])
             if key == "config.root.path":
-                v = str(Constants.DOFUS_ROOTDIR)
+                v = str(Constants.DOFUS_HOME)
             self._constants[key] = v
 
     def init(self, constants: dict[str, object]) -> None:

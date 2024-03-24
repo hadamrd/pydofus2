@@ -7,7 +7,7 @@ import pydofus2.com.ankamagames.dofus.Constants as Constants
 from pydofus2.dataAdapter.pak2 import PakProtocol2
 
 work_dir = Path(os.path.dirname(__file__))
-D2P_MAPS_PATH = Constants.DOFUS_ROOTDIR / "content" / "maps"
+D2P_MAPS_PATH = Constants.DOFUS_HOME / "content" / "maps"
 out_dir = Constants.MAPS_PATH
 
 if not os.path.exists(D2P_MAPS_PATH):
