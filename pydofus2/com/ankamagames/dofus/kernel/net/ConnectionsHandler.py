@@ -113,7 +113,7 @@ class ConnectionsHandler(metaclass=Singleton):
         with self.sendMessageLock:
             if self.last_send_time is not None:
                 msgtype = msg.__class__.__name__
-                if msgtype in ["SequenceNumberMessage", "BasicLatencyStatsMessage", "BasicPingMessage"]:
+                if msgtype in ["SequenceNumberMessage", "BasicLatencyStatsMessage", "BasicPingMessage", "GameMapMovementCancelMessage"]:
                     minNextSendTime = self.last_send_time + 0.05
                 elif msgtype in [
                     "GameMapMovementConfirmMessage",
