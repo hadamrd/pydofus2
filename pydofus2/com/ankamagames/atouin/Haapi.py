@@ -16,6 +16,7 @@ from urllib3.util.retry import Retry
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
@@ -41,7 +42,7 @@ def sendTrace(func):
                 error_trace += "\n\n-- Chained Exception --\n"
                 error_trace += "\n".join(cause_traceback) + "\n" + str(cause)
                 cause = cause.__cause__
-            KernelEventsManager().send(KernelEvent.ClientCrashed, error_trace)
+            KernelEventsManager().send(KernelEvent.ClientCrashed, error_trace, DisconnectionReasonEnum.EXCEPTION_THROWN)
     return wrapped
 
 class Haapi(metaclass=Singleton):

@@ -2,7 +2,6 @@ from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterio
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class AchievementCategory:
@@ -47,7 +46,7 @@ class AchievementCategory:
     @property
     def visible(self):
         if self.visibilityCriterion is None:
-            Logger().warning("Visibility criterion is null for category " + str(self.id))
+            # Logger().warning("Visibility criterion is null for category " + str(self.id))
             self.visibilityCriterion = ""
         gic = GroupItemCriterion(self.visibilityCriterion)
         return gic.isRespected

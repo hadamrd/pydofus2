@@ -189,8 +189,8 @@ class DofusClient(threading.Thread):
         
     def onCharacterImpossibleSelection(self, event):
         self.shutdown(
-            DisconnectionReasonEnum.EXCEPTION_THROWN,
-            f"Character {self._characterId} impossible to select in server {self._serverId}!",
+            reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
+            message=f"Character {self._characterId} impossible to select in server {self._serverId}!",
         )
 
     def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):            
