@@ -7,6 +7,7 @@ from pydofus2.sniffer.network.DofusSniffer import DofusSniffer
 
 
 class DofusSnifferApp:
+
     def __init__(self):
         self.app = Flask(__name__)
         self.socketio = SocketIO(self.app)
@@ -35,6 +36,10 @@ class DofusSnifferApp:
         def index():
             return render_template("index.html")
 
+        @self.app.route("/sniffer_status")
+        def status():
+            return jsonify({"sniffer_status": "running" if self.is_sniffer_running else "stopped"})
+        
         @self.app.route("/toggle_sniffer", methods=["POST"])
         def toggle_sniffer():
             action = "stopped" if self.is_sniffer_running else "started"
