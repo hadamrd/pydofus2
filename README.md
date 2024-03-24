@@ -11,7 +11,8 @@ Full code is in the examples folder
 
 <https://discord.gg/kGeUTyTd>
 
-### Main 
+### Main
+
 ```python
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
@@ -63,6 +64,7 @@ if __name__ == "__main__":
 ```
 
 ### Character creator
+
 ```python
 from pydofus2.com.ankamagames.berilia.managers.EventsHandler import Event
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent

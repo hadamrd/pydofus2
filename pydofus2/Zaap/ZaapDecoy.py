@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 
 import cloudscraper
+import psutil
 import pytz
 import yaml
 
@@ -25,9 +26,11 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     GPU = "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.15.2206)"
     RAM = 32768
     VERSION = None
+    ANKAMA_LAUNCHER_PROCESS_NAME = "Ankama Launcher.exe"
     
     
     def __init__(self, mainAccountApiKey: str=""):
+        self.kill_ankama_launcher()
         self.haapi = Zaapi(zaap_version=self.version)
         settings_file_path = os.path.join(self.getZaapPath(), "Settings")
         self._apikeys = self.get_all_stored_apikeys()
@@ -71,6 +74,30 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.haapi.getFromCms("BLOG", "ZAAP_PAGE_DOFUS", self.settings["LANGUAGE"], 1, 15)
         self.haapi.getFromCms("NEWS", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
         self.haapi.getFromCms("BLOG", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
+
+    def kill_ankama_launcher(self):
+        # Flag to check if the process was found
+        process_found = False
+
+        for process in psutil.process_iter(['name']):
+            # Check if process_name matches any running process name
+            if process.info['name'] == self.ANKAMA_LAUNCHER_PROCESS_NAME:
+                process_found = True
+                pid = process.pid
+                try:
+                    process.kill()  # Try to kill the process
+                    Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) has been killed.')
+                except psutil.NoSuchProcess:
+                    Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) does not exist.')
+                except psutil.AccessDenied:
+                    Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) could not be killed due to access denial.')
+                    raise SystemError(f'Failed to kill process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) due to access denial.')
+                except Exception as e:
+                    Logger().debug(f'Error killing process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}): {e}')
+                    raise SystemError(f'Failed to kill process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}): {e}')
+
+        if not process_found:
+            Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} was not found running.')
 
     def fetchAccountData(self, apikey):
         result = self.haapi.signOnWithApikey(GameID.ZAAP, apikey)
