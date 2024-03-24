@@ -6,17 +6,24 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.connection.BasicCharacter
     BasicCharacterWrapper
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.DofusClient import DofusClient
-from pydofus2.examples.CharacterCreator import CharacterCreator
+from examples.CharacterCreator import CharacterCreator
 
 if __name__ == "__main__":
-    account_login = "YOUR_LOGIN"
+    Logger.logToConsole = True
     
+    account_login = "YOUR_LOGIN"
     serverId = 293 # Tylezia server id example
     breedId = 10 # Sadida breed id example
     DOFUS_GAMEID = 1 # Dofus 2
+    APIKEY = "YOUR API KEY"
+    CERTID = "YOUR CERT ID"
+    CERTHASH = "YOUR CERT HASH"
+    
     
     characterCreator = CharacterCreator()
     client = DofusClient(account_login)
+    client.setApiKey(APIKEY)
+    client.setCertificate(CERTID, CERTHASH)
     client.setAutoServerSelection(serverId)
     eventsManager = KernelEventsManager.waitThreadRegister(account_login, 25)
 
@@ -35,5 +42,3 @@ if __name__ == "__main__":
     eventsManager.once(KernelEvent.CharactersList, onCharactersList)
 
     client.join()
-
-    print(client._shutDownMessage)
