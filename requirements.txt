@@ -11,3 +11,4 @@ lxml
 psutil
 wmi
 cryptography
+pytz
