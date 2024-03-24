@@ -112,7 +112,11 @@ class DofusClient(threading.Thread):
     def init(self):
         Logger().info("Initializing ...")
         atexit.register(self.at_extit)
-        self.zaap = ZaapDecoy()
+        try:
+            self.zaap = ZaapDecoy()
+        except Exception as e:
+            self.shutdown(message=str(e), reason=DisconnectionReasonEnum.EXCEPTION_THROWN)
+            return
         self.kernel = Kernel()
         self.kernel.init()
         AdapterFactory.addAdapter("ele", ElementsAdapter)
