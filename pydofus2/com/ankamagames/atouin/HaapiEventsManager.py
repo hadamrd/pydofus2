@@ -120,6 +120,10 @@ class HaapiEventsManager(metaclass=Singleton):
     def sendProfessionsOpenEvent(self):
         data = self.getButtonEventData(9, "Professions")
         self.sendBannerEvent(data)
+    
+    def senfHavenBagOpenEvent(self):
+        data = self.getButtonEventData(12, "Haven Bag")
+        self.sendBannerEvent(data)
         
     def sendBannerEvent(self, data):
         if not Haapi().game_sessionId:
