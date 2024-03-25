@@ -28,6 +28,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     VERSION = None
     ANKAMA_LAUNCHER_PROCESS_NAME = "Ankama Launcher.exe"
     CONNECTED_ACCOUNTS = set()
+    SESSIONS_LAUNCH = 0
     
     
     def __init__(self, mainAccountApiKey: str=""):
@@ -132,9 +133,9 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     
     def send_exit_events(self, apiKey, accountId, sessionId):
         Logger().debug("ATEXIT CALLED :: sending zaap exit events")
+        self.haapi.endSessionWithApiKey(sessionId, apikey=apiKey)
         events = self.getCloseEvents(accountId)
         self.haapi.sendEvents(game=GameID.ZAAP, sessionId=sessionId, events=events)
-        self.haapi.endSessionWithApiKey(sessionId, apikey=apiKey)
 
     @property
     def version(self):
@@ -192,8 +193,8 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                 "universe": "KROSMOZ",
                 "main_account_id": self.mainAccount['id'],
                 "account_id": accountId,
-                "launch_game": 1,
-                "launch_session": 1,
+                "launch_game": GameID.DOFUS,
+                "launch_session": self.SESSIONS_LAUNCH,
             },
         }
 

@@ -761,8 +761,11 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
 
         if isinstance(msg, GameActionFightChangeLookMessage):
             entity = Kernel().fightEntitiesFrame.getEntityInfos(msg.targetId)
-            Logger().debug(f"Fighter {msg.targetId} changed look from {entity.look.bonesId} to {msg.entityLook.bonesId}")
-            entity.look = msg.entityLook
+            if entity:
+                Logger().debug(f"Fighter {msg.targetId} changed look from {entity.look.bonesId} to {msg.entityLook.bonesId}")
+                entity.look = msg.entityLook
+            else:
+                Logger().error(f"Fighter {msg.targetId} not found")
             return True
 
         if isinstance(msg, GameActionFightInvisibilityMessage):

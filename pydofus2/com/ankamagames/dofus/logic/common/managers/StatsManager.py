@@ -75,7 +75,7 @@ class StatsManager(metaclass=Singleton):
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
             PlayedCharacterManager
         with self._lock:
-            playersIDs = [float(player.id) for instId, player in PlayedCharacterManager.getInstances()]
+            playersIDs = [float(player.id) for _, player in PlayedCharacterManager.getInstances()]
             entityId = float(entityId)
             if entityId in playersIDs:
                 return

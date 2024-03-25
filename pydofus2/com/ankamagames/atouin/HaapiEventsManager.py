@@ -21,6 +21,7 @@ class HaapiEventsManager(metaclass=Singleton):
     FORCE_CPU = False
     SCREEN_SIZE = 17
     QUALITY = 0
+    CLIENTS_OPEN = 0
 
     def __init__(self):
         self.used_shortcuts = {}
@@ -35,37 +36,39 @@ class HaapiEventsManager(metaclass=Singleton):
         return formatted_date
 
     def sendStartEvent(self, sessionId):
+        self.CLIENTS_OPEN += 1
         Haapi().sendEvent(
             game=GameID.DOFUS,
             session_id=sessionId,
             event_id=InternalStatisticTypeEnum.START_SESSION,
-            data={"account_id": PlayerManager().accountId, "client_open": 1},
+            data={"account_id": PlayerManager().accountId, "client_open": self.CLIENTS_OPEN},
         )
 
-    def getDofusCloseEvent(self, num_client=1):
+    def getDofusCloseEvent(self):
+        self.CLIENTS_OPEN -= 1
         return {
             "event_id": InternalStatisticTypeEnum.END_SESSION,
             "data": {
                 "screen_size": self.SCREEN_SIZE,
                 "account_id": PlayerManager().accountId,
                 "damage_preview": self.DMG_PREV,
-                "client_open": num_client,
+                "client_open": self.CLIENTS_OPEN,
                 "force_cpu": self.FORCE_CPU,
                 "quality": self.QUALITY,
             },
             "date": self.get_date(),
         }
     
-    def sendEndEvent(self, num_client=1):
+    def sendEndEvent(self):
         if not self.used_shortcuts:
             Haapi().sendEvent(
                 game=GameID.DOFUS,
                 session_id=Haapi().game_sessionId,
-                **self.getDofusCloseEvent(num_client)
+                **self.getDofusCloseEvent()
             )
         else:
             events = [ 
-                self.getDofusCloseEvent(num_client),
+                self.getDofusCloseEvent(),
                 self.getShortCutsUsedEvent()
             ]
             Haapi().sendEvents(GameID.DOFUS, Haapi().game_sessionId, events)

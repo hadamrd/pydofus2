@@ -102,29 +102,20 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
 
     TEAM_CIRCLE_COLOR_2: int = 16711680
 
-    _ie: dict
-
-    _tempFighterList: list[GameContextActorInformations]
-
-    _illusionEntities: dict
-
-    _lastKnownPosition: dict
-
-    _lastKnownMovementPoint: dict
-
-    _lastKnownPlayerStatus: dict
-
-    _realFightersLooks: dict = {}
-
-    _mountsVisible: bool
-
-    lastKilledChallengers: list[GameFightFighterInformations]
-
-    lastKilledDefenders: list[GameFightFighterInformations]
 
     def __init__(self):
         self._ie = dict()
         self._tempFighterList = list[GameContextActorInformations]()
+        self._realFightersLooks: dict = {}
+        self.lastKilledChallengers = list[GameFightFighterInformations]()
+        self.lastKilledDefenders = list[GameFightFighterInformations]()
+        self._ie = dict()
+        self._tempFighterList = list[GameContextActorInformations]()
+        self._illusionEntities = dict()
+        self._lastKnownPosition = dict()
+        self._lastKnownMovementPoint = dict()
+        self._lastKnownPlayerStatus = dict()
+        self._mountsVisible: bool = False
         self.lastKilledChallengers = list[GameFightFighterInformations]()
         self.lastKilledDefenders = list[GameFightFighterInformations]()
         super().__init__()

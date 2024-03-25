@@ -1,6 +1,7 @@
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
     SpellLevel
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.ISpellCastProvider import \
     ISpellCastProvider
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
@@ -59,7 +60,8 @@ class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):
             Logger().debug(
                 f"Fighter {self._fighterId} Casting Spell '{self._spellCastProvider.castingSpell.spell.name}' ({self._spellCastProvider.castingSpell.spell.id})"
             )
-        # self.executeCallbacks()
+            Kernel().worker.terminated.wait(1)
+        self.executeCallbacks()
 
     @property
     def targets(self) -> list[float]:

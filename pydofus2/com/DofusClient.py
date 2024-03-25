@@ -113,6 +113,7 @@ class DofusClient(threading.Thread):
 
     def init(self):
         Logger().info("Initializing ...")
+        ZaapDecoy.SESSIONS_LAUNCH += 1
         atexit.register(self.at_extit)
         try:
             self.zaap = ZaapDecoy()

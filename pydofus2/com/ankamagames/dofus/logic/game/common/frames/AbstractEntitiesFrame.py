@@ -31,6 +31,7 @@ from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
 class AbstractEntitiesFrame(Frame):
+
     def __init__(self):
         self._entities = dict[int, GameContextActorInformations]()
         self._interactiveElements = list[InteractiveElement]()
