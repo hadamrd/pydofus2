@@ -98,7 +98,7 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
     @property
     def subscriptionDurationElapsed(self) -> float:
         if self.subscriptionEndDate > self._subscriptionEndDateUpdateTime:
-            now = time.time()
+            now = TimeManager().getUtcTimestamp()
             subscriptionSinceConnection = min(self.subscriptionEndDate, now) - self._subscriptionEndDateUpdateTime
             if subscriptionSinceConnection > 0:
                 return self._subscriptionDurationElapsed + math.floor(subscriptionSinceConnection / 1000)
@@ -109,8 +109,7 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         self._subscriptionDurationElapsed = n
 
     def refreshSubscriptionEndDateUpdateTime(self) -> None:
-        self._subscriptionEndDateUpdateTime = time.time()
-        Logger().debug(f"Player is subscribed untill : {self._subscriptionEndDateUpdateTime}")
+        self._subscriptionEndDateUpdateTime = TimeManager().getUtcTimestamp()
 
     def isBasicAccount(self) -> bool:
         return self.subscriptionEndDate <= TimeManager().getUtcTimestamp() and not self.hasRights

@@ -16,6 +16,7 @@ from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame
     ServerSelectionFrame
 from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
     AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.dofus.network.enums.IdentificationFailureReasonsEnum import \
     IdentificationFailureReasonEnum
 from pydofus2.com.ankamagames.dofus.network.messages.connection.HelloConnectMessage import \
@@ -98,7 +99,9 @@ class AuthentificationFrame(Frame):
             if PlayerManager().isBasicAccount():
                 Logger().info("Player has basic account")
             else:
-                Logger().info(f"Player subscription end date: {PlayerManager().subscriptionEndDate}")
+                subscriptionEndDate = TimeManager().getDateFromTime(ismsg.subscriptionEndDate) # [nminute, nhour, nday, nmonth, nyear]
+                formatted = f"{subscriptionEndDate[2]}/{subscriptionEndDate[3]}/{subscriptionEndDate[4]} {subscriptionEndDate[1]}:{subscriptionEndDate[0]}"
+                Logger().info(f"Player subscription end date: {formatted}")
             PlayerManager().accountCreation = ismsg.accountCreation
             PlayerManager().wasAlreadyConnected = ismsg.wasAlreadyConnected
             DataStoreType.ACCOUNT_ID = str(ismsg.accountId)

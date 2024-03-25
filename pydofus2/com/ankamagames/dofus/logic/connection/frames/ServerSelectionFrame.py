@@ -78,6 +78,7 @@ class ServerSelectionFrame(Frame):
         return True
 
     def process(self, msg: Message) -> bool:
+    
         if isinstance(msg, ServersListMessage):
             slmsg = msg
             PlayerManager().server = None
@@ -86,6 +87,8 @@ class ServerSelectionFrame(Frame):
             self.broadcastServersListUpdate()
             if AuthentificationManager()._lva and AuthentificationManager()._lva.serverId is not None:
                 self.process(ServerSelectionAction.create(AuthentificationManager()._lva.serverId))
+            else:
+                Logger().warning("No serverId specified in Auth Manager, cannot select any server.")
             return True
 
         elif isinstance(msg, ServerStatusUpdateMessage):
@@ -267,10 +270,14 @@ class ServerSelectionFrame(Frame):
                 return server
             
     def selectServer(self, serverId: int) -> None:
+        if self._alreadyConnectedToServerId:
+            Logger().info(f"Already connected to server {self._alreadyConnectedToServerId}.")
+            
         if self._alreadyConnectedToServerId > 0 and serverId != self._alreadyConnectedToServerId:
             self._serverSelectionAction = ServerSelectionAction.create(serverId)
             self.serverAlreadyInName = Server.getServerById(self._alreadyConnectedToServerId).name
             self.serverSelectedName = Server.getServerById(serverId).name
+ 
         for server in self._serversList:
             Logger().info(f"Server {server.id} status {ServerStatusEnum(server.status).name}.")
             if str(server.id) == str(serverId):

@@ -75,7 +75,20 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.haapi.getFromCms("NEWS", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
         self.haapi.getFromCms("BLOG", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
 
+    def killDofusProcesses(self):
+        for process in psutil.process_iter(['name']):
+            if "Dofus" in process.info['name']:
+                pid = process.pid
+                try:
+                    process.kill()
+                    Logger().debug(f"Process Dofus.exe (PID: {pid}) has been killed.")
+                except psutil.NoSuchProcess:
+                    Logger().debug(f"Process Dofus.exe (PID: {pid}) does not exist.")
+                except psutil.AccessDenied:
+                    Logger().debug(f"Process Dofus.exe (PID: {pid}) could not be killed due to access denial.")
+    
     def kill_ankama_launcher(self):
+        self.killDofusProcesses()
         # Flag to check if the process was found
         process_found = False
 
@@ -84,6 +97,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             if process.info['name'] == self.ANKAMA_LAUNCHER_PROCESS_NAME:
                 process_found = True
                 pid = process.pid
+                Logger().warning(f"Found a running Dofus process {process.info['name']} while trying to run the zaapDecoy launcher, will try to close it")
                 try:
                     process.kill()  # Try to kill the process
                     Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) has been killed.')

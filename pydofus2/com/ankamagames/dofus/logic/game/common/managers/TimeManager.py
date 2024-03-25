@@ -1,6 +1,7 @@
 import time
 from datetime import datetime, timedelta, timezone
 
+from pydofus2.com.ankamagames.dofus.datacenter.misc.Month import Month
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
@@ -36,11 +37,11 @@ class TimeManager(metaclass=Singleton):
             nhour = date.hour
             nminute = date.minute
         else:
-            nday = date.utcnow().day
-            nmonth = date.utcnow().month
-            nyear = date.utcnow().year
-            nhour = date.utcnow().hour
-            nminute = date.utcnow().minute
+            nday = date.now(timezone.utc).day
+            nmonth = date.now(timezone.utc).month
+            nyear = date.now(timezone.utc).year
+            nhour = date.now(timezone.utc).hour
+            nminute = date.now(timezone.utc).minute
         return [nminute, nhour, nday, nmonth, nyear]
 
     def initText(self):

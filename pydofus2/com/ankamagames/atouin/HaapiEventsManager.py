@@ -125,3 +125,7 @@ class HaapiEventsManager(metaclass=Singleton):
         if not Haapi().game_sessionId:
             return HaapiKeyManager().once(HaapiEvent.GameSessionReadyEvent, lambda event, sessionId: self.sendBannerEvent(data), originator=self)
         Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
+        
+if __name__ == "__main__":
+    date = HaapiEventsManager.get_date()
+    print(date)

@@ -166,7 +166,7 @@ class DofusClient(threading.Thread):
         self.shutdown(message, reason)
 
     def onRestart(self, event, message):
-        Logger().debug(f"Restart requested by event {event} for reason: {message}")
+        Logger().debug(f"Restart requested by event {event.name} for reason: {message}")
         self.onReconnect(event, message)
 
     def onLoginTimeout(self, listener: Listener):
@@ -208,6 +208,7 @@ class DofusClient(threading.Thread):
     
     def at_extit(self):
         if not self._ended_correctly:
+            Logger().error("Client not ended correctly, sending end event")
             if Haapi().game_sessionId:
                 HaapiEventsManager().sendEndEvent()
                 self.kernel.reset()
@@ -225,7 +226,8 @@ class DofusClient(threading.Thread):
             PlayerManager().allowAutoConnectCharacter = True
             PlayedCharacterManager().id = int(self._characterId)
             PlayerManager().autoConnectOfASpecificCharacterId = int(self._characterId)
-        Logger().info("Adding game start frames")
+            Logger().info(f"Auto connect character id set to {self._characterId} for server {self._serverId}")
+        Logger().info("Adding game start frames ...")
         for frame in self._registredInitFrames:
             self.worker.addFrame(frame())
         if not self._loginToken:
@@ -266,7 +268,7 @@ class DofusClient(threading.Thread):
 
     def shutdown(self, message="", reason=None):
         self._shutDownReason = reason if reason else DisconnectionReasonEnum.WANTED_SHUTDOWN
-        self._shutDownMessage = message if message else "Wanted shutdown"
+        self._shutDownMessage = message if message else "Wanted shutdown for unknwon reason"
         if self.kernel:
             Logger().info(f"Shutting down client {self.name} for reason : {self._shutDownReason}")
             self.kernel.worker.process(TerminateWorkerMessage())
