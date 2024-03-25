@@ -640,17 +640,18 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
                         shape = ei.zoneShape
                         break
                 if shape == SpellShapeEnum.P:
-                    ts = DofusEntities().getEntity(gafscmsg.targetId)
-                    if ts and self._castingSpell and self._castingSpell.targetedCell:
-                        targetedCell = InteractiveCellManager().getCell(self._castingSpell.targetedCell.cellId)
-                        cellPos = targetedCell.parent.localToGlobal(
-                            Point(
-                                targetedCell.x + targetedCell.width / 2,
-                                targetedCell.y + targetedCell.height / 2,
-                            )
-                        )
-                        ts.x = cellPos.x
-                        ts.y = cellPos.y
+                    # ts = DofusEntities().getEntity(gafscmsg.targetId)
+                    # if ts and self._castingSpell and self._castingSpell.targetedCell:
+                    #     targetedCell = InteractiveCellManager().getCell(self._castingSpell.targetedCell.cellId)
+                    #     cellPos = targetedCell.parent.localToGlobal(
+                    #         Point(
+                    #             targetedCell.x + targetedCell.width / 2,
+                    #             targetedCell.y + targetedCell.height / 2,
+                    #         )
+                    #     )
+                    #     ts.x = cellPos.x
+                    #     ts.y = cellPos.y
+                    pass
             self._castingSpells.append(self._castingSpell)
             KernelEventsManager().send(
                 KernelEvent.FighterCastedSpell,
