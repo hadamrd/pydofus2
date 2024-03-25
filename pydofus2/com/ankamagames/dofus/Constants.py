@@ -60,25 +60,26 @@ if not PYDOFUS2_APPDIR.exists():
     PYDOFUS2_APPDIR.mkdir()
 
 SETTINGS_DIR = PYDOFUS2_APPDIR / "settings.json"
+
 # check if settings file exists
 if not SETTINGS_DIR.exists():
     with open(SETTINGS_DIR, "w") as fs:
         json.dump({}, fs)
 
 with open(SETTINGS_DIR, "r") as fs:
-    SETTINGS = json.load(fs)
+    USER_SETTINGS = json.load(fs)
 
-DOFUS_HOME = SETTINGS.get("DOFUS_HOME")
-LOGS_DIR = SETTINGS.get("LOGS_DIR")
+DOFUS_HOME = USER_SETTINGS.get("DOFUS_HOME")
+LOGS_DIR = USER_SETTINGS.get("LOGS_DIR")
 
 if not DOFUS_HOME:
-    DOFUS_HOME = Path(os.getenv("DOFUS_HOME"))
+    DOFUS_HOME = Path(os.getenv("DOFUS_HOME")) if os.getenv("DOFUS_HOME") else None
 
 if not LOGS_DIR:
-    LOGS_DIR = Path(os.getenv("LOGS_DIR"))
+    LOGS_DIR = Path(os.getenv("LOGS_DIR")) if os.getenv("LOGS_DIR") else None
     
 if not DOFUS_HOME:
-    raise Exception("DOFUS_HOME not found in settings and not in environment!")
+    raise Exception("DOFUS_HOME not found in settings and not found in environment variables!")
 
 if not LOGS_DIR:
     # default logs dir in roaming folder

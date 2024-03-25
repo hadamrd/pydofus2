@@ -28,7 +28,7 @@ class CertificateView(IInventoryView):
         return self._content
 
     def addItem(self, item: ItemWrapper, invisible: int, needUpdateView: bool = True) -> None:
-        self._content.unshift(item)
+        self._content.insert(0, item)
         if needUpdateView:
             self.updateView()
 

@@ -68,7 +68,7 @@ class DisconnectionHandlerFrame(Frame):
                         self._connectionUnexpectedFailureTimes.append(perf_counter())
                         KernelEventsManager().send(KernelEvent.ClientRestart, "The connection was closed unexpectedly.")
                     else:
-                        if reason.type == DisconnectionReasonEnum.EXCEPTION_THROWN:
+                        if reason.type in [DisconnectionReasonEnum.EXCEPTION_THROWN, DisconnectionReasonEnum.BANNED]:
                             KernelEventsManager().send(KernelEvent.ClientCrashed, reason.message, reason.type)
                         elif reason.type == DisconnectionReasonEnum.WANTED_SHUTDOWN:
                             KernelEventsManager().send(KernelEvent.ClientShutdown, reason.type, reason.message)

@@ -33,6 +33,7 @@ from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
@@ -100,7 +101,8 @@ class DofusClient(threading.Thread):
                 (KernelEvent.PlayerLoggedIn, self.onloginSuccess),
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
                 (KernelEvent.FightStarted, self.onFight),  
-                (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady)
+                (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),
+                (KernelEvent.TextInformation, self.onChannelTextInformation),
             ],
             originator=self
         )
@@ -146,6 +148,9 @@ class DofusClient(threading.Thread):
 
     def registerGameStartFrame(self, frame: "Frame"):
         self._registredGameStartFrames.append(frame)
+
+    def onChannelTextInformation(event, text, channelId, timestamp):
+        Logger().info(f"[{timestamp}][{ChatActivableChannelsEnum.to_name(channelId)}] {text}")
 
     def onCharacterSelectionSuccess(self, event, return_value):
         Logger().info("Adding game start frames")

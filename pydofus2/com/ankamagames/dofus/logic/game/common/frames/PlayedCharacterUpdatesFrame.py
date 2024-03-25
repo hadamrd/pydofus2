@@ -6,103 +6,114 @@ import pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper as 
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager as pcm
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.datacenter.breeds.Breed import Breed
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-    InventoryManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
-    TimeManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
-    SpellModifiersManager
-from pydofus2.com.ankamagames.dofus.network.enums.GameServerTypeEnum import \
-    GameServerTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import \
-    PlayerLifeStatusEnum
-from pydofus2.com.ankamagames.dofus.network.enums.StatsUpgradeResultEnum import \
-    StatsUpgradeResultEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.almanach.AlmanachCalendarDateMessage import \
-    AlmanachCalendarDateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassResetMessage import \
-    CompassResetMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassUpdatePartyMemberMessage import \
-    CompassUpdatePartyMemberMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassUpdatePvpSeekMessage import \
-    CompassUpdatePvpSeekMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicTimeMessage import \
-    BasicTimeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.debt.DebtsDeleteMessage import \
-    DebtsDeleteMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.debt.DebtsUpdateMessage import \
-    DebtsUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.spell.forgettable.ForgettableSpellDeleteMessage import \
-    ForgettableSpellDeleteMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.spell.forgettable.ForgettableSpellEquipmentSlotsMessage import \
-    ForgettableSpellEquipmentSlotsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.spell.forgettable.ForgettableSpellListUpdateMessage import \
-    ForgettableSpellListUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterExperienceGainMessage import \
-    CharacterExperienceGainMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpInformationMessage import \
-    CharacterLevelUpInformationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpMessage import CharacterLevelUpMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterStatsListMessage import \
-    CharacterStatsListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapSpeedMovementMessage import \
-    GameMapSpeedMovementMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.death.GameRolePlayGameOverMessage import \
-    GameRolePlayGameOverMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.death.GameRolePlayPlayerLifeStatusMessage import \
-    GameRolePlayPlayerLifeStatusMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import \
-    MapComplementaryInformationsDataMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.stats.StatsUpgradeResultMessage import \
-    StatsUpgradeResultMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.initialization.CharacterCapabilitiesMessage import \
-    CharacterCapabilitiesMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.initialization.ServerExperienceModificatorMessage import \
-    ServerExperienceModificatorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.initialization.SetCharacterRestrictionsMessage import \
-    SetCharacterRestrictionsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.zaap.KnownZaapListMessage import \
-    KnownZaapListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMoneyMovementInformationMessage import \
-    ExchangeMoneyMovementInformationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.SetUpdateMessage import \
-    SetUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActionAddMessage import \
-    StartupActionAddMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActionFinishedMessage import \
-    StartupActionFinishedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActionsListMessage import \
-    StartupActionsListMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import \
-    CharacterCharacteristicsInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionAlliance import \
-    HumanOptionAlliance
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionOrnament import \
-    HumanOptionOrnament
-from pydofus2.com.ankamagames.dofus.types.data.PlayerSetInfo import \
-    PlayerSetInfo
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import SpellModifiersManager
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.network.enums.GameServerTypeEnum import GameServerTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import PlayerLifeStatusEnum
+from pydofus2.com.ankamagames.dofus.network.enums.StatsUpgradeResultEnum import StatsUpgradeResultEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.almanach.AlmanachCalendarDateMessage import (
+    AlmanachCalendarDateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassResetMessage import CompassResetMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassUpdatePartyMemberMessage import (
+    CompassUpdatePartyMemberMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassUpdatePvpSeekMessage import (
+    CompassUpdatePvpSeekMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.basic.BasicTimeMessage import BasicTimeMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.debt.DebtsDeleteMessage import DebtsDeleteMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.debt.DebtsUpdateMessage import DebtsUpdateMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.spell.forgettable.ForgettableSpellDeleteMessage import (
+    ForgettableSpellDeleteMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.spell.forgettable.ForgettableSpellEquipmentSlotsMessage import (
+    ForgettableSpellEquipmentSlotsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.spell.forgettable.ForgettableSpellListUpdateMessage import (
+    ForgettableSpellListUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterExperienceGainMessage import (
+    CharacterExperienceGainMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpInformationMessage import (
+    CharacterLevelUpInformationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpMessage import (
+    CharacterLevelUpMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterStatsListMessage import (
+    CharacterStatsListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapSpeedMovementMessage import (
+    GameMapSpeedMovementMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.death.GameRolePlayGameOverMessage import (
+    GameRolePlayGameOverMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.death.GameRolePlayPlayerLifeStatusMessage import (
+    GameRolePlayPlayerLifeStatusMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import (
+    MapComplementaryInformationsDataMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.stats.StatsUpgradeResultMessage import (
+    StatsUpgradeResultMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.initialization.CharacterCapabilitiesMessage import (
+    CharacterCapabilitiesMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.initialization.ServerExperienceModificatorMessage import (
+    ServerExperienceModificatorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.initialization.SetCharacterRestrictionsMessage import (
+    SetCharacterRestrictionsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.zaap.KnownZaapListMessage import (
+    KnownZaapListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMoneyMovementInformationMessage import (
+    ExchangeMoneyMovementInformationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.SetUpdateMessage import SetUpdateMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActionAddMessage import (
+    StartupActionAddMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActionFinishedMessage import (
+    StartupActionFinishedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.startup.StartupActionsListMessage import (
+    StartupActionsListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import (
+    CharacterCharacteristicsInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionAlliance import HumanOptionAlliance
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionOrnament import HumanOptionOrnament
+from pydofus2.com.ankamagames.dofus.types.data.PlayerSetInfo import PlayerSetInfo
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
+from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import StringUtils
+from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import PatternDecoder
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import \
-        GameRolePlayHumanoidInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import (
+        GameRolePlayHumanoidInformations,
+    )
 
 
 class PlayedCharacterUpdatesFrame(Frame):
@@ -160,7 +171,7 @@ class PlayedCharacterUpdatesFrame(Frame):
 
         if isinstance(msg, CharacterStatsListMessage):
             cslmsg = msg
-            fightBattleFrame= krnl.Kernel().battleFrame
+            fightBattleFrame = krnl.Kernel().battleFrame
             if fightBattleFrame is not None and fightBattleFrame.executingSequence:
                 fightBattleFrame.delayCharacterStatsList(cslmsg)
             else:
@@ -223,7 +234,9 @@ class PlayedCharacterUpdatesFrame(Frame):
                 entityInfos = None
                 previousLevel = pcm.PlayedCharacterManager().infos.level
                 newLevel = msg.newLevel
-                Logger().warning(f"Received a player new level {msg.newLevel}, previous level {pcm.PlayedCharacterManager().infos.level}.")
+                Logger().warning(
+                    f"Received a player new level {msg.newLevel}, previous level {pcm.PlayedCharacterManager().infos.level}."
+                )
                 pcm.PlayedCharacterManager().infos.level = newLevel
                 if newLevel == 10 and PlayerManager().server.gameTypeId != GameServerTypeEnum.SERVER_TYPE_TEMPORIS:
                     newSpellWrappers = []
@@ -249,19 +262,69 @@ class PlayedCharacterUpdatesFrame(Frame):
                             if isinstance(option, HumanOptionOrnament):
                                 option.level = newLevel
                 KernelEventsManager().send(KernelEvent.PlayerLeveledUp, previousLevel, msg.newLevel)
-                
+
             elif isinstance(msg, CharacterLevelUpInformationMessage):
                 Logger().info(f"Player {msg.name} ({msg.id}) leveled up, new {msg.newLevel}")
             return True
 
         if isinstance(msg, CharacterExperienceGainMessage):
+            if msg.experienceCharacter > 0:
+                KernelEventsManager().send(
+                    KernelEvent.TextInformation,
+                    PatternDecoder.combine(
+                        I18n.getUiText("ui.stats.xpgain.mine", [int(msg.experienceCharacter)]),
+                        "n",
+                        msg.experienceCharacter == 1,
+                        msg.experienceCharacter == 0,
+                    ),
+                    ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                    TimeManager().getTimestamp(),
+                )
+            if msg.experienceIncarnation > 0:
+                KernelEventsManager().send(
+                    KernelEvent.TextInformation,
+                    PatternDecoder.combine(
+                        I18n.getUiText("ui.stats.xpgain.incarnation", [int(msg.experienceIncarnation)]),
+                        "n",
+                        msg.experienceIncarnation == 1,
+                        msg.experienceIncarnation == 0,
+                    ),
+                    ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                    TimeManager().getTimestamp(),
+                )
+            if msg.experienceGuild > 0:
+                KernelEventsManager().send(
+                    KernelEvent.TextInformation,
+                    PatternDecoder.combine(
+                        I18n.getUiText("ui.stats.xpgain.guild", [int(msg.experienceGuild)]),
+                        "n",
+                        msg.experienceGuild == 1,
+                        msg.experienceGuild == 0,
+                    ),
+                    ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                    TimeManager().getTimestamp(),
+                )
+            if msg.experienceMount > 0:
+                KernelEventsManager().send(
+                    KernelEvent.TextInformation,
+                    PatternDecoder.combine(
+                        I18n.getUiText("ui.stats.xpgain.mount", [int(msg.experienceMount)]),
+                        "n",
+                        msg.experienceMount == 1,
+                        msg.experienceMount == 0,
+                    ),
+                    ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                    TimeManager().getTimestamp(),
+                )
             return True
 
         if isinstance(msg, GameRolePlayPlayerLifeStatusMessage):
             state = PlayerLifeStatusEnum(msg.state)
             pcm.PlayedCharacterManager().state = state
             self._phenixMapId = msg.phenixMapId
-            KernelEventsManager().send(KernelEvent.PlayerStateChanged, PlayerLifeStatusEnum(msg.state), msg.phenixMapId)
+            KernelEventsManager().send(
+                KernelEvent.PlayerStateChanged, PlayerLifeStatusEnum(msg.state), msg.phenixMapId
+            )
             return True
 
         if isinstance(msg, GameRolePlayGameOverMessage):
@@ -277,11 +340,11 @@ class PlayedCharacterUpdatesFrame(Frame):
             sumsg = msg
             self.setList[sumsg.setId] = PlayerSetInfo(sumsg.setId, sumsg.setObjects, sumsg.setEffects)
             return True
-        
+
         if isinstance(msg, KnownZaapListMessage):
-            pcm.PlayedCharacterManager().updateKnownZaaps(msg.destinations);
+            pcm.PlayedCharacterManager().updateKnownZaaps(msg.destinations)
             return True
-    
+
         if isinstance(msg, CompassResetMessage):
             # crmsg = msg
             # name = "flag_srv" + crmsg.type
@@ -408,7 +471,7 @@ class PlayedCharacterUpdatesFrame(Frame):
             #    playerForgettableSpellsDict = pcm.PlayedCharacterManager().playerForgettableSpelldict
             #    for forgettableSpell in fslumsg.spells:
             #       playerForgettableSpellsDict[forgettableSpell.spellId] = forgettableSpell
-            # KernelEventsManager().processCallback(HookList.ForgettableSpellListUpdate)
+            # KernelEventsManager().send(HookList.ForgettableSpellListUpdate)
             # StorageOptionManager().updateStorageView()
             # InventoryManager().inventory.releaseHooks()
             return True

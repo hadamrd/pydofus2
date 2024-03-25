@@ -15,6 +15,7 @@ from urllib3.util.retry import Retry
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
@@ -75,12 +76,8 @@ class Haapi(metaclass=Singleton):
         self.dofus_session.mount("http://", adapter)
         self.dofus_session.mount("https://", adapter)
         self.dofus_session.headers.update(self.dofus_headers)
-#        self.dofus_session.proxies.update(
-#            {
-#                "http": "http://localhost:8080",
-#                "https": "http://localhost:8080",
-#            }
-#        )
+        if "haapi_proxies" in Constants.USER_SETTINGS:
+            self.dofus_session.proxies.update(Constants.USER_SETTINGS["haapi_proxies"])
         self.verify_ssl = False
 
     @sendTrace
