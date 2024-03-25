@@ -181,6 +181,7 @@ class DofusClient(threading.Thread):
         pass
 
     def onloginSuccess(self, event, ismsg):
+        ZaapDecoy.CONNECTED_ACCOUNTS.add(PlayerManager().accountId)
         HaapiKeyManager().on(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
         Haapi().getLoadingScreen(page=1, accountId=PlayerManager().accountId, lang="en", count=20)
         Haapi().getAlmanaxEvent(lang="en")
@@ -211,6 +212,7 @@ class DofusClient(threading.Thread):
             Logger().error("Client not ended correctly, sending end event")
             if Haapi().game_sessionId:
                 HaapiEventsManager().sendEndEvent()
+                ZaapDecoy.CONNECTED_ACCOUNTS.remove(PlayerManager().accountId)
                 self.kernel.reset()
                 Logger().info("goodby crual world")
                 self.terminated.set()
@@ -321,6 +323,8 @@ class DofusClient(threading.Thread):
 
         if Haapi().game_sessionId:
             HaapiEventsManager().sendEndEvent()
+
+        ZaapDecoy.CONNECTED_ACCOUNTS.remove(PlayerManager().accountId)
 
         Kernel().reset()
         Logger().info("goodby crual world")

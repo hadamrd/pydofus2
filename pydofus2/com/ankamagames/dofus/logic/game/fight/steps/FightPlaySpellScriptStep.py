@@ -59,7 +59,7 @@ class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):
             Logger().debug(
                 f"Fighter {self._fighterId} Casting Spell '{self._spellCastProvider.castingSpell.spell.name}' ({self._spellCastProvider.castingSpell.spell.id})"
             )
-        self.executeCallbacks()
+        # self.executeCallbacks()
 
     @property
     def targets(self) -> list[float]:

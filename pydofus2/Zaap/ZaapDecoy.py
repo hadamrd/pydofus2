@@ -27,6 +27,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     RAM = 32768
     VERSION = None
     ANKAMA_LAUNCHER_PROCESS_NAME = "Ankama Launcher.exe"
+    CONNECTED_ACCOUNTS = set()
     
     
     def __init__(self, mainAccountApiKey: str=""):
@@ -41,7 +42,6 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             mainAccountApiKey = self.find_main_account_apikey()
         self.mainAccountApiKey = mainAccountApiKey
         self.haapi.zaap_apikey = mainAccountApiKey
-        self.connected_accounts = 1
         self.active_accounts = 0
         for account in self.settings["USER_ACCOUNTS"]:
             if account["active"]:
@@ -238,7 +238,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                 "universe": "KROSMOZ",
                 "account_id": self.mainAccount['id'],
                 "main_account_id": accountId,
-                "total_accounts_connected": self.connected_accounts,
+                "total_accounts_connected": len(self.CONNECTED_ACCOUNTS),
                 "active_accounts": self.active_accounts,
             },
         }
