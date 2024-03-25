@@ -44,6 +44,7 @@ class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):
         self._spellRank = spellRank
         self._spellCastProvider = spellCastProvider
         self._fighterId = fighterId
+        self._cellId = cellId
 
     @property
     def stepType(self) -> str:
@@ -57,10 +58,12 @@ class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):
         if not sl:
             return
         if self._spellCastProvider.castingSpell.spell:
+            spell = self._spellCastProvider.castingSpell.spell
             Logger().debug(
                 f"Fighter {self._fighterId} Casting Spell '{self._spellCastProvider.castingSpell.spell.name}' ({self._spellCastProvider.castingSpell.spell.id})"
             )
-            Kernel().worker.terminated.wait(1)
+            if spell.getScriptId():
+                Kernel().worker.terminated.wait(0.5)
         self.executeCallbacks()
 
     @property
