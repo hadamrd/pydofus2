@@ -25,7 +25,9 @@ class OptionManager:
             raise ValueError(f"{self._customName} is already used by another option manager.")
 
         _optionsManager[self._customName] = self
-        self._dataStore = DataStoreType(self._customName, True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_ACCOUNT)
+        self._dataStore = DataStoreType(
+            self._customName, True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_ACCOUNT
+        )
 
     @staticmethod
     def getOptionManager(name):

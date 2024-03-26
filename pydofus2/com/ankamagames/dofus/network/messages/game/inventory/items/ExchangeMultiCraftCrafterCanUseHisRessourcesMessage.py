@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ExchangeMultiCraftCrafterCanUseHisRessourcesMessage(NetworkMessage):
     allowed: bool
+
     def init(self, allowed_: bool):
         self.allowed = allowed_
-        
+
         super().__init__()
-    

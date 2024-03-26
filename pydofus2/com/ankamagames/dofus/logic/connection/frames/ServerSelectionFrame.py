@@ -78,7 +78,7 @@ class ServerSelectionFrame(Frame):
         return True
 
     def process(self, msg: Message) -> bool:
-    
+
         if isinstance(msg, ServersListMessage):
             slmsg = msg
             PlayerManager().server = None
@@ -152,9 +152,7 @@ class ServerSelectionFrame(Frame):
 
         if isinstance(msg, (SelectedServerDataMessage, SelectedServerDataExtendedMessage)):
             self.selectedServer = msg
-            AuthentificationManager().gameServerTicket = (
-                AuthentificationManager().decodeWithAES(msg.ticket).decode()
-            )
+            AuthentificationManager().gameServerTicket = AuthentificationManager().decodeWithAES(msg.ticket).decode()
             PlayerManager().server = Server.getServerById(msg.serverId)
             PlayerManager().kisServerPort = 0
             self._connexionPorts = msg.ports
@@ -176,7 +174,12 @@ class ServerSelectionFrame(Frame):
             self.broadcastServersListUpdate()
             error_text = self.getSelectionErrorText(ssrmsg.error, ssrmsg.serverStatus)
             KernelEventsManager().send(
-                KernelEvent.SelectedServerRefused, ssrmsg.serverId, ssrmsg.error, ssrmsg.serverStatus, error_text, self.getSelectableServers()
+                KernelEvent.SelectedServerRefused,
+                ssrmsg.serverId,
+                ssrmsg.error,
+                ssrmsg.serverStatus,
+                error_text,
+                self.getSelectableServers(),
             )
             return True
 
@@ -239,12 +242,12 @@ class ServerSelectionFrame(Frame):
         else:  # Default case
             error_text = "NoReason"
         return error_text
-    
+
     def getUpdateServerStatusFunction(self, serverId: int, newStatus: int) -> FunctionType:
         def function(
             element: GameServerInformations,
             index: int = None,
-            arr: list[GameServerInformations]=None,
+            arr: list[GameServerInformations] = None,
         ) -> None:
             if serverId == element.id:
                 element.status = newStatus
@@ -268,16 +271,16 @@ class ServerSelectionFrame(Frame):
         for server in self._serversList:
             if server.id == self.selectedServer.serverId:
                 return server
-            
+
     def selectServer(self, serverId: int) -> None:
         if self._alreadyConnectedToServerId:
             Logger().info(f"Already connected to server {self._alreadyConnectedToServerId}.")
-            
+
         if self._alreadyConnectedToServerId > 0 and serverId != self._alreadyConnectedToServerId:
             self._serverSelectionAction = ServerSelectionAction.create(serverId)
             self.serverAlreadyInName = Server.getServerById(self._alreadyConnectedToServerId).name
             self.serverSelectedName = Server.getServerById(serverId).name
- 
+
         for server in self._serversList:
             Logger().info(f"Server {server.id} status {ServerStatusEnum(server.status).name}.")
             if str(server.id) == str(serverId):

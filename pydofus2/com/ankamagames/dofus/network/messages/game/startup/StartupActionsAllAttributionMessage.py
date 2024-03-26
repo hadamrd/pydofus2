@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class StartupActionsAllAttributionMessage(NetworkMessage):
     characterId: int
+
     def init(self, characterId_: int):
         self.characterId = characterId_
-        
+
         super().__init__()
-    

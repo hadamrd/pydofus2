@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class IAdapter(ABC):
-    
+
     @abstractmethod
     def loadDirectly(self, uri, path, observer, dispatchProgress):
         pass

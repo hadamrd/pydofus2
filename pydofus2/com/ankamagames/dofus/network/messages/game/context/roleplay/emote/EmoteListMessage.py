@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class EmoteListMessage(NetworkMessage):
     emoteIds: list[int]
+
     def init(self, emoteIds_: list[int]):
         self.emoteIds = emoteIds_
-        
+
         super().__init__()
-    

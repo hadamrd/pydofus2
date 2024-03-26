@@ -237,7 +237,7 @@ class FightBattleFrame(Frame):
             if not self._currentSequenceFrame:
                 Logger().warn("Got a Sequence End but no Sequence Start!")
                 return True
-            self._currentSequenceFrame.mustAck = (semsg.authorId == int(CurrentPlayedFighterManager().currentFighterId))
+            self._currentSequenceFrame.mustAck = semsg.authorId == int(CurrentPlayedFighterManager().currentFighterId)
             self._currentSequenceFrame.ackIdent = semsg.actionId
             self._sequenceFrameSwitcher.currentFrame = None
             if not self._currentSequenceFrame.parent:
@@ -263,7 +263,7 @@ class FightBattleFrame(Frame):
             self._turnsCount = gfnrmsg.roundNumber
             CurrentPlayedFighterManager().getSpellCastManager().currentTurn = self._turnsCount
             if GameDebugManager().buffsDebugActivated:
-                Logger().info(f"[BUFFS DEBUG] Start of turn {self._turnsCount} !");
+                Logger().info(f"[BUFFS DEBUG] Start of turn {self._turnsCount} !")
             bffm.BuffManager().spellBuffsToIgnore = []
             return True
 
@@ -288,7 +288,7 @@ class FightBattleFrame(Frame):
                 seqEnd.init(0, 0, 0)
                 self.process(seqEnd)
             if self._executingSequence:
-                Logger().error("Delaying fight end because we\'re still in a sequence.")
+                Logger().error("Delaying fight end because we're still in a sequence.")
                 self._endBattle = True
                 self._battleResults = gfemsg
             else:
@@ -319,12 +319,12 @@ class FightBattleFrame(Frame):
 
         elif isinstance(msg, ApplySpellModifierMessage):
             SpellModifiersManager().setRawSpellModifier(msg.actorId, msg.modifier)
-            return True        
-        
+            return True
+
         elif isinstance(msg, RemoveSpellModifierMessage):
             SpellModifiersManager().deleteSpellModifierAction(msg.actorId, msg.modifierType, msg.actionType)
             return True
-        
+
         elif isinstance(msg, GameFightTurnEndMessage):
             if not self._confirmTurnEnd:
                 self._lastPlayerId = msg.id
@@ -427,10 +427,7 @@ class FightBattleFrame(Frame):
                 self._sequenceFrameCached = sequenceFrame
                 self.sendAcknowledgement()
             self._executingSequence = False
-            if (
-                self._sequenceFrames
-                and self._sequenceFrames[0].instanceId >= self._synchroniseFightersInstanceId
-            ):
+            if self._sequenceFrames and self._sequenceFrames[0].instanceId >= self._synchroniseFightersInstanceId:
                 self.gameFightSynchronize(self._synchroniseFighters)
                 self._synchroniseFighters = None
             if self.executeNextSequence():
@@ -447,6 +444,7 @@ class FightBattleFrame(Frame):
                 self._battleResults = False
                 return
             KernelEventsManager().send(KernelEvent.SequenceExecFinished)
+
         return function
 
     def sendAutoEndTurn(self, e) -> None:
@@ -485,7 +483,9 @@ class FightBattleFrame(Frame):
                     and not DofusEntities().getEntity(fighterInfos.contextualId)
                 )
                 entitiesFrame.updateFighter(fighterInfos)
-                StatsManager().addRawStats(fighterInfos.contextualId, fighterInfos.stats.characteristics.characteristics)
+                StatsManager().addRawStats(
+                    fighterInfos.contextualId, fighterInfos.stats.characteristics.characteristics
+                )
                 bffm.BuffManager().markFinishingBuffs(fighterInfos.contextualId, False)
                 for buff in bffm.BuffManager().getAllBuff(fighterInfos.contextualId):
                     if isinstance(buff, StatBuff):

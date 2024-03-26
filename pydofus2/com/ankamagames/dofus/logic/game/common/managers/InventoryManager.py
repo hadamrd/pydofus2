@@ -60,7 +60,7 @@ if TYPE_CHECKING:
 
 
 class InventoryManager(metaclass=Singleton):
-    
+
     def __init__(self):
         super().__init__()
         self._presetsItemPositionsOrder = [

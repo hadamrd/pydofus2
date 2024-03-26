@@ -1,4 +1,3 @@
-
 class LuaFormulasEnum:
     MONSTER_XP = 2
     JOB_LEVEL_UP_PODS_BONUS = 46

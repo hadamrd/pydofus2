@@ -6,16 +6,16 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.BidExchangerObjectInfo import \
         BidExchangerObjectInfo
-    
+
 
 class ExchangeTypesItemsExchangerDescriptionForUserMessage(NetworkMessage):
     objectGID: int
     objectType: int
-    itemTypeDescriptions: list['BidExchangerObjectInfo']
-    def init(self, objectGID_: int, objectType_: int, itemTypeDescriptions_: list['BidExchangerObjectInfo']):
+    itemTypeDescriptions: list["BidExchangerObjectInfo"]
+
+    def init(self, objectGID_: int, objectType_: int, itemTypeDescriptions_: list["BidExchangerObjectInfo"]):
         self.objectGID = objectGID_
         self.objectType = objectType_
         self.itemTypeDescriptions = itemTypeDescriptions_
-        
+
         super().__init__()
-    

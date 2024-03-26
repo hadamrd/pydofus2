@@ -7,11 +7,17 @@ class ExchangeStartOkRecycleTradeMessage(NetworkMessage):
     percentToPlayer: int
     adjacentSubareaPossessed: list[int]
     adjacentSubareaUnpossessed: list[int]
-    def init(self, percentToPrism_: int, percentToPlayer_: int, adjacentSubareaPossessed_: list[int], adjacentSubareaUnpossessed_: list[int]):
+
+    def init(
+        self,
+        percentToPrism_: int,
+        percentToPlayer_: int,
+        adjacentSubareaPossessed_: list[int],
+        adjacentSubareaUnpossessed_: list[int],
+    ):
         self.percentToPrism = percentToPrism_
         self.percentToPlayer = percentToPlayer_
         self.adjacentSubareaPossessed = adjacentSubareaPossessed_
         self.adjacentSubareaUnpossessed = adjacentSubareaUnpossessed_
-        
+
         super().__init__()
-    

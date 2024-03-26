@@ -12,7 +12,21 @@ class GameServerInformations(NetworkMessage):
     date: int
     isMonoAccount: bool
     isSelectable: bool
-    def init(self, id_: int, type_: int, status_: int, completion_: int, charactersCount_: int, charactersSlots_: int, date_: int, isMonoAccount_: bool, isSelectable_: bool):
+    isMonoAccount: bool
+    isSelectable: bool
+
+    def init(
+        self,
+        id_: int,
+        type_: int,
+        status_: int,
+        completion_: int,
+        charactersCount_: int,
+        charactersSlots_: int,
+        date_: int,
+        isMonoAccount_: bool,
+        isSelectable_: bool,
+    ):
         self.id = id_
         self.type = type_
         self.status = status_
@@ -22,6 +36,5 @@ class GameServerInformations(NetworkMessage):
         self.date = date_
         self.isMonoAccount = isMonoAccount_
         self.isSelectable = isSelectable_
-        
+
         super().__init__()
-    

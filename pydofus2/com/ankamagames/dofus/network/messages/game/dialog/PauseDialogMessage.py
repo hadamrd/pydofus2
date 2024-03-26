@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class PauseDialogMessage(NetworkMessage):
     dialogType: int
+
     def init(self, dialogType_: int):
         self.dialogType = dialogType_
-        
+
         super().__init__()
-    

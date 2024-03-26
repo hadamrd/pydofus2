@@ -6,6 +6,8 @@ from pydofus2.com.ankamagames.berilia.managers.Listener import Listener
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 lock = threading.RLock()
+
+
 class Event(object):
     propagation_stopped = False
     sender: "EventsHandler"
@@ -14,6 +16,7 @@ class Event(object):
 
     def stop_propagation(self):
         self.propagation_stopped = True
+
 
 class EventsHandler:
     def __init__(self):
@@ -25,7 +28,7 @@ class EventsHandler:
 
     def hasListener(self, event_id):
         return event_id in self._listeners
-    
+
     def wait(self, event, timeout: float = None, originator=None):
         received = threading.Event()
         ret = [None]

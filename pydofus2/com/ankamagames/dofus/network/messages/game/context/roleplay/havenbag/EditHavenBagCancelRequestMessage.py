@@ -4,6 +4,5 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class EditHavenBagCancelRequestMessage(NetworkMessage):
     def init(self):
-        
+
         super().__init__()
-    

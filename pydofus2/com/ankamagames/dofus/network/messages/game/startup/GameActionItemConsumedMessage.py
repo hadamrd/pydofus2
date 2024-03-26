@@ -8,10 +8,10 @@ class GameActionItemConsumedMessage(NetworkMessage):
     automaticAction: bool
     success: bool
     automaticAction: bool
+
     def init(self, actionId_: int, success_: bool, automaticAction_: bool):
         self.actionId = actionId_
         self.success = success_
         self.automaticAction = automaticAction_
-        
+
         super().__init__()
-    

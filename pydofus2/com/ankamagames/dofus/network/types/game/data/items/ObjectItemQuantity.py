@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.data.items.Item import \
 class ObjectItemQuantity(Item):
     objectUID: int
     quantity: int
+
     def init(self, objectUID_: int, quantity_: int):
         self.objectUID = objectUID_
         self.quantity = quantity_
-        
+
         super().init()
-    

@@ -31,6 +31,4 @@ class PointOfInterestCategory(IDataCenter):
             self._actionLabel = I18n.getText(self.actionLabelId)
         return self._actionLabel
 
-    idAccessors: IdAccessors = IdAccessors(
-        getPointOfInterestCategoryById, getPointOfInterestCategories
-    )
+    idAccessors: IdAccessors = IdAccessors(getPointOfInterestCategoryById, getPointOfInterestCategories)

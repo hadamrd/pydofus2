@@ -43,13 +43,13 @@ class ItemType(IDataCenter):
     craftXpRatio: int
 
     evolutiveTypeId: int
-    
+
     possiblePositions: list[int] = None
 
     _name: str = None
 
     _evolutiveType: EvolutiveItemType = None
-    
+
     _superType: ItemSuperType = None
 
     def __init__(self):

@@ -8,20 +8,27 @@ if TYPE_CHECKING:
         FightOptionsInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamInformations import \
         FightTeamInformations
-    
+
 
 class FightCommonInformations(NetworkMessage):
     fightId: int
     fightType: int
-    fightTeams: list['FightTeamInformations']
+    fightTeams: list["FightTeamInformations"]
     fightTeamsPositions: list[int]
-    fightTeamsOptions: list['FightOptionsInformations']
-    def init(self, fightId_: int, fightType_: int, fightTeams_: list['FightTeamInformations'], fightTeamsPositions_: list[int], fightTeamsOptions_: list['FightOptionsInformations']):
+    fightTeamsOptions: list["FightOptionsInformations"]
+
+    def init(
+        self,
+        fightId_: int,
+        fightType_: int,
+        fightTeams_: list["FightTeamInformations"],
+        fightTeamsPositions_: list[int],
+        fightTeamsOptions_: list["FightOptionsInformations"],
+    ):
         self.fightId = fightId_
         self.fightType = fightType_
         self.fightTeams = fightTeams_
         self.fightTeamsPositions = fightTeamsPositions_
         self.fightTeamsOptions = fightTeamsOptions_
-        
+
         super().__init__()
-    

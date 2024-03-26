@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class GameFightSpellCooldown(NetworkMessage):
     spellId: int
     cooldown: int
+
     def init(self, spellId_: int, cooldown_: int):
         self.spellId = spellId_
         self.cooldown = cooldown_
-        
+
         super().__init__()
-    

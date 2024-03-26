@@ -4,6 +4,7 @@ import base64
 import json
 import os
 import threading
+
 import pyshark
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -17,8 +18,9 @@ from .Packet import TCPPacket
 messages_lock = threading.Lock()
 LOW_LEVEL_DEBUG = bool(os.environ.get("LOW_LEVEL_DEBUG", False))
 
+
 class DofusSniffer(threading.Thread):
-    
+
     def __init__(self, name="DofusSnifferApp", on_message=None, on_crash=None, recordMessages=True):
         super().__init__(name=name)
         self.capture = None
@@ -29,7 +31,7 @@ class DofusSniffer(threading.Thread):
         self.running = threading.Event()
         self.on_crash = on_crash
         self._stoped = False
-    
+
     def process_packet(self, p):
         if not self.running.is_set():
             self.running.set()
@@ -41,7 +43,7 @@ class DofusSniffer(threading.Thread):
             conn = self.connections.get(local_port)
             if not conn:
                 conn = DofusConnection.initFromPacket(p)
-                if not conn: 
+                if not conn:
                     return
                 self.messagesRecord[conn.id] = []
                 conn.handle = self.handle
@@ -57,16 +59,16 @@ class DofusSniffer(threading.Thread):
             if self.recordMessages:
                 msgjson = msg.to_json()
                 msgjson["__receptionTime__"] = msg.receptionTime
-                msgjson["__direction__"] = 'snd' if from_client else 'rcv'
-                if 'hash_function' in msgjson:
-                    msgjson['hash_function'] = base64.b64encode(msgjson['hash_function']).decode('utf-8')
+                msgjson["__direction__"] = "snd" if from_client else "rcv"
+                if "hash_function" in msgjson:
+                    msgjson["hash_function"] = base64.b64encode(msgjson["hash_function"]).decode("utf-8")
                 with messages_lock:
                     self.messagesRecord[conn.id].append(msgjson)
                     with open(conn.messagesRecordFile, "w") as fp:
                         json.dump(self.messagesRecord[conn.id], fp, indent=2)
             if self.callback:
                 self.callback(conn.id, msg, from_client)
-    
+
     def run(self):
         Logger().debug("Started sniffer")
         try:
@@ -81,6 +83,7 @@ class DofusSniffer(threading.Thread):
                 return
             import sys
             import traceback
+
             Logger().error(f"Error in sniffer thread: {e}", exc_info=True)
             _, exc_value, exc_traceback = sys.exc_info()
             traceback_in_var = traceback.format_tb(exc_traceback)
@@ -97,11 +100,10 @@ class DofusSniffer(threading.Thread):
             self.running.clear()
             if self.on_crash:
                 self.on_crash(error_trace)
-        
+
     def stop(self):
         self._stoped = True
         self.loop.create_task(self.capture.close_async())
-        
 
 
 if __name__ == "__main__":

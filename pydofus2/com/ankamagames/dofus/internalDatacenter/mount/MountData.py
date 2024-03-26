@@ -1,4 +1,3 @@
-
 from pydofus2.com.ankamagames.dofus.datacenter.mounts.Mount import Mount
 from pydofus2.com.ankamagames.dofus.datacenter.mounts.MountBehavior import \
     MountBehavior
@@ -187,7 +186,7 @@ class MountData(IDataCenter):
             "mount": mount,
             "mother": cls.makeParent(ancestor, generation + 1, nextStart, 2 * (ancestorIndex - nextStart)),
             "father": cls.makeParent(ancestor, generation + 1, nextStart, 1 + 2 * (ancestorIndex - nextStart)),
-            "entityLook": None
+            "entityLook": None,
         }
 
     @property

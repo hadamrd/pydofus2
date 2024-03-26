@@ -8,6 +8,8 @@ from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
     DisconnectionReasonEnum
 from pydofus2.com.ankamagames.dofus.logic.common.frames.CharacterFrame import \
     CharacterFrame
+from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
+    InterClientManager
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import \
@@ -16,7 +18,8 @@ from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame
     ServerSelectionFrame
 from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
     AuthentificationManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
+    TimeManager
 from pydofus2.com.ankamagames.dofus.network.enums.IdentificationFailureReasonsEnum import \
     IdentificationFailureReasonEnum
 from pydofus2.com.ankamagames.dofus.network.messages.connection.HelloConnectMessage import \
@@ -31,8 +34,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSu
     IdentificationSuccessWithLoginTokenMessage
 from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import \
     ClientKeyMessage
-from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
-    InterClientManager
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
@@ -99,7 +100,9 @@ class AuthentificationFrame(Frame):
             if PlayerManager().isBasicAccount():
                 Logger().info("Player has basic account")
             else:
-                subscriptionEndDate = TimeManager().getDateFromTime(ismsg.subscriptionEndDate) # [nminute, nhour, nday, nmonth, nyear]
+                subscriptionEndDate = TimeManager().getDateFromTime(
+                    ismsg.subscriptionEndDate
+                )  # [nminute, nhour, nday, nmonth, nyear]
                 formatted = f"{subscriptionEndDate[2]}/{subscriptionEndDate[3]}/{subscriptionEndDate[4]} {subscriptionEndDate[1]}:{subscriptionEndDate[0]}"
                 Logger().info(f"Player subscription end date: {formatted}")
             PlayerManager().accountCreation = ismsg.accountCreation
@@ -134,7 +137,9 @@ class AuthentificationFrame(Frame):
             if not hostChosenByUser:
                 hostChosenByUser, foundHost = self.chooseHost(allHostsInfos)
                 if not foundHost:
-                    return KernelEventsManager().send(KernelEvent.ClientCrashed, "No selectable host, aborting connection.")
+                    return KernelEventsManager().send(
+                        KernelEvent.ClientCrashed, "No selectable host, aborting connection."
+                    )
             self.connexionSequence = self.buildConnexionSequence(allHostsInfos, hostChosenByUser)
             AuthentificationManager().loginValidationAction = msg
             connInfo = self.connexionSequence.pop(0)
@@ -158,8 +163,8 @@ class AuthentificationFrame(Frame):
     @classmethod
     def parseHosts(cls, connectionHostsEntry: str):
         allHostsInfos = {}
-        for host in connectionHostsEntry.split('|'):
-            field = host.split(':')
+        for host in connectionHostsEntry.split("|"):
+            field = host.split(":")
             if len(field) == 3:
                 allHostsInfos[field[0].strip()] = [field[1].strip(), field[2].strip()]
             else:
@@ -183,7 +188,7 @@ class AuthentificationFrame(Frame):
             else:
                 connexionSequence.append({"host": hostName, "port": int(port)})
         return connexionSequence
-    
+
     def pushed(self) -> bool:
         Logger().info("Auth frame pushed")
         return True

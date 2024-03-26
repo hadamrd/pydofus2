@@ -53,14 +53,16 @@ class GameApi:
     def __init__(self):
         self.BASE_URL = XmlConfig().getEntry("config.haapiUrlAnkama")
         self.session = requests.Session()
-        self.session.headers.update({
-            "x-flash-version": "31,1,1,889",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "User-Agent": f"Dofus {BuildInfos().VERSION}",
-            "Accept": "*/*",
-            "Accept-Encoding": "gzip,deflate",
-            "Connection": "keep-alive",
-        })
+        self.session.headers.update(
+            {
+                "x-flash-version": "31,1,1,889",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "User-Agent": f"Dofus {BuildInfos().VERSION}",
+                "Accept": "*/*",
+                "Accept-Encoding": "gzip,deflate",
+                "Connection": "keep-alive",
+            }
+        )
 
     @staticmethod
     def is_valid_param(param):
@@ -73,14 +75,13 @@ class GameApi:
         result = (
             cls.BASE_URL
             + {
-
                 "START_SESSION_WITH_API_KEY": "/Ankama/v4/Game/StartSessionWithApiKey",
             }[request]
         )
         if params:
             result += "?" + urlencode(params)
         return result
-    
+
     def format_date(date_obj: datetime.datetime):
         """
         Format a datetime object to a string in the format "yyyy-MM-dd'T'HH:mm:ss+00:00".

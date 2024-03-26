@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GuildInvitationStateRecrutedMessage(NetworkMessage):
     invitationState: int
+
     def init(self, invitationState_: int):
         self.invitationState = invitationState_
-        
+
         super().__init__()
-    

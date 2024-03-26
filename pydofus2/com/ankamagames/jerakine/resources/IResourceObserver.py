@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class IResourceObserver(ABC):
-    
+
     @abstractmethod
     def onLoaded(self, uri, param2, param3):
         pass

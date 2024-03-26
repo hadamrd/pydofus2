@@ -7,11 +7,11 @@ class ExchangeMountSterilizeFromPaddockMessage(NetworkMessage):
     worldX: int
     worldY: int
     sterilizator: str
+
     def init(self, name_: str, worldX_: int, worldY_: int, sterilizator_: str):
         self.name = name_
         self.worldX = worldX_
         self.worldY = worldY_
         self.sterilizator = sterilizator_
-        
+
         super().__init__()
-    

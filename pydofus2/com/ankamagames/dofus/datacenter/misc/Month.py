@@ -7,7 +7,7 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
 
 class Month(IDataCenter):
     MODULE = "Months"
-    
+
     def __init__(self):
         self.id: int = None
         self.nameId = None
@@ -18,13 +18,13 @@ class Month(IDataCenter):
         if self._name == "":
             self._name = I18n.getText(self.nameId)
         return self._name
-    
+
     @classmethod
-    def getMonthById(cls, id: int) -> 'Month':
+    def getMonthById(cls, id: int) -> "Month":
         return GameData().getObject(cls.MODULE, id)
 
     @classmethod
-    def getMonths(cls) -> list['Month']:
+    def getMonths(cls) -> list["Month"]:
         return GameData().getObjects(cls.MODULE)
-    
+
     idAccessors = IdAccessors(getMonthById, getMonths)

@@ -6,14 +6,14 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.atlas.compass.CompassU
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinates import \
         MapCoordinates
-    
+
 
 class CompassUpdatePvpSeekMessage(CompassUpdateMessage):
     memberId: int
     memberName: str
-    def init(self, memberId_: int, memberName_: str, type_: int, coords_: 'MapCoordinates'):
+
+    def init(self, memberId_: int, memberName_: str, type_: int, coords_: "MapCoordinates"):
         self.memberId = memberId_
         self.memberName = memberName_
-        
+
         super().init(type_, coords_)
-    

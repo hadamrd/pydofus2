@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class PrismUseRequestMessage(NetworkMessage):
     moduleToUse: int
+
     def init(self, moduleToUse_: int):
         self.moduleToUse = moduleToUse_
-        
+
         super().__init__()
-    

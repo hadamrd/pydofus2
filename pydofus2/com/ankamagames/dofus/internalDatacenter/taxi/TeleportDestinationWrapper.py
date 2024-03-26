@@ -11,9 +11,20 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
 
 class TeleportDestinationWrapper(IDataCenter):
     _hints = {}
-    _hintsRealMap = dict[int,list]()
+    _hintsRealMap = dict[int, list]()
 
-    def __init__(self, teleporterGenericType, mapId, subareaId, destType, level, cost, spawn=False, hint:Hint=None, known=True):
+    def __init__(
+        self,
+        teleporterGenericType,
+        mapId,
+        subareaId,
+        destType,
+        level,
+        cost,
+        spawn=False,
+        hint: Hint = None,
+        known=True,
+    ):
         super().__init__()
         self.teleporterType = teleporterGenericType
         self.mapId = mapId
@@ -53,8 +64,8 @@ class TeleportDestinationWrapper(IDataCenter):
     def generateHintsDictionary(cls):
         hints = Hint.getHints()
         if not cls._hints:
-            cls._hints = dict[int,list]()
-            cls._hintsRealMap = dict[int,list]()
+            cls._hints = dict[int, list]()
+            cls._hintsRealMap = dict[int, list]()
             for hint in hints:
                 if hint.mapId in cls._hints:
                     cls._hints[hint.mapId].append(hint)

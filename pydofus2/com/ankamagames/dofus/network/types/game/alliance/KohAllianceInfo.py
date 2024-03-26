@@ -10,20 +10,27 @@ if TYPE_CHECKING:
         KohScore
     from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
         AllianceInformation
-    
+
 
 class KohAllianceInfo(NetworkMessage):
-    alliance: 'AllianceInformation'
+    alliance: "AllianceInformation"
     memberCount: int
-    kohAllianceRoleMembers: list['KohAllianceRoleMembers']
-    scores: list['KohScore']
+    kohAllianceRoleMembers: list["KohAllianceRoleMembers"]
+    scores: list["KohScore"]
     matchDominationScores: int
-    def init(self, alliance_: 'AllianceInformation', memberCount_: int, kohAllianceRoleMembers_: list['KohAllianceRoleMembers'], scores_: list['KohScore'], matchDominationScores_: int):
+
+    def init(
+        self,
+        alliance_: "AllianceInformation",
+        memberCount_: int,
+        kohAllianceRoleMembers_: list["KohAllianceRoleMembers"],
+        scores_: list["KohScore"],
+        matchDominationScores_: int,
+    ):
         self.alliance = alliance_
         self.memberCount = memberCount_
         self.kohAllianceRoleMembers = kohAllianceRoleMembers_
         self.scores = scores_
         self.matchDominationScores = matchDominationScores_
-        
+
         super().__init__()
-    

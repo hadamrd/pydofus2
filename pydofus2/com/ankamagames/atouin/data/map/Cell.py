@@ -132,7 +132,6 @@ class Cell:
     def allowsMapChange(self) -> bool:
         return self.mapChangeData != 0
 
-    
     @property
     def linkedZoneRP(self):
         return (self.linkedZone & 240) >> 4

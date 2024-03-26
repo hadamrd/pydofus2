@@ -170,12 +170,14 @@ class InventoryManagementFrame(Frame):
             return True
 
         if isinstance(msg, InventoryWeightMessage):
-            lastInventoryWeight = PlayedCharacterManager().inventoryWeight            
+            lastInventoryWeight = PlayedCharacterManager().inventoryWeight
             PlayedCharacterManager().inventoryWeight = msg.inventoryWeight
             PlayedCharacterManager().inventoryWeightMax = msg.weightMax
             if msg.inventoryWeight / msg.weightMax > 0.95:
                 KernelEventsManager().send(KernelEvent.PlayerPodsFull)
-            KernelEventsManager().send(KernelEvent.InventoryWeightUpdate, lastInventoryWeight, msg.inventoryWeight, msg.weightMax)
+            KernelEventsManager().send(
+                KernelEvent.InventoryWeightUpdate, lastInventoryWeight, msg.inventoryWeight, msg.weightMax
+            )
             return True
 
         if isinstance(msg, ObjectMovementMessage):
@@ -221,7 +223,7 @@ class InventoryManagementFrame(Frame):
 
     def onRefuseDrop(self) -> None:
         self._dropPopup = None
-        
+
     def useItem(self, iw: ItemWrapper, quantity=0, useOnCell=False):
         if useOnCell and iw.targetable:
             if Kernel().battleFrame:
@@ -238,4 +240,3 @@ class InventoryManagementFrame(Frame):
                 playerEntity.stop()
             else:
                 ConnectionsHandler().send(oumsg)
-

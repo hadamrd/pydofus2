@@ -1,4 +1,3 @@
-
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -91,10 +90,12 @@ class RoleplayMovementFrame(Frame):
                 player.isMoving = False
                 player.position = newPos
                 self.entitiesFrame.updateEntityCellId(PlayedCharacterManager().id, newPos.cellId)
-                Logger().debug(f"Movement reject : {newPos}") 
+                Logger().debug(f"Movement reject : {newPos}")
                 KernelEventsManager().send(KernelEvent.MovementRequestRejected)
             else:
-                Logger().error("Movement reject received but player data not loaded yet, maybe map changed after a map move request that was rejected.")
+                Logger().error(
+                    "Movement reject received but player data not loaded yet, maybe map changed after a map move request that was rejected."
+                )
             return True
 
         if isinstance(msg, GameMapMovementMessage):
@@ -116,10 +117,19 @@ class RoleplayMovementFrame(Frame):
             KernelEventsManager().send(KernelEvent.EntityMoving, msg.actorId, clientMovePath)
             return True
 
-        elif isinstance(msg, (InteractiveUseEndedMessage, InteractiveUseErrorMessage, LeaveDialogMessage, ExchangeLeaveMessage, EditHavenBagFinishedMessage)):
+        elif isinstance(
+            msg,
+            (
+                InteractiveUseEndedMessage,
+                InteractiveUseErrorMessage,
+                LeaveDialogMessage,
+                ExchangeLeaveMessage,
+                EditHavenBagFinishedMessage,
+            ),
+        ):
             self.canMove = True
             return False
-        
+
         elif isinstance(msg, InteractiveUsedMessage):
             if msg.entityId == PlayedCharacterManager().id:
                 self.canMove = msg.canMove

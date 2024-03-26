@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Ex
 
 class ExchangeStartedWithStorageMessage(ExchangeStartedMessage):
     storageMaxSlot: int
+
     def init(self, storageMaxSlot_: int, exchangeType_: int):
         self.storageMaxSlot = storageMaxSlot_
-        
+
         super().init(exchangeType_)
-    

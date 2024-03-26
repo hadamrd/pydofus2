@@ -8,7 +8,7 @@ if TYPE_CHECKING:
         GuildInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class FriendSpouseOnlineInformations(FriendSpouseInformations):
     mapId: int
@@ -17,11 +17,36 @@ class FriendSpouseOnlineInformations(FriendSpouseInformations):
     followSpouse: bool
     inFight: bool
     followSpouse: bool
-    def init(self, mapId_: int, subAreaId_: int, inFight_: bool, followSpouse_: bool, spouseAccountId_: int, spouseId_: int, spouseName_: str, spouseLevel_: int, breed_: int, sex_: int, spouseEntityLook_: 'EntityLook', guildInfo_: 'GuildInformations', alignmentSide_: int):
+
+    def init(
+        self,
+        mapId_: int,
+        subAreaId_: int,
+        inFight_: bool,
+        followSpouse_: bool,
+        spouseAccountId_: int,
+        spouseId_: int,
+        spouseName_: str,
+        spouseLevel_: int,
+        breed_: int,
+        sex_: int,
+        spouseEntityLook_: "EntityLook",
+        guildInfo_: "GuildInformations",
+        alignmentSide_: int,
+    ):
         self.mapId = mapId_
         self.subAreaId = subAreaId_
         self.inFight = inFight_
         self.followSpouse = followSpouse_
-        
-        super().init(spouseAccountId_, spouseId_, spouseName_, spouseLevel_, breed_, sex_, spouseEntityLook_, guildInfo_, alignmentSide_)
-    
+
+        super().init(
+            spouseAccountId_,
+            spouseId_,
+            spouseName_,
+            spouseLevel_,
+            breed_,
+            sex_,
+            spouseEntityLook_,
+            guildInfo_,
+            alignmentSide_,
+        )

@@ -46,8 +46,17 @@ class SpellModifiers:
         modifier.spellId = self._spellId
         self._modifiers[str(modifier.modifierType)] = modifier
         if self.isVerbose:
-            Logger().info("Set modifier for entity with ID " + str(self.entityId) + " and spell with ID " + str(self.spellId) + ": " + modifier.dump())
-        updateSpellModifierAction = UpdateSpellModifierAction.create(self.entityId, self.spellId, modifier.modifierType)
+            Logger().info(
+                "Set modifier for entity with ID "
+                + str(self.entityId)
+                + " and spell with ID "
+                + str(self.spellId)
+                + ": "
+                + modifier.dump()
+            )
+        updateSpellModifierAction = UpdateSpellModifierAction.create(
+            self.entityId, self.spellId, modifier.modifierType
+        )
         Kernel().worker.process(updateSpellModifierAction)
 
     def getModifier(self, modifierType: int):
@@ -55,7 +64,7 @@ class SpellModifiers:
             return None
         return self._modifiers[str(modifierType)]
 
-    def deleteModifierAction(self, modifierType: int, actionType: int) -> None:        
+    def deleteModifierAction(self, modifierType: int, actionType: int) -> None:
         modifierKey: str = str(modifierType)
         if modifierKey not in self._modifiers:
             return

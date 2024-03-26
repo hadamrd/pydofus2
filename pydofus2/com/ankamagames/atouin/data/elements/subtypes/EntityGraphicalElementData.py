@@ -9,7 +9,7 @@ class EntityGraphicalElementData(GraphicalElementData):
 
     def __init__(self, elementId: int, elementType: int):
         super().__init__(elementId, elementType)
-        self.entityLook = ''
+        self.entityLook = ""
         self.horizontalSymmetry = False
         self.playAnimation = False
         self.playAnimStatic = False

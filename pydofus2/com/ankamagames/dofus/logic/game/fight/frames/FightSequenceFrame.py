@@ -762,7 +762,9 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
         if isinstance(msg, GameActionFightChangeLookMessage):
             entity = Kernel().fightEntitiesFrame.getEntityInfos(msg.targetId)
             if entity:
-                Logger().debug(f"Fighter {msg.targetId} changed look from {entity.look.bonesId} to {msg.entityLook.bonesId}")
+                Logger().debug(
+                    f"Fighter {msg.targetId} changed look from {entity.look.bonesId} to {msg.entityLook.bonesId}"
+                )
                 entity.look = msg.entityLook
             else:
                 Logger().error(f"Fighter {msg.targetId} not found")
@@ -1016,9 +1018,7 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
         if not entityDeathStepAlreadyInBuffer:
             self.pushStep(FightDeathStep(gafdmsg.targetId))
 
-        entityInfos: GameContextActorInformations = Kernel().fightEntitiesFrame.getEntityInfos(
-            gafdmsg.targetId
-        )
+        entityInfos: GameContextActorInformations = Kernel().fightEntitiesFrame.getEntityInfos(gafdmsg.targetId)
         currentPlayedFighterManager = CurrentPlayedFighterManager()
         if isinstance(entityInfos, GameFightMonsterInformations):
             summonedEntityInfos = entityInfos
@@ -1239,7 +1239,7 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
             movingEntity.position.cellId = movementPath.end.cellId
         else:
             Logger().error(f"Got entity with unexpected id {movingEntity.id}")
-        
+
         fightContextFrame = Kernel().fightContextFrame
         if not fightContextFrame:
             return Logger().error("FightContextFrame not found")
@@ -1259,8 +1259,8 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
         self.pushStep(FightMarkTriggeredStep(gaftgtmsg.triggeringCharacterId, gaftgtmsg.sourceId, gaftgtmsg.markId))
         self._castingSpell = CastingSpell()
         self._castingSpell.casterId = gaftgtmsg.sourceId
-        triggeringCharacterInfos: GameFightFighterInformations = (
-            Kernel().fightEntitiesFrame.getEntityInfos(gaftgtmsg.triggeringCharacterId)
+        triggeringCharacterInfos: GameFightFighterInformations = Kernel().fightEntitiesFrame.getEntityInfos(
+            gaftgtmsg.triggeringCharacterId
         )
         triggeredCellId = triggeringCharacterInfos.disposition.cellId if triggeringCharacterInfos else -1
         mark: MarkInstance = MarkedCellsManager().getMarkDatas(gaftgtmsg.markId)
@@ -1420,7 +1420,7 @@ class FightSequenceFrame(Frame, ISpellCastProvider):
                 callback()
             self._parent.subSequenceInitDone()
 
-    def onSequenceEnd(self, evt_id, e: SequencerEvent=None) -> None:
+    def onSequenceEnd(self, evt_id, e: SequencerEvent = None) -> None:
         self._sequenceEndCallback()
 
     def onStepEnd(self, e, isEnd: bool = True) -> None:

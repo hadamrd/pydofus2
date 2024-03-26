@@ -8,7 +8,7 @@ if TYPE_CHECKING:
         PlayerNote
     from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
         PlayerStatus
-    
+
 
 class GuildMember(CharacterMinimalInformations):
     breed: int
@@ -22,13 +22,34 @@ class GuildMember(CharacterMinimalInformations):
     moodSmileyId: int
     accountId: int
     achievementPoints: int
-    status: 'PlayerStatus'
-    note: 'PlayerNote'
+    status: "PlayerStatus"
+    note: "PlayerNote"
     sex: bool
     havenBagShared: bool
     sex: bool
     havenBagShared: bool
-    def init(self, breed_: int, rankId_: int, enrollmentDate_: int, givenExperience_: int, experienceGivenPercent_: int, connected_: int, alignmentSide_: int, hoursSinceLastConnection_: int, moodSmileyId_: int, accountId_: int, achievementPoints_: int, status_: 'PlayerStatus', note_: 'PlayerNote', sex_: bool, havenBagShared_: bool, level_: int, name_: str, id_: int):
+
+    def init(
+        self,
+        breed_: int,
+        rankId_: int,
+        enrollmentDate_: int,
+        givenExperience_: int,
+        experienceGivenPercent_: int,
+        connected_: int,
+        alignmentSide_: int,
+        hoursSinceLastConnection_: int,
+        moodSmileyId_: int,
+        accountId_: int,
+        achievementPoints_: int,
+        status_: "PlayerStatus",
+        note_: "PlayerNote",
+        sex_: bool,
+        havenBagShared_: bool,
+        level_: int,
+        name_: str,
+        id_: int,
+    ):
         self.breed = breed_
         self.rankId = rankId_
         self.enrollmentDate = enrollmentDate_
@@ -44,6 +65,5 @@ class GuildMember(CharacterMinimalInformations):
         self.note = note_
         self.sex = sex_
         self.havenBagShared = havenBagShared_
-        
+
         super().init(level_, name_, id_)
-    

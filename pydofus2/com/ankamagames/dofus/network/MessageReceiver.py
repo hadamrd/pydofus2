@@ -17,8 +17,10 @@ from pydofus2.com.ankamagames.jerakine.network.RawDataParser import \
 with open(Constants.PROTOCOL_MSG_SHUFFLE_PATH, "r") as fp:
     msgShuffle: dict = json.load(fp)
 
+
 class UnknownMessageId(Exception):
     pass
+
 
 _messages_to_discard = {
     "AnomalyStateMessage",
@@ -102,8 +104,7 @@ _messages_to_discard = {
     "AcquaintancesListMessage",
     "IgnoredListMessage",
     "GuildPlayerNoApplicationInformationMessage",
-    "AlliancePlayerNoApplicationInformationMessage"
-    
+    "AlliancePlayerNoApplicationInformationMessage",
 }
 
 _mule_fight_messages_to_discard = {
@@ -143,8 +144,6 @@ _mule_fight_messages_to_discard = {
 }
 
 
-
-
 class MessageReceiver(RawDataParser, metaclass=Singleton):
 
     def __init__(self, optimise=True):
@@ -167,21 +166,23 @@ class MessageReceiver(RawDataParser, metaclass=Singleton):
         except:
             clsModule = importlib.import_module(modulePath)
         return getattr(clsModule, clsName)
-        
-    def parseMessage(self, input: ByteArray, messageId: int, messageLength: int, from_client=False, msgCount=None) -> NetworkMessage:
+
+    def parseMessage(
+        self, input: ByteArray, messageId: int, messageLength: int, from_client=False, msgCount=None
+    ) -> NetworkMessage:
         if not from_client:
             messageType = self.messagesTypes.get(messageId)
         else:
             try:
                 clsSpec = ProtocolSpec.getClassSpecById(messageId)
             except:
-                raise UnknownMessageId(f"Message {messageId}, from client {from_client} : not found in known message Ids!")
+                raise UnknownMessageId(
+                    f"Message {messageId}, from client {from_client} : not found in known message Ids!"
+                )
             messageType = clsSpec.cls
         if self.discard:
             if not messageType or (
-                Kernel().isMule
-                and self.infight
-                and messageType.__name__ in _mule_fight_messages_to_discard
+                Kernel().isMule and self.infight and messageType.__name__ in _mule_fight_messages_to_discard
             ):
                 message = NetworkMessage()
                 message.unpacked = False
@@ -222,7 +223,7 @@ class MessageReceiver(RawDataParser, metaclass=Singleton):
             if buffer.remaining() < self.msgLen:
                 break
             msg_bytes = buffer.read(self.msgLen)
-            try:     
+            try:
                 msg = self.parseMessage(msg_bytes, self.msgId, self.msgLen, from_client, self.msgCount)
             except:
                 Logger().error(f"Error while parsing message {self.msgId} from client {from_client}")

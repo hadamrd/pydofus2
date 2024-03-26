@@ -1,23 +1,25 @@
+import functools
 import json
-import sys
 import ssl
+import sys
+import traceback
 from datetime import datetime
 from time import sleep
-import traceback
 from urllib.parse import urlencode
-import functools
 
 import pytz
 import requests
-from urllib3.exceptions import InsecureRequestWarning
 from requests.adapters import HTTPAdapter
+from urllib3.exceptions import InsecureRequestWarning
 from urllib3.util.retry import Retry
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
+    KernelEventsManager
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
+    DisconnectionReasonEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
@@ -26,7 +28,9 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 class HaapiException(Exception):
     pass
 
+
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 def sendTrace(func):
     @functools.wraps(func)
@@ -43,8 +47,12 @@ def sendTrace(func):
                 error_trace += "\n\n-- Chained Exception --\n"
                 error_trace += "\n".join(cause_traceback) + "\n" + str(cause)
                 cause = cause.__cause__
-            KernelEventsManager().send(KernelEvent.ClientCrashed, error_trace, DisconnectionReasonEnum.EXCEPTION_THROWN)
+            KernelEventsManager().send(
+                KernelEvent.ClientCrashed, error_trace, DisconnectionReasonEnum.EXCEPTION_THROWN
+            )
+
     return wrapped
+
 
 class Haapi(metaclass=Singleton):
     MAX_CREATE_API_KEY_RETRIES = 5
@@ -135,7 +143,7 @@ class Haapi(metaclass=Singleton):
         response = self.dofus_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         self.dofus_session.cookies.update(response.cookies)
         return response.json()
-    
+
     @sendTrace
     def getAlmanaxEvent(self, lang):
         url = self.getUrl("GET_ALMANAX_EVENT", {"lang": lang, "date": self.get_date()})
@@ -151,14 +159,15 @@ class Haapi(metaclass=Singleton):
             if not session_id:
                 raise Exception("Need a session_id to send events")
         url = self.getUrl("SEND_EVENTS")
-        response = self.dofus_session.post(
-            url, 
-            data={"game": game, "session_id": session_id, "events": json.dumps(events)},
-            verify=self.verify_ssl
-        )
-        self.dofus_session.cookies.update(response.cookies)
-        if not response.ok:
-            raise Exception(f"Error while sending events: {response.text}")
+        for _ in range(3):
+            response = self.dofus_session.post(
+                url,
+                data={"game": game, "session_id": session_id, "events": json.dumps(events)},
+                verify=self.verify_ssl,
+            )
+            self.dofus_session.cookies.update(response.cookies)
+            if response.ok:
+                break
         return response
 
     @sendTrace
@@ -191,7 +200,7 @@ class Haapi(metaclass=Singleton):
         if not self._account_apikey:
             raise HaapiException("No Account API key set")
         return self._account_apikey
-    
+
     @account_apikey.setter
     def account_apikey(self, api_key):
         self._account_apikey = api_key

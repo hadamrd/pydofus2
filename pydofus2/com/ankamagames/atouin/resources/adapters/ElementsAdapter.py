@@ -15,7 +15,7 @@ from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import \
 
 
 class ElementsAdapter(AbstractUrlLoaderAdapter, IAdapter):
-    
+
     def __init__(self):
         super().__init__()
 
@@ -29,12 +29,12 @@ class ElementsAdapter(AbstractUrlLoaderAdapter, IAdapter):
             ba = BinaryStream(ele_uncompressed, True)
         except IOError as ioe:
             self.dispatchFailure("Wrong header and non-compressed file.", ResourceErrorCode.MALFORMED_ELE_FILE)
-            return None        
+            return None
         header = ba.readByte()
-        if header != ord('E'):
+        if header != ord("E"):
             ba.position = 0
             header = ba.readByte()
-            if header != ord('E'):
+            if header != ord("E"):
                 self.dispatchFailure("Wrong header file.", ResourceErrorCode.MALFORMED_ELE_FILE)
                 return None
         ba.position = 0

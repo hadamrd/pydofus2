@@ -1,5 +1,3 @@
-
-
 from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import \
     GraphicalElementData
 from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementFactory import \
@@ -12,8 +10,9 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 class DataFormatError(Exception):
     pass
 
+
 class Elements(metaclass=Singleton):
-    
+
     def __init__(self):
         super().__init__()
         self.fileVersion = 0
@@ -28,17 +27,17 @@ class Elements(metaclass=Singleton):
     @property
     def parsed(self):
         return self._parsed
-    
+
     @property
     def failed(self):
         return self._failed
 
     def getElementData(self, elementId):
         return self._elementsMap.get(elementId, self.readElement(elementId))
-    
+
     def isJpg(self, gfxId):
         return self._jpgMap.get(gfxId, False)
-    
+
     def fromRaw(self, raw: BinaryStream):
         try:
             header = int(raw.readByte())

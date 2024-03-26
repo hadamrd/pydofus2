@@ -66,7 +66,9 @@ class DisconnectionHandlerFrame(Frame):
                 else:
                     if not reason.expected:
                         self._connectionUnexpectedFailureTimes.append(perf_counter())
-                        KernelEventsManager().send(KernelEvent.ClientRestart, "The connection was closed unexpectedly.")
+                        KernelEventsManager().send(
+                            KernelEvent.ClientRestart, "The connection was closed unexpectedly."
+                        )
                     else:
                         if reason.type in [DisconnectionReasonEnum.EXCEPTION_THROWN, DisconnectionReasonEnum.BANNED]:
                             KernelEventsManager().send(KernelEvent.ClientCrashed, reason.message, reason.type)
@@ -78,7 +80,7 @@ class DisconnectionHandlerFrame(Frame):
                             DisconnectionReasonEnum.CONNECTION_LOST,
                         ]:
                             KernelEventsManager().send(KernelEvent.ClientRestart, reason.message)
-                        elif reason.type == DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER: 
+                        elif reason.type == DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER:
                             Kernel().worker.addFrame(gsaF.GameServerApproachFrame())
                             ConnectionsHandler().connectToGameServer(
                                 Kernel().serverSelectionFrame.selectedServer.address,
@@ -122,11 +124,17 @@ class DisconnectionHandlerFrame(Frame):
 
         elif isinstance(msg, UnexpectedSocketClosureMessage):
             Logger().debug("Got hook UnexpectedSocketClosure")
-            KernelEventsManager().send(KernelEvent.ClientCrashed, message="Unexpected socket closure", reason=DisconnectionReasonEnum.UNEXPECTED)
+            KernelEventsManager().send(
+                KernelEvent.ClientCrashed,
+                message="Unexpected socket closure",
+                reason=DisconnectionReasonEnum.UNEXPECTED,
+            )
             return True
 
         elif isinstance(msg, ConnectionProcessCrashedMessage):
-            KernelEventsManager().send(KernelEvent.ClientCrashed, message=msg.err, reason=DisconnectionReasonEnum.CONNECTION_PROCESS_CRASHED)
+            KernelEventsManager().send(
+                KernelEvent.ClientCrashed, message=msg.err, reason=DisconnectionReasonEnum.CONNECTION_PROCESS_CRASHED
+            )
             return True
 
     def pulled(self) -> bool:

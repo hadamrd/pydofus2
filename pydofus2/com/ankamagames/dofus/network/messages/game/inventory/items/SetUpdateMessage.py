@@ -6,16 +6,16 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import \
         ObjectEffect
-    
+
 
 class SetUpdateMessage(NetworkMessage):
     setId: int
     setObjects: list[int]
-    setEffects: list['ObjectEffect']
-    def init(self, setId_: int, setObjects_: list[int], setEffects_: list['ObjectEffect']):
+    setEffects: list["ObjectEffect"]
+
+    def init(self, setId_: int, setObjects_: list[int], setEffects_: list["ObjectEffect"]):
         self.setId = setId_
         self.setObjects = setObjects_
         self.setEffects = setEffects_
-        
+
         super().__init__()
-    

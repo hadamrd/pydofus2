@@ -4,6 +4,5 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.Guil
 
 class GuildPlayerNoApplicationInformationMessage(GuildPlayerApplicationAbstractMessage):
     def init(self):
-        
+
         super().init()
-    

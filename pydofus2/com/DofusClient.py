@@ -33,7 +33,8 @@ from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
+    ChatActivableChannelsEnum
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
@@ -100,11 +101,11 @@ class DofusClient(threading.Thread):
                 (KernelEvent.ClientClosed, self.onConnectionClosed),
                 (KernelEvent.PlayerLoggedIn, self.onloginSuccess),
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
-                (KernelEvent.FightStarted, self.onFight),  
+                (KernelEvent.FightStarted, self.onFight),
                 (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),
                 (KernelEvent.TextInformation, self.onChannelTextInformation),
             ],
-            originator=self
+            originator=self,
         )
 
     @property
@@ -115,11 +116,7 @@ class DofusClient(threading.Thread):
         Logger().info("Initializing ...")
         ZaapDecoy.SESSIONS_LAUNCH += 1
         atexit.register(self.at_extit)
-        try:
-            self.zaap = ZaapDecoy()
-        except Exception as e:
-            self.shutdown(message=str(e), reason=DisconnectionReasonEnum.EXCEPTION_THROWN)
-            return
+        self.zaap = ZaapDecoy()
         self.kernel = Kernel()
         self.kernel.init()
         AdapterFactory.addAdapter("ele", ElementsAdapter)
@@ -129,6 +126,7 @@ class DofusClient(threading.Thread):
         self._shutDownReason = None
         self.initListeners()
         Logger().info("Initialized")
+        return True
 
     def setApiKey(self, apiKey):
         self._apikey = apiKey
@@ -139,7 +137,7 @@ class DofusClient(threading.Thread):
     def setCertificate(self, certId, certHash):
         self._certId = certId
         self._certHash = certHash
-        
+
     def setAutoServerSelection(self, serverId, characterId=None):
         self._serverId = serverId
         self._characterId = characterId
@@ -177,12 +175,12 @@ class DofusClient(threading.Thread):
 
     def onFight(self, event):
         pass
-    
+
     def onHaapiApiKeyReady(self, event, apikey):
         pass
 
     def onloginSuccess(self, event, ismsg):
-        ZaapDecoy.CONNECTED_ACCOUNTS.add(PlayerManager().accountId)
+        ZaapDecoy.CONNECTED_ACCOUNTS += 1
         HaapiKeyManager().on(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
         Haapi().getLoadingScreen(page=1, accountId=PlayerManager().accountId, lang="en", count=20)
         Haapi().getAlmanaxEvent(lang="en")
@@ -192,22 +190,24 @@ class DofusClient(threading.Thread):
         Haapi().game_sessionId = gameSessionId
         HaapiEventsManager().sendStartEvent(gameSessionId)
         Haapi().getCmsFeeds(site="DOFUS", page=0, lang="en", count=20, apikey=self._apikey)
-        HaapiKeyManager().callWithApiKey(lambda apikey: Haapi().pollInGameGet(count=20, site="DOFUS", lang="en", page=1, apikey=apikey))
-        
+        HaapiKeyManager().callWithApiKey(
+            lambda apikey: Haapi().pollInGameGet(count=20, site="DOFUS", lang="en", page=1, apikey=apikey)
+        )
+
     def onCharacterImpossibleSelection(self, event):
         self.shutdown(
             reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
             message=f"Character {self._characterId} impossible to select in server {self._serverId}!",
         )
 
-    def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):            
+    def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):
         Logger().error(f"Server selection refused for reason : {error_text}")
         # self._crashed = True
         # self.shutdown(DisconnectionReasonEnum.EXCEPTION_THROWN, error_text)
 
     def onConnectionClosed(self, event, connId):
         pass
-    
+
     def at_extit(self):
         if not self._ended_correctly:
             Logger().error("Client not ended correctly, sending end event")
@@ -325,7 +325,7 @@ class DofusClient(threading.Thread):
         if Haapi().game_sessionId:
             HaapiEventsManager().sendEndEvent()
 
-        ZaapDecoy.CONNECTED_ACCOUNTS.remove(PlayerManager().accountId)
+        ZaapDecoy.CONNECTED_ACCOUNTS -= 1
 
         Kernel().reset()
         Logger().info("goodby crual world")
@@ -333,5 +333,5 @@ class DofusClient(threading.Thread):
         for callback in self._shutDownListeners:
             Logger().info(f"Calling shutdown callback {callback}")
             callback(self.name, self._shutDownMessage, self._shutDownReason)
-        
+
         self._ended_correctly = True

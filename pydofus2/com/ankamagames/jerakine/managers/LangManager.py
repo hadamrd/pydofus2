@@ -15,22 +15,19 @@ class LangManager(metaclass=ThreadSharedSingleton):
     KEY_LANG_VERSION = "langVersion"
 
     def __init__(self) -> None:
-        
+
         self._parseReference = dict()
-        self._aLang:dict[str, Any] = StoreDataManager().getSetData(
+        self._aLang: dict[str, Any] = StoreDataManager().getSetData(
             JerakineConstants.DATASTORE_LANG, self.KEY_LANG_INDEX, list()
         )
         self._aCategory = StoreDataManager().getSetData(
             JerakineConstants.DATASTORE_LANG, self.KEY_LANG_CATEGORY, list()
         )
-        self._aVersion = StoreDataManager().getData(
-            JerakineConstants.DATASTORE_LANG_VERSIONS, self.KEY_LANG_VERSION
-        )
+        self._aVersion = StoreDataManager().getData(JerakineConstants.DATASTORE_LANG_VERSIONS, self.KEY_LANG_VERSION)
         self._aCategory = list()
         self._aVersion = StoreDataManager().getSetData(
             JerakineConstants.DATASTORE_LANG_VERSIONS, self.KEY_LANG_VERSION, list()
         )
-
 
     def replaceKey(self, sTxt: str, bReplaceDynamicReference=False):
         from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
@@ -61,12 +58,14 @@ class LangManager(metaclass=ThreadSharedSingleton):
                         sNewVal = "[" + sKey + "]"
                         aFind = self.getCategory(sKey)
                         if len(aFind) > 0:
-                            Logger().error(f"Incorrect reference to the key [{sKey}] in : {sTxt} (could be {' or '.join(aFind)})")
+                            Logger().error(
+                                f"Incorrect reference to the key [{sKey}] in : {sTxt} (could be {' or '.join(aFind)})"
+                            )
                         else:
                             Logger().error(f"Unknown reference to the key [{sKey}] in : {sTxt}")
                 sTxt = sTxt.replace(key, sNewVal)
         return sTxt
-    
+
     def getUntypedEntry(self, sKey):
         langData = StoreDataManager().getData(JerakineConstants.DATASTORE_LANG, self.KEY_LANG_INDEX)
         sEntry = langData.get(sKey, None)
@@ -79,7 +78,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
 
     def getEntry(self, skey):
         return self.getUntypedEntry(skey)
-    
+
     def getCategory(self, sCategory, matchSubCategories=True):
         aResult = {}
         for key in self._aLang.keys():
@@ -88,7 +87,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
                     aResult[key] = self._aLang[key]
         return aResult
 
-    def setEntry(self, sKey:str, sValue:str, sType:str=""):
+    def setEntry(self, sKey: str, sValue: str, sType: str = ""):
         if not sType:
             self._aLang[sKey] = sValue
         else:
@@ -109,7 +108,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
     def findCategory(self, s_key: str) -> list:
         s_k = s_key.split(".")[0]
         a_cat = []
-        
+
         for s in self._aCategory:
             if f"{s}.{s_k}" in self._aLang:
                 a_cat.append(f"{s}.{s_k}")

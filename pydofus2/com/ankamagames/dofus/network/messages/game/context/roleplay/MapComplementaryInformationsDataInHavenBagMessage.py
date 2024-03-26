@@ -20,18 +20,45 @@ if TYPE_CHECKING:
         MapObstacle
     from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import \
         StatedElement
-    
+
 
 class MapComplementaryInformationsDataInHavenBagMessage(MapComplementaryInformationsDataMessage):
-    ownerInformations: 'CharacterMinimalInformations'
+    ownerInformations: "CharacterMinimalInformations"
     theme: int
     roomId: int
     maxRoomId: int
-    def init(self, ownerInformations_: 'CharacterMinimalInformations', theme_: int, roomId_: int, maxRoomId_: int, subAreaId_: int, mapId_: int, houses_: list['HouseInformations'], actors_: list['GameRolePlayActorInformations'], interactiveElements_: list['InteractiveElement'], statedElements_: list['StatedElement'], obstacles_: list['MapObstacle'], fights_: list['FightCommonInformations'], hasAggressiveMonsters_: bool, fightStartPositions_: 'FightStartingPositions'):
+
+    def init(
+        self,
+        ownerInformations_: "CharacterMinimalInformations",
+        theme_: int,
+        roomId_: int,
+        maxRoomId_: int,
+        subAreaId_: int,
+        mapId_: int,
+        houses_: list["HouseInformations"],
+        actors_: list["GameRolePlayActorInformations"],
+        interactiveElements_: list["InteractiveElement"],
+        statedElements_: list["StatedElement"],
+        obstacles_: list["MapObstacle"],
+        fights_: list["FightCommonInformations"],
+        hasAggressiveMonsters_: bool,
+        fightStartPositions_: "FightStartingPositions",
+    ):
         self.ownerInformations = ownerInformations_
         self.theme = theme_
         self.roomId = roomId_
         self.maxRoomId = maxRoomId_
-        
-        super().init(subAreaId_, mapId_, houses_, actors_, interactiveElements_, statedElements_, obstacles_, fights_, hasAggressiveMonsters_, fightStartPositions_)
-    
+
+        super().init(
+            subAreaId_,
+            mapId_,
+            houses_,
+            actors_,
+            interactiveElements_,
+            statedElements_,
+            obstacles_,
+            fights_,
+            hasAggressiveMonsters_,
+            fightStartPositions_,
+        )

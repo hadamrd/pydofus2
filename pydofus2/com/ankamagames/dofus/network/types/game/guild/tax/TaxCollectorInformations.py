@@ -10,20 +10,33 @@ if TYPE_CHECKING:
         TaxCollectorComplementaryInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class TaxCollectorInformations(NetworkMessage):
     uniqueId: int
     firtNameId: int
     lastNameId: int
-    additionalInfos: 'AdditionalTaxCollectorInformations'
+    additionalInfos: "AdditionalTaxCollectorInformations"
     worldX: int
     worldY: int
     subAreaId: int
     state: int
-    look: 'EntityLook'
-    complements: list['TaxCollectorComplementaryInformations']
-    def init(self, uniqueId_: int, firtNameId_: int, lastNameId_: int, additionalInfos_: 'AdditionalTaxCollectorInformations', worldX_: int, worldY_: int, subAreaId_: int, state_: int, look_: 'EntityLook', complements_: list['TaxCollectorComplementaryInformations']):
+    look: "EntityLook"
+    complements: list["TaxCollectorComplementaryInformations"]
+
+    def init(
+        self,
+        uniqueId_: int,
+        firtNameId_: int,
+        lastNameId_: int,
+        additionalInfos_: "AdditionalTaxCollectorInformations",
+        worldX_: int,
+        worldY_: int,
+        subAreaId_: int,
+        state_: int,
+        look_: "EntityLook",
+        complements_: list["TaxCollectorComplementaryInformations"],
+    ):
         self.uniqueId = uniqueId_
         self.firtNameId = firtNameId_
         self.lastNameId = lastNameId_
@@ -34,6 +47,5 @@ class TaxCollectorInformations(NetworkMessage):
         self.state = state_
         self.look = look_
         self.complements = complements_
-        
+
         super().__init__()
-    

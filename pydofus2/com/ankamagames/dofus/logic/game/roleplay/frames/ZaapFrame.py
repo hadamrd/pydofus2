@@ -55,9 +55,9 @@ class ZaapFrame(Frame):
 
     def pushed(self):
         self._zaapsList = list[TeleportDestinationWrapper]()
-        
+
         return True
-    
+
     def pulled(self) -> bool:
         return True
 
@@ -81,7 +81,7 @@ class ZaapFrame(Frame):
             if zaap.mapId == mapId:
                 return True
         return False
-    
+
     def process(self, msg):
 
         if isinstance(msg, ZaapDestinationsMessage):
@@ -103,9 +103,11 @@ class ZaapFrame(Frame):
             KernelEventsManager().send(
                 KernelEvent.TeleportDestinationList,
                 self._zaapsList,
-                TeleporterTypeEnum.TELEPORTER_HAVENBAG
-                if msg.type == TeleporterTypeEnum.TELEPORTER_HAVENBAG
-                else TeleporterTypeEnum.TELEPORTER_ZAAP,
+                (
+                    TeleporterTypeEnum.TELEPORTER_HAVENBAG
+                    if msg.type == TeleporterTypeEnum.TELEPORTER_HAVENBAG
+                    else TeleporterTypeEnum.TELEPORTER_ZAAP
+                ),
             )
             return True
 
@@ -146,8 +148,8 @@ class ZaapFrame(Frame):
                 KernelEvent.TeleportDestinationList, self._zaapsList, TeleporterTypeEnum.TELEPORTER_ZAAP
             )
             return True
-            
+
         elif isinstance(msg, LeaveDialogMessage):
             if msg.dialogType == DialogTypeEnum.DIALOG_TELEPORTER:
                 Kernel().worker.removeFrame(self)
-            return True;
+            return True

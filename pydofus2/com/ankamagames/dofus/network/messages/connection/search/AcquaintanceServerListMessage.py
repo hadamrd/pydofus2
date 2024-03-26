@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AcquaintanceServerListMessage(NetworkMessage):
     servers: list[int]
+
     def init(self, servers_: list[int]):
         self.servers = servers_
-        
+
         super().__init__()
-    

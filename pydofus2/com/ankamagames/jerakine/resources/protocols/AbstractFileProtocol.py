@@ -44,18 +44,35 @@ class AbstractFileProtocol(AbstractProtocol, IProtocol, IResourceObserver):
     def loadingFile(self, value: Dict) -> None:
         self._loadingFile = value
 
-    def load(self, uri: Uri, observer: IResourceObserver, dispatchProgress: bool, cache: ICache,
-             forcedAdapter: type, singleFile: bool) -> None:
-        raise NotImplementedError("AbstractProtocol childs must override the release method in order to free their resources.")
+    def load(
+        self,
+        uri: Uri,
+        observer: IResourceObserver,
+        dispatchProgress: bool,
+        cache: ICache,
+        forcedAdapter: type,
+        singleFile: bool,
+    ) -> None:
+        raise NotImplementedError(
+            "AbstractProtocol childs must override the release method in order to free their resources."
+        )
 
     def onLoaded(self, uri: Uri, resourceType: int, resource: Any) -> None:
-        raise NotImplementedError("AbstractProtocol childs must override the release method in order to free their resources.")
+        raise NotImplementedError(
+            "AbstractProtocol childs must override the release method in order to free their resources."
+        )
 
     def onFailed(self, uri: Uri, errorMsg: str, errorCode: int) -> None:
-        raise NotImplementedError("AbstractProtocol childs must override the release method in order to free their resources.")
+        raise NotImplementedError(
+            "AbstractProtocol childs must override the release method in order to free their resources."
+        )
 
     def onProgress(self, uri: Uri, bytesLoaded: int, bytesTotal: int) -> None:
-        raise NotImplementedError("AbstractProtocol childs must override the release method in order to free their resources.")
+        raise NotImplementedError(
+            "AbstractProtocol childs must override the release method in order to free their resources."
+        )
 
     def extractPath(self, path: str) -> str:
-        raise NotImplementedError("AbstractProtocol childs must override the release method in order to free their resources.")
+        raise NotImplementedError(
+            "AbstractProtocol childs must override the release method in order to free their resources."
+        )

@@ -101,7 +101,7 @@ class AuthentificationManager(metaclass=Singleton):
     @property
     def rsaPubKey(self):
         return RSA.importKey(bytes(self._publicKey, "utf"))
-    
+
     def getAuthCredentials(self) -> list[int]:
         baIn = ByteArray()
         baIn += bytes(self._salt, "utf")

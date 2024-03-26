@@ -14,14 +14,21 @@ from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 class FileProtocol(AbstractFileProtocol):
     localDirectory: Optional[str] = None
-    
+
     def __init__(self):
         self.singleFileObserver = None
         self.loadingFile: Dict[str, List[IResourceObserver]] = {}
         super().__init__()
 
-    def load(self, uri: Uri, observer: IResourceObserver, dispatchProgress: bool, cache: ICache,
-             forcedAdapter: Optional[type] = None, singleFile: bool = False) -> None:
+    def load(
+        self,
+        uri: Uri,
+        observer: IResourceObserver,
+        dispatchProgress: bool,
+        cache: ICache,
+        forcedAdapter: Optional[type] = None,
+        singleFile: bool = False,
+    ) -> None:
         url = ""
         if singleFile and (uri.fileType != "swf" or not uri.subPath or len(uri.subPath) == 0):
             self.singleFileObserver = observer
@@ -34,19 +41,21 @@ class FileProtocol(AbstractFileProtocol):
                 self.loadingFile[url] = [observer]
                 self.loadDirectly(uri, self, dispatchProgress, forcedAdapter)
 
-    def loadDirectly(self, uri: Uri, observer: IResourceObserver, dispatchProgress: bool, forcedAdapter: Optional[type]) -> None:
+    def loadDirectly(
+        self, uri: Uri, observer: IResourceObserver, dispatchProgress: bool, forcedAdapter: Optional[type]
+    ) -> None:
         self.getAdapter(uri, forcedAdapter)
         self.adapter.loadDirectly(uri, self.extractPath(uri.path), observer, dispatchProgress)
 
     def extractPath(self, path_str: str) -> str:
         absoluteFile = Path(path_str)
         if not absoluteFile.is_absolute():
-            path =  Constants.DOFUS_HOME / absoluteFile
+            path = Constants.DOFUS_HOME / absoluteFile
         absoluteFile = path.resolve()
         path_str = str(absoluteFile).replace("file:///", "")
 
         if "\\\\" in path_str:
-            path_str = "file://" + path_str[path_str.index("\\\\"):]
+            path_str = "file://" + path_str[path_str.index("\\\\") :]
 
         if FileProtocol.localDirectory is not None and path_str.startswith("./"):
             path_str = str(Path(FileProtocol.localDirectory) / path_str[2:])

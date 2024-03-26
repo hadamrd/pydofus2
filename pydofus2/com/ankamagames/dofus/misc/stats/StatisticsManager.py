@@ -73,13 +73,13 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
         self.sendPendingEvents()
 
     def onAccountSessionReady(self, event):
-        
+
         def callback(apiKey):
             self._apiCredentials.apiToken = apiKey
             self._accountApi = AccountApi(self._apiCredentials)
             self.sendDeviceInfos()
 
-        HaapiKeyManager().callWithApiKey(callback) 
+        HaapiKeyManager().callWithApiKey(callback)
 
     @property
     def statsEnabled(self):
@@ -142,7 +142,7 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
         Berilia().on(UiUnloadEvent.UNLOAD_UI_STARTED, self.onUiUnloadStart)
         ModuleLogger.active = True
         ModuleLogger.addCallback(self.log)
-        HaapiKeyManager().once(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady,  originator=self)
+        HaapiKeyManager().once(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady, originator=self)
         HaapiKeyManager().once(HaapiEvent.AccountSessionReadyEvent, self.onAccountSessionReady, originator=self)
 
     def destroy(self):
@@ -229,7 +229,7 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
 
     def startStats(self, pStatsName: str, *args):
         customStatsInfo = self._statsAssoc[pStatsName]
-        if customStatsInfo and (not customStatsInfo.get('ftue') or self._firstTimeUserExperience.get(pStatsName)):
+        if customStatsInfo and (not customStatsInfo.get("ftue") or self._firstTimeUserExperience.get(pStatsName)):
             self._stats[pStatsName] = customStatsInfo.statsClass(*args)
             if pStatsName in self._removedStats:
                 self._removedStats.remove(pStatsName)
@@ -261,14 +261,14 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
                 if isinstance(componentStats, IHookStats):
                     componentStats.onHook(args[0], args[2])
 
-    def  registerStats(self, pUiName, pUiStatsClass, pFtue=False):
+    def registerStats(self, pUiName, pUiStatsClass, pFtue=False):
         self._statsAssoc[pUiName] = {"statClass": pUiStatsClass, "ftue": pFtue}
 
     def initDataStoreType(self):
         if not self._dataStoreType or self._dataStoreType.category != "statistics":
             self._dataStoreType = DataStoreType(
                 "statistics", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_COMPUTER
-            )        
+            )
 
     def sendDeviceInfos(self):
         Logger().info("Calling method SendDeviceInfos")
@@ -281,7 +281,7 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
                 AccountApi.sendDeviceInfos_DeviceEnum_PC,
                 None,
                 DeviceUtils.deviceUniqueIdentifier(),
-                HaapiKeyManager().getAccountSessionId()
+                HaapiKeyManager().getAccountSessionId(),
             )
         except Exception as e:
             Logger().error("Error while calling Account Api : " + str(e))
@@ -312,7 +312,7 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
             return True
 
         self._actionsSent = self.getEventsToSend()
-        
+
         if self._actionsSent:
             if len(self._actionsSent) == 1:
                 action = self._actionsSent[0]
@@ -391,13 +391,13 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
     def onUiLoaded(self, pEvent, uiTarget):
         removedIndex = 0
         uiStatsInfo = self._statsAssoc.get(uiTarget.name)
-        if uiStatsInfo and (not uiStatsInfo.get('ftue') or self._firstTimeUserExperience.get(uiTarget.name)):
-            self._stats[uiTarget.name] = uiStatsInfo['statClass'](uiTarget)
+        if uiStatsInfo and (not uiStatsInfo.get("ftue") or self._firstTimeUserExperience.get(uiTarget.name)):
+            self._stats[uiTarget.name] = uiStatsInfo["statClass"](uiTarget)
             removedIndex = self._removedStats.index(uiTarget.name) if uiTarget.name in self._removedStats else -1
             if removedIndex != -1:
                 del self._stats[uiTarget.name]
                 self._removedStats.pop(removedIndex)
-    
+
     def onUiUnloadStart(self, pEvent, name):
         uiStats = self._stats.get(name)
         if uiStats:

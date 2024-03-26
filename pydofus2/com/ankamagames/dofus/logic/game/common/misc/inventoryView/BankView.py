@@ -5,7 +5,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.Storage
 
 
 class BankView(StorageGenericView):
-    
+
     def __init__(self):
         super().__init__()
 

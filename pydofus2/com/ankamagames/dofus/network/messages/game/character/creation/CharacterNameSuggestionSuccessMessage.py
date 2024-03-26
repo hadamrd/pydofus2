@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class CharacterNameSuggestionSuccessMessage(NetworkMessage):
     suggestion: str
+
     def init(self, suggestion_: str):
         self.suggestion = suggestion_
-        
+
         super().__init__()
-    

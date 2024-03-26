@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class BreachKickRequestMessage(NetworkMessage):
     target: int
+
     def init(self, target_: int):
         self.target = target_
-        
+
         super().__init__()
-    

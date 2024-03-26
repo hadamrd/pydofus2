@@ -17,7 +17,7 @@ lock = threading.Lock()
 
 
 class GameData(metaclass=ThreadSharedSingleton):
-    
+
     def __init__(self) -> None:
         self._modules = dict[str, ModuleReader]()
 

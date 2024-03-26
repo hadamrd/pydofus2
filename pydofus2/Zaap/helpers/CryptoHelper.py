@@ -12,7 +12,7 @@ from pydofus2.Zaap.helpers.Device import Device
 
 
 class CryptoHelper:
-    
+
     @staticmethod
     def create_hash_from_string_md5(string):
         return hashlib.md5(string.encode()).digest()
@@ -27,18 +27,18 @@ class CryptoHelper:
         iv = os.urandom(16)
         cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=default_backend())
         encryptor = cipher.encryptor()
-        json_bytes = json.dumps(json_obj).encode('utf-8')
+        json_bytes = json.dumps(json_obj).encode("utf-8")
         encrypted_data = encryptor.update(json_bytes) + encryptor.finalize()
         return iv.hex() + "|" + encrypted_data.hex()
 
     @staticmethod
     def generate_hash_from_cert(cert, hm1, hm2):
         # Extract the encoded certificate from the cert dict
-        encoded_certificate = cert.get('encodedCertificate', '')
-        
+        encoded_certificate = cert.get("encodedCertificate", "")
+
         # Convert hm2 to bytes and use as key for decryption
         key = hm2.encode()
-        
+
         # Create a new AES-256-ECB cipher object for decryption
         cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
         decryptor = cipher.decryptor()
@@ -47,19 +47,19 @@ class CryptoHelper:
         base64_encoded_certificate = base64.b64decode(encoded_certificate)
         decoded_certificate_bytes = decryptor.update(base64_encoded_certificate)
         decrypted_certificate = decoded_certificate_bytes + decryptor.finalize()
-        
+
         # Unpad the decrypted certificate
         unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
         decrypted_certificate = unpadder.update(decrypted_certificate) + unpadder.finalize()
-        
+
         # Concatenate hm1 and decrypted certificate, then hash using SHA-256
         hash_input = hm1.encode() + decrypted_certificate
         return hashlib.sha256(hash_input).hexdigest()
-    
+
     @staticmethod
     def encrypt_to_file(file_path, json_obj, uuid):
         encrypted_json_obj = CryptoHelper.encrypt(json_obj, uuid)
-        with open(file_path, 'w', encoding='utf-8') as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             file.write(encrypted_json_obj)
 
     @staticmethod
@@ -67,7 +67,7 @@ class CryptoHelper:
         if uuid is None:
             uuid = Device.get_uuid()
         # Logger().debug(f"Decrypting file {file_path} with uuid {uuid}")
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             data = file.read()
         return CryptoHelper.decrypt(data, uuid)
 
@@ -89,7 +89,7 @@ class CryptoHelper:
     def get_file_hash(file_path):
         sha1_hasher = hashlib.sha1()
         try:
-            with open(file_path, 'rb') as file:
+            with open(file_path, "rb") as file:
                 for chunk in iter(lambda: file.read(4096), b""):
                     sha1_hasher.update(chunk)
             return sha1_hasher.hexdigest()

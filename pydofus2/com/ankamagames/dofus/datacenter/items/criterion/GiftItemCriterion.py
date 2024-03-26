@@ -46,7 +46,6 @@ class GiftItemCriterion(ItemCriterion, IDataCenter):
 
     @property
     def text(self) -> str:
-        criterionInfo: list = None
         if self._operator.text == ">":
             self._criterionValueText.split(",")
             return I18n.getUiText(

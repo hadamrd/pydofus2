@@ -64,6 +64,7 @@ class CollectableElement:
             self.enabled,
         )
 
+
 class RoleplayInteractivesFrame(Frame):
 
     COLLECTABLE_COLLECTING_STATE_ID = 2
@@ -73,13 +74,13 @@ class RoleplayInteractivesFrame(Frame):
     ACTION_COLLECTABLE_RESOURCES = 1
 
     REVIVE_SKILL_ID = 211
-    
+
     ZAAP_TYPEID = 16
-    
+
     REQUEST_TIMEOUT = 10
-    
+
     BANK_HINT_GFX = 401
-    
+
     NDIRECTIONS = 8
 
     def __init__(self):
@@ -95,7 +96,7 @@ class RoleplayInteractivesFrame(Frame):
     @property
     def priority(self) -> int:
         return Priority.HIGH
-    
+
     @property
     def interactives(self) -> dict[int, InteractiveElementData]:
         return self._ie
@@ -141,15 +142,15 @@ class RoleplayInteractivesFrame(Frame):
             if msg.duration > 0:
                 self._enityUsingElement[msg.elemId] = msg.entityId
                 KernelEventsManager().send(KernelEvent.IElemBeingUsed, msg.entityId, msg.elemId)
-                if msg.entityId == PlayedCharacterManager().id:                
+                if msg.entityId == PlayedCharacterManager().id:
                     Logger().info(f"Player is using element {msg.elemId} ...")
                     self.usingInteractive = True
             else:
-                if msg.entityId == PlayedCharacterManager().id:    
+                if msg.entityId == PlayedCharacterManager().id:
                     Logger().info(f"Player used element {msg.elemId}")
                 KernelEventsManager().send(KernelEvent.InteractiveElementUsed, msg.entityId, msg.elemId)
             return True
-        
+
         if isinstance(msg, InteractiveUseEndedMessage):
             Logger().info(f"Interactive element {msg.elemId} used.")
             entityId = self._enityUsingElement.get(msg.elemId)
@@ -157,9 +158,9 @@ class RoleplayInteractivesFrame(Frame):
                 self.usingInteractive = False
             del self._enityUsingElement[msg.elemId]
             del self._collectableResource[msg.elemId]
-            KernelEventsManager().send(KernelEvent.InteractiveElementUsed, entityId, msg.elemId)  
+            KernelEventsManager().send(KernelEvent.InteractiveElementUsed, entityId, msg.elemId)
             return True
-        
+
         if isinstance(msg, InteractiveUseErrorMessage):
             iuem = msg
             if iuem.elemId == self.currentRequestedElementId:
@@ -254,10 +255,10 @@ class RoleplayInteractivesFrame(Frame):
                 if skill.elementActionId == self.ACTION_COLLECTABLE_RESOURCES:
                     return CollectableElement(ie.elementId, interactiveSkill, False)
         return None
-    
+
     def getReviveIe(self) -> InteractiveElementData:
         return self.getIeBySkillId(self.REVIVE_SKILL_ID)
-    
+
     def getBankDoorIe(self) -> InteractiveElementData:
         ie = self.getIeBySkillId(DataEnum.SKILL_SIGN_HINT)
         if ie:
@@ -267,7 +268,7 @@ class RoleplayInteractivesFrame(Frame):
                 if sign._hint.gfx == self.BANK_HINT_GFX:
                     return ie
         return None
-    
+
     def getZaapIe(self) -> InteractiveElementData:
         return self.getIeByTypeId(self.ZAAP_TYPEID)
 
@@ -303,9 +304,11 @@ class RoleplayInteractivesFrame(Frame):
                 if skill.skillId == DataEnum.SKILL_POINT_OUT_EXIT:
                     return True
         return False
-    
+
     @classmethod
-    def getNearestCellToIe(cls, ie: InteractiveElement, iePos: MapPoint, playerPos: MapPoint=None) -> Tuple[MapPoint, bool]:
+    def getNearestCellToIe(
+        cls, ie: InteractiveElement, iePos: MapPoint, playerPos: MapPoint = None
+    ) -> Tuple[MapPoint, bool]:
         forbiddenCellsIds = list()
         cells = MapDisplayManager().dataMap.cells
         dmp = DataMapProvider()

@@ -37,18 +37,20 @@ class ContextChangeFrame(Frame):
 
         if isinstance(msg, GameContextDestroyMessage):
             return True
-        
+
         elif isinstance(msg, GameContextCreateMessage):
             self.currentContext = msg.context
             if self.currentContext == GameContextEnum.ROLE_PLAY:
                 from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayContextFrame import \
                     RoleplayContextFrame
+
                 Kernel().worker.addFrame(RoleplayContextFrame())
                 KernelEventsManager().send(KernelEvent.RoleplayStarted)
 
             elif self.currentContext == GameContextEnum.FIGHT:
                 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightContextFrame import \
                     FightContextFrame
+
                 if not Kernel().isMule:
                     Kernel().worker.addFrame(FightContextFrame())
                 KernelEventsManager().send(KernelEvent.FightStarted)

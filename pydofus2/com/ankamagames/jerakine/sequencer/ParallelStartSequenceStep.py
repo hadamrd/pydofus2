@@ -41,7 +41,7 @@ class ParallelStartSequenceStep(AbstractSequencable, ISubSequenceSequencable):
     def sequenceEndCount(self) -> int:
         return self._sequenceEndCount
 
-    def onSequenceEnd(self, e_id, e: SequencerEvent=None) -> None:
+    def onSequenceEnd(self, e_id, e: SequencerEvent = None) -> None:
         self._sequenceEndCount += 1
         if self._sequenceEndCount == len(self._aSequence):
             self.executeCallbacks()

@@ -242,15 +242,15 @@ class FightContextFrame(Frame):
     @property
     def challengeMod(self):
         return self._challengeSelectionMod
-    
+
     @property
     def challengeBonus(self):
         return self._challengeBonusType
-    
+
     @property
     def challengesList(self):
         return self._challengesList
-    
+
     @property
     def battleFrame(self) -> FightBattleFrame:
         return self._battleFrame
@@ -360,7 +360,7 @@ class FightContextFrame(Frame):
             return fighterInfos.level
         else:
             return 0
-        
+
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, GameFightStartingMessage):
@@ -471,7 +471,13 @@ class FightContextFrame(Frame):
             if timeBeforeStart == 0 and preFightIsActive:
                 timeBeforeStart = -1
             Logger().separator("Joined fight", "*")
-            KernelEventsManager().send(KernelEvent.FightJoined, msg.isFightStarted, msg.fightType, msg.isTeamPhase, msg.timeMaxBeforeFightStart)
+            KernelEventsManager().send(
+                KernelEvent.FightJoined,
+                msg.isFightStarted,
+                msg.fightType,
+                msg.isTeamPhase,
+                msg.timeMaxBeforeFightStart,
+            )
             return True
 
         elif isinstance(msg, GameFightStartMessage):
@@ -598,23 +604,31 @@ class FightContextFrame(Frame):
         elif isinstance(msg, ChallengeTargetsMessage):
             challenge = self.getChallengeById(msg.challengeInformation.challengeId)
             if challenge is None:
-                Logger().warn(f"Got a challenge update with no corresponding challenge (challenge id {msg.challengeInformation.challengeId}), skipping.")
+                Logger().warn(
+                    f"Got a challenge update with no corresponding challenge (challenge id {msg.challengeInformation.challengeId}), skipping."
+                )
                 return False
             challenge.setTargetsFromTargetInformation(msg.challengeInformation.targetsList)
             challenge.xpBonus = msg.challengeInformation.xpBonus
             challenge.dropBonus = msg.challengeInformation.dropBonus
             challenge.state = msg.challengeInformation.state
             for targetW in challenge.targets:
-                if targetW.targetCell != -1 and (PlayedCharacterManager().id in targetW.attackers or not targetW.attackers):
+                if targetW.targetCell != -1 and (
+                    PlayedCharacterManager().id in targetW.attackers or not targetW.attackers
+                ):
                     Logger().debug(f"Showing challenge cell {targetW.targetCell}")
             return True
 
         if isinstance(msg, ChallengeResultMessage):
             challenge = self.getChallengeById(msg.challengeId)
             if not challenge:
-                Logger().warning(f"Got a challenge result with no corresponding challenge (challenge id {msg.challengeId}), skipping.")
+                Logger().warning(
+                    f"Got a challenge result with no corresponding challenge (challenge id {msg.challengeId}), skipping."
+                )
                 return False
-            challenge.state = ChallengeStateEnum.CHALLENGE_COMPLETED if msg.success else ChallengeStateEnum.CHALLENGE_FAILED
+            challenge.state = (
+                ChallengeStateEnum.CHALLENGE_COMPLETED if msg.success else ChallengeStateEnum.CHALLENGE_FAILED
+            )
             KernelEventsManager().send(KernelEvent.ChallengeListUpdate, self._challengesList)
             return True
 
@@ -660,12 +674,12 @@ class FightContextFrame(Frame):
         cvmsg.init(challengeId)
         ConnectionsHandler().send(cvmsg)
         return True
-    
-    def getChallengeById(self, challengeId:int) -> ChallengeWrapper:
-        challenge:ChallengeWrapper = None
+
+    def getChallengeById(self, challengeId: int) -> ChallengeWrapper:
+        challenge: ChallengeWrapper = None
         for challenge in self._challengesList:
             if challenge.id == challengeId:
-                return challenge;
+                return challenge
         return None
 
     def pulled(self) -> bool:

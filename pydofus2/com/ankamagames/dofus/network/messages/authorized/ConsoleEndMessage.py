@@ -5,14 +5,14 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.uuid import Uuid
-    
+
 
 class ConsoleEndMessage(NetworkMessage):
-    consoleUuid: 'Uuid'
+    consoleUuid: "Uuid"
     isSuccess: bool
-    def init(self, consoleUuid_: 'Uuid', isSuccess_: bool):
+
+    def init(self, consoleUuid_: "Uuid", isSuccess_: bool):
         self.consoleUuid = consoleUuid_
         self.isSuccess = isSuccess_
-        
+
         super().__init__()
-    

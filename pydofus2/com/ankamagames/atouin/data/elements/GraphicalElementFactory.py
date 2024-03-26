@@ -20,7 +20,7 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 class GraphicalElementFactory:
 
     @staticmethod
-    def getGraphicalElementData(elementId: int, elementType: int) -> 'GraphicalElementData':
+    def getGraphicalElementData(elementId: int, elementType: int) -> "GraphicalElementData":
         if elementType == GraphicalElementTypes.NORMAL:
             return NormalGraphicalElementData(elementId, elementType)
         elif elementType == GraphicalElementTypes.BOUNDING_BOX:

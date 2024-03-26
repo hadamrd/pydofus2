@@ -9,8 +9,8 @@ class AlignmentSide:
     id: int
 
     nameId: int
-    
-    _name:str = None
+
+    _name: str = None
 
     @classmethod
     def getAlignmentSides(cls) -> list["AlignmentSide"]:
@@ -20,10 +20,10 @@ class AlignmentSide:
     def getAlignmentSideById(cls, id) -> "AlignmentSide":
         return GameData().getObject(cls.MODULE, id)
 
-    @property   
+    @property
     def name(self):
         if self._name is None:
             self._name = I18n.getText(self.nameId)
         return self._name
-    
+
     idAccessors = IdAccessors(getAlignmentSideById, getAlignmentSides)

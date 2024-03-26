@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.mount.MountClientData import \
         MountClientData
-    
+
 
 class MountDataMessage(NetworkMessage):
-    mountData: 'MountClientData'
-    def init(self, mountData_: 'MountClientData'):
+    mountData: "MountClientData"
+
+    def init(self, mountData_: "MountClientData"):
         self.mountData = mountData_
-        
+
         super().__init__()
-    

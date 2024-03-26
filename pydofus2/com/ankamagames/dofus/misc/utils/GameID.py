@@ -78,9 +78,9 @@ class GameID:
         WAKFU_HEROES: "Wakfu Heroes",
         KROSMASTER_ARENA_BETA: "Krosmaster Arena - Beta",
         TACTILE_WARS_TEST: "Tactile Wars - Test",
-        KROSMASTER_3D_BETA: "Krosmaster 3D - Beta"
+        KROSMASTER_3D_BETA: "Krosmaster 3D - Beta",
     }
-    
+
     @staticmethod
     @property
     def current():

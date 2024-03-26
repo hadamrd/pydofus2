@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.presets.IconPresetSave
 class IconNamedPresetSaveRequestMessage(IconPresetSaveRequestMessage):
     name: str
     type: int
+
     def init(self, name_: str, type_: int, presetId_: int, symbolId_: int, updateData_: bool):
         self.name = name_
         self.type = type_
-        
+
         super().init(presetId_, symbolId_, updateData_)
-    

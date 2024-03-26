@@ -6,14 +6,14 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import \
         CharacterMinimalInformations
-    
+
 
 class BreachInvitationOfferMessage(NetworkMessage):
-    host: 'CharacterMinimalInformations'
+    host: "CharacterMinimalInformations"
     timeLeftBeforeCancel: int
-    def init(self, host_: 'CharacterMinimalInformations', timeLeftBeforeCancel_: int):
+
+    def init(self, host_: "CharacterMinimalInformations", timeLeftBeforeCancel_: int):
         self.host = host_
         self.timeLeftBeforeCancel = timeLeftBeforeCancel_
-        
+
         super().__init__()
-    

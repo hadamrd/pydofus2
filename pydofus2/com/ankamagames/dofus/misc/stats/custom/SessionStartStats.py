@@ -12,7 +12,7 @@ from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
 
 
 class SessionStartStats(IHookStats, IStatsClass):
-    
+
     def __init__(self):
         super().__init__()
         action = StatsAction(InternalStatisticTypeEnum.START_SESSION)

@@ -93,11 +93,9 @@ class DetailedStat(Stat):
         )
 
     def reset(self) -> None:
-        self._baseValue = (
-            self._additionalValue
-        ) = (
-            self._objectsAndMountBonusValue
-        ) = self._alignGiftBonusValue = self._contextModifValue = self._totalValue = 0
+        self._baseValue = self._additionalValue = self._objectsAndMountBonusValue = self._alignGiftBonusValue = (
+            self._contextModifValue
+        ) = self._totalValue = 0
 
     def updateTotal(self) -> None:
         self._totalValue = (

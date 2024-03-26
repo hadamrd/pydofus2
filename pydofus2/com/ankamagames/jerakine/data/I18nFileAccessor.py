@@ -15,7 +15,6 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import 
 
 
 class I18nFileAccessor(metaclass=ThreadSharedSingleton):
-    
 
     _initialized = threading.Event()
     _initializing = threading.Event()
@@ -38,12 +37,12 @@ class I18nFileAccessor(metaclass=ThreadSharedSingleton):
         from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 
         xml_file_path = XmlConfig().getEntry("config.data.path.i18n.list")
-        lang_files_dir = XmlConfig().getEntry('config.data.path.i18n')
+        lang_files_dir = XmlConfig().getEntry("config.data.path.i18n")
         tree = ET.parse(xml_file_path)
         root = tree.getroot()
         files_dict = {}
-        for file_elem in root.findall('.//file'):
-            file_name = file_elem.get('name')
+        for file_elem in root.findall(".//file"):
+            file_name = file_elem.get("name")
             if file_name:
                 full_path = os.path.join(lang_files_dir, file_name)
                 if os.path.exists(full_path):
@@ -60,7 +59,7 @@ class I18nFileAccessor(metaclass=ThreadSharedSingleton):
         if file_name is None:
             raise RuntimeError("No lang file found")
         return files_dict[file_name]
-        
+
     def initI18n(self):
         self._initializing.set()
         Logger().info("Loading I18n file...")

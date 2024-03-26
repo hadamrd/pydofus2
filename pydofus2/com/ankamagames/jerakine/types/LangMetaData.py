@@ -40,9 +40,13 @@ class LangMetaData:
 
         for file in tree.findall("filesVersions/file"):
             bHaveVersionData = True
-            fileName = file.attrib['name']
+            fileName = file.attrib["name"]
             fileString = file.text
-            if metaData.clearAllFile or not metaData.clearOnlyNotUpToDate or not checkFunction(FileUtils.getFileStartName(sUrlProvider) + "." + fileName, fileString):
+            if (
+                metaData.clearAllFile
+                or not metaData.clearOnlyNotUpToDate
+                or not checkFunction(FileUtils.getFileStartName(sUrlProvider) + "." + fileName, fileString)
+            ):
                 metaData.addFile(fileName, fileString)
 
         if not bHaveVersionData:

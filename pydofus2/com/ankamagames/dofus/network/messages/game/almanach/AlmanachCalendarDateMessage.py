@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AlmanachCalendarDateMessage(NetworkMessage):
     date: int
+
     def init(self, date_: int):
         self.date = date_
-        
+
         super().__init__()
-    

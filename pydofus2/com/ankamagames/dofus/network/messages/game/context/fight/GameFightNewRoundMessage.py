@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GameFightNewRoundMessage(NetworkMessage):
     roundNumber: int
+
     def init(self, roundNumber_: int):
         self.roundNumber = roundNumber_
-        
+
         super().__init__()
-    

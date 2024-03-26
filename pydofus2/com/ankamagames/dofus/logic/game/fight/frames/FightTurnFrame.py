@@ -20,8 +20,9 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 if TYPE_CHECKING:
     pass
 
+
 class FightTurnFrame(Frame):
-    
+
     TAKLED_CURSOR_NAME: str = "TackledCursor"
 
     SELECTION_PATH: str = "FightMovementPath"
@@ -80,7 +81,7 @@ class FightTurnFrame(Frame):
         return True
 
     def process(self, msg: Message) -> bool:
-        
+
         if isinstance(msg, GameMapNoMovementMessage):
             if self.myTurn:
                 self._isRequestingMovement = False
@@ -90,7 +91,7 @@ class FightTurnFrame(Frame):
             if self.myTurn:
                 self._isRequestingMovement = False
             return False
-        
+
         if isinstance(msg, GameMapMovementMessage):
             self._isRequestingMovement = False
             return True

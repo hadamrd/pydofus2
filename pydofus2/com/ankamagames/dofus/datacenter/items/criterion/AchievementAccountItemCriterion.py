@@ -33,7 +33,9 @@ class AchievementAccountItemCriterion(ItemCriterion, IDataCenter):
 
     @property
     def text(self) -> str:
-        from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
+        from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
+            Achievement
+
         readableValue = " '" + Achievement.getAchievementById(self._criterionValue).name + "'"
         readableCriterion: str = I18n.getUiText("ui.tooltip.unlockAchievement", [readableValue])
         if self._operator.text == ItemCriterionOperator.DIFFERENT:

@@ -29,7 +29,6 @@ class Atouin(metaclass=Singleton):
         AdapterFactory.addAdapter("ele", ElementsAdapter)
         AdapterFactory.addAdapter("dlm", MapsAdapter)
 
-
     def setDisplayOptions(self, ao):
         pass
 
@@ -40,4 +39,4 @@ class Atouin(metaclass=Singleton):
         RIGHT_GAME_MARGIN = int((AtouinConstants.ADJACENT_CELL_LEFT_MARGIN - 1) * AtouinConstants.CELL_WIDTH)
         LEFT_GAME_MARGIN = int((AtouinConstants.ADJACENT_CELL_RIGHT_MARGIN - 1) * AtouinConstants.CELL_WIDTH)
         MAP_IMAGE_WIDTH = AtouinConstants.CELL_WIDTH * AtouinConstants.MAP_WIDTH + AtouinConstants.CELL_WIDTH
-        AtouinConstants.WIDESCREEN_BITMAP_WIDTH = MAP_IMAGE_WIDTH + RIGHT_GAME_MARGIN + LEFT_GAME_MARGIN;
+        AtouinConstants.WIDESCREEN_BITMAP_WIDTH = MAP_IMAGE_WIDTH + RIGHT_GAME_MARGIN + LEFT_GAME_MARGIN

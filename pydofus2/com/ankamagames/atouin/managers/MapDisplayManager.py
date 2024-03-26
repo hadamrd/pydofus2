@@ -62,7 +62,7 @@ class MapDisplayManager(metaclass=Singleton):
                                 "elementId": element.identifier,
                                 "typeId": element.elementId,
                                 "position": MapPoint.fromCellId(cell.cellId),
-                                "elementType": element.elementType
+                                "elementType": element.elementType,
                             }
 
     def isIdentifiedElement(self, identifier: int) -> bool:
@@ -70,7 +70,7 @@ class MapDisplayManager(metaclass=Singleton):
 
     def getIdentifiedElementPosition(self, identifier: int) -> MapPoint:
         return self._identifiedElement.get(identifier).get("position")
-    
+
     def loadMap(self, mapId: int, forceReloadWithoutCache: bool = False, decryptionKey=None) -> None:
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 

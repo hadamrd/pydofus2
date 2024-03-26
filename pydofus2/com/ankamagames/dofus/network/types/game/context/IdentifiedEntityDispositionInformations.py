@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDisposition
 
 class IdentifiedEntityDispositionInformations(EntityDispositionInformations):
     id: int
+
     def init(self, id_: int, cellId_: int, direction_: int):
         self.id = id_
-        
+
         super().init(cellId_, direction_)
-    

@@ -18,11 +18,11 @@ class TimeManager(metaclass=Singleton):
         utc_time = dt.replace(tzinfo=timezone.utc)
         utc_timestamp = utc_time.timestamp()
         return utc_timestamp
-    
+
     def getTimestamp(self):
         current_time = time.time() * 1000  # Convert to milliseconds
         return current_time + self.serverTimeLag
-    
+
     def getDateFromTime(self, timeUTC: int, useTimezoneOffset: bool = False) -> list:
         date: datetime = None
         nday = nmonth = nyear = nhour = nminute = None

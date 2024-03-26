@@ -26,8 +26,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
         INetworkMessage
-        
+
 LOCK = mp.Lock()
+
 
 def sendTrace(func):
     @functools.wraps(func)
@@ -47,6 +48,7 @@ def sendTrace(func):
             self._put(ConnectionProcessCrashedMessage(error_trace))
 
     return wrapped
+
 
 class ServerConnection(mp.Thread):
 
@@ -85,7 +87,7 @@ class ServerConnection(mp.Thread):
             self.receptionQueue = queue.Queue(200)
         else:
             self.receptionQueue = receptionQueue
-    
+
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connectionTimeout = None
         self.nbrSendFails = 0
@@ -304,13 +306,13 @@ class ServerConnection(mp.Thread):
                 MessageReceiver().parse(ByteArray(msg.content), self.handleMessage, from_dataContainer=True)
             else:
                 self._put(msg)
-            
+
     @sendTrace
     def run(self):
         err = ""
         while not self._closing.is_set() and not self.finished.is_set():
             try:
-                rdata = self.socket.recv(8900)                    
+                rdata = self.socket.recv(8900)
                 if rdata:
                     if self._connecting.is_set():
                         Logger().debug(f"Received {len(rdata)}bytes from server!")
@@ -319,7 +321,7 @@ class ServerConnection(mp.Thread):
                     MessageReceiver().parse(self.stream, self.handleMessage)
                 else:
                     Logger().debug(f"[{self.id}] Connection closed by remote host")
-                    self._closing.set()                
+                    self._closing.set()
             except (KeyboardInterrupt, SystemExit) as e:
                 Logger().debug(f"[{self.id}] Interrupted suddenly!")
                 self._closing.set()

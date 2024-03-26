@@ -131,9 +131,7 @@ class FightPreparationFrame(Frame):
         swapPositionRequest: SwapPositionRequest = None
         for swapPositionRequest in self._swapPositionRequests:
             if swapPositionRequest.requestId == pRequestId:
-                del self._swapPositionRequests[
-                    self._swapPositionRequests.index(swapPositionRequest)
-                ]
+                del self._swapPositionRequests[self._swapPositionRequests.index(swapPositionRequest)]
 
     def isSwapPositionRequestValid(self, pRequestId: int) -> bool:
         swapPositionRequest: SwapPositionRequest = None
@@ -153,17 +151,13 @@ class FightPreparationFrame(Frame):
                 Kernel().worker.removeFrame(self)
                 gfemsg = GameFightEndMessage()
                 gfemsg.init()
-                fightContextFrame2: "FightContextFrame" = (
-                    Kernel().fightContextFrame
-                )
+                fightContextFrame2: "FightContextFrame" = Kernel().fightContextFrame
                 if fightContextFrame2:
                     fightContextFrame2.process(gfemsg)
                 else:
                     Kernel().worker.process(gfemsg)
                 return True
-            fighterSwapPositionRequests = self.getPlayerSwapPositionRequests(
-                gflmsg.charId
-            )
+            fighterSwapPositionRequests = self.getPlayerSwapPositionRequests(gflmsg.charId)
             for swapPositionRequest in fighterSwapPositionRequests:
                 swapPositionRequest.destroy()
             return False
@@ -181,13 +175,9 @@ class FightPreparationFrame(Frame):
                 ConnectionsHandler().send(gfpprmsg2)
             return True
 
-        if isinstance(msg, GameEntitiesDispositionMessage) or isinstance(
-            msg, GameFightPlacementSwapPositionsMessage
-        ):
+        if isinstance(msg, GameEntitiesDispositionMessage) or isinstance(msg, GameFightPlacementSwapPositionsMessage):
             for iedi in msg.dispositions:
-                entitySwapPositionsRequests = self.getPlayerSwapPositionRequests(
-                    iedi.id
-                )
+                entitySwapPositionsRequests = self.getPlayerSwapPositionRequests(iedi.id)
                 for swapPositionRequest in entitySwapPositionsRequests:
                     swapPositionRequest.destroy()
             return False
@@ -262,20 +252,19 @@ class FightPreparationFrame(Frame):
             if msg.team and (
                 myTeam
                 or self._fightContextFrame.entitiesFrame.getEntityInfos(playerId)
-                and self._fightContextFrame.entitiesFrame.getEntityTeamId(playerId)
-                == msg.team.teamId
+                and self._fightContextFrame.entitiesFrame.getEntityTeamId(playerId) == msg.team.teamId
             ):
                 PlayedCharacterManager().teamId = msg.team.teamId
-                self._fightContextFrame.isFightLeader = (msg.team.leaderId == playerId)
-                self._fightContextFrame.fightLeader = self._fightContextFrame.entitiesFrame.getEntityInfos(msg.team.leaderId)
+                self._fightContextFrame.isFightLeader = msg.team.leaderId == playerId
+                self._fightContextFrame.fightLeader = self._fightContextFrame.entitiesFrame.getEntityInfos(
+                    msg.team.leaderId
+                )
                 KernelEventsManager().send(KernelEvent.FightLeader, self._fightContextFrame.challengeMod)
             return True
 
         if isinstance(msg, GameFightRemoveTeamMemberMessage):
             gfrtmmsg = msg
-            self._fightContextFrame.entitiesFrame.process(
-                RemoveEntityAction.create(gfrtmmsg.charId)
-            )
+            self._fightContextFrame.entitiesFrame.process(RemoveEntityAction.create(gfrtmmsg.charId))
             if gfrtmmsg.charId in self._fightersId:
                 self._fightersId.remove(gfrtmmsg.charId)
             return True
@@ -331,15 +320,10 @@ class FightPreparationFrame(Frame):
                 return swapPositionRequest
         return None
 
-    def getPlayerSwapPositionRequests(
-        self, pPlayerId: float
-    ) -> list[SwapPositionRequest]:
+    def getPlayerSwapPositionRequests(self, pPlayerId: float) -> list[SwapPositionRequest]:
         swapPositionRequest: SwapPositionRequest = None
         swapPositionRequests: list[SwapPositionRequest] = list[SwapPositionRequest]()
         for swapPositionRequest in self._swapPositionRequests:
-            if (
-                swapPositionRequest.requesterId == pPlayerId
-                or swapPositionRequest.requestedId == pPlayerId
-            ):
+            if swapPositionRequest.requesterId == pPlayerId or swapPositionRequest.requestedId == pPlayerId:
                 swapPositionRequests.append(swapPositionRequest)
         return swapPositionRequests

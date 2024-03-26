@@ -86,7 +86,7 @@ class CharacterFrame(Frame):
         elif isinstance(msg, CharacterDeletionPrepareMessage):
             KernelEventsManager().send(KernelEvent.CharacterDelPrepare, msg)
             return True
-    
+
     def changeToServer(self, serverId):
         self._changeToServerId = serverId
         rtrccmsg = ReloginTokenRequestMessage()

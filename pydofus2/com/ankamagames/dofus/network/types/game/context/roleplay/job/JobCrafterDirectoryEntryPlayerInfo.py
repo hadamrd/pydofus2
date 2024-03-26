@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
         PlayerStatus
-    
+
 
 class JobCrafterDirectoryEntryPlayerInfo(NetworkMessage):
     playerId: int
@@ -20,8 +20,23 @@ class JobCrafterDirectoryEntryPlayerInfo(NetworkMessage):
     mapId: int
     subAreaId: int
     canCraftLegendary: bool
-    status: 'PlayerStatus'
-    def init(self, playerId_: int, playerName_: str, alignmentSide_: int, breed_: int, sex_: bool, isInWorkshop_: bool, worldX_: int, worldY_: int, mapId_: int, subAreaId_: int, canCraftLegendary_: bool, status_: 'PlayerStatus'):
+    status: "PlayerStatus"
+
+    def init(
+        self,
+        playerId_: int,
+        playerName_: str,
+        alignmentSide_: int,
+        breed_: int,
+        sex_: bool,
+        isInWorkshop_: bool,
+        worldX_: int,
+        worldY_: int,
+        mapId_: int,
+        subAreaId_: int,
+        canCraftLegendary_: bool,
+        status_: "PlayerStatus",
+    ):
         self.playerId = playerId_
         self.playerName = playerName_
         self.alignmentSide = alignmentSide_
@@ -34,6 +49,5 @@ class JobCrafterDirectoryEntryPlayerInfo(NetworkMessage):
         self.subAreaId = subAreaId_
         self.canCraftLegendary = canCraftLegendary_
         self.status = status_
-        
+
         super().__init__()
-    

@@ -10,12 +10,18 @@ if TYPE_CHECKING:
         PortalInformation
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameRolePlayPortalInformations(GameRolePlayActorInformations):
-    portal: 'PortalInformation'
-    def init(self, portal_: 'PortalInformation', look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+    portal: "PortalInformation"
+
+    def init(
+        self,
+        portal_: "PortalInformation",
+        look_: "EntityLook",
+        contextualId_: int,
+        disposition_: "EntityDispositionInformations",
+    ):
         self.portal = portal_
-        
+
         super().init(look_, contextualId_, disposition_)
-    

@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class MapCoordinates(NetworkMessage):
     worldX: int
     worldY: int
+
     def init(self, worldX_: int, worldY_: int):
         self.worldX = worldX_
         self.worldY = worldY_
-        
+
         super().__init__()
-    

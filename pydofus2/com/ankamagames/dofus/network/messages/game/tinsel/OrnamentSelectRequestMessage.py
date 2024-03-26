@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class OrnamentSelectRequestMessage(NetworkMessage):
     ornamentId: int
+
     def init(self, ornamentId_: int):
         self.ornamentId = ornamentId_
-        
+
         super().__init__()
-    

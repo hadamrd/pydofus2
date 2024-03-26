@@ -22,7 +22,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class HandshakeFrame(Frame):
-    
+
     TIMEOUT_DELAY: int = 3
     TIMEOUT_REPEAT_COUNT: int = 1
 
@@ -31,9 +31,7 @@ class HandshakeFrame(Frame):
         super().__init__()
 
     def checkProtocolVersions(self, serverVersion: str) -> None:
-        Logger().info(
-            f"[HandShake] Server version is {serverVersion}. Client version is {Metadata.PROTOCOL_BUILD}."
-        )
+        Logger().info(f"[HandShake] Server version is {serverVersion}. Client version is {Metadata.PROTOCOL_BUILD}.")
         if serverVersion != Metadata.PROTOCOL_BUILD:
             KernelEventsManager().send(
                 KernelEvent.ClientCrashed, "Protocol mismatch between the client and the server."

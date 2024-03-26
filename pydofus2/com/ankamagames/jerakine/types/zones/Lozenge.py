@@ -8,7 +8,7 @@ from pydofus2.com.ankamagames.jerakine.types.zones.IZone import IZone
 
 
 class Lozenge(IZone):
-    
+
     _radius = 0
     _minRadius = 2
     _dataMapProvider: IDataMapProvider

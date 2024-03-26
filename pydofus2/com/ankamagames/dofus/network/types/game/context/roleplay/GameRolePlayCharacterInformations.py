@@ -12,12 +12,21 @@ if TYPE_CHECKING:
         HumanInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameRolePlayCharacterInformations(GameRolePlayHumanoidInformations):
-    alignmentInfos: 'ActorAlignmentInformations'
-    def init(self, alignmentInfos_: 'ActorAlignmentInformations', humanoidInfo_: 'HumanInformations', accountId_: int, name_: str, look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+    alignmentInfos: "ActorAlignmentInformations"
+
+    def init(
+        self,
+        alignmentInfos_: "ActorAlignmentInformations",
+        humanoidInfo_: "HumanInformations",
+        accountId_: int,
+        name_: str,
+        look_: "EntityLook",
+        contextualId_: int,
+        disposition_: "EntityDispositionInformations",
+    ):
         self.alignmentInfos = alignmentInfos_
-        
+
         super().init(humanoidInfo_, accountId_, name_, look_, contextualId_, disposition_)
-    

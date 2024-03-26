@@ -18,5 +18,5 @@ class ItemSuperType(IDataCenter):
     @staticmethod
     def getItemSuperTypes() -> list["ItemSuperType"]:
         return GameData().getObjects(ItemSuperType.MODULE)
-    
+
     idAccessors = IdAccessors(getItemSuperTypeById, getItemSuperTypes)

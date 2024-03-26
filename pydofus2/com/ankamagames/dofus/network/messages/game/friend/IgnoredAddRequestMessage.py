@@ -6,14 +6,14 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.common.AbstractPlayerSearchInformation import \
         AbstractPlayerSearchInformation
-    
+
 
 class IgnoredAddRequestMessage(NetworkMessage):
-    target: 'AbstractPlayerSearchInformation'
+    target: "AbstractPlayerSearchInformation"
     session: bool
-    def init(self, target_: 'AbstractPlayerSearchInformation', session_: bool):
+
+    def init(self, target_: "AbstractPlayerSearchInformation", session_: bool):
         self.target = target_
         self.session = session_
-        
+
         super().__init__()
-    

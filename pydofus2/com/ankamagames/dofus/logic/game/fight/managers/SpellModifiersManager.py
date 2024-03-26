@@ -49,10 +49,10 @@ class SpellModifiersManager(metaclass=Singleton):
 
     def getSpellsModifiers(self, entityId: float):
         return self._entitiesMap.get(float(entityId))
-        
+
     def getSpellModifiers(self, entityId: float, spellId: float) -> SpellModifiers:
         return self._entitiesMap.get(float(entityId), {}).get(float(spellId), None)
-    
+
     def getSpellModifier(self, entityId: float, spellId: float, modifierId: float) -> SpellModifier:
         spellModifiers = self.getSpellModifiers(entityId, spellId)
         return spellModifiers.getModifier(modifierId) if spellModifiers else None
@@ -64,7 +64,6 @@ class SpellModifiersManager(metaclass=Singleton):
         if rawSpellsModifiers:
             for rawSpellModifier in rawSpellsModifiers:
                 self.internalSetRawSpellModifier(entityId, rawSpellModifier, spellsModifierStats)
-
 
     def setRawSpellModifier(self, entityId: float, rawSpellModifier: SpellModifierMessage):
         if rawSpellModifier is None:
@@ -81,13 +80,14 @@ class SpellModifiersManager(metaclass=Singleton):
 
     def deleteSpellModifierAction(self, entityId: float, spellId: int, modifierType: int, actionType: int):
         spellModifiers = self.getSpellModifiers(entityId, spellId)
-        
+
         if spellModifiers is None:
-            Logger().error(f"Tried to delete spell {spellId} modifier {modifierType} (action: {actionType}) for entity with ID {entityId}, but no spells modifier stats were found. Aborting")
+            Logger().error(
+                f"Tried to delete spell {spellId} modifier {modifierType} (action: {actionType}) for entity with ID {entityId}, but no spells modifier stats were found. Aborting"
+            )
             return
 
         spellModifiers.deleteModifierAction(modifierType, actionType)
-
 
     def deleteSpellModifiers(self, entityId: float, spellId: float) -> bool:
         entityKey = float(entityId)
@@ -114,21 +114,27 @@ class SpellModifiersManager(metaclass=Singleton):
     def getModifiedBool(self, entityId: float, spellId: float, modifierType: int, baseValue: bool = False) -> bool:
         return self.getSpecificModifiedBool(entityId, spellId, modifierType, SpellModifierValueTypeEnum.ALL, baseValue)
 
-    def getSpecificModifiedBool(self, entityId: float, spellId: float, modifierType: int, valueType: int = 1, baseValue: bool = False) -> bool:
+    def getSpecificModifiedBool(
+        self, entityId: float, spellId: float, modifierType: int, valueType: int = 1, baseValue: bool = False
+    ) -> bool:
         spellModifiers = self.getSpellModifiers(entityId, spellId)
         return spellModifiers.getModifiedBool(modifierType, baseValue, valueType) if spellModifiers else baseValue
 
     def getModifiedInt(self, entityId: float, spellId: float, modifierType: int, baseValue: int = 0) -> int:
         return self.getSpecificModifiedInt(entityId, spellId, modifierType, SpellModifierValueTypeEnum.ALL, baseValue)
 
-    def getSpecificModifiedInt(self, entityId: float, spellId: float, modifierType: int, valueType: int = 1, baseValue: int = 0) -> int:
+    def getSpecificModifiedInt(
+        self, entityId: float, spellId: float, modifierType: int, valueType: int = 1, baseValue: int = 0
+    ) -> int:
         spellModifiers = self.getSpellModifiers(entityId, spellId)
         return spellModifiers.getModifiedInt(modifierType, baseValue, valueType) if spellModifiers else baseValue
 
     def destroy(self):
         type(self)._singleton = None
 
-    def internalSetRawSpellModifier(self, entityId: float, rawSpellModifier: SpellModifierMessage, spellsModifierStats: dict):
+    def internalSetRawSpellModifier(
+        self, entityId: float, rawSpellModifier: SpellModifierMessage, spellsModifierStats: dict
+    ):
         if not self.isValidActionType(rawSpellModifier.actionType):
             Logger().error("Tried to set an invalid raw spell modifier. Ignoring")
             return
@@ -143,4 +149,8 @@ class SpellModifiersManager(metaclass=Singleton):
         spellModifier.applyAction(rawSpellModifier.actionType, rawSpellModifier.equipment, rawSpellModifier.context)
 
     def isValidActionType(self, actionType: int) -> bool:
-        return actionType in [SpellModifierActionTypeEnum.ACTION_SET, SpellModifierActionTypeEnum.ACTION_BOOST, SpellModifierActionTypeEnum.ACTION_DEBOOST]
+        return actionType in [
+            SpellModifierActionTypeEnum.ACTION_SET,
+            SpellModifierActionTypeEnum.ACTION_BOOST,
+            SpellModifierActionTypeEnum.ACTION_DEBOOST,
+        ]

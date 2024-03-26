@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class KickHavenBagRequestMessage(NetworkMessage):
     guestId: int
+
     def init(self, guestId_: int):
         self.guestId = guestId_
-        
+
         super().__init__()
-    

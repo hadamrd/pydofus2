@@ -5,14 +5,13 @@ from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import \
 
 
 class UiApi(IApi):
-    
+
     def __init__(self) -> None:
         super().__init__()
-        
+
     @staticmethod
     def isUiLoading(pUiName):
         return Berilia().loadingUi[pUiName]
-
 
     @staticmethod
     def replaceParams(text, params, replace="%"):

@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ChatActivableChannelsEnum:
 
     CHANNEL_GLOBAL = 0
@@ -31,7 +32,7 @@ class ChatActivableChannelsEnum:
     PSEUDO_CHANNEL_INFO = 10
 
     PSEUDO_CHANNEL_FIGHT_LOG = 11
-    
+
     @classmethod
     def to_name(cls, value):
         for k, v in vars(cls).items():

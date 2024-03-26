@@ -98,10 +98,10 @@ class Signature:
 
         expected_msg_len = decryptedHash.readUnsignedInt()
         signHash = decryptedHash.readUTFBytes(decryptedHash.remaining())[1:]
-        
+
         message_bytes = message.encode("utf-8")
         message_hash = hashlib.md5(message_bytes).hexdigest()[1:]
-        
+
         if signHash and signHash == message_hash and expected_msg_len == len(message_bytes):
             return message_bytes
         else:

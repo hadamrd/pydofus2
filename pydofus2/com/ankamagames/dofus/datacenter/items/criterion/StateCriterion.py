@@ -18,6 +18,7 @@ class StateCriterion(ItemCriterion, IDataCenter):
     def isRespected(self) -> bool:
         from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
             CurrentPlayedFighterManager
+
         states: list = FightersStateManager().getStates(CurrentPlayedFighterManager().currentFighterId)
         if self._operator.text == ItemCriterionOperator.EQUAL:
             return self.criterionValue in states

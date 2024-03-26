@@ -16,6 +16,7 @@ from pydofus2.mapTools import MapTools
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
 
+
 class DataMapProvider(IDataMapProvider, metaclass=Singleton):
     TOLERANCE_ELEVATION = 11
 
@@ -79,11 +80,7 @@ class DataMapProvider(IDataMapProvider, metaclass=Singleton):
             if mov and useNewSystem and previousCellId != -1 and previousCellId != cellId:
                 previousCellData = dataMap.cells[previousCellId]
                 diff = abs(abs(cellData.floor) - abs(previousCellData.floor))
-                if (
-                    previousCellData.moveZone != cellData.moveZone
-                    and diff > 0
-                ) or \
-                (
+                if (previousCellData.moveZone != cellData.moveZone and diff > 0) or (
                     previousCellData.moveZone == cellData.moveZone
                     and cellData.moveZone == 0
                     and diff > self.TOLERANCE_ELEVATION
@@ -178,7 +175,7 @@ class DataMapProvider(IDataMapProvider, metaclass=Singleton):
             if not (o.canWalkTo or (bAllowTroughEntity and o.canSeeThrough)):
                 return True
         return False
-    
+
     def updateCellMovLov(self, cellId: int, canMove: bool) -> None:
         self._updatedCell[cellId] = canMove
 
@@ -190,4 +187,3 @@ class DataMapProvider(IDataMapProvider, metaclass=Singleton):
 
     def resetSpecialEffects(self) -> None:
         self._specialEffects.clear()
-    

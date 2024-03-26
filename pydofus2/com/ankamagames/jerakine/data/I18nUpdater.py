@@ -15,7 +15,7 @@ from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
 
 
 class I18nUpdater(DataUpdateManager, metaclass=Singleton):
-    
+
     def __init__(self):
         super().__init__()
         self._language = None
@@ -50,7 +50,7 @@ class I18nUpdater(DataUpdateManager, metaclass=Singleton):
                     uri = Uri(FileUtils.getFilePath(uri.path) + "/" + file)
                     uri.tag = {
                         "version": meta.clearFile[file],
-                        "file": FileUtils.getFileStartName(uri.uri) + "." + file
+                        "file": FileUtils.getFileStartName(uri.uri) + "." + file,
                     }
                     self._files.append(uri)
                     realCount += 1

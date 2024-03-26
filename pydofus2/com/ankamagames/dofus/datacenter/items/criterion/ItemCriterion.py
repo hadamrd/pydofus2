@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
         ItemCriterionOperator
 
+
 class ItemCriterion(IItemCriterion):
 
     _serverCriterionForm: str
@@ -98,7 +99,7 @@ class ItemCriterion(IItemCriterion):
 
         elif self._criterionRef == "CE":
             readableCriterionRef = I18n.getUiText("ui.common.energyPoints")
-            
+
         else:
             knownCriteriaList = [
                 "CS",
@@ -146,17 +147,18 @@ class ItemCriterion(IItemCriterion):
                 index = knownCriteriaList.index(self._criterionRef)
                 readableCriterionRef = I18n.getUiText("ui.item.characteristics").split(",")[index]
             else:
-                Logger().warn(f"Unknown criteria \'{self._criterionRef}\'")
+                Logger().warn(f"Unknown criteria '{self._criterionRef}'")
         return f"{readableCriterionRef} {self._operator.text} {self._criterionValue}"
 
     def getInfos(self) -> None:
         from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
             ItemCriterionOperator
+
         OPERATORS_LIST = ItemCriterionOperator.OPERATORS_LIST
 
         for operator in OPERATORS_LIST:
             if self._serverCriterionForm.find(operator) == 2:
-                self._operator = ItemCriterionOperator(operator) 
+                self._operator = ItemCriterionOperator(operator)
                 parts = self._serverCriterionForm.split(operator)
                 self._criterionRef = parts[0]
                 try:
@@ -165,7 +167,7 @@ class ItemCriterion(IItemCriterion):
                     self._criterionValue = 0
                 self._criterionValueText = parts[1]
                 break
-    
+
     def getCriterion(self) -> int:
         criterion: int = 0
         player = PlayedCharacterManager()

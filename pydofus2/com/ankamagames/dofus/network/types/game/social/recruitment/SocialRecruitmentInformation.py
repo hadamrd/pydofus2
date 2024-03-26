@@ -18,7 +18,22 @@ class SocialRecruitmentInformation(NetworkMessage):
     minLevelFacultative: bool
     invalidatedByModeration: bool
     recruitmentAutoLocked: bool
-    def init(self, socialId_: int, recruitmentType_: int, recruitmentTitle_: str, recruitmentText_: str, selectedLanguages_: list[int], selectedCriterion_: list[int], minLevel_: int, lastEditPlayerName_: str, lastEditDate_: int, minLevelFacultative_: bool, invalidatedByModeration_: bool, recruitmentAutoLocked_: bool):
+
+    def init(
+        self,
+        socialId_: int,
+        recruitmentType_: int,
+        recruitmentTitle_: str,
+        recruitmentText_: str,
+        selectedLanguages_: list[int],
+        selectedCriterion_: list[int],
+        minLevel_: int,
+        lastEditPlayerName_: str,
+        lastEditDate_: int,
+        minLevelFacultative_: bool,
+        invalidatedByModeration_: bool,
+        recruitmentAutoLocked_: bool,
+    ):
         self.socialId = socialId_
         self.recruitmentType = recruitmentType_
         self.recruitmentTitle = recruitmentTitle_
@@ -31,6 +46,5 @@ class SocialRecruitmentInformation(NetworkMessage):
         self.minLevelFacultative = minLevelFacultative_
         self.invalidatedByModeration = invalidatedByModeration_
         self.recruitmentAutoLocked = recruitmentAutoLocked_
-        
+
         super().__init__()
-    

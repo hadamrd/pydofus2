@@ -9,6 +9,7 @@ class GroupTeleportPlayerOfferMessage(NetworkMessage):
     timeLeft: int
     requesterId: int
     requesterName: str
+
     def init(self, mapId_: int, worldX_: int, worldY_: int, timeLeft_: int, requesterId_: int, requesterName_: str):
         self.mapId = mapId_
         self.worldX = worldX_
@@ -16,6 +17,5 @@ class GroupTeleportPlayerOfferMessage(NetworkMessage):
         self.timeLeft = timeLeft_
         self.requesterId = requesterId_
         self.requesterName = requesterName_
-        
+
         super().__init__()
-    

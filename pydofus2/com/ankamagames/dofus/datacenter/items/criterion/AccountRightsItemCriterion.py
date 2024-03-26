@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 
 class AccountRightsItemCriterion(ItemCriterion):
-    
+
     def __init__(self, pCriterion: str):
         super().__init__(pCriterion)
 
@@ -19,9 +19,9 @@ class AccountRightsItemCriterion(ItemCriterion):
             readableCriterionRef = I18n.getUiText("ui.social.guildHouseRights")
             return f"{readableCriterionRef} {self._operator.text} {readableCriterionValue}"
         return ""
-    
+
     def clone(self) -> "AccountRightsItemCriterion":
         return AccountRightsItemCriterion(self.basicText)
-    
+
     def getCriterion(self) -> int:
         return 0

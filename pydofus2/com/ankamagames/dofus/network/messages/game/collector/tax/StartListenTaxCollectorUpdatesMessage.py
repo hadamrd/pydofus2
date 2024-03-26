@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class StartListenTaxCollectorUpdatesMessage(NetworkMessage):
     taxCollectorId: int
+
     def init(self, taxCollectorId_: int):
         self.taxCollectorId = taxCollectorId_
-        
+
         super().__init__()
-    

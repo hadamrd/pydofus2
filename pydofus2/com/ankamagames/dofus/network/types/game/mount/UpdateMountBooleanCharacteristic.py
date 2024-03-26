@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.types.game.mount.UpdateMountCharacte
 
 class UpdateMountBooleanCharacteristic(UpdateMountCharacteristic):
     value: bool
+
     def init(self, value_: bool, type_: int):
         self.value = value_
-        
+
         super().init(type_)
-    

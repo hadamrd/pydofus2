@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import \
         GameActionMarkedCell
-    
+
 
 class GameActionMark(NetworkMessage):
     markAuthorId: int
@@ -16,9 +16,21 @@ class GameActionMark(NetworkMessage):
     markId: int
     markType: int
     markimpactCell: int
-    cells: list['GameActionMarkedCell']
+    cells: list["GameActionMarkedCell"]
     active: bool
-    def init(self, markAuthorId_: int, markTeamId_: int, markSpellId_: int, markSpellLevel_: int, markId_: int, markType_: int, markimpactCell_: int, cells_: list['GameActionMarkedCell'], active_: bool):
+
+    def init(
+        self,
+        markAuthorId_: int,
+        markTeamId_: int,
+        markSpellId_: int,
+        markSpellLevel_: int,
+        markId_: int,
+        markType_: int,
+        markimpactCell_: int,
+        cells_: list["GameActionMarkedCell"],
+        active_: bool,
+    ):
         self.markAuthorId = markAuthorId_
         self.markTeamId = markTeamId_
         self.markSpellId = markSpellId_
@@ -28,6 +40,5 @@ class GameActionMark(NetworkMessage):
         self.markimpactCell = markimpactCell_
         self.cells = cells_
         self.active = active_
-        
+
         super().__init__()
-    

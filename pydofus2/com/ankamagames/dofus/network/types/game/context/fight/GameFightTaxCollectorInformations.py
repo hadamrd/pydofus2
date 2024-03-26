@@ -12,14 +12,25 @@ if TYPE_CHECKING:
         GameFightCharacteristics
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameFightTaxCollectorInformations(GameFightAIInformations):
     firstNameId: int
     lastNameId: int
-    def init(self, firstNameId_: int, lastNameId_: int, spawnInfo_: 'GameContextBasicSpawnInformation', wave_: int, stats_: 'GameFightCharacteristics', previousPositions_: list[int], look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+
+    def init(
+        self,
+        firstNameId_: int,
+        lastNameId_: int,
+        spawnInfo_: "GameContextBasicSpawnInformation",
+        wave_: int,
+        stats_: "GameFightCharacteristics",
+        previousPositions_: list[int],
+        look_: "EntityLook",
+        contextualId_: int,
+        disposition_: "EntityDispositionInformations",
+    ):
         self.firstNameId = firstNameId_
         self.lastNameId = lastNameId_
-        
+
         super().init(spawnInfo_, wave_, stats_, previousPositions_, look_, contextualId_, disposition_)
-    

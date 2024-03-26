@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.common.AbstractPlayerSearchInformation import \
         AbstractPlayerSearchInformation
-    
+
 
 class BasicWhoIsNoMatchMessage(NetworkMessage):
-    target: 'AbstractPlayerSearchInformation'
-    def init(self, target_: 'AbstractPlayerSearchInformation'):
+    target: "AbstractPlayerSearchInformation"
+
+    def init(self, target_: "AbstractPlayerSearchInformation"):
         self.target = target_
-        
+
         super().__init__()
-    

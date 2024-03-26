@@ -12,7 +12,7 @@ from pydofus2.com.ankamagames.jerakine.resources.adapters.AbstractUrlLoaderAdapt
 
 
 class MapsAdapter(AbstractUrlLoaderAdapter):
-    
+
     def __init__(self):
         super().__init__()
 
@@ -21,7 +21,7 @@ class MapsAdapter(AbstractUrlLoaderAdapter):
             raise TypeError("Expected bytes or bytearray")
         ba = BinaryStream(BytesIO(data), True)
         header = ba.readByte()
-        if header != ord('M'):
+        if header != ord("M"):
             ba.position = 0
             try:
                 data = zlib.decompress(data)
@@ -30,7 +30,7 @@ class MapsAdapter(AbstractUrlLoaderAdapter):
                 self.dispatchFailure("Wrong header and non-compressed file.", ResourceErrorCode.MALFORMED_MAP_FILE)
                 return None
             header = ba.readByte()
-            if header != ord('M'):
+            if header != ord("M"):
                 self.dispatchFailure("Wrong header file.", ResourceErrorCode.MALFORMED_MAP_FILE)
                 return None
         ba.position = 0

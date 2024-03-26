@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class IgnoredDeleteRequestMessage(NetworkMessage):
     accountId: int
     session: bool
+
     def init(self, accountId_: int, session_: bool):
         self.accountId = accountId_
         self.session = session_
-        
+
         super().__init__()
-    

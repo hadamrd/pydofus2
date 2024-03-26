@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AlignmentWarEffortDonatePreviewMessage(NetworkMessage):
     xp: int
+
     def init(self, xp_: int):
         self.xp = xp_
-        
+
         super().__init__()
-    

@@ -4,6 +4,5 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ExchangeSellOkMessage(NetworkMessage):
     def init(self):
-        
+
         super().__init__()
-    

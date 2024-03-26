@@ -9,7 +9,15 @@ from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 class IProtocol(Poolable, ABC):
     @abstractmethod
-    def load(self, uri: Uri, observer: IResourceObserver, dispatchProgress: bool, cache: ICache, forcedAdapter: type, singleFile:bool) -> None:
+    def load(
+        self,
+        uri: Uri,
+        observer: IResourceObserver,
+        dispatchProgress: bool,
+        cache: ICache,
+        forcedAdapter: type,
+        singleFile: bool,
+    ) -> None:
         pass
 
     @abstractmethod

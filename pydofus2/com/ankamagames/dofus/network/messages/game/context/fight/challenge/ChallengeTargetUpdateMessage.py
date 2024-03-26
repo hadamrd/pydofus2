@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class ChallengeTargetUpdateMessage(NetworkMessage):
     challengeId: int
     targetId: int
+
     def init(self, challengeId_: int, targetId_: int):
         self.challengeId = challengeId_
         self.targetId = targetId_
-        
+
         super().__init__()
-    

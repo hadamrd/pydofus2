@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class KamasUpdateMessage(NetworkMessage):
     kamasTotal: int
+
     def init(self, kamasTotal_: int):
         self.kamasTotal = kamasTotal_
-        
+
         super().__init__()
-    

@@ -27,7 +27,11 @@ class Node:
         self.heuristic = 0
         if parent is not None:
             self.moveCost = parent.moveCost + 1
-            manhattanDistance = min(abs(self.map.posX - MapPosition.getMapPositionById(d.mapId).posX) + abs(self.map.posY - MapPosition.getMapPositionById(d.mapId).posY) for d in astar.destinations)
+            manhattanDistance = min(
+                abs(self.map.posX - MapPosition.getMapPositionById(d.mapId).posX)
+                + abs(self.map.posY - MapPosition.getMapPositionById(d.mapId).posY)
+                for d in astar.destinations
+            )
             self.heuristic = self.HEURISTIC_SCALE * manhattanDistance + (
                 astar.INDOOR_WEIGHT if parent.map.outdoor and not self.map.outdoor else 0
             )

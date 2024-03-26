@@ -1,4 +1,3 @@
-
 import pydofus2.com.ankamagames.jerakine.network.NetworkMessage as bnm
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageDataField as nmdf
 from pydofus2.com.ankamagames.jerakine.logger.Logger import TraceLogger
@@ -12,7 +11,7 @@ from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
 
 class NetworkMessageClassDefinition:
     TRACE = False
-    
+
     def __init__(self, className: str, raw: ByteArray) -> None:
         classSpec = ProtocolSpec.getClassSpecByName(className)
         self.parent = classSpec.parent
@@ -28,7 +27,9 @@ class NetworkMessageClassDefinition:
             inst = childInstance
 
         if self.TRACE:
-            TraceLogger().debug("------------------ Deserializing {} STARTED-----------------".format(self.cls.__name__))
+            TraceLogger().debug(
+                "------------------ Deserializing {} STARTED-----------------".format(self.cls.__name__)
+            )
 
         if self.parent is not None:
             if self.TRACE:
@@ -67,13 +68,15 @@ class NetworkMessageClassDefinition:
                 raise KeyboardInterrupt
             setattr(inst, attrib, value)
         if self.TRACE:
-            TraceLogger().debug("------------------ Deserializing {} ENDED---------------------".format(self.cls.__name__))
+            TraceLogger().debug(
+                "------------------ Deserializing {} ENDED---------------------".format(self.cls.__name__)
+            )
 
         if inst.__class__.__base__ == bnm.NetworkMessage:
             bnm.NetworkMessage.__init__(inst)
 
         return inst
-    
+
     @classmethod
     def readBooleans(cls, boolfields: list[FieldSpec], raw: ByteArray):
         ans = {}

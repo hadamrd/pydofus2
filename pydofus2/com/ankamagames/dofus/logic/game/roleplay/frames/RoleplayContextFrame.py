@@ -105,7 +105,7 @@ class RoleplayContextFrame(Frame):
     def havenbagEnter(self, ownerId=None):
         if ownerId is None:
             ownerId = PlayedCharacterManager().id
-        enterhbrmsg = EnterHavenBagRequestMessage();
+        enterhbrmsg = EnterHavenBagRequestMessage()
         enterhbrmsg.init(int(ownerId))
         ConnectionsHandler().send(enterhbrmsg)
 
@@ -167,40 +167,50 @@ class RoleplayContextFrame(Frame):
             Logger().debug(f"Obtained item {iw.name} ({msg.genericId}) x {qty}")
             KernelEventsManager().send(KernelEvent.ObtainedItem, iw, qty)
             return True
-        
+
         elif isinstance(msg, ExchangeRequestedTradeMessage):
             self.addCommonExchangeFrame(ExchangeTypeEnum.PLAYER_TRADE)
             if not Kernel().exchangeManagementFrame:
                 Kernel().worker.addFrame(self._exchangeManagementFrame)
                 Kernel().exchangeManagementFrame.processExchangeRequestedTradeMessage(msg)
             return True
-        
+
         elif isinstance(msg, ExchangeStartedMessage):
             commonExchangeFrame = Kernel().commonExchangeManagementFrame
             if commonExchangeFrame:
                 commonExchangeFrame.resetEchangeSequence()
-            if msg.exchangeType in [ExchangeTypeEnum.CRAFT, ExchangeTypeEnum.MULTICRAFT_CRAFTER, ExchangeTypeEnum.MULTICRAFT_CUSTOMER, ExchangeTypeEnum.RUNES_TRADE]:
+            if msg.exchangeType in [
+                ExchangeTypeEnum.CRAFT,
+                ExchangeTypeEnum.MULTICRAFT_CRAFTER,
+                ExchangeTypeEnum.MULTICRAFT_CUSTOMER,
+                ExchangeTypeEnum.RUNES_TRADE,
+            ]:
                 self.addCraftFrame()
-            elif msg.exchangeType in [ExchangeTypeEnum.BIDHOUSE_BUY, ExchangeTypeEnum.BIDHOUSE_SELL, ExchangeTypeEnum.PLAYER_TRADE, ExchangeTypeEnum.RECYCLE_TRADE]:
+            elif msg.exchangeType in [
+                ExchangeTypeEnum.BIDHOUSE_BUY,
+                ExchangeTypeEnum.BIDHOUSE_SELL,
+                ExchangeTypeEnum.PLAYER_TRADE,
+                ExchangeTypeEnum.RECYCLE_TRADE,
+            ]:
                 pass  # Placeholder for the remaining cases
             self.addCommonExchangeFrame(msg.exchangeType)
             if not Kernel().worker.contains("ExchangeManagementFrame"):
                 Kernel().worker.addFrame(self._exchangeManagementFrame)
             self._exchangeManagementFrame.process(msg)
             return True
-        
+
         elif isinstance(msg, (ZaapDestinationsMessage, TeleportDestinationsMessage)):
             if not Kernel().worker.contains("ZaapFrame"):
-                Kernel().worker.addFrame(self._zaapFrame);
-                return self._zaapFrame.process(msg);
-            return False;
+                Kernel().worker.addFrame(self._zaapFrame)
+                return self._zaapFrame.process(msg)
+            return False
 
         elif isinstance(msg, LeaveDialogMessage):
             KernelEventsManager().send(KernelEvent.LeaveDialog)
             return False
-        
+
         if isinstance(msg, JobAllowMultiCraftRequestMessage):
-            
+
             if isinstance(msg, JobMultiCraftAvailableSkillsMessage):
                 if msg.enabled:
                     self._add_or_update_multi_craft_skill(msg.playerId, msg.skills)
@@ -211,9 +221,9 @@ class RoleplayContextFrame(Frame):
                 KernelEventsManager().send(KernelEvent.JobAllowMultiCraftRequest, msg.enabled)
 
             return True
-        
+
         return False
-    
+
     def _add_or_update_multi_craft_skill(self, playerId, skills):
         for mcefplayer in self._playersMultiCraftSkill:
             if mcefplayer.playerId == playerId:
@@ -225,7 +235,9 @@ class RoleplayContextFrame(Frame):
         self._playersMultiCraftSkill.append(mcefp)
 
     def _remove_multi_craft_skill(self, playerId):
-        self._playersMultiCraftSkill = [player for player in self._playersMultiCraftSkill if player.playerId != playerId]
+        self._playersMultiCraftSkill = [
+            player for player in self._playersMultiCraftSkill if player.playerId != playerId
+        ]
 
     def addCommonExchangeFrame(self, exchangeType):
         if not Kernel().commonExchangeManagementFrame:
@@ -240,12 +252,13 @@ class RoleplayContextFrame(Frame):
         Kernel().worker.removeFrame(self._interactivesFrame)
         return True
 
+
 class MultiCraftEnableForPlayer(object):
-    
-    playerId:float
-    
-    skills:list[int]
-    
+
+    playerId: float
+
+    skills: list[int]
+
     def __init__(self, playerId, skills):
         self.playerId = playerId
         self.skills = skills

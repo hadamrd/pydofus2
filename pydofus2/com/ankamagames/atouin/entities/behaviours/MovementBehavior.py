@@ -3,7 +3,8 @@ from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
     PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementCancelMessage import GameMapMovementCancelMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementCancelMessage import \
+    GameMapMovementCancelMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 if TYPE_CHECKING:
@@ -11,9 +12,11 @@ if TYPE_CHECKING:
         AnimatedCharacter
     from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
         MovementPath
+
+
 class MovementBehavior(threading.Thread):
-    
-    def __init__(self, clientMovePath: 'MovementPath', callback, parent: 'AnimatedCharacter'=None):
+
+    def __init__(self, clientMovePath: "MovementPath", callback, parent: "AnimatedCharacter" = None):
         super().__init__(name=threading.currentThread().name)
         self.parent = parent
         self.movePath = clientMovePath
@@ -21,7 +24,7 @@ class MovementBehavior(threading.Thread):
         self.stopEvt = threading.Event()
         self.running = threading.Event()
         self.callback = callback
-        
+
     def stop(self, callback=None):
         self.stopEvt.set()
 
@@ -29,7 +32,8 @@ class MovementBehavior(threading.Thread):
         return self.running.is_set()
 
     def tearDown(self, success):
-        from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+        from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
+            ConnectionsHandler
 
         if not success:
             Logger().warning(f"Movement animation interrupted")
@@ -58,4 +62,3 @@ class MovementBehavior(threading.Thread):
                 return self.tearDown(False)
             self.currStep = pe
         self.tearDown(True)
-

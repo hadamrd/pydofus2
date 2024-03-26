@@ -14,12 +14,25 @@ if TYPE_CHECKING:
         GameFightResumeSlaveInfo
     from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import \
         GameFightSpellCooldown
-    
+
 
 class GameFightResumeWithSlavesMessage(GameFightResumeMessage):
-    slavesInfo: list['GameFightResumeSlaveInfo']
-    def init(self, slavesInfo_: list['GameFightResumeSlaveInfo'], spellCooldowns_: list['GameFightSpellCooldown'], summonCount_: int, bombCount_: int, effects_: list['FightDispellableEffectExtendedInformations'], marks_: list['GameActionMark'], gameTurn_: int, fightStart_: int, fxTriggerCounts_: list['GameFightEffectTriggerCount']):
+    slavesInfo: list["GameFightResumeSlaveInfo"]
+
+    def init(
+        self,
+        slavesInfo_: list["GameFightResumeSlaveInfo"],
+        spellCooldowns_: list["GameFightSpellCooldown"],
+        summonCount_: int,
+        bombCount_: int,
+        effects_: list["FightDispellableEffectExtendedInformations"],
+        marks_: list["GameActionMark"],
+        gameTurn_: int,
+        fightStart_: int,
+        fxTriggerCounts_: list["GameFightEffectTriggerCount"],
+    ):
         self.slavesInfo = slavesInfo_
-        
-        super().init(spellCooldowns_, summonCount_, bombCount_, effects_, marks_, gameTurn_, fightStart_, fxTriggerCounts_)
-    
+
+        super().init(
+            spellCooldowns_, summonCount_, bombCount_, effects_, marks_, gameTurn_, fightStart_, fxTriggerCounts_
+        )

@@ -8,12 +8,19 @@ if TYPE_CHECKING:
         BasicNamedAllianceInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import \
         SocialEmblem
-    
+
 
 class AlliancedGuildFactSheetInformations(GuildInformations):
-    allianceInfos: 'BasicNamedAllianceInformations'
-    def init(self, allianceInfos_: 'BasicNamedAllianceInformations', guildEmblem_: 'SocialEmblem', guildId_: int, guildName_: str, guildLevel_: int):
+    allianceInfos: "BasicNamedAllianceInformations"
+
+    def init(
+        self,
+        allianceInfos_: "BasicNamedAllianceInformations",
+        guildEmblem_: "SocialEmblem",
+        guildId_: int,
+        guildName_: str,
+        guildLevel_: int,
+    ):
         self.allianceInfos = allianceInfos_
-        
+
         super().init(guildEmblem_, guildId_, guildName_, guildLevel_)
-    

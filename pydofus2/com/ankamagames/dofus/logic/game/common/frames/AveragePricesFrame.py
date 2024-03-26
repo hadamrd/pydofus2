@@ -29,22 +29,17 @@ class PricesData(object):
     def __init__(self):
         self.lastUpdate: datetime = datetime.now()
         self.items = dict[int, float]()
-    
+
     def __json__(self):
-        return {
-            "lastUpdate": self.lastUpdate.isoformat(),
-            "items": self.items
-        }
-    
+        return {"lastUpdate": self.lastUpdate.isoformat(), "items": self.items}
+
     def __dict__(self):
-        return {
-            "lastUpdate": self.lastUpdate.isoformat(),
-            "items": self.items
-        }
-    
+        return {"lastUpdate": self.lastUpdate.isoformat(), "items": self.items}
+
     def clear(self):
         self.items = None
         self.lastUpdate = None
+
 
 class AveragePricesFrame(Frame):
     def __init__(self):
@@ -86,12 +81,12 @@ class AveragePricesFrame(Frame):
         return True
 
     def process(self, msg: Message) -> bool:
-        
+
         if isinstance(msg, GameContextCreateMessage):
             if msg.context == GameContextEnum.ROLE_PLAY and not self.pricesDataAsked:
                 self.askPricesData()
             return False
-        
+
         if isinstance(msg, ObjectAveragePricesMessage):
             if self.askDataTimer:
                 self.askDataTimer.cancel()
@@ -123,7 +118,7 @@ class AveragePricesFrame(Frame):
             ):
                 return False
         return True
-    
+
     def getItemAveragePrice(self, guid):
         return self._pricesData.items.get(guid)
 

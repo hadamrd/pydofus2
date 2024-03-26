@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AnomalyOpenedMessage(NetworkMessage):
     subAreaId: int
+
     def init(self, subAreaId_: int):
         self.subAreaId = subAreaId_
-        
+
         super().__init__()
-    

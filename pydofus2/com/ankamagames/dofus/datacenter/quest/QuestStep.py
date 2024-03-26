@@ -35,7 +35,7 @@ class QuestStep(IDataCenter):
 
     duration: float
 
-    _currentLevelRewards: 'QuestStepRewards' = None
+    _currentLevelRewards: "QuestStepRewards" = None
 
     objectiveIds: list[int]
 
@@ -148,6 +148,7 @@ class QuestStep(IDataCenter):
     def initCurrentLevelRewards(self) -> None:
         from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStepRewards import \
             QuestStepRewards
+
         playerLvl: int = PlayedCharacterManager().limitedLevel
         if (
             self._currentLevelRewards == None

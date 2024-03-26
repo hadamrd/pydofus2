@@ -42,7 +42,7 @@ class NetMsgDataField:
     @property
     def type(self) -> str:
         if not self._type:
-            self._type = self._spec. type
+            self._type = self._spec.type
         return self._type
 
     @type.setter
@@ -54,13 +54,13 @@ class NetMsgDataField:
         if self._length is None:
             self._length = self._spec.length
         return self._length
-    
+
     @length.setter
     def length(self, val):
         if val < 0:
             raise ValueError(f"Vector length can't be assigned a negative value '{val}'")
         self._length = val
-    
+
     @property
     def lengthTypeId(self) -> int:
         return self._spec.lengthTypeId
@@ -103,7 +103,9 @@ class NetMsgDataField:
             if self.TRACE:
                 TraceLogger().debug(f"Read Vector length = {self.length}")
         if self.TRACE:
-            TraceLogger().debug(f"==> Deserialising Vector<{self.typename}> of length {self.length}, remaining bytes {self._raw.remaining()}")
+            TraceLogger().debug(
+                f"==> Deserialising Vector<{self.typename}> of length {self.length}, remaining bytes {self._raw.remaining()}"
+            )
         ret = []
         for i in range(self.length):
             if self._spec.isPrimitive():

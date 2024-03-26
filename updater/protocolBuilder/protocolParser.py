@@ -23,30 +23,18 @@ TO_PTYPE = {
 class ProtocolParser:
     CLASS_PATTERN = r"\s*public class (?P<name>\w+) (?:extends (?P<parent>\w+) )?implements (?P<interface>\w+)\n"
     ID_PATTERN = r"\s*public static const protocolId:uint = (?P<id>\d+);\n"
-    PUBLIC_VAR_PATTERN = (
-        r"\s*public var (?P<name>\w+):(?P<type>\S+)( = (?P<init>.*))?;\n"
-    )
+    PUBLIC_VAR_PATTERN = r"\s*public var (?P<name>\w+):(?P<type>\S+)( = (?P<init>.*))?;\n"
     VECTOR_TYPE_PATTERN = r"Vector\.<(?P<type>\S+)>"
     ATTR_ASSIGN_PATTERN_OF_NAME = r"\s*this\.%s = (?:\w*)\.read(?P<type>\w*)\(\);\n"
-    VECTOR_ATTR_WRITE_PATTERN_OF_NAME = (
-        r"\s*(?:\w*)\.write(?P<type>\w*)\(this\.%s\[(?:\w+)\]\);\n"
-    )
-    VECTOR_LEN_WRITE_PATTERN_OF_NAME = (
-        r"\s*(?:\w*)\.write(?P<type>\w*)\(this\.%s\.length\);\n"
-    )
-    VECTOR_CONST_LEN_PATTERN_OF_NAME_AND_TYPE = (
-        r"\s*this\.%s = new Vector\.<%s>\((?P<size>\d+),true\);\n"
-    )
-    DYNAMIC_TYPE_PATTERN_OF_TYPE = (
-        r"\s*(?:this\.)?\w+ = ProtocolTypeManager\.getInstance\((?:\w+\.)*%s,\w*\);\n"
-    )
+    VECTOR_ATTR_WRITE_PATTERN_OF_NAME = r"\s*(?:\w*)\.write(?P<type>\w*)\(this\.%s\[(?:\w+)\]\);\n"
+    VECTOR_LEN_WRITE_PATTERN_OF_NAME = r"\s*(?:\w*)\.write(?P<type>\w*)\(this\.%s\.length\);\n"
+    VECTOR_CONST_LEN_PATTERN_OF_NAME_AND_TYPE = r"\s*this\.%s = new Vector\.<%s>\((?P<size>\d+),true\);\n"
+    DYNAMIC_TYPE_PATTERN_OF_TYPE = r"\s*(?:this\.)?\w+ = ProtocolTypeManager\.getInstance\((?:\w+\.)*%s,\w*\);\n"
     OPTIONAL_VAR_PATTERN_OF_NAME = r"\s*if\(this\.%s == null\)\n"
     HASH_FUNCTION_PATTERN = r"\s*HASH_FUNCTION\(data\);\n"
-    WRAPPED_BOOLEAN_PATTERN = (
-        r"\s*this.(?P<name>\w+) = BooleanByteWrapper\.getFlag\(.*;\n"
-    )
+    WRAPPED_BOOLEAN_PATTERN = r"\s*this.(?P<name>\w+) = BooleanByteWrapper\.getFlag\(.*;\n"
 
-    json:dict = {"type": {}, "msg_by_id": {}, "type_by_id": {}}
+    json: dict = {"type": {}, "msg_by_id": {}, "type_by_id": {}}
 
     def run(self, src_paths):
         self.getMsgTypesFromSrcs(src_paths)
@@ -70,10 +58,8 @@ class ProtocolParser:
                 msg_type[name] = {
                     "name": name,
                     "path": as_file_path,
-                    "package": "pydofus2." + ".".join(
-                        as_file_path.parts[as_file_path.parts.index("com"):-1]
-                        + (name,)
-                    ),
+                    "package": "pydofus2."
+                    + ".".join(as_file_path.parts[as_file_path.parts.index("com") : -1] + (name,)),
                 }
             self.json["type"].update(msg_type)
 
@@ -200,7 +186,9 @@ class ProtocolParser:
             for line in lines:
                 m = re.fullmatch(self.CLASS_PATTERN, line)
                 if m:
-                    assert m.group("name") == msg_type["name"], f"matched parent type {m.group('name')} but was expecting {msg_type['name']} in \nfile : {msg_type['path']}\nline :\n {line}"
+                    assert (
+                        m.group("name") == msg_type["name"]
+                    ), f"matched parent type {m.group('name')} but was expecting {msg_type['name']} in \nfile : {msg_type['path']}\nline :\n {line}"
                     parent = m.group("parent")
                     if not self.json["type"].get(parent):
                         parent = None
@@ -246,12 +234,8 @@ class ProtocolParser:
 
 
 def parseVersion(metaDataAs):
-    PROTOCOL_BUILD_REGX = (
-        '^\s*public static const PROTOCOL_BUILD:String = "(?P<protocol_build>.*)";'
-    )
-    PROTOCOL_DATE_REGX = (
-        '^\s*public static const PROTOCOL_DATE:String = "(?P<protocol_date>.*)";'
-    )
+    PROTOCOL_BUILD_REGX = '^\s*public static const PROTOCOL_BUILD:String = "(?P<protocol_build>.*)";'
+    PROTOCOL_DATE_REGX = '^\s*public static const PROTOCOL_DATE:String = "(?P<protocol_date>.*)";'
     with open(metaDataAs, "r") as fp:
         lines = list(fp.readlines())
         for line in lines:
@@ -273,9 +257,7 @@ if __name__ == "__main__":
         src_dir / "scripts/com/ankamagames/dofus/network/messages",
     ]
     protocol_json = {}
-    version, date = parseVersion(
-        src_dir / "scripts/com/ankamagames/dofus/network/Metadata.as"
-    )
+    version, date = parseVersion(src_dir / "scripts/com/ankamagames/dofus/network/Metadata.as")
     protocol_json["version"] = version
     protocol_json["date"] = date
 

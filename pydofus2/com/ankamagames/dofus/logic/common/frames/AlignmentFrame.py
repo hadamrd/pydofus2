@@ -46,7 +46,7 @@ class AlignmentFrame(Frame):
     @property
     def playerRank(self):
         return self._alignmentRank
-    
+
     def setEnablePVPRequest(self, enable: bool):
         seprmsg = SetEnablePVPRequestMessage()
         seprmsg.init(enable)
@@ -55,16 +55,16 @@ class AlignmentFrame(Frame):
     def characterAlignmentWarEffortProgressionRequest(self):
         caweprm = CharacterAlignmentWarEffortProgressionRequestMessage()
         ConnectionsHandler().send(caweprm)
-        
+
     def alignmentWarEffortProgressionRequest(self):
         aweprm = AlignmentWarEffortProgressionRequestMessage()
         ConnectionsHandler().send(aweprm)
-        
+
     def alignmentWarEffortDonateAction(self, donation):
         awedrqm = AlignmentWarEffortDonateRequestMessage()
         awedrqm.init(donation)
         ConnectionsHandler().send(awedrqm)
-        
+
     def process(self, msg) -> bool:
 
         if isinstance(msg, AlignmentRankUpdateMessage):
@@ -76,10 +76,11 @@ class AlignmentFrame(Frame):
 
         elif isinstance(msg, CharacterAlignmentWarEffortProgressionMessage):
             cawepm = msg
-            KernelEventsManager().send(KernelEvent.CharacterAlignmentWarEffortProgressionHook,
+            KernelEventsManager().send(
+                KernelEvent.CharacterAlignmentWarEffortProgressionHook,
                 cawepm.alignmentWarEffortDailyLimit,
                 cawepm.alignmentWarEffortDailyDonation,
-                cawepm.alignmentWarEffortPersonalDonation
+                cawepm.alignmentWarEffortPersonalDonation,
             )
             return True
 
@@ -92,9 +93,8 @@ class AlignmentFrame(Frame):
                     bontaParticipation = ainfo.alignmentWarEffort
                 if ainfo.alignmentSide == AlignmentSideEnum.ALIGNMENT_EVIL:
                     brakmarParticipation = ainfo.alignmentWarEffort
-            KernelEventsManager().send(KernelEvent.AlignmentWarEffortProgressionMessageHook,
-                bontaParticipation,
-                brakmarParticipation
+            KernelEventsManager().send(
+                KernelEvent.AlignmentWarEffortProgressionMessageHook, bontaParticipation, brakmarParticipation
             )
             return True
 

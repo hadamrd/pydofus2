@@ -6,14 +6,14 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeam import \
         NamedPartyTeam
-    
+
 
 class NamedPartyTeamWithOutcome(NetworkMessage):
-    team: 'NamedPartyTeam'
+    team: "NamedPartyTeam"
     outcome: int
-    def init(self, team_: 'NamedPartyTeam', outcome_: int):
+
+    def init(self, team_: "NamedPartyTeam", outcome_: int):
         self.team = team_
         self.outcome = outcome_
-        
+
         super().__init__()
-    

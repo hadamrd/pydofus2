@@ -80,41 +80,41 @@ class Challenge:
 
     def getTurnsNumberForCompletion(self):
         if not self.completionCriterion:
-            return float('nan')
+            return float("nan")
         for criteria in self.completionCriterion.split("&"):
             if "ST<" in criteria:
                 criteriaData = criteria.split("ST<")
                 if len(criteriaData) < 2:
-                    return float('nan')
+                    return float("nan")
                 return float(criteriaData[1])
-        return float('nan')
+        return float("nan")
 
     def getBoundBossId(self):
         if not self.activationCriterion:
-            return float('nan')
+            return float("nan")
         for criteria in self.activationCriterion.split("&"):
             if "GM>" in criteria:
                 criteriaData = criteria.split(",")
                 if len(criteriaData) < 2:
-                    return float('nan')
+                    return float("nan")
                 return float(criteriaData[1])
-        return float('nan')
+        return float("nan")
 
     def getTargetMonsterId(self):
         return self.targetMonsterId
 
     def getPlayersNumberType(self):
         if not self.activationCriterion:
-            return float('nan')
+            return float("nan")
         for criteria in self.activationCriterion.split("&"):
             if "GN<" in criteria:
                 criteriaData = criteria.split("<")
                 if len(criteriaData) < 2:
-                    return float('nan')
+                    return float("nan")
                 criteriaParams = criteriaData[1]
                 if criteriaParams:
                     return float(criteriaParams.split(",")[0])
-                return float('nan')
-        return float('nan')
-    
+                return float("nan")
+        return float("nan")
+
     idAccessors = IdAccessors(getChallengeById, getChallenges)

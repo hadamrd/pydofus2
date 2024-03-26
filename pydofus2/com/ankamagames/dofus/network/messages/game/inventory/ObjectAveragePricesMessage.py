@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class ObjectAveragePricesMessage(NetworkMessage):
     ids: list[int]
     avgPrices: list[int]
+
     def init(self, ids_: list[int], avgPrices_: list[int]):
         self.ids = ids_
         self.avgPrices = avgPrices_
-        
+
         super().__init__()
-    

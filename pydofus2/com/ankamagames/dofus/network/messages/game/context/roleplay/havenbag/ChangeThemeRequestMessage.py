@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ChangeThemeRequestMessage(NetworkMessage):
     theme: int
+
     def init(self, theme_: int):
         self.theme = theme_
-        
+
         super().__init__()
-    

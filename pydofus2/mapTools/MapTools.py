@@ -215,7 +215,8 @@ def getZone(direction):
         return LEFT_COL_CELLS
     elif direction == DirectionsEnum.RIGHT:
         return RIGHT_COL_CELLS
-    
+
+
 def isLeftCol(cellId):
     return cellId % MAP_GRID_WIDTH == 0
 
@@ -231,35 +232,38 @@ def isTopRow(cellId):
 def isBottomRow(cellId):
     return cellId > 531
 
+
 LEFT_COL_CELLS = set([i for i in range(CELLCOUNT) if isLeftCol(i)])
 RIGHT_COL_CELLS = set([i for i in range(CELLCOUNT) if isRightCol(i)])
 TOP_ROW_CELLS = set([i for i in range(CELLCOUNT) if isTopRow(i)])
 BOT_ROW_CELLS = set([i for i in range(CELLCOUNT) if isBottomRow(i)])
 
+
 def allowsMapChange(currentMap: "Map", cellId, direction: int):
     direction = DirectionsEnum(direction)
     mapChangeData = currentMap.cells[cellId].mapChangeData
-    
+
     if direction == DirectionsEnum.RIGHT:
         isOnRightEdge = (cellId + 1) % (AtouinConstants.MAP_WIDTH * 2) == 0
         canChangeMapWith = (mapChangeData & 1) or (isOnRightEdge and ((mapChangeData & 2) or (mapChangeData & 128)))
-        
+
     elif direction == DirectionsEnum.DOWN:
         isOnBottomEdge = cellId >= AtouinConstants.MAP_CELLS_COUNT - AtouinConstants.MAP_WIDTH
         canChangeMapWith = (mapChangeData & 4) or (isOnBottomEdge and ((mapChangeData & 2) or (mapChangeData & 8)))
-        
-    elif direction == DirectionsEnum.LEFT:        
+
+    elif direction == DirectionsEnum.LEFT:
         isOnLeftEdge = cellId % (AtouinConstants.MAP_WIDTH * 2) == 0
         canChangeMapWith = (mapChangeData & 16) or (isOnLeftEdge and ((mapChangeData & 8) or (mapChangeData & 32)))
-        
+
     elif direction == DirectionsEnum.UP:
         isOnTopEdge = cellId < AtouinConstants.MAP_WIDTH
         canChangeMapWith = (mapChangeData & 64) or (isOnTopEdge and ((mapChangeData & 32) or (mapChangeData & 128)))
-        
+
     else:
         canChangeMapWith = False
     return canChangeMapWith
-    
+
+
 def iterMapChangeCells(direction):
     from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
         MapDisplayManager
@@ -272,30 +276,32 @@ def iterMapChangeCells(direction):
         return None
     playerCellId = playedEntity.position.cellId
     myLinkedZone = currentMap.cells[playerCellId].linkedZoneRP
-    
+
     visited = [False] * AtouinConstants.MAP_CELLS_COUNT
     queue = [(0, playerCellId)]
-    
+
     while queue:
         cost, cellId = heapq.heappop(queue)
         if visited[cellId]:
             continue
         visited[cellId] = True
-        
+
         cell = currentMap.cells[cellId]
         if cell.mov and cell.linkedZoneRP == myLinkedZone and allowsMapChange(currentMap, cellId, direction):
             yield cellId
-            
+
         for child in iterChilds(cellId):
             if not visited[child]:
                 heapq.heappush(queue, (cost + 1, child))
+
 
 def distanceBetweenTwoMaps(mapIdA, mapIdB):
     mpA = MapPosition.getMapPositionById(mapIdA)
     mpB = MapPosition.getMapPositionById(mapIdB)
     return abs(mpA.posX - mpB.posX) + abs(mpA.posY - mpB.posY)
 
+
 def distL2Maps(mapIdA, mapIdB):
     mpA = MapPosition.getMapPositionById(mapIdA)
     mpB = MapPosition.getMapPositionById(mapIdB)
-    return math.sqrt((mpA.posX - mpB.posX)**2 + (mpA.posY - mpB.posY)**2)
+    return math.sqrt((mpA.posX - mpB.posX) ** 2 + (mpA.posY - mpB.posY) ** 2)

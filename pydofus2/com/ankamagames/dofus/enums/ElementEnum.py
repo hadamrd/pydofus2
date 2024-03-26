@@ -17,7 +17,7 @@ class ElementEnum:
     ELEMENT_NONE: int = 5
 
     ELEMENT_BEST: int = 6
-    
+
     _values_for_1 = {82, 89, 95, 100, 143, 144, 279, 671, 672, 1012, 1071, 1092, 1124, 1224, 3001}
     _values_for_2 = {86, 92, 97, 276, 1016, 1063, 1070, 1096, 1128, 1228, 3000}
     _values_for_3 = {88, 94, 99, 108, 278, 1015, 1037, 1066, 1069, 1094, 1126, 1226}
@@ -25,7 +25,7 @@ class ElementEnum:
     _values_for_5 = {81}
     _values_for_6 = {2822, 2828, 2829, 2830, 3002}
     _values_for_7 = {2832, 2890, 2891}
-    
+
     def __init__(self):
         pass
 
@@ -38,7 +38,7 @@ class ElementEnum:
         elif actionId in cls._values_for_3:
             return 3
         elif actionId in cls._values_for_4:
-            return 4        
+            return 4
         if actionId in cls._values_for_5:
             return 5
         elif actionId in cls._values_for_6:

@@ -178,14 +178,15 @@ class MapPoint:
         angle = (angle - 1) % 8 + 1
         return angle
 
-    def doesChangeZone(self, mp: 'MapPoint'):
+    def doesChangeZone(self, mp: "MapPoint"):
         from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
             MapDisplayManager
+
         cellData1 = MapDisplayManager().currentDataMap.cells[self.cellId]
         cellData2 = MapDisplayManager().currentDataMap.cells[mp.cellId]
         diff = abs(abs(cellData1.floor) - abs(cellData2.floor))
         return cellData1.moveZone != cellData2.moveZone and diff == 0
-    
+
     def advancedOrientationTo2(self, target: "MapPoint", fourDir: bool = True) -> int:
         if target is None:
             return 0
@@ -405,10 +406,13 @@ class MapPoint:
     def is_walkable(self, base_cell_id):
         from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
             DataMapProvider
+
         dmp = DataMapProvider()
-        return (dmp.pointMov(self.x, self.y, True, base_cell_id) and
-                dmp.pointMov(self.x - 1, self.y, True, base_cell_id) and
-                dmp.pointMov(self.x, self.y - 1, True, base_cell_id))
+        return (
+            dmp.pointMov(self.x, self.y, True, base_cell_id)
+            and dmp.pointMov(self.x - 1, self.y, True, base_cell_id)
+            and dmp.pointMov(self.x, self.y - 1, True, base_cell_id)
+        )
 
     def has_walkable_neighbors(self):
         for direction in range(8):
@@ -416,14 +420,15 @@ class MapPoint:
             if neighbor and neighbor.is_walkable(self.cellId):
                 return True
         return False
-    
+
     def hasNoLinkedZoneRP(self):
         from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
             MapDisplayManager
+
         celss = MapDisplayManager().dataMap.cells
         cell_data = celss[self.cellId]
         return not cell_data.hasLinkedZoneRP()
-        
+
     def getForbidenCellsInVicinity(self):
         forbidden_cells_ids = set()
         for direction in range(8):

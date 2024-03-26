@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GuildSpellUpgradeRequestMessage(NetworkMessage):
     spellId: int
+
     def init(self, spellId_: int):
         self.spellId = spellId_
-        
+
         super().__init__()
-    

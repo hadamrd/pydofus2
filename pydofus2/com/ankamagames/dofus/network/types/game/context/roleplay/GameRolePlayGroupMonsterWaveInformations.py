@@ -10,14 +10,25 @@ if TYPE_CHECKING:
         GroupMonsterStaticInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameRolePlayGroupMonsterWaveInformations(GameRolePlayGroupMonsterInformations):
     nbWaves: int
-    alternatives: list['GroupMonsterStaticInformations']
-    def init(self, nbWaves_: int, alternatives_: list['GroupMonsterStaticInformations'], staticInfos_: 'GroupMonsterStaticInformations', lootShare_: int, alignmentSide_: int, hasHardcoreDrop_: bool, look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+    alternatives: list["GroupMonsterStaticInformations"]
+
+    def init(
+        self,
+        nbWaves_: int,
+        alternatives_: list["GroupMonsterStaticInformations"],
+        staticInfos_: "GroupMonsterStaticInformations",
+        lootShare_: int,
+        alignmentSide_: int,
+        hasHardcoreDrop_: bool,
+        look_: "EntityLook",
+        contextualId_: int,
+        disposition_: "EntityDispositionInformations",
+    ):
         self.nbWaves = nbWaves_
         self.alternatives = alternatives_
-        
+
         super().init(staticInfos_, lootShare_, alignmentSide_, hasHardcoreDrop_, look_, contextualId_, disposition_)
-    

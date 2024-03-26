@@ -1,4 +1,3 @@
-
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -105,12 +104,12 @@ class PartyFrame(Frame):
         plmsg = PartyLeaveRequestMessage()
         plmsg.init(self.currentPartyId)
         ConnectionsHandler().send(plmsg)
-    
+
     def sendRefusePartyinvite(self, partyId):
         pirmsg = PartyRefuseInvitationMessage()
         pirmsg.init(partyId)
         ConnectionsHandler().send(pirmsg)
-    
+
     def sendAcceptPartyInvite(self, partyId):
         paimsg = PartyAcceptInvitationMessage()
         paimsg.init(partyId)
@@ -168,10 +167,15 @@ class PartyFrame(Frame):
                 member = self.partyMembers[msg.memberId]
                 member.worldX = msg.coords.worldX
                 member.worldY = msg.coords.worldY
-                legend = I18n.getUiText("ui.cartography.positionof",[member.name]) + f" ({msg.coords.worldX}, {msg.coords.worldY})"
+                legend = (
+                    I18n.getUiText("ui.cartography.positionof", [member.name])
+                    + f" ({msg.coords.worldX}, {msg.coords.worldY})"
+                )
                 Logger().info(legend)
             else:
-                KernelEventsManager().send(KernelEvent.ClientRestart, f"Seems ig we are in party but not modeled yet in party frame")
+                KernelEventsManager().send(
+                    KernelEvent.ClientRestart, f"Seems ig we are in party but not modeled yet in party frame"
+                )
             return True
 
         elif isinstance(msg, PartyMemberInStandardFightMessage):
@@ -219,12 +223,14 @@ class PartyFrame(Frame):
                 for ctxid, member in self.partyMembers.items():
                     if msg.guestId == ctxid:
                         guestRefusingId = ctxid
-                        pcinGuestName = member.name;
+                        pcinGuestName = member.name
                     if msg.cancelerId == ctxid:
-                        pcinCancelerName = member.name;
+                        pcinCancelerName = member.name
                 if guestRefusingId:
                     del self.partyMembers[guestRefusingId]
-                pcinText = I18n().getUiText("ui.party.invitationCancelled",[pcinCancelerName,pcinGuestName])
+                pcinText = I18n().getUiText("ui.party.invitationCancelled", [pcinCancelerName, pcinGuestName])
                 Logger().warning(f"{pcinText}")
-                KernelEventsManager().send(KernelEvent.PartyInviteCancel, msg.partyId, msg.guestId, msg.cancelerId, pcinText)
+                KernelEventsManager().send(
+                    KernelEvent.PartyInviteCancel, msg.partyId, msg.guestId, msg.cancelerId, pcinText
+                )
                 return True

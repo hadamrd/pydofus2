@@ -1,4 +1,3 @@
-
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -129,7 +128,7 @@ class MountFrame(Frame):
     def pulled(self):
         Logger().info("MountFrame pulled")
         return True
-    
+
     def initializeMountLists(self, stables, paddocks):
         self._stableList = []
         if stables:
@@ -140,7 +139,6 @@ class MountFrame(Frame):
         if paddocks:
             for mcd in paddocks:
                 self._paddockList.append(MountData.makeMountData(mcd, True, self._mountXpRatio))
-
 
     def mountInformationInPaddockRequest(self, mountId):
         miiprmsg = MountInformationInPaddockRequestMessage()
@@ -197,8 +195,8 @@ class MountFrame(Frame):
         vecLength = len(idsVector)
         while vecLength > 0:
             if vecLength > ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT:
-                proxVector = idsVector[:ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT]
-                idsVector = idsVector[ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT:]
+                proxVector = idsVector[: ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT]
+                idsVector = idsVector[ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT :]
             else:
                 proxVector = idsVector
                 vecLength = 0
@@ -215,9 +213,9 @@ class MountFrame(Frame):
         mhcurmsg = MountHarnessColorsUpdateRequestMessage()
         mhcurmsg.init(useHarnessColors)
         ConnectionsHandler().send(mhcurmsg)
-        
+
     def process(self, msg: Message):
-        
+
         if isinstance(msg, MountSterilizedMessage):
             mountId = msg.mountId
             mount = MountData.getMountFromCache(mountId)
@@ -236,7 +234,7 @@ class MountFrame(Frame):
                 KernelEventsManager().send(KernelEvent.MountStableUpdate, self._stableList, None, None)
             KernelEventsManager().send(KernelEvent.MountRenamed, mountId, mountName)
             return True
-        
+
         if isinstance(msg, ExchangeMountsStableAddMessage):
             if self._stableList:
                 for mountData in msg.mountDescription:
@@ -278,9 +276,13 @@ class MountFrame(Frame):
 
         if isinstance(msg, MountDataMessage):
             if self._mountDialogFrame.inStable:
-                KernelEventsManager().send(KernelEvent.CertificateMountData, MountData.makeMountData(msg.mountData, False, self.mountXpRatio))
+                KernelEventsManager().send(
+                    KernelEvent.CertificateMountData, MountData.makeMountData(msg.mountData, False, self.mountXpRatio)
+                )
             else:
-                KernelEventsManager().send(KernelEvent.PaddockedMountData, MountData.makeMountData(msg.mountData, False, self.mountXpRatio))
+                KernelEventsManager().send(
+                    KernelEvent.PaddockedMountData, MountData.makeMountData(msg.mountData, False, self.mountXpRatio)
+                )
             return True
 
         if isinstance(msg, MountRidingMessage):
@@ -424,9 +426,17 @@ class MountFrame(Frame):
 
         elif isinstance(msg, ExchangeMountsTakenFromPaddockMessage):
             emtfpmsg = msg
-            takenMessage = I18n.getUiText("ui.mount.takenFromPaddock", [emtfpmsg.name, f"[{emtfpmsg.worldX}, {emtfpmsg.worldY}]", emtfpmsg.ownername])
+            takenMessage = I18n.getUiText(
+                "ui.mount.takenFromPaddock",
+                [emtfpmsg.name, f"[{emtfpmsg.worldX}, {emtfpmsg.worldY}]", emtfpmsg.ownername],
+            )
             Logger().info(takenMessage)
-            KernelEventsManager().send(KernelEvent.TextInformation, takenMessage, ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO, TimeManager().getTimestamp())
+            KernelEventsManager().send(
+                KernelEvent.TextInformation,
+                takenMessage,
+                ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                TimeManager().getTimestamp(),
+            )
             return True
 
         elif isinstance(msg, MountReleasedMessage):

@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.web.haapi.BufferInformation import \
         BufferInformation
-    
+
 
 class HaapiBufferListMessage(NetworkMessage):
-    buffers: list['BufferInformation']
-    def init(self, buffers_: list['BufferInformation']):
+    buffers: list["BufferInformation"]
+
+    def init(self, buffers_: list["BufferInformation"]):
         self.buffers = buffers_
-        
+
         super().__init__()
-    

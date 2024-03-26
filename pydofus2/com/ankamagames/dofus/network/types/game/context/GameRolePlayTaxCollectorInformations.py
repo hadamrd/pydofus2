@@ -10,14 +10,21 @@ if TYPE_CHECKING:
         TaxCollectorStaticInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameRolePlayTaxCollectorInformations(GameRolePlayActorInformations):
-    identification: 'TaxCollectorStaticInformations'
+    identification: "TaxCollectorStaticInformations"
     taxCollectorAttack: int
-    def init(self, identification_: 'TaxCollectorStaticInformations', taxCollectorAttack_: int, look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+
+    def init(
+        self,
+        identification_: "TaxCollectorStaticInformations",
+        taxCollectorAttack_: int,
+        look_: "EntityLook",
+        contextualId_: int,
+        disposition_: "EntityDispositionInformations",
+    ):
         self.identification = identification_
         self.taxCollectorAttack = taxCollectorAttack_
-        
+
         super().init(look_, contextualId_, disposition_)
-    

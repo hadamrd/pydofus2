@@ -2,6 +2,7 @@ from typing import Dict
 
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 
+
 class AccountManager:
     _singleton = None
 
@@ -34,7 +35,7 @@ class AccountManager:
 
     def setAccountFromId(self, playerId: float, accountId: int, accountName: str = None):
         _roleplayEntityFrame = Kernel().roleplayEntitiesFrame
-        
+
         if _roleplayEntityFrame:
             entityInfo = _roleplayEntityFrame.getEntityInfos(playerId)
             if entityInfo:

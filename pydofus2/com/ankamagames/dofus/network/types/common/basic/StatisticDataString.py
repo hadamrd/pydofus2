@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.types.common.basic.StatisticData imp
 
 class StatisticDataString(StatisticData):
     value: str
+
     def init(self, value_: str):
         self.value = value_
-        
+
         super().init()
-    

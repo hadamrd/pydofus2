@@ -13,25 +13,25 @@ from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import \
 class MovementPath:
 
     MAX_PATH_LENGTH = 100.0
-    
+
     WALK_HORIZONTAL_DIAG_DURATION_MEAN = 0.5390895873608917
     WALK_HORIZONTAL_DIAG_DURATION_VAR = 0.001067391740768872
-    
+
     WALK_VERTICAL_DIAG_DURATION_MEAN = 0.5497773144868948
     WALK_VERTICAL_DIAG_DURATION_VAR = 0.002915269054054996
-    
+
     WALK_LINEAR_DURATION_MEAN = 0.41758097349105827
     WALK_LINEAR_DURATION_VAR = 7.474874375074591e-05
-    
+
     RUN_HORIZONTAL_DIAG_DURATION_MEAN = 0.45367340545271156
     RUN_HORIZONTAL_DIAG_DURATION_VAR = 0.00034615919722585025
-    
+
     RUN_VERTICAL_DIAG_DURATION_MEAN = 0.17209191803287516
     RUN_VERTICAL_DIAG_DURATION_VAR = 8.024245923248129e-05
-    
+
     RUN_LINEAR_DURATION_MEAN = 0.1426003061828884
     RUN_LINEAR_DURATION_VAR = 7.64093133014606e-06
-    
+
     MOUNT_WALK_HORIZONTAL_DIAG_DURATION_MEAN = 0.49119408032942263
     MOUNT_WALK_HORIZONTAL_DIAG_DURATION_VAR = 3.989744728559326e-05
 
@@ -53,45 +53,51 @@ class MovementPath:
     @property
     def walkHorizontalDiagDuration(self):
         if PlayedCharacterManager().isRiding:
-            return random.gauss(self.MOUNT_WALK_HORIZONTAL_DIAG_DURATION_MEAN, self.MOUNT_WALK_HORIZONTAL_DIAG_DURATION_VAR)
+            return random.gauss(
+                self.MOUNT_WALK_HORIZONTAL_DIAG_DURATION_MEAN, self.MOUNT_WALK_HORIZONTAL_DIAG_DURATION_VAR
+            )
         else:
             return random.gauss(self.WALK_HORIZONTAL_DIAG_DURATION_MEAN, self.WALK_HORIZONTAL_DIAG_DURATION_VAR)
-    
+
     @property
     def walkVerticalDiagDuration(self):
         if PlayedCharacterManager().isRiding:
-            return random.gauss(self.MOUNT_WALK_VERTICAL_DIAG_DURATION_MEAN, self.MOUNT_WALK_VERTICAL_DIAG_DURATION_VAR)
+            return random.gauss(
+                self.MOUNT_WALK_VERTICAL_DIAG_DURATION_MEAN, self.MOUNT_WALK_VERTICAL_DIAG_DURATION_VAR
+            )
         else:
             return random.gauss(self.WALK_VERTICAL_DIAG_DURATION_MEAN, self.WALK_VERTICAL_DIAG_DURATION_VAR)
-    
+
     @property
     def walkLinearDuration(self):
         if PlayedCharacterManager().isRiding:
             return random.gauss(self.MOUNT_WALK_LINEAR_DURATION_MEAN, self.MOUNT_WALK_LINEAR_DURATION_VAR)
         else:
             return random.gauss(self.WALK_LINEAR_DURATION_MEAN, self.WALK_LINEAR_DURATION_VAR)
-    
+
     @property
     def runHorizontalDiagDuration(self):
         if PlayedCharacterManager().isRiding:
-            return random.gauss(self.MOUNT_RUN_HORIZONTAL_DIAG_DURATION_MEAN, self.MOUNT_RUN_HORIZONTAL_DIAG_DURATION_VAR)
+            return random.gauss(
+                self.MOUNT_RUN_HORIZONTAL_DIAG_DURATION_MEAN, self.MOUNT_RUN_HORIZONTAL_DIAG_DURATION_VAR
+            )
         else:
             return random.gauss(self.RUN_HORIZONTAL_DIAG_DURATION_MEAN, self.RUN_HORIZONTAL_DIAG_DURATION_VAR)
-    
+
     @property
     def runVerticalDiagDuration(self):
         if PlayedCharacterManager().isRiding:
             return random.gauss(self.MOUNT_RUN_VERTICAL_DIAG_DURATION_MEAN, self.MOUNT_RUN_VERTICAL_DIAG_DURATION_VAR)
         else:
             return random.gauss(self.RUN_VERTICAL_DIAG_DURATION_MEAN, self.RUN_VERTICAL_DIAG_DURATION_VAR)
-    
+
     @property
     def runLinearDuration(self):
         if PlayedCharacterManager().isRiding:
             return random.gauss(self.RUN_LINEAR_DURATION_MEAN, self.RUN_LINEAR_DURATION_VAR)
         else:
             return random.gauss(self.MOUNT_RUN_LINEAR_DURATION_MEAN, self.MOUNT_RUN_LINEAR_DURATION_VAR)
-        
+
     def getStepDuration(self, orientation) -> float:
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
             PlayedCharacterManager
@@ -119,7 +125,7 @@ class MovementPath:
                     return self.runVerticalDiagDuration
             else:
                 return self.runLinearDuration
-            
+
     def __init__(self):
         super().__init__()
         self._oEnd = MapPoint()
@@ -272,7 +278,7 @@ class MovementPath:
         clonePath.end = self._oEnd
         clonePath.path = self._aPath.copy()
         return clonePath
-    
+
     def keyMoves(self) -> list[int]:
         self.compress()
         movement: list[int] = list[int]()

@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.dofus.network.types.game.paddock.PaddockInformatio
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.paddock.MountInformationsForPaddock import \
         MountInformationsForPaddock
-    
+
 
 class PaddockContentInformations(PaddockInformations):
     paddockId: int
@@ -15,8 +15,20 @@ class PaddockContentInformations(PaddockInformations):
     mapId: int
     subAreaId: int
     abandonned: bool
-    mountsInformations: list['MountInformationsForPaddock']
-    def init(self, paddockId_: int, worldX_: int, worldY_: int, mapId_: int, subAreaId_: int, abandonned_: bool, mountsInformations_: list['MountInformationsForPaddock'], maxOutdoorMount_: int, maxItems_: int):
+    mountsInformations: list["MountInformationsForPaddock"]
+
+    def init(
+        self,
+        paddockId_: int,
+        worldX_: int,
+        worldY_: int,
+        mapId_: int,
+        subAreaId_: int,
+        abandonned_: bool,
+        mountsInformations_: list["MountInformationsForPaddock"],
+        maxOutdoorMount_: int,
+        maxItems_: int,
+    ):
         self.paddockId = paddockId_
         self.worldX = worldX_
         self.worldY = worldY_
@@ -24,6 +36,5 @@ class PaddockContentInformations(PaddockInformations):
         self.subAreaId = subAreaId_
         self.abandonned = abandonned_
         self.mountsInformations = mountsInformations_
-        
+
         super().init(maxOutdoorMount_, maxItems_)
-    

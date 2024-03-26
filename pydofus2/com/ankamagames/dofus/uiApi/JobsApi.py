@@ -21,16 +21,18 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class JobsApi(IApi):
-    
+
     def __init__(self) -> None:
         super().__init__()
-    
-    @classmethod
-    def getRecipe(cls, objectId:int) -> Recipe: 
-        return Recipe.getRecipeByResultId(objectId);
 
     @classmethod
-    def getRecipesByJob(cls, details, skillId=0, jobId=0, fromBank=False, missingIngredientsTolerance=8) -> List[Recipe]:
+    def getRecipe(cls, objectId: int) -> Recipe:
+        return Recipe.getRecipeByResultId(objectId)
+
+    @classmethod
+    def getRecipesByJob(
+        cls, details, skillId=0, jobId=0, fromBank=False, missingIngredientsTolerance=8
+    ) -> List[Recipe]:
         allRecipes = []
         recipes = []
         if skillId > 0:
@@ -61,16 +63,17 @@ class JobsApi(IApi):
                 if missingIngredients < 0:
                     continue
                 if (
-                    (foundIngredients == len(recipe.ingredientIds) and foundIngredientsQty >= requiredQty) or
-                    (missingIngredientsTolerance == 8) or
-                    (missingIngredientsTolerance > 0 and foundIngredients + missingIngredientsTolerance >= len(recipe.ingredientIds))
+                    (foundIngredients == len(recipe.ingredientIds) and foundIngredientsQty >= requiredQty)
+                    or (missingIngredientsTolerance == 8)
+                    or (
+                        missingIngredientsTolerance > 0
+                        and foundIngredients + missingIngredientsTolerance >= len(recipe.ingredientIds)
+                    )
                 ):
                     recipes.append(recipe)
                     occurences.sort()
                     if recipe.resultId not in details:
-                        details[recipe.resultId] = {
-                            "actualMaxOccurence": occurences[0]
-                        }
+                        details[recipe.resultId] = {"actualMaxOccurence": occurences[0]}
                     else:
                         details[recipe.resultId]["actualMaxOccurence"] = occurences[0]
                     if fromBank:
@@ -83,14 +86,22 @@ class JobsApi(IApi):
         return recipes
 
     @staticmethod
-    def getJobFilteredRecipes(recipes: List['Recipe'], resultTypes: List, minLevel: int = 1, maxLevel: int = 1, search: str = None, typeId: int = 0) -> List['Recipe']:
+    def getJobFilteredRecipes(
+        recipes: List["Recipe"],
+        resultTypes: List,
+        minLevel: int = 1,
+        maxLevel: int = 1,
+        search: str = None,
+        typeId: int = 0,
+    ) -> List["Recipe"]:
         okForLevel = False
         okForType = False
         okForSearch = False
         recipesResult = []
         if search:
-            search = ''.join(c for c in unicodedata.normalize('NFD', search) 
-                            if unicodedata.category(c) != 'Mn').lower()
+            search = "".join(
+                c for c in unicodedata.normalize("NFD", search) if unicodedata.category(c) != "Mn"
+            ).lower()
         for recipe in recipes:
             if recipe:
                 okForLevel = False
@@ -123,12 +134,12 @@ class JobsApi(IApi):
                     if okForType:
                         recipesResult.append(recipe)
         return recipesResult
-    
+
     @classmethod
     def sortRecipesByCriteria(cls, recipes, sortCriteria, sortDescending):
         cls.sortRecipes(recipes, sortCriteria, 1 if sortDescending else -1)
         return recipes
-    
+
     @classmethod
     def sortRecipes(cls, recipes: list[Recipe], criteria, way=1):
         if criteria == "level":
@@ -138,17 +149,18 @@ class JobsApi(IApi):
 
     @classmethod
     def compareLevel(cls, way=1):
-        def comparison(a:Recipe, b:Recipe):
+        def comparison(a: Recipe, b: Recipe):
             if a.resultLevel < b.resultLevel:
                 return -way
             if a.resultLevel > b.resultLevel:
                 return way
             return a.resultName < b.resultName
+
         return comparison
 
     @classmethod
     def comparePrice(cls, way=1):
-        def comparison(a:Recipe, b:Recipe):
+        def comparison(a: Recipe, b: Recipe):
             aL = Kernel().averagePricesFrame.pricesData["items"][a.resultId]
             bL = Kernel().averagePricesFrame.pricesData["items"][b.resultId]
             if not aL:
@@ -160,6 +172,7 @@ class JobsApi(IApi):
             if aL > bL:
                 return way
             return a.resultName < b.resultName
+
         return comparison
 
     @classmethod
@@ -175,7 +188,7 @@ class JobsApi(IApi):
             if sd.skillId == skillId:
                 return sd
         return None
-    
+
     @classmethod
     def getKnownJobs(cls):
         knownJobs = [kj for kj in PlayedCharacterManager().jobs.values() if kj is not None]
@@ -221,7 +234,7 @@ class JobsApi(IApi):
             return job.name
         Logger().error(f"We want the name of a non-existing job (id : {pJobId})")
         return ""
-    
+
     @classmethod
     def getInventoryData(cls, fromBank=False):
         details = {}
@@ -238,14 +251,14 @@ class JobsApi(IApi):
                         "stackQtyList": [ingredient.quantity],
                         "fromBag": [False],
                         "storageTotalQuantity": ingredient.quantity,
-                        "weight": ingredient.weight
+                        "weight": ingredient.weight,
                     }
                 else:
-                    details[ingredient.objectGID]['totalQuantity'] += ingredient.quantity
-                    details[ingredient.objectGID]['stackUidList'].append(ingredient.objectUID)
-                    details[ingredient.objectGID]['stackQtyList'].append(ingredient.quantity)
-                    details[ingredient.objectGID]['fromBag'].append(False)
-                    details[ingredient.objectGID]['storageTotalQuantity'] += ingredient.quantity
+                    details[ingredient.objectGID]["totalQuantity"] += ingredient.quantity
+                    details[ingredient.objectGID]["stackUidList"].append(ingredient.objectUID)
+                    details[ingredient.objectGID]["stackQtyList"].append(ingredient.quantity)
+                    details[ingredient.objectGID]["fromBag"].append(False)
+                    details[ingredient.objectGID]["storageTotalQuantity"] += ingredient.quantity
         if fromBank:
             bagItems = InventoryManager().inventory.getView("storage").content
             for ingredient in bagItems:
@@ -256,11 +269,11 @@ class JobsApi(IApi):
                             "stackUidList": [ingredient.objectUID],
                             "stackQtyList": [ingredient.quantity],
                             "fromBag": [True],
-                            "weight": ingredient.weight
+                            "weight": ingredient.weight,
                         }
                     else:
-                        details[ingredient.objectGID]['totalQuantity'] += ingredient.quantity
-                        details[ingredient.objectGID]['stackUidList'].append(ingredient.objectUID)
-                        details[ingredient.objectGID]['stackQtyList'].append(ingredient.quantity)
-                        details[ingredient.objectGID]['fromBag'].append(True)
+                        details[ingredient.objectGID]["totalQuantity"] += ingredient.quantity
+                        details[ingredient.objectGID]["stackUidList"].append(ingredient.objectUID)
+                        details[ingredient.objectGID]["stackQtyList"].append(ingredient.quantity)
+                        details[ingredient.objectGID]["fromBag"].append(True)
         return details

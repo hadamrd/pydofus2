@@ -18,7 +18,7 @@ class AbstractResourceLoader(IResourceObserver, EventsHandler):
     RES_CACHE_PREFIX = "RES_"
 
     def __init__(self):
-        self._cache:ICache = None
+        self._cache: ICache = None
         self._completed = False
         self._filesLoaded = 0
         self._filesTotal = 0
@@ -71,7 +71,9 @@ class AbstractResourceLoader(IResourceObserver, EventsHandler):
         if self.hasListener(ResourceEvent.ERROR):
             self.send(ResourceEvent.ERROR, uri, errorMsg, errorCode)
         else:
-            Logger().error("[Error code " + str(hex(errorCode)) + "] Unable to load resource " + str(uri) + ": " + errorMsg)
+            Logger().error(
+                "[Error code " + str(hex(errorCode)) + "] Unable to load resource " + str(uri) + ": " + errorMsg
+            )
         if self._filesLoaded == self._filesTotal:
             self.dispatchComplete()
 

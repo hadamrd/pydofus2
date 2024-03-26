@@ -22,13 +22,7 @@ class LoginValidationAction(AbstractAction, Action, IDontLogThisMessage):
 
     @classmethod
     def create(
-        cls,
-        username: str,
-        password: str,
-        autoSelectServer: bool,
-        serverId: int = 0,
-        host: str = None,
-        *args
+        cls, username: str, password: str, autoSelectServer: bool, serverId: int = 0, host: str = None, *args
     ) -> "LoginValidationAction":
         a: LoginValidationAction = LoginValidationAction(args)
         a.password = password

@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInformationsForGuild import \
         HouseInformationsForGuild
-    
+
 
 class GuildHouseUpdateInformationMessage(NetworkMessage):
-    housesInformations: 'HouseInformationsForGuild'
-    def init(self, housesInformations_: 'HouseInformationsForGuild'):
+    housesInformations: "HouseInformationsForGuild"
+
+    def init(self, housesInformations_: "HouseInformationsForGuild"):
         self.housesInformations = housesInformations_
-        
+
         super().__init__()
-    

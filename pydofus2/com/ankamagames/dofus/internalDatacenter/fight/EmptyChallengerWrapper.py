@@ -18,7 +18,7 @@ class EmptyChallengeWrapper(ChallengeWrapper):
 
     @property
     def id(self):
-        return float('nan')
+        return float("nan")
 
     @property
     def state(self):

@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasure
 class TreasureHuntStepFollowDirectionToHint(TreasureHuntStep):
     direction: int
     npcId: int
+
     def init(self, direction_: int, npcId_: int):
         self.direction = direction_
         self.npcId = npcId_
-        
+
         super().init()
-    

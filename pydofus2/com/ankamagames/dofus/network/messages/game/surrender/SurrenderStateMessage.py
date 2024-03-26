@@ -7,9 +7,9 @@ class SurrenderStateMessage(NetworkMessage):
     permitVote: bool
     canSurrender: bool
     permitVote: bool
+
     def init(self, canSurrender_: bool, permitVote_: bool):
         self.canSurrender = canSurrender_
         self.permitVote = permitVote_
-        
+
         super().__init__()
-    

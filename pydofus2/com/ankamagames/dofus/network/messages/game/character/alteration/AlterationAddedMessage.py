@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.character.alteration.AlterationInfo import \
         AlterationInfo
-    
+
 
 class AlterationAddedMessage(NetworkMessage):
-    alteration: 'AlterationInfo'
-    def init(self, alteration_: 'AlterationInfo'):
+    alteration: "AlterationInfo"
+
+    def init(self, alteration_: "AlterationInfo"):
         self.alteration = alteration_
-        
+
         super().__init__()
-    

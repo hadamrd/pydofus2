@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorInformations import \
         TaxCollectorInformations
-    
+
 
 class ConfirmationOfListeningTaxCollectorUpdatesMessage(NetworkMessage):
-    information: 'TaxCollectorInformations'
-    def init(self, information_: 'TaxCollectorInformations'):
+    information: "TaxCollectorInformations"
+
+    def init(self, information_: "TaxCollectorInformations"):
         self.information = information_
-        
+
         super().__init__()
-    

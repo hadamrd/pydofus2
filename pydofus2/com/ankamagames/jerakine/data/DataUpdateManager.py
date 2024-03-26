@@ -42,7 +42,11 @@ class DataUpdateManager(EventsHandler):
         self.initMetaFileListe()
 
     def initMetaFileListe(self):
-        self._versions = [] if self._clearAll else StoreDataManager().getSetData(JerakineConstants.DATASTORE_FILES_INFO, self._storeKey, [])
+        self._versions = (
+            []
+            if self._clearAll
+            else StoreDataManager().getSetData(JerakineConstants.DATASTORE_FILES_INFO, self._storeKey, [])
+        )
         self._files = []
         self._loader = ResourceLoaderFactory.getLoader(ResourceLoaderType.SERIAL_LOADER)
         self._loader.on(ResourceEvent.LOADER_COMPLETE, self.onComplete)
@@ -60,7 +64,7 @@ class DataUpdateManager(EventsHandler):
     def checkFileVersion(self, sFileName, sVersion):
         return self._versions[sFileName] == sVersion
 
-    def onLoaded(self, uri:Uri, resource):
+    def onLoaded(self, uri: Uri, resource):
         if uri.fileType == "meta":
             meta = LangMetaData.fromXml(resource, uri.uri, self.checkFileVersion)
             for file in meta.clearFile:
@@ -74,8 +78,12 @@ class DataUpdateManager(EventsHandler):
         elif uri.fileType == "swf":
             self._dataFilesLoaded = True
             container = resource
-            StoreDataManager().setData(JerakineConstants.DATASTORE_FILES_INFO, container.moduleName + "_filelist", container.fileList)
-            StoreDataManager().setData(JerakineConstants.DATASTORE_FILES_INFO, container.moduleName + "_chunkLength", container.chunkLength)
+            StoreDataManager().setData(
+                JerakineConstants.DATASTORE_FILES_INFO, container.moduleName + "_filelist", container.fileList
+            )
+            StoreDataManager().setData(
+                JerakineConstants.DATASTORE_FILES_INFO, container.moduleName + "_chunkLength", container.chunkLength
+            )
             self._loadedFileCount += 1
 
     def onLoadFailed(self, uri: Uri):

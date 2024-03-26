@@ -8,14 +8,14 @@ if TYPE_CHECKING:
         ObjectItemToSellInBid
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.SellerBuyerDescriptor import \
         SellerBuyerDescriptor
-    
+
 
 class ExchangeStartedBidSellerMessage(NetworkMessage):
-    sellerDescriptor: 'SellerBuyerDescriptor'
-    objectsInfos: list['ObjectItemToSellInBid']
-    def init(self, sellerDescriptor_: 'SellerBuyerDescriptor', objectsInfos_: list['ObjectItemToSellInBid']):
+    sellerDescriptor: "SellerBuyerDescriptor"
+    objectsInfos: list["ObjectItemToSellInBid"]
+
+    def init(self, sellerDescriptor_: "SellerBuyerDescriptor", objectsInfos_: list["ObjectItemToSellInBid"]):
         self.sellerDescriptor = sellerDescriptor_
         self.objectsInfos = objectsInfos_
-        
+
         super().__init__()
-    

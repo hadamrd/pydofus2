@@ -111,7 +111,7 @@ class Transition:
 
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     def to_json(self):
         return {
             "type": self._type,
@@ -122,7 +122,7 @@ class Transition:
             "cell": self._cell,
             "id": self._id,
         }
-        
+
     def clone(self):
         return Transition(
             self._type,

@@ -8,12 +8,14 @@ if TYPE_CHECKING:
         EntityDispositionInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameRolePlayTreasureHintInformations(GameRolePlayActorInformations):
     npcId: int
-    def init(self, npcId_: int, look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+
+    def init(
+        self, npcId_: int, look_: "EntityLook", contextualId_: int, disposition_: "EntityDispositionInformations"
+    ):
         self.npcId = npcId_
-        
+
         super().init(look_, contextualId_, disposition_)
-    

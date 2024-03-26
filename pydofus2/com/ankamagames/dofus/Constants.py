@@ -1,5 +1,5 @@
-import os
 import json
+import os
 from pathlib import Path
 
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
@@ -77,7 +77,7 @@ if not DOFUS_HOME:
 
 if not LOGS_DIR:
     LOGS_DIR = Path(os.getenv("LOGS_DIR")) if os.getenv("LOGS_DIR") else None
-    
+
 if not DOFUS_HOME:
     raise Exception("DOFUS_HOME not found in settings and not found in environment variables!")
 

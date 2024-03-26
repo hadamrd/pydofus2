@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party
 
 class PartyRestrictedMessage(AbstractPartyMessage):
     restricted: bool
+
     def init(self, restricted_: bool, partyId_: int):
         self.restricted = restricted_
-        
+
         super().init(partyId_)
-    

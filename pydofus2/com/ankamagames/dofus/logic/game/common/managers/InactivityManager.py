@@ -28,7 +28,9 @@ class InactivityManager(metaclass=Singleton):
         self.popupApi = None  # Replace with actual PopupApi
         self._isAfk = False
         self._inactivityTimer = BenchmarkTimer(self.INACTIVITY_DELAY / 1000, self.onActivityTimerUp)
-        self._inactivityWarningPopupTimer = BenchmarkTimer(self.INACTIVITY_DELAY_WARNING_POPUP / 1000, self.onActivityPopupTimerUp)
+        self._inactivityWarningPopupTimer = BenchmarkTimer(
+            self.INACTIVITY_DELAY_WARNING_POPUP / 1000, self.onActivityPopupTimerUp
+        )
         self._serverActivityTimer = BenchmarkTimer(self.SERVER_INACTIVITY_DELAY / 1000, self.onServerActivityTimerUp)
         self._paused = False
         self._hasActivity = False
@@ -63,7 +65,7 @@ class InactivityManager(metaclass=Singleton):
 
     def update_server_inactivity_delay(self):
         server_inactivity_delay = self.SERVER_INACTIVITY_DELAY
-        if FeatureManager().isFeatureWithKeywordEnabled('FAST_PING'):
+        if FeatureManager().isFeatureWithKeywordEnabled("FAST_PING"):
             server_inactivity_delay = self.SERVER_INACTIVITY_SPEED_PING_DELAY
         self._serverActivityTimer.cancel()
         self._serverActivityTimer = BenchmarkTimer()(server_inactivity_delay / 1000, self.onServerActivityTimerUp)
@@ -77,7 +79,9 @@ class InactivityManager(metaclass=Singleton):
         self._inactivityWarningPopupTimer.cancel()
         self._inactivityTimer.cancel()
         if not self._paused:
-            self._inactivityWarningPopupTimer = BenchmarkTimer(self.INACTIVITY_DELAY_WARNING_POPUP / 1000, self.onActivityPopupTimerUp)
+            self._inactivityWarningPopupTimer = BenchmarkTimer(
+                self.INACTIVITY_DELAY_WARNING_POPUP / 1000, self.onActivityPopupTimerUp
+            )
             self._inactivityWarningPopupTimer.start()
             self._inactivityTimer = BenchmarkTimer(self.INACTIVITY_DELAY / 1000, self.onActivityTimerUp)
             self._inactivityTimer.start()
@@ -100,7 +104,9 @@ class InactivityManager(metaclass=Singleton):
 
     def onActivityTimerUp(self):
         # InfoMessage and DisconnectionHandlerFrame are assumed to be defined elsewhere
-        inactivity_message_text = InfoMessage.getInfoMessageById(self.MESSAGE_TYPE_ID * 10000 + self.DISCONNECTED_FOR_INACTIVITY_MESSAGE_ID).text
+        inactivity_message_text = InfoMessage.getInfoMessageById(
+            self.MESSAGE_TYPE_ID * 10000 + self.DISCONNECTED_FOR_INACTIVITY_MESSAGE_ID
+        ).text
         KernelEventsManager().send(KernelEvent.ClientCrashed, inactivity_message_text)
 
     def onServerActivityTimerUp(self):
@@ -108,6 +114,7 @@ class InactivityManager(metaclass=Singleton):
             self._hasActivity = False
             self.server_notification()
         self.resetServerActivity()
+
 
 # Example usage:
 # inactivity_manager = InactivityManager.get_instance()

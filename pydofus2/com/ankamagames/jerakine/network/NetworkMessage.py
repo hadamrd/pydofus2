@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
         NetworkDataContainerMessage
 
+
 class NetworkMessage(INetworkMessage):
 
     GLOBAL_INSTANCE_ID: int = 0
@@ -90,7 +91,7 @@ class NetworkMessage(INetworkMessage):
         if cls.__name__ == "NetworkDataContainerMessage":
             return cls.deserializeAs_NetworkDataContainerMessage(data)
         return nmcd.NetworkMessageClassDefinition(cls.__name__, data.read(length)).deserialize()
-    
+
     def deserializeAs_NetworkDataContainerMessage(input: ByteArray) -> "NetworkDataContainerMessage":
         from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
             NetworkDataContainerMessage
@@ -102,7 +103,7 @@ class NetworkMessage(INetworkMessage):
         msg.content = tmpBuffer
         msg.unpacked = True
         return msg
-        
+
     def pack(self, from_client=True) -> ByteArray:
         data = nmencoder.NetworkMessageEncoder.encode(self)
         typelen = self.computeTypeLen(len(data))
@@ -145,6 +146,6 @@ class NetworkMessage(INetworkMessage):
     def __str__(self) -> str:
         className: str = self.__class__.__name__
         return className.split(".")[-1] + " @" + str(self._instance_id)
-    
+
     def __repr__(self) -> str:
         return self.__str__()

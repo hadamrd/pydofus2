@@ -7,6 +7,7 @@ class DictAsObject(dict):
     """
     Custom dictionary class that allows attribute-style access.
     """
+
     def __getattr__(self, item):
         return self.get(item)
 
@@ -18,7 +19,8 @@ class DictAsObject(dict):
             del self[key]
         else:
             raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{key}'")
-        
+
+
 class SharedObject:
     def __init__(self, name, filepath):
         self.name = name
@@ -27,7 +29,7 @@ class SharedObject:
 
     def _read_local(self):
         try:
-            with open(self.filepath, 'rb') as file:
+            with open(self.filepath, "rb") as file:
                 sol_data = pyamf.sol.decode(file.read())
                 return sol_data[1] if isinstance(sol_data, tuple) and len(sol_data) > 1 else {}
         except IOError:
@@ -41,9 +43,9 @@ class SharedObject:
 
     def items(self):
         return self.data.items()
-    
+
     @classmethod
     def getLocal(cls, key):
-        app_data_path = os.getenv('APPDATA')
-        sol_file_path = os.path.join(app_data_path, r'Dofus\Local Store\#SharedObjects\DofusInvoker.swf', f'{key}.sol')
+        app_data_path = os.getenv("APPDATA")
+        sol_file_path = os.path.join(app_data_path, r"Dofus\Local Store\#SharedObjects\DofusInvoker.swf", f"{key}.sol")
         return cls(key, sol_file_path)

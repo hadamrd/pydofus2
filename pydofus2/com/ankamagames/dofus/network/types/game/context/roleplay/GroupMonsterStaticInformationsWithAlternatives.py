@@ -10,12 +10,17 @@ if TYPE_CHECKING:
         MonsterInGroupInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import \
         MonsterInGroupLightInformations
-    
+
 
 class GroupMonsterStaticInformationsWithAlternatives(GroupMonsterStaticInformations):
-    alternatives: list['AlternativeMonstersInGroupLightInformations']
-    def init(self, alternatives_: list['AlternativeMonstersInGroupLightInformations'], mainCreatureLightInfos_: 'MonsterInGroupLightInformations', underlings_: list['MonsterInGroupInformations']):
+    alternatives: list["AlternativeMonstersInGroupLightInformations"]
+
+    def init(
+        self,
+        alternatives_: list["AlternativeMonstersInGroupLightInformations"],
+        mainCreatureLightInfos_: "MonsterInGroupLightInformations",
+        underlings_: list["MonsterInGroupInformations"],
+    ):
         self.alternatives = alternatives_
-        
+
         super().init(mainCreatureLightInfos_, underlings_)
-    

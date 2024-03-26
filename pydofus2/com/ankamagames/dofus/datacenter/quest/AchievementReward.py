@@ -51,17 +51,14 @@ class AchievementReward:
         return self._conditions
 
     def getKamasReward(self, pPlayerLevel):
-        return RoleplayManager().getKamasReward(self.kamasScaleWithPlayerLevel, 
-                                                            self.achievement.level, 
-                                                            self.kamasRatio, 
-                                                            1, 
-                                                            pPlayerLevel)
+        return RoleplayManager().getKamasReward(
+            self.kamasScaleWithPlayerLevel, self.achievement.level, self.kamasRatio, 1, pPlayerLevel
+        )
 
     def getExperienceReward(self, pPlayerLevel, pXpBonus):
-        return RoleplayManager().getExperienceReward(pPlayerLevel, 
-                                                                 pXpBonus, 
-                                                                 self.achievement.level, 
-                                                                 self.experienceRatio)
+        return RoleplayManager().getExperienceReward(
+            pPlayerLevel, pXpBonus, self.achievement.level, self.experienceRatio
+        )
 
     def isConditionRespectedForSpecificLevel(self, level):
         if self.conditions is None:

@@ -24,6 +24,8 @@ Logger, Frame, and Message. There are also several class-level variables for ena
 from typing import Optional, Type, TypeVar
 
 T = TypeVar("T", bound="Frame")
+
+
 class Worker(MessageHandler):
     DEBUG_FRAMES: bool = False
     DEBUG_MESSAGES: bool = False
@@ -76,7 +78,9 @@ class Worker(MessageHandler):
 
     def process(self, msg: Message) -> bool:
         if self._terminated.is_set():
-            return Logger().warning(f"Can't process message '{msg.__class__.__name__}' because the worker is terminated")
+            return Logger().warning(
+                f"Can't process message '{msg.__class__.__name__}' because the worker is terminated"
+            )
         self._queue.put(msg)
 
     def addFrame(self, frame: Frame) -> None:
@@ -107,7 +111,7 @@ class Worker(MessageHandler):
                 self._framesToRemove.add(frame)
                 if self.DEBUG_FRAMES:
                     Logger().debug(f">>> Frame {frame} remove queued...")
-                    
+
         elif frame not in self._framesBeingDeleted:
             self._framesBeingDeleted.add(frame)
             self.pullFrame(frame)
@@ -118,7 +122,7 @@ class Worker(MessageHandler):
     def getFrameByType(self, frameType: Type[T]) -> Optional[T]:
         frameClassName = frameType.__name__
         return self._currentFrameTypesCache.get(frameClassName)
-    
+
     def getFrameByName(self, frameClassName: str) -> Optional[Frame]:
         return self._currentFrameTypesCache.get(frameClassName)
 
@@ -140,7 +144,7 @@ class Worker(MessageHandler):
                 self._queue.get_nowait()
             except self._queue.Empty:
                 break
-    
+
     def pushFrame(self, frame: Frame) -> None:
         if str(frame) in [str(f) for f in self._framesList]:
             Logger().warn(f"Frame '{frame}' is already in the list.")
@@ -188,7 +192,7 @@ class Worker(MessageHandler):
             if type(msg).__name__ != "ServerConnectionClosedMessage":
                 Logger().error(f"Discarded message: {msg}!")
 
-    def processFramesInAndOut(self) -> None:        
+    def processFramesInAndOut(self) -> None:
         if self._terminating.is_set() or self._terminated.is_set():
             return Logger().warning(f"Can't process frames in and out because the worker is terminated")
         while self._framesToRemove and not self._terminated.is_set():

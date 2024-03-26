@@ -9,7 +9,7 @@ class BlendedGraphicalElementData(NormalGraphicalElementData):
 
     def __init__(self, elementId: int, elementType: int):
         super().__init__(elementId, elementType)
-        self.blendMode = ''
+        self.blendMode = ""
 
     def fromRaw(self, raw: BinaryStream, version: int) -> None:
         super().fromRaw(raw, version)

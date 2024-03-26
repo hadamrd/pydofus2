@@ -52,8 +52,5 @@ class FightMovementPointsVariationStep(AbstractStatContextualStep, IFightStep):
 
     def start(self) -> None:
         if self._updateCharacteristicManager:
-            Kernel().fightEntitiesFrame.setLastKnownEntityMovementPoint(
-                self._targetId, -self._intValue, True
-            )
+            Kernel().fightEntitiesFrame.setLastKnownEntityMovementPoint(self._targetId, -self._intValue, True)
         self.executeCallbacks()
-

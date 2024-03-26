@@ -7,11 +7,21 @@ class ChatServerMessage(ChatAbstractServerMessage):
     senderName: str
     prefix: str
     senderAccountId: int
-    def init(self, senderId_: int, senderName_: str, prefix_: str, senderAccountId_: int, channel_: int, content_: str, timestamp_: int, fingerprint_: str):
+
+    def init(
+        self,
+        senderId_: int,
+        senderName_: str,
+        prefix_: str,
+        senderAccountId_: int,
+        channel_: int,
+        content_: str,
+        timestamp_: int,
+        fingerprint_: str,
+    ):
         self.senderId = senderId_
         self.senderName = senderName_
         self.prefix = prefix_
         self.senderAccountId = senderAccountId_
-        
+
         super().init(channel_, content_, timestamp_, fingerprint_)
-    

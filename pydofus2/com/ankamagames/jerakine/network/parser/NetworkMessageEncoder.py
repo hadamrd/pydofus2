@@ -16,7 +16,7 @@ PY_PRIMITIVES = {int, float, str, bool}
 
 
 class NetworkMessageEncoder:
-    
+
     @classmethod
     def encode(cls, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         spec = inst.getSpec()
@@ -38,7 +38,7 @@ class NetworkMessageEncoder:
             Logger().error(f"Error while encoding primitive field '{spec.type}' of '{inst}'.")
             raise
         return data
-    
+
     @classmethod
     def _encode(cls, spec, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         if data is None:
@@ -65,7 +65,9 @@ class NetworkMessageEncoder:
                 try:
                     cls.writeArray(field, getattr(inst, field.name), data)
                 except Exception as e:
-                    raise Exception(f"Error while writing vector '{field}' of instance '{inst.__class__.__name__}'\n{e}") from e
+                    raise Exception(
+                        f"Error while writing vector '{field}' of instance '{inst.__class__.__name__}'\n{e}"
+                    ) from e
             else:
                 try:
                     cls._encode(field, getattr(inst, field.name), data)

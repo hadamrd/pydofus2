@@ -8,14 +8,14 @@ if TYPE_CHECKING:
         FightPhase
     from pydofus2.com.ankamagames.dofus.network.types.game.social.fight.SocialFightInfo import \
         SocialFightInfo
-    
+
 
 class AllianceFightPhaseUpdateMessage(NetworkMessage):
-    allianceFightInfo: 'SocialFightInfo'
-    newPhase: 'FightPhase'
-    def init(self, allianceFightInfo_: 'SocialFightInfo', newPhase_: 'FightPhase'):
+    allianceFightInfo: "SocialFightInfo"
+    newPhase: "FightPhase"
+
+    def init(self, allianceFightInfo_: "SocialFightInfo", newPhase_: "FightPhase"):
         self.allianceFightInfo = allianceFightInfo_
         self.newPhase = newPhase_
-        
+
         super().__init__()
-    

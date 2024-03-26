@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class HouseTeleportRequestMessage(NetworkMessage):
     houseId: int
     houseInstanceId: int
+
     def init(self, houseId_: int, houseInstanceId_: int):
         self.houseId = houseId_
         self.houseInstanceId = houseInstanceId_
-        
+
         super().__init__()
-    

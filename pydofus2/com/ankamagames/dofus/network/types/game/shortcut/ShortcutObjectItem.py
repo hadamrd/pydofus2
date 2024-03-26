@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.shortcut.ShortcutObject i
 class ShortcutObjectItem(ShortcutObject):
     itemUID: int
     itemGID: int
+
     def init(self, itemUID_: int, itemGID_: int, slot_: int):
         self.itemUID = itemUID_
         self.itemGID = itemGID_
-        
+
         super().init(slot_)
-    

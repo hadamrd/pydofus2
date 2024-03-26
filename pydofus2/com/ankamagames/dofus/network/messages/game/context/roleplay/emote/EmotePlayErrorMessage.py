@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class EmotePlayErrorMessage(NetworkMessage):
     emoteId: int
+
     def init(self, emoteId_: int):
         self.emoteId = emoteId_
-        
+
         super().__init__()
-    

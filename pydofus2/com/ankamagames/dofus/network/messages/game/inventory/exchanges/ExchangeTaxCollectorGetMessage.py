@@ -8,7 +8,7 @@ if TYPE_CHECKING:
         ObjectItemGenericQuantity
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class ExchangeTaxCollectorGetMessage(NetworkMessage):
     collectorName: str
@@ -20,9 +20,23 @@ class ExchangeTaxCollectorGetMessage(NetworkMessage):
     callerId: int
     callerName: str
     pods: int
-    objectsInfos: list['ObjectItemGenericQuantity']
-    look: 'EntityLook'
-    def init(self, collectorName_: str, worldX_: int, worldY_: int, mapId_: int, subAreaId_: int, userName_: str, callerId_: int, callerName_: str, pods_: int, objectsInfos_: list['ObjectItemGenericQuantity'], look_: 'EntityLook'):
+    objectsInfos: list["ObjectItemGenericQuantity"]
+    look: "EntityLook"
+
+    def init(
+        self,
+        collectorName_: str,
+        worldX_: int,
+        worldY_: int,
+        mapId_: int,
+        subAreaId_: int,
+        userName_: str,
+        callerId_: int,
+        callerName_: str,
+        pods_: int,
+        objectsInfos_: list["ObjectItemGenericQuantity"],
+        look_: "EntityLook",
+    ):
         self.collectorName = collectorName_
         self.worldX = worldX_
         self.worldY = worldY_
@@ -34,6 +48,5 @@ class ExchangeTaxCollectorGetMessage(NetworkMessage):
         self.pods = pods_
         self.objectsInfos = objectsInfos_
         self.look = look_
-        
+
         super().__init__()
-    

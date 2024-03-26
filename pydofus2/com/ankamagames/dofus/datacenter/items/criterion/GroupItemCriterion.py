@@ -54,28 +54,28 @@ class GroupItemCriterion(IItemCriterion):
     def isRespected(self) -> bool:
         if not self._criteria:
             return True
-        
+
         player = PlayedCharacterManager()
-        
+
         if not player or not player.characteristics:
             Logger().error("Character or characteristics doesn't exist !, returning true")
             return True
-        
+
         if self._criteria and len(self._criteria) == 1 and isinstance(self._criteria[0], IItemCriterion):
             return self._criteria[0].isRespected
-        
+
         if len(self._operators) > 0 and self._operators[0] == "|":
             for criterion in self._criteria:
                 if criterion.isRespected:
                     return True
             return False
-        
+
         for criterion in self._criteria:
             if criterion is None:
                 raise ValueError(f"One of the criterion is null, full criteria: {self._criterionTextForm}")
             if not criterion.isRespected:
                 return False
-            
+
         return True
 
     @property
@@ -120,7 +120,7 @@ class GroupItemCriterion(IItemCriterion):
 
                 start_pos = stack.pop()
                 if not stack:
-                    group_content = self._criterionTextForm[start_pos + 1:position]
+                    group_content = self._criterionTextForm[start_pos + 1 : position]
                     nested_group = GroupItemCriterion(group_content)
                     self._criteria.append(nested_group)
                 position += 1
@@ -139,7 +139,7 @@ class GroupItemCriterion(IItemCriterion):
                     position = criterion_end
                 else:
                     position += 1
-        
+
         if stack:
             raise ValueError(f"Unmatched parenthesis at position {stack.pop()}")
 
@@ -157,13 +157,14 @@ class GroupItemCriterion(IItemCriterion):
     @property
     def operators(self) -> list[str]:
         return self._operators
-    
+
     def __repr__(self):
         return self.text
 
+
 if __name__ == "__main__":
     # cr = GroupItemCriterion('((Qo>3613&PO<11044,1&Qo<3597)')
-    cr = GroupItemCriterion('QF>1423,0')
+    cr = GroupItemCriterion("QF>1423,0")
     print(cr)
     print(cr.operators)
     print("number of criterias ", len(cr.criteria))

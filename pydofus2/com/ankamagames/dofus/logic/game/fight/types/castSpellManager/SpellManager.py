@@ -102,7 +102,7 @@ class SpellManager:
             self._spellCastManager.entityId,
             self._spellId,
             SpellModifierTypeEnum.CAST_INTERVAL,
-            spellLevel.minCastInterval
+            spellLevel.minCastInterval,
         )
         if interval == 63:
             return 63
@@ -130,7 +130,9 @@ class SpellManager:
             self._spellId, self._spellCastManager.entityId
         )
         if isBonusRefresh:
-            cooldown = SpellModifiersManager().getModifiedInt(self._spellCastManager.entityId, self._spellId, SpellModifierTypeEnum.CAST_INTERVAL, cooldown)
+            cooldown = SpellModifiersManager().getModifiedInt(
+                self._spellCastManager.entityId, self._spellId, SpellModifierTypeEnum.CAST_INTERVAL, cooldown
+            )
         spellW.actualCooldown = cooldown
 
     def forceLastCastTurn(self, pLastCastTurn: int) -> None:

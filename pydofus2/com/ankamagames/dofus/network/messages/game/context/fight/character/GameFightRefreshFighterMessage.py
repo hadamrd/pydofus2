@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
         GameContextActorInformations
-    
+
 
 class GameFightRefreshFighterMessage(NetworkMessage):
-    informations: 'GameContextActorInformations'
-    def init(self, informations_: 'GameContextActorInformations'):
+    informations: "GameContextActorInformations"
+
+    def init(self, informations_: "GameContextActorInformations"):
         self.informations = informations_
-        
+
         super().__init__()
-    

@@ -5,7 +5,7 @@ class TreasureHuntStepTypeEnum:
     FIGHT = 2
     DIRECTION = 3
     UNKNOWN = 4
-    
+
     @staticmethod
     def to_string(type):
         if type == TreasureHuntStepTypeEnum.START:

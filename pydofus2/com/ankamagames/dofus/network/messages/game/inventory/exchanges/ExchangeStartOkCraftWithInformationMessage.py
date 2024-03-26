@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Ex
 
 class ExchangeStartOkCraftWithInformationMessage(ExchangeStartOkCraftMessage):
     skillId: int
+
     def init(self, skillId_: int):
         self.skillId = skillId_
-        
+
         super().init()
-    

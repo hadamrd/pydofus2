@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ExchangeObjectTransfertListToInvMessage(NetworkMessage):
     ids: list[int]
+
     def init(self, ids_: list[int]):
         self.ids = ids_
-        
+
         super().__init__()
-    

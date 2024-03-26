@@ -9,6 +9,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
         EventsHandler
 
+
 class Listener:
     def __init__(
         self,

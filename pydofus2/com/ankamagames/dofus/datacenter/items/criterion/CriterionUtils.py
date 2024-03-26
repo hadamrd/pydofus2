@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import \
 
 
 class CriterionUtils(IDataCenter):
-    
+
     @staticmethod
     def getCriteriaFromstr(pCriteriastrForm: str) -> list[IItemCriterion]:
         criteriastrForm: str = pCriteriastrForm

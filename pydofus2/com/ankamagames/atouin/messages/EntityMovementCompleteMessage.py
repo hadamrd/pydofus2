@@ -4,7 +4,7 @@ from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 
 
 class EntityMovementCompleteMessage(Message):
-    
+
     def __init__(self, entity: IEntity = None):
         super().__init__()
         self._entity = entity

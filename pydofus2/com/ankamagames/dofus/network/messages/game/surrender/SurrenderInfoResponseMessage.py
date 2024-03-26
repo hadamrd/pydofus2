@@ -8,16 +8,21 @@ if TYPE_CHECKING:
         SurrenderResponse
     from pydofus2.com.ankamagames.dofus.network.types.game.surrender.vote.SurrenderVoteResponse import \
         SurrenderVoteResponse
-    
+
 
 class SurrenderInfoResponseMessage(NetworkMessage):
     hasSanction: bool
-    surrenderResponse: 'SurrenderResponse'
-    surrenderVoteResponse: 'SurrenderVoteResponse'
-    def init(self, hasSanction_: bool, surrenderResponse_: 'SurrenderResponse', surrenderVoteResponse_: 'SurrenderVoteResponse'):
+    surrenderResponse: "SurrenderResponse"
+    surrenderVoteResponse: "SurrenderVoteResponse"
+
+    def init(
+        self,
+        hasSanction_: bool,
+        surrenderResponse_: "SurrenderResponse",
+        surrenderVoteResponse_: "SurrenderVoteResponse",
+    ):
         self.hasSanction = hasSanction_
         self.surrenderResponse = surrenderResponse_
         self.surrenderVoteResponse = surrenderVoteResponse_
-        
+
         super().__init__()
-    

@@ -19,7 +19,9 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 class HaapiException(Exception):
     pass
 
+
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
 
 class Zaapi(metaclass=Singleton):
     MAX_CREATE_API_KEY_RETRIES = 5
@@ -48,26 +50,26 @@ class Zaapi(metaclass=Singleton):
 
     def getUrl(self, request, params={}):
         queries = {
-                "SIGN_ON_WITH_APIKEY": "/Ankama/v5/Account/SignOnWithApiKey",
-                "SET_NICKNAME": "/Ankama/v5/Account/SetNicknameWithApiKey",
-                "START_SESSION_WITH_API_KEY": "/Ankama/v5/Game/StartSessionWithApiKey",
-                "LIST_WITH_API_KEY": "/Ankama/v5/Game/ListWithApiKey",
-                "SEND_MAIL_VALIDATION": "/Ankama/v5/Account/SendMailValidation",
-                "SECURITY_CODE": "/Ankama/v5/Shield/SecurityCode",
-                "VALIDATE_CODE": "/Ankama/v5/Shield/ValidateCode",
-                "DELETE_API_KEY": "/Ankama/v5/Api/DeleteApiKey",
-                "CREATE_GUEST": "/Ankama/v2/Account/CreateGuest",
-                "CREATE_TOKEN": "/Ankama/v5/Account/CreateToken",
-                "SEND_EVENTS": "/Ankama/v5/Game/SendEvents",
-                "SEND_EVENT": "/Ankama/v5/Game/SendEvent",
-                "END_SESSION_WITH_API_KEY": "/Ankama/v5/Game/EndSessionWithApiKey",
-                "ANKAMA_ACCOUNT_STATUS": "/Ankama/v5/Account/Status",
-                "GET_FROM_CMS": "/Ankama/v5/Cms/Items/Get",
-                "GET_FROM_CMS_BYID": "/Ankama/v5/Cms/Items/GetById",
-                "GET_LEGALS_TOU": "/Ankama/v5/Legals/Tou",
-                "SEND_DEVICE_INFOS": "/Ankama/v5/Account/SendDeviceInfos",
-                "CAROUSEL_FORLAUNCHER": "/Ankama/v5/Cms/Items/Carousel/GetForLauncher",
-            }
+            "SIGN_ON_WITH_APIKEY": "/Ankama/v5/Account/SignOnWithApiKey",
+            "SET_NICKNAME": "/Ankama/v5/Account/SetNicknameWithApiKey",
+            "START_SESSION_WITH_API_KEY": "/Ankama/v5/Game/StartSessionWithApiKey",
+            "LIST_WITH_API_KEY": "/Ankama/v5/Game/ListWithApiKey",
+            "SEND_MAIL_VALIDATION": "/Ankama/v5/Account/SendMailValidation",
+            "SECURITY_CODE": "/Ankama/v5/Shield/SecurityCode",
+            "VALIDATE_CODE": "/Ankama/v5/Shield/ValidateCode",
+            "DELETE_API_KEY": "/Ankama/v5/Api/DeleteApiKey",
+            "CREATE_GUEST": "/Ankama/v2/Account/CreateGuest",
+            "CREATE_TOKEN": "/Ankama/v5/Account/CreateToken",
+            "SEND_EVENTS": "/Ankama/v5/Game/SendEvents",
+            "SEND_EVENT": "/Ankama/v5/Game/SendEvent",
+            "END_SESSION_WITH_API_KEY": "/Ankama/v5/Game/EndSessionWithApiKey",
+            "ANKAMA_ACCOUNT_STATUS": "/Ankama/v5/Account/Status",
+            "GET_FROM_CMS": "/Ankama/v5/Cms/Items/Get",
+            "GET_FROM_CMS_BYID": "/Ankama/v5/Cms/Items/GetById",
+            "GET_LEGALS_TOU": "/Ankama/v5/Legals/Tou",
+            "SEND_DEVICE_INFOS": "/Ankama/v5/Account/SendDeviceInfos",
+            "CAROUSEL_FORLAUNCHER": "/Ankama/v5/Cms/Items/Carousel/GetForLauncher",
+        }
         if request not in queries:
             raise HaapiException(f"Unknown request: {request}")
         result = self.BASE_URL + queries[request]
@@ -148,8 +150,7 @@ class Zaapi(metaclass=Singleton):
                 raise Exception("Need a session_id to send events")
         url = self.getUrl("SEND_EVENTS")
         response = self.zaap_session.post(
-            url, data={"game": game, "session_id": sessionId, "events": json.dumps(events)},
-            verify=self.verify_ssl
+            url, data={"game": game, "session_id": sessionId, "events": json.dumps(events)}, verify=self.verify_ssl
         )
         self.zaap_session.cookies.update(response.cookies)
         if not response.ok:

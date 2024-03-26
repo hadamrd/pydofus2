@@ -35,7 +35,9 @@ class SingleRessourceLoader(AbstractResourceLoader, IResourceLoader, IResourceOb
         self._filesTotal = 1
         if not self.checkCache(self._uri):
             self._protocol = ProtocolFactory.getProtocol(self._uri)
-            self._protocol.load(self._uri, self, self.hasListener(ResourceEvent.PROGRESS), self._cache, forcedAdapter, singleFile)
+            self._protocol.load(
+                self._uri, self, self.hasListener(ResourceEvent.PROGRESS), self._cache, forcedAdapter, singleFile
+            )
 
     def cancel(self) -> None:
         super().cancel()

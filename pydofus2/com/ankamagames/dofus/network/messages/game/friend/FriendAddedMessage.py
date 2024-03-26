@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.friend.FriendInformations import \
         FriendInformations
-    
+
 
 class FriendAddedMessage(NetworkMessage):
-    friendAdded: 'FriendInformations'
-    def init(self, friendAdded_: 'FriendInformations'):
+    friendAdded: "FriendInformations"
+
+    def init(self, friendAdded_: "FriendInformations"):
         self.friendAdded = friendAdded_
-        
+
         super().__init__()
-    

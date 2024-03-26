@@ -46,7 +46,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRem
     GameContextRemoveMultipleElementsMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapChangeOrientationMessage import \
     GameMapChangeOrientationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightCountMessage import MapFightCountMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.MapComplementaryInformationsAnomalyMessage import \
     MapComplementaryInformationsAnomalyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayRemoveChallengeMessage import \
@@ -67,6 +66,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapCo
     MapComplementaryInformationsDataMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsWithCoordsMessage import \
     MapComplementaryInformationsWithCoordsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightCountMessage import \
+    MapFightCountMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import \
     MapInformationsRequestMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.ListMapNpcsQuestStatusUpdateMessage import \
@@ -182,7 +183,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         if self.nbrFails > self.MAX_MAPDATA_REQ_FAILS:
             return KernelEventsManager().send(KernelEvent.ClientRestart, "map data request timeout")
         self.sendMapDataRequest()
-    
+
     def sendMapDataRequest(self):
         if self.mapDataRequestTimer:
             self.mapDataRequestTimer.cancel()
@@ -307,7 +308,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                 smumsg.init(msg.statedElements)
                 Kernel().interactivesFrame.process(smumsg)
 
-
             if isinstance(msg, MapComplementaryInformationsAnomalyMessage):
                 PlayedCharacterManager().isInAnomaly = True
 
@@ -389,20 +389,20 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
 
         elif isinstance(msg, HousePropertiesMessage):
             return True
-    
+
         elif isinstance(msg, GameContextRefreshEntityLookMessage):
             return True
 
         elif isinstance(msg, GameMapChangeOrientationMessage):
             return True
-        
+
         elif isinstance(msg, ListMapNpcsQuestStatusUpdateMessage):
             return True
 
         elif isinstance(msg, MapFightCountMessage):
             KernelEventsManager().send(KernelEvent.MapFightCount, msg.fightCount)
             return True
-        
+
     def checkPlayerInHouse(self, msg: MapComplementaryInformationsDataInHouseMessage):
         isPlayerHouse = (
             PlayerManager().nickname == msg.currentHouse.houseInfos.ownerTag.nickname
@@ -474,7 +474,9 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             self.registerActorWithId(fightTeam, teamEntity.id)
             teams.append(fightTeam)
         self._fights[infos.fightId] = fight
-        Logger().info(f"Fight({infos.fightId}) appeared with team entities {['leader : ' + str(ft.leaderId) + ', cell: ' + str(infos.fightTeamsPositions[ft.teamId]) for ft in infos.fightTeams]}.")
+        Logger().info(
+            f"Fight({infos.fightId}) appeared with team entities {['leader : ' + str(ft.leaderId) + ', cell: ' + str(infos.fightTeamsPositions[ft.teamId]) for ft in infos.fightTeams]}."
+        )
         KernelEventsManager().send(KernelEvent.FightSwordShowed, infos)
 
     def updateMonstersGroup(self, pMonstersInfo: GameRolePlayGroupMonsterInformations) -> None:

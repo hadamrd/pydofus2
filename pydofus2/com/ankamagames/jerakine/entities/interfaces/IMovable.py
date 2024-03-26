@@ -12,11 +12,11 @@ if TYPE_CHECKING:
 
 
 class IMovable(IEntity):
-    
+
     @property
     def carriedEntity(self) -> "IEntity":
         raise NotImplementedError()
-    
+
     @property
     def isMoving(self) -> bool:
         raise NotImplementedError()

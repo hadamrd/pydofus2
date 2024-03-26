@@ -225,13 +225,16 @@ class ExchangeManagementFrame(Frame):
         msg = ExchangePlayerRequestMessage()
         msg.init(target, exchangeType)
         ConnectionsHandler().send(msg)
-        
+
     def exchangeObjectTransfertListWithQuantityToInv(self, ids, qtys):
         if len(ids) > ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT / 2:
             Logger().info(I18n.getUiText("ui.exchange.partialTransfert"))
         if len(ids) >= ProtocolConstantsEnum.MIN_OBJ_COUNT_BY_XFERT and len(ids) == len(qtys):
             eotlwqtoimsg = ExchangeObjectTransfertListWithQuantityToInvMessage()
-            eotlwqtoimsg.init(ids[:ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT // 2], qtys[:ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT // 2])
+            eotlwqtoimsg.init(
+                ids[: ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT // 2],
+                qtys[: ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT // 2],
+            )
             ConnectionsHandler().send(eotlwqtoimsg)
         else:
             raise ValueError(f"Invalid ids and qtys : {ids}, {qtys}")
@@ -243,7 +246,7 @@ class ExchangeManagementFrame(Frame):
             self._success = msg.success
             Kernel().worker.removeFrame(self)
         KernelEventsManager().send(KernelEvent.ExchangeClose, msg.success)
-        
+
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, ExchangeStartedWithStorageMessage):

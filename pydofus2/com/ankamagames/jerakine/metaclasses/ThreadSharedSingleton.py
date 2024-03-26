@@ -6,6 +6,7 @@ _locks = dict[type, threading.RLock]()
 
 T = TypeVar("T")
 
+
 class ThreadSharedSingleton(type):
     _instances = dict[type, Any]()
 

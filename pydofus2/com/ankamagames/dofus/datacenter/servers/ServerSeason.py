@@ -7,8 +7,8 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
 
 
 class ServerSeason(IDataCenter):
-    MODULE =  "ServerSeasons"
-    
+    MODULE = "ServerSeasons"
+
     def __init__(self):
         self.uid: int
         self.seasonNumber: int
@@ -19,15 +19,15 @@ class ServerSeason(IDataCenter):
         self.flagObjectId: int
 
     @classmethod
-    def getSeasonById(cls, id: int) -> 'ServerSeason':
+    def getSeasonById(cls, id: int) -> "ServerSeason":
         return GameData().getObject(cls.MODULE, id)
 
     @classmethod
-    def getAllSeason(cls) -> List['ServerSeason']:
+    def getAllSeason(cls) -> List["ServerSeason"]:
         return GameData().getObjects(cls.MODULE)
 
     @staticmethod
-    def getCurrentSeason() -> 'ServerSeason':
+    def getCurrentSeason() -> "ServerSeason":
         allSeasons = ServerSeason.getAllSeason()
         currentTimestamp = datetime.now().timestamp()
         for season in allSeasons:

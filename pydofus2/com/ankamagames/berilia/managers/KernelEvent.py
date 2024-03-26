@@ -4,7 +4,7 @@ from enum import Enum, auto
 class KernelEvent(Enum):
     # Infos
     TextInformation = auto()
-    
+
     # popups
     NonSubscriberPopup = auto()
 
@@ -22,8 +22,8 @@ class KernelEvent(Enum):
     AuthenticationTicketAccepted = auto()
     AuthenticationTicket = auto()
     Banned = auto()
-    
-    # client 
+
+    # client
     ClientCrashed = auto()
     ReloginToken = auto()
     FramePushed = auto()
@@ -33,15 +33,15 @@ class KernelEvent(Enum):
     ClientShutdown = auto()
     ClientRestart = auto()
     HaapiApiKeyReady = auto()
-    
+
     # Inactivity
     InactivityNotification = auto()
-    
-    # map 
+
+    # map
     MapLoaded = auto()
     MapDataProcessed = auto()
     MapFightCount = auto()
-    
+
     # Fight
     FightSwordShowed = auto()
     FightResumed = auto()
@@ -55,16 +55,16 @@ class KernelEvent(Enum):
     FightJoined = auto()
     RoleplayStarted = auto()
     FightLeader = auto()
-    
+
     # buffs in fight
     BuffAdd = auto()
     BuffUpdate = auto()
-    
+
     # Interactives
     IElemBeingUsed = auto()
     InteractiveElementUsed = auto()
     InteractiveUseError = auto()
-    
+
     # cell movement
     MovementRequestRejected = auto()
 
@@ -75,7 +75,7 @@ class KernelEvent(Enum):
     ActorShowed = auto()
     CurrentMap = auto()
     PlayerMovementCompleted = auto()
-    
+
     # Player updates
     PlayerLoggedIn = auto()
     PlayerInGameReady = auto()
@@ -90,11 +90,11 @@ class KernelEvent(Enum):
     ObtainedItem = auto()
     JobExperienceUpdate = auto()
     PlayerAddedToSceene = auto()
-    
+
     # NPC
     NpcDialogOpen = auto()
     NpcQuestion = auto()
-    
+
     # Parties
     CharacterNameSuggestion = auto()
     CharacterNameSuggestionFailed = auto()
@@ -103,7 +103,7 @@ class KernelEvent(Enum):
     QuestStart = auto()
     CharacterDelPrepare = auto()
     ServerTextInfo = auto()
-    
+
     # Party
     IJoinedParty = auto()
     MemberJoinedParty = auto()
@@ -115,7 +115,7 @@ class KernelEvent(Enum):
     PartyInviteCancel = auto()
     KamasUpdate = auto()
     InteractiveElemUpdate = auto()
-    
+
     # exchange events
     ExchangeRequestFromMe = auto()
     ExchangeRequestToMe = auto()
@@ -141,25 +141,25 @@ class KernelEvent(Enum):
     ExchangeIsReady = auto()
     ExchangeKamaModified = auto()
     ExchangePodsModified = auto()
-    
+
     # teleport events
     TeleportDestinationList = auto()
     InHavenBag = auto()
-    
+
     # pvp
     AlignmentRankUpdate = auto()
     CharacterAlignmentWarEffortProgressionHook = auto()
     UpdateWarEffortHook = auto()
     AlignmentWarEffortProgressionMessageHook = auto()
-    
-    # inventory 
+
+    # inventory
     ObjectAdded = auto()
     InventoryContent = auto()
-    
+
     # job
     JobLevelUp = auto()
     JobAllowMultiCraftRequest = auto()
-    
+
     # quest
     TreasureHuntUpdate = auto()
     TreasureHuntRequestAnswer = auto()
@@ -167,7 +167,7 @@ class KernelEvent(Enum):
     TreasureHuntDigAnswer = auto()
     TreasureHintInformation = auto()
     TreasureHuntFlagRequestAnswer = auto()
-    
+
     # Challenges
     ChallengeListUpdate = auto()
     CloseChallengeProposal = auto()
@@ -175,14 +175,14 @@ class KernelEvent(Enum):
     ChallengeResult = auto()
     ChallengeModSelected = auto()
     ChallengeBonusSelected = auto()
-    
+
     # achievements
     AchievementRewardSuccess = auto()
     RewardableAchievementsVisible = auto()
     AchievementFinished = auto()
     AchievementList = auto()
-    
-    # Mount 
+
+    # Mount
     MountSterilized = auto()
     MountStableUpdate = auto()
     MountRenamed = auto()
@@ -196,7 +196,7 @@ class KernelEvent(Enum):
     ExchangeWeight = auto()
     MountEquipedError = auto()
     ExchangeStartOkMount = auto()
-    
+
     # social
     GuildInvited = auto()
     LeaveDialog = auto()

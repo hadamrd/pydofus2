@@ -23,11 +23,7 @@ def getInitArgs(spec):
         else:
             typename = f"'{field['typename']}'"
             nonPrimitives.append(field["typename"])
-        ftype = (
-            typename
-            if field["length"] is None and field["lengthTypeId"] is None
-            else "list[" + typename + "]"
-        )
+        ftype = typename if field["length"] is None and field["lengthTypeId"] is None else "list[" + typename + "]"
         init_args.append({"name": field["name"], "type": ftype})
     for field in spec["boolfields"]:
         init_args.append({"name": field["name"], "type": field["typename"]})

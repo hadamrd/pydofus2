@@ -33,13 +33,13 @@ class MountDialogFrame(Frame):
     def process(self, msg):
         if isinstance(msg, ExchangeMountStableErrorMessage):
             return True
-        
+
         elif isinstance(msg, ExchangeLeaveMessage):
             elm = msg
             if elm.dialogType == DialogTypeEnum.DIALOG_EXCHANGE:
                 Kernel().worker.removeFrame(self)
             return True
-        
+
         else:
             return False
 
@@ -49,4 +49,6 @@ class MountDialogFrame(Frame):
         return True
 
     def sendStartOkMount(self):
-        KernelEventsManager().send(KernelEvent.ExchangeStartOkMount, Kernel().mountFrame.stableList, Kernel().mountFrame.paddockList)
+        KernelEventsManager().send(
+            KernelEvent.ExchangeStartOkMount, Kernel().mountFrame.stableList, Kernel().mountFrame.paddockList
+        )

@@ -33,4 +33,3 @@ class NpcFrame(Frame):
         elif isinstance(msg, NpcDialogQuestionMessage):
             KernelEventsManager().send(KernelEvent.NpcQuestion, msg.messageId, msg.dialogParams, msg.visibleReplies)
             return True
-

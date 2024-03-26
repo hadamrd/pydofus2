@@ -6,16 +6,16 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import \
         AbstractFightDispellableEffect
-    
+
 
 class FightDispellableEffectExtendedInformations(NetworkMessage):
     actionId: int
     sourceId: int
-    effect: 'AbstractFightDispellableEffect'
-    def init(self, actionId_: int, sourceId_: int, effect_: 'AbstractFightDispellableEffect'):
+    effect: "AbstractFightDispellableEffect"
+
+    def init(self, actionId_: int, sourceId_: int, effect_: "AbstractFightDispellableEffect"):
         self.actionId = actionId_
         self.sourceId = sourceId_
         self.effect = effect_
-        
+
         super().__init__()
-    

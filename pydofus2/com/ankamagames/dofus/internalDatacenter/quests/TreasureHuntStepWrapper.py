@@ -47,7 +47,9 @@ class TreasureHuntStepWrapper(IDataCenter):
         if not self._stepText:
             if self.type == TreasureHuntStepTypeEnum.START:
                 map = WorldPointWrapper(self.mapId)
-                self._stepText = I18n.getUiText("ui.common.start") + " [" + str(map.outdoorX) + "," + str(map.outdoorY) + "]"
+                self._stepText = (
+                    I18n.getUiText("ui.common.start") + " [" + str(map.outdoorX) + "," + str(map.outdoorY) + "]"
+                )
                 p = MapPosition.getMapPositionById(self.mapId)
                 if p and p.worldMap > 1:
                     wm = WorldMap.getWorldMapById(p.worldMap)
@@ -75,12 +77,21 @@ class TreasureHuntStepWrapper(IDataCenter):
                     area = subArea.area
                     if area:
                         self._stepRolloverText = area.name + " (" + subArea.name + ")"
-            elif self.type == TreasureHuntStepTypeEnum.DIRECTION_TO_POI or self.type == TreasureHuntStepTypeEnum.DIRECTION_TO_HINT:
+            elif (
+                self.type == TreasureHuntStepTypeEnum.DIRECTION_TO_POI
+                or self.type == TreasureHuntStepTypeEnum.DIRECTION_TO_HINT
+            ):
                 directionName = DirectionsEnum(self.direction).name
-                self._stepRolloverText = I18n.getUiText("ui.treasureHunt.followDirectionToPOI", [directionName, "[" + self._stepText + "]"])
+                self._stepRolloverText = I18n.getUiText(
+                    "ui.treasureHunt.followDirectionToPOI", [directionName, "[" + self._stepText + "]"]
+                )
             elif self.type == TreasureHuntStepTypeEnum.DIRECTION:
                 directionName = DirectionsEnum(self.direction).name
-                self._stepRolloverText = PatternDecoder.combine(I18n.getUiText("ui.treasureHunt.followDirection", [self.count, directionName]), "n", self.count <= 1)
+                self._stepRolloverText = PatternDecoder.combine(
+                    I18n.getUiText("ui.treasureHunt.followDirection", [self.count, directionName]),
+                    "n",
+                    self.count <= 1,
+                )
         return self._stepRolloverText
 
     def update(self, type, index, direction, mapId, poiLabel, flagState=-1, count=0):

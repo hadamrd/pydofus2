@@ -8,14 +8,14 @@ if TYPE_CHECKING:
         SpellForPreset
     from pydofus2.com.ankamagames.dofus.network.types.game.presets.SpellsPreset import \
         SpellsPreset
-    
+
 
 class ForgettableSpellsPreset(Preset):
-    baseSpellsPreset: 'SpellsPreset'
-    forgettableSpells: list['SpellForPreset']
-    def init(self, baseSpellsPreset_: 'SpellsPreset', forgettableSpells_: list['SpellForPreset'], id_: int):
+    baseSpellsPreset: "SpellsPreset"
+    forgettableSpells: list["SpellForPreset"]
+
+    def init(self, baseSpellsPreset_: "SpellsPreset", forgettableSpells_: list["SpellForPreset"], id_: int):
         self.baseSpellsPreset = baseSpellsPreset_
         self.forgettableSpells = forgettableSpells_
-        
+
         super().init(id_)
-    

@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.pvp.AgressableStatusMessage import \
         AgressableStatusMessage
-    
+
 
 class UpdateMapPlayersAgressableStatusMessage(NetworkMessage):
-    playerAvAMessages: list['AgressableStatusMessage']
-    def init(self, playerAvAMessages_: list['AgressableStatusMessage']):
+    playerAvAMessages: list["AgressableStatusMessage"]
+
+    def init(self, playerAvAMessages_: list["AgressableStatusMessage"]):
         self.playerAvAMessages = playerAvAMessages_
-        
+
         super().__init__()
-    

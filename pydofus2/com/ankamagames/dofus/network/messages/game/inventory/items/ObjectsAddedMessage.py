@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
         ObjectItem
-    
+
 
 class ObjectsAddedMessage(NetworkMessage):
-    object: list['ObjectItem']
-    def init(self, object_: list['ObjectItem']):
+    object: list["ObjectItem"]
+
+    def init(self, object_: list["ObjectItem"]):
         self.object = object_
-        
+
         super().__init__()
-    

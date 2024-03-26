@@ -4,8 +4,17 @@ from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.
 
 class CharacterUsableCharacteristicDetailed(CharacterCharacteristicDetailed):
     used: int
-    def init(self, used_: int, base_: int, additional_: int, objectsAndMountBonus_: int, alignGiftBonus_: int, contextModif_: int, characteristicId_: int):
+
+    def init(
+        self,
+        used_: int,
+        base_: int,
+        additional_: int,
+        objectsAndMountBonus_: int,
+        alignGiftBonus_: int,
+        contextModif_: int,
+        characteristicId_: int,
+    ):
         self.used = used_
-        
+
         super().init(base_, additional_, objectsAndMountBonus_, alignGiftBonus_, contextModif_, characteristicId_)
-    

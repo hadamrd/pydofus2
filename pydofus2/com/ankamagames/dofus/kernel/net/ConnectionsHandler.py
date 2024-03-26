@@ -89,9 +89,7 @@ class ConnectionsHandler(metaclass=Singleton):
             for _, inst in Kernel.getInstances():
                 if inst != Kernel():
                     inst.worker.process(
-                        PlayerDisconnectedMessage(
-                            threading.currentThread().name, self._currentConnectionType
-                        )
+                        PlayerDisconnectedMessage(threading.currentThread().name, self._currentConnectionType)
                     )
         self._currentConnectionType = ConnectionType.DISCONNECTED
 
@@ -113,7 +111,12 @@ class ConnectionsHandler(metaclass=Singleton):
         with self.sendMessageLock:
             if self.last_send_time is not None:
                 msgtype = msg.__class__.__name__
-                if msgtype in ["SequenceNumberMessage", "BasicLatencyStatsMessage", "BasicPingMessage", "GameMapMovementCancelMessage"]:
+                if msgtype in [
+                    "SequenceNumberMessage",
+                    "BasicLatencyStatsMessage",
+                    "BasicPingMessage",
+                    "GameMapMovementCancelMessage",
+                ]:
                     minNextSendTime = self.last_send_time + 0.05
                 elif msgtype in [
                     "GameMapMovementConfirmMessage",
@@ -136,13 +139,11 @@ class ConnectionsHandler(metaclass=Singleton):
                     "AllianceGetPlayerApplicationMessage",
                     "AllianceRanksRequestMessage",
                     "GameContextCreateRequestMessage",
-                    "InteractiveUseRequestMessage"
+                    "InteractiveUseRequestMessage",
                 ]:
                     minNextSendTime = self.last_send_time + 0.2 + abs(random.gauss(0.05, 0.01))
                 else:
-                    minNextSendTime = (
-                        self.last_send_time + 1.2 + abs(random.gauss(0.5, 0.1))
-                    )
+                    minNextSendTime = self.last_send_time + 1.2 + abs(random.gauss(0.5, 0.1))
                 diff = minNextSendTime - perf_counter()
                 if diff > 0:
                     Kernel().worker.terminated.wait(diff)

@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ClientKeyMessage(NetworkMessage):
     key: str
+
     def init(self, key_: str):
         self.key = key_
-        
+
         super().__init__()
-    

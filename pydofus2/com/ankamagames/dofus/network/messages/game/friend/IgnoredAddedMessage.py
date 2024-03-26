@@ -6,14 +6,14 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.friend.IgnoredInformations import \
         IgnoredInformations
-    
+
 
 class IgnoredAddedMessage(NetworkMessage):
-    ignoreAdded: 'IgnoredInformations'
+    ignoreAdded: "IgnoredInformations"
     session: bool
-    def init(self, ignoreAdded_: 'IgnoredInformations', session_: bool):
+
+    def init(self, ignoreAdded_: "IgnoredInformations", session_: bool):
         self.ignoreAdded = ignoreAdded_
         self.session = session_
-        
+
         super().__init__()
-    

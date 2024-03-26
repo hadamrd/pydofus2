@@ -6,16 +6,16 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightLoot import \
         FightLoot
-    
+
 
 class FightResultListEntry(NetworkMessage):
     outcome: int
     wave: int
-    rewards: 'FightLoot'
-    def init(self, outcome_: int, wave_: int, rewards_: 'FightLoot'):
+    rewards: "FightLoot"
+
+    def init(self, outcome_: int, wave_: int, rewards_: "FightLoot"):
         self.outcome = outcome_
         self.wave = wave_
         self.rewards = rewards_
-        
+
         super().__init__()
-    

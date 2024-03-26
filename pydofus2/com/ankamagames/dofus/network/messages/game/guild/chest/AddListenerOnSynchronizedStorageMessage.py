@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AddListenerOnSynchronizedStorageMessage(NetworkMessage):
     player: str
+
     def init(self, player_: str):
         self.player = player_
-        
+
         super().__init__()
-    

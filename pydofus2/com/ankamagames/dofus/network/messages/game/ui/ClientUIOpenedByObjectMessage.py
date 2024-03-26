@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.ui.ClientUIOpenedMessa
 
 class ClientUIOpenedByObjectMessage(ClientUIOpenedMessage):
     uid: int
+
     def init(self, uid_: int, type_: int):
         self.uid = uid_
-        
+
         super().init(type_)
-    

@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GuildPaddockRemovedMessage(NetworkMessage):
     paddockId: int
+
     def init(self, paddockId_: int):
         self.paddockId = paddockId_
-        
+
         super().__init__()
-    

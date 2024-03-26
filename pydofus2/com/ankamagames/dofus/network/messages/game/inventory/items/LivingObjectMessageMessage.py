@@ -7,11 +7,11 @@ class LivingObjectMessageMessage(NetworkMessage):
     timeStamp: int
     owner: str
     objectGenericId: int
+
     def init(self, msgId_: int, timeStamp_: int, owner_: str, objectGenericId_: int):
         self.msgId = msgId_
         self.timeStamp = timeStamp_
         self.owner = owner_
         self.objectGenericId = objectGenericId_
-        
+
         super().__init__()
-    

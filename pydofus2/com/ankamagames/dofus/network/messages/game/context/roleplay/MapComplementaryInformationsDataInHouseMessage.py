@@ -20,12 +20,36 @@ if TYPE_CHECKING:
         MapObstacle
     from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import \
         StatedElement
-    
+
 
 class MapComplementaryInformationsDataInHouseMessage(MapComplementaryInformationsDataMessage):
-    currentHouse: 'HouseInformationsInside'
-    def init(self, currentHouse_: 'HouseInformationsInside', subAreaId_: int, mapId_: int, houses_: list['HouseInformations'], actors_: list['GameRolePlayActorInformations'], interactiveElements_: list['InteractiveElement'], statedElements_: list['StatedElement'], obstacles_: list['MapObstacle'], fights_: list['FightCommonInformations'], hasAggressiveMonsters_: bool, fightStartPositions_: 'FightStartingPositions'):
+    currentHouse: "HouseInformationsInside"
+
+    def init(
+        self,
+        currentHouse_: "HouseInformationsInside",
+        subAreaId_: int,
+        mapId_: int,
+        houses_: list["HouseInformations"],
+        actors_: list["GameRolePlayActorInformations"],
+        interactiveElements_: list["InteractiveElement"],
+        statedElements_: list["StatedElement"],
+        obstacles_: list["MapObstacle"],
+        fights_: list["FightCommonInformations"],
+        hasAggressiveMonsters_: bool,
+        fightStartPositions_: "FightStartingPositions",
+    ):
         self.currentHouse = currentHouse_
-        
-        super().init(subAreaId_, mapId_, houses_, actors_, interactiveElements_, statedElements_, obstacles_, fights_, hasAggressiveMonsters_, fightStartPositions_)
-    
+
+        super().init(
+            subAreaId_,
+            mapId_,
+            houses_,
+            actors_,
+            interactiveElements_,
+            statedElements_,
+            obstacles_,
+            fights_,
+            hasAggressiveMonsters_,
+            fightStartPositions_,
+        )

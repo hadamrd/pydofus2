@@ -59,7 +59,7 @@ class BreedEnum:
     PRISM: int = -10
 
     INCARNATION: int = -11
-    
+
     @classmethod
     def get_name(cls, breedId):
         if breedId == cls.UNDEFINED:

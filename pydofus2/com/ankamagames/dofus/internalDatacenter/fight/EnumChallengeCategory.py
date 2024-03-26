@@ -10,4 +10,9 @@ class EnumChallengeCategory:
 
     @staticmethod
     def isAchievementCategoryId(id):
-        return id in [EnumChallengeCategory.ACHIEVEMENT_DUNGEON, EnumChallengeCategory.ACHIEVEMENT_ANOMALY, EnumChallengeCategory.ACHIEVEMENT_COMPANION, EnumChallengeCategory.ACHIEVEMENT_EXPEDITION]
+        return id in [
+            EnumChallengeCategory.ACHIEVEMENT_DUNGEON,
+            EnumChallengeCategory.ACHIEVEMENT_ANOMALY,
+            EnumChallengeCategory.ACHIEVEMENT_COMPANION,
+            EnumChallengeCategory.ACHIEVEMENT_EXPEDITION,
+        ]

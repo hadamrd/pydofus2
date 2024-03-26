@@ -95,7 +95,7 @@ class ItemWrapper(Item, ISlotData, ICellZoneProvider, IDataCenter):
 
         self._searchContent: str
 
-        self._possiblePositions:list[int] = None
+        self._possiblePositions: list[int] = None
 
         self.position: int = 63
 
@@ -114,7 +114,7 @@ class ItemWrapper(Item, ISlotData, ICellZoneProvider, IDataCenter):
         self.livingobjectId: int = None
 
         self.livingobjectMood: int = None
-        
+
         self.livingobjectSkin: int = None
 
         self.livingObjectCategory: int = None
@@ -345,7 +345,7 @@ class ItemWrapper(Item, ISlotData, ICellZoneProvider, IDataCenter):
     @property
     def minimalRange(self) -> int:
         return int(self["minRange"]) if not hasattr(self, "minRange") else int(0)
-    
+
     @property
     def maximalRange(self) -> int:
         return int(self["range"]) if not hasattr(self, "range") else int(0)

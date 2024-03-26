@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class Shortcut(NetworkMessage):
     slot: int
+
     def init(self, slot_: int):
         self.slot = slot_
-        
+
         super().__init__()
-    

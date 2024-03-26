@@ -4,6 +4,5 @@ from pydofus2.com.ankamagames.dofus.network.types.game.surrender.SurrenderRespon
 
 class SurrenderAccepted(SurrenderResponse):
     def init(self):
-        
+
         super().init()
-    

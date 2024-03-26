@@ -28,25 +28,25 @@ class SpellModifier:
     @property
     def modifierType(self) -> float:
         return self._modifierType
-    
+
     @property
     def isEmpty(self):
         return not self._actions
-    
+
     def hasAction(self, actionType: int):
         return str(actionType) in self._actions
-    
+
     def applyAction(self, actionType, equipment: int, context: int):
         action: SpellModifierAction = SpellModifierAction(actionType, equipment, context)
         self._actions[action.actionType] = action
-    
+
     def removeAction(self, actionType: int):
         key: str = str(actionType)
         if key in self._actions:
             del self._actions[key]
 
     def getValueAsInt(self, valueType: int = 1, baseValue: int = 0) -> int:
-        setAction:SpellModifierAction = self._actions.get(SpellModifierActionTypeEnum.ACTION_SET)
+        setAction: SpellModifierAction = self._actions.get(SpellModifierActionTypeEnum.ACTION_SET)
         if setAction:
             return setAction.getInt(valueType)
         boostAction = self._actions.get(SpellModifierActionTypeEnum.ACTION_BOOST)
@@ -162,20 +162,20 @@ class SpellModifier:
         if self._id == SpellModifierTypeEnum.RANGE_MIN:
             return "range min"
         if self._id == SpellModifierTypeEnum.OCCUPIED_CELL:
-            return "occupied cell";
+            return "occupied cell"
         if self._id == SpellModifierTypeEnum.FREE_CELL:
-            return "free cell";
+            return "free cell"
         if self._id == SpellModifierTypeEnum.VISIBLE_TARGET:
-            return "visible target";
+            return "visible target"
         if self._id == SpellModifierTypeEnum.PORTAL_PROJECTION:
-            return "portal projection";
+            return "portal projection"
         if self._id == SpellModifierTypeEnum.PORTAL_FREE_CELL:
-            return "portal free cell";
+            return "portal free cell"
         else:
             return self.UNKNOWN_MODIFIER_NAME
 
     def dump(self, indentLevel=0):
-        indent = '\t' * indentLevel
+        indent = "\t" * indentLevel
         className = self.__class__.__name__  # This gets the name of the current instance's class in Python
         toReturn = f"{className} {self._name} (Entity ID: {self._entityId}, Spell ID: {self._spellId}, type: {self._modifierType})"
 
@@ -199,6 +199,7 @@ class SpellModifier:
             SpellModifierTypeEnum.PORTAL_PROJECTION,
             SpellModifierTypeEnum.PORTAL_FREE_CELL,
         ]
+
 
 class SpellModifierAction:
 
@@ -258,7 +259,17 @@ class SpellModifierAction:
             equipmentStr += " (" + str(self.getEquipmentAsBool()) + ")"
             contextStr += " (" + str(self.getContextAsBool()) + ")"
             totalStr += " (" + str(self.getTotalAsBool()) + ")"
-        return self.getActionName() + "[" + "equipment: " + equipmentStr + ", context: " + contextStr + ", total: " + totalStr + "]"
+        return (
+            self.getActionName()
+            + "["
+            + "equipment: "
+            + equipmentStr
+            + ", context: "
+            + contextStr
+            + ", total: "
+            + totalStr
+            + "]"
+        )
 
     def getActionName(self):
         if self._actionType == SpellModifierActionTypeEnum.ACTION_SET:

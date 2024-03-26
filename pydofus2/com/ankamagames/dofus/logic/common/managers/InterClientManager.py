@@ -5,12 +5,13 @@ import threading
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
     ThreadSharedSingleton
-from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
+from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import \
+    CustomSharedObject
 
 
 class InterClientManager(metaclass=ThreadSharedSingleton):
     KEY_SIZE = 21
-    hex_chars = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]
+    hex_chars = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
     used_keys = set()
     _client_key_map = {}
 
@@ -37,7 +38,7 @@ class InterClientManager(metaclass=ThreadSharedSingleton):
 
     def freeFlashKey(self):
         self._numClients -= 1
-        
+
     @classmethod
     def get_random_flash_key(cls) -> str:
         s_sentence: str = ""

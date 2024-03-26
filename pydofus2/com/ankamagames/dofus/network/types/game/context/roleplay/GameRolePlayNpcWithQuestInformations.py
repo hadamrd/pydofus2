@@ -10,12 +10,21 @@ if TYPE_CHECKING:
         GameRolePlayNpcQuestFlag
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class GameRolePlayNpcWithQuestInformations(GameRolePlayNpcInformations):
-    questFlag: 'GameRolePlayNpcQuestFlag'
-    def init(self, questFlag_: 'GameRolePlayNpcQuestFlag', npcId_: int, sex_: bool, specialArtworkId_: int, look_: 'EntityLook', contextualId_: int, disposition_: 'EntityDispositionInformations'):
+    questFlag: "GameRolePlayNpcQuestFlag"
+
+    def init(
+        self,
+        questFlag_: "GameRolePlayNpcQuestFlag",
+        npcId_: int,
+        sex_: bool,
+        specialArtworkId_: int,
+        look_: "EntityLook",
+        contextualId_: int,
+        disposition_: "EntityDispositionInformations",
+    ):
         self.questFlag = questFlag_
-        
+
         super().init(npcId_, sex_, specialArtworkId_, look_, contextualId_, disposition_)
-    

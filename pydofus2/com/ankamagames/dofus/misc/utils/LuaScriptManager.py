@@ -7,7 +7,7 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import 
 
 
 class LuaScriptManager(metaclass=ThreadSharedSingleton):
-    
+
     def __init__(self):
         self._lua = lupa.LuaRuntime()
 

@@ -8,12 +8,16 @@ if TYPE_CHECKING:
         CharacterBaseInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterToRemodelInformations import \
         CharacterToRemodelInformations
-    
+
 
 class CharactersListWithRemodelingMessage(CharactersListMessage):
-    charactersToRemodel: list['CharacterToRemodelInformations']
-    def init(self, charactersToRemodel_: list['CharacterToRemodelInformations'], characters_: list['CharacterBaseInformations']):
+    charactersToRemodel: list["CharacterToRemodelInformations"]
+
+    def init(
+        self,
+        charactersToRemodel_: list["CharacterToRemodelInformations"],
+        characters_: list["CharacterBaseInformations"],
+    ):
         self.charactersToRemodel = charactersToRemodel_
-        
+
         super().init(characters_)
-    

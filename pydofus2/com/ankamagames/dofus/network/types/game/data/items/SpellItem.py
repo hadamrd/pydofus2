@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.data.items.Item import \
 class SpellItem(Item):
     spellId: int
     spellLevel: int
+
     def init(self, spellId_: int, spellLevel_: int):
         self.spellId = spellId_
         self.spellLevel = spellLevel_
-        
+
         super().init()
-    

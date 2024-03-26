@@ -120,19 +120,21 @@ class StringUtils:
         text = pText
 
         while True:
-            delimitedText = StringUtils.getSingleDelimitedText(text, pFirstDelimiter, pSecondDelimiter, pIncludeDelimiter)
+            delimitedText = StringUtils.getSingleDelimitedText(
+                text, pFirstDelimiter, pSecondDelimiter, pIncludeDelimiter
+            )
             if delimitedText == "":
                 break
             else:
                 returnedArray.append(delimitedText)
-                
+
                 if not pIncludeDelimiter:
                     delimitedText = pFirstDelimiter + delimitedText + pSecondDelimiter
 
                 firstPartIndex = text.find(delimitedText)
                 firstPart = text[:firstPartIndex]
-                secondPart = text[firstPartIndex + len(delimitedText):]
-                
+                secondPart = text[firstPartIndex + len(delimitedText) :]
+
                 # Replace occurrences of the first delimiter in the first part
                 firstPart = firstPart.replace(pFirstDelimiter, "")
                 text = firstPart + secondPart
@@ -164,12 +166,14 @@ class StringUtils:
                 delimiterDepth -= 1
                 if delimiterDepth == 0:
                     # Found the matching closing delimiter
-                    delimitedContent = pStringEntry[firstDelimiterIndex:nextSecondDelimiterIndex + len(pSecondDelimiter)]
+                    delimitedContent = pStringEntry[
+                        firstDelimiterIndex : nextSecondDelimiterIndex + len(pSecondDelimiter)
+                    ]
                 else:
                     currentIndex = nextSecondDelimiterIndex + len(pSecondDelimiter)
 
         if delimitedContent and not pIncludeDelimiter:
-            delimitedContent = delimitedContent[len(pFirstDelimiter):len(delimitedContent) - len(pSecondDelimiter)]
+            delimitedContent = delimitedContent[len(pFirstDelimiter) : len(delimitedContent) - len(pSecondDelimiter)]
 
         return delimitedContent
 
@@ -188,7 +192,6 @@ class StringUtils:
 
         return returnedArray
 
-
     def getAllIndexOf(pStringLookFor: str, pWholeString: str) -> list:
         index = pWholeString.find(pStringLookFor)
         indices = []
@@ -196,8 +199,10 @@ class StringUtils:
             indices.append(index)
             index = pWholeString.find(pStringLookFor, index + 1)
         return indices
-    
+
+
 if __name__ == "__main__":
+
     def testGetDelimitedText():
         string = "(((Qa=1940&Qo>13584)|Qf=1940)&PO>9935,0)"
         res = StringUtils.getDelimitedText(string, "(", ")")
@@ -208,7 +213,7 @@ if __name__ == "__main__":
             ("test", "this is a test string with test cases"),
             ("a", "banana"),
             ("xyz", "this has no match"),
-            (" ", "spaces should be counted too")
+            (" ", "spaces should be counted too"),
         ]
 
         for substring, string in test_cases:
@@ -224,7 +229,13 @@ if __name__ == "__main__":
             ("No delimiters here", "{", "}", False, ""),
             ("Empty delimiters []", "[", "]", False, ""),
             ("Nested [delimiters [like] this]", "[", "]", False, "delimiters [like] this"),
-            ("Deeply [nested [delimiters [like] this] example]", "[", "]", False, "nested [delimiters [like] this] example"),
+            (
+                "Deeply [nested [delimiters [like] this] example]",
+                "[",
+                "]",
+                False,
+                "nested [delimiters [like] this] example",
+            ),
             ("Mismatched delimiters", "[", "}", False, ""),
             ("Delimiters at [the] start", "[", "]", False, "the"),
             ("Delimiters at the end [of]", "[", "]", False, "of"),
@@ -238,7 +249,7 @@ if __name__ == "__main__":
             ("Only delimiters []", "[]", "[]", False, ""),
             ("Same opening and closing delimiter [[content[[", "[", "[", False, "content"),
             ("Multiple same delimiters %%first%% and %%second%%", "%", "%", False, "first"),
-            ("Overlapping delimiters [[[nested]]]", "[", "]", False, "[nested")
+            ("Overlapping delimiters [[[nested]]]", "[", "]", False, "[nested"),
         ]
 
         # Running the tests
@@ -246,7 +257,7 @@ if __name__ == "__main__":
             result = StringUtils.getSingleDelimitedText(text, start_delim, end_delim, include_delim)
             assert result == expected, f"Test failed for '{text}'. Expected: '{expected}', Got: '{result}'"
             print(f"Test passed for '{text}'. Result: '{result}'")
-        
+
     dtxt = "(((Qo>3613&PO<11044,1&Qo<3597)|(Qo>3617&Qo<3600))&CE>0)"
     r = StringUtils.getSingleDelimitedText(dtxt, "(", ")")
     print(r)

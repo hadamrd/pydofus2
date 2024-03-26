@@ -15,7 +15,7 @@ class SubArea(IDataCenter, IPostInit):
 
     MODULE: str = "SubAreas"
     _allSubAreas = list["SubArea"]()
-    
+
     def __init__(self):
 
         self.id: int = None

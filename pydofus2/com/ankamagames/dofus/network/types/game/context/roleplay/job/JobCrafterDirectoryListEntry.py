@@ -8,14 +8,14 @@ if TYPE_CHECKING:
         JobCrafterDirectoryEntryJobInfo
     from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobCrafterDirectoryEntryPlayerInfo import \
         JobCrafterDirectoryEntryPlayerInfo
-    
+
 
 class JobCrafterDirectoryListEntry(NetworkMessage):
-    playerInfo: 'JobCrafterDirectoryEntryPlayerInfo'
-    jobInfo: 'JobCrafterDirectoryEntryJobInfo'
-    def init(self, playerInfo_: 'JobCrafterDirectoryEntryPlayerInfo', jobInfo_: 'JobCrafterDirectoryEntryJobInfo'):
+    playerInfo: "JobCrafterDirectoryEntryPlayerInfo"
+    jobInfo: "JobCrafterDirectoryEntryJobInfo"
+
+    def init(self, playerInfo_: "JobCrafterDirectoryEntryPlayerInfo", jobInfo_: "JobCrafterDirectoryEntryJobInfo"):
         self.playerInfo = playerInfo_
         self.jobInfo = jobInfo_
-        
+
         super().__init__()
-    

@@ -142,6 +142,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     def currVertex(self) -> Vertex:
         from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
             WorldGraph
+
         if self.currentZoneRp is None or self.currentMap is None:
             return None
         v = WorldGraph().getVertex(self.currentMap.mapId, self.currentZoneRp)
@@ -305,6 +306,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     def isMutated(self) -> bool:
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
             InventoryManager
+
         rpBuffs = InventoryManager().inventory.getView("roleplayBuff").content
         if rpBuffs:
             for buff in rpBuffs:
@@ -406,6 +408,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     def currentCell(self) -> "Cell":
         from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
             MapDisplayManager
+
         if self.currentCellId is None:
             return None
         if MapDisplayManager().dataMap is None:
@@ -423,11 +426,11 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         if self.infos:
             return self.infos.name
         return None
-    
+
     @property
     def extractedServerCharacterIdFromInterserverCharacterId(self) -> int:
         return CharacterIdConverter.extractServerCharacterIdFromInterserverCharacterId(self.id)
-    
+
     def addInfosAvailableCallback(self, pCallback: Callback) -> None:
         self._infosAvailableCallbacks.append(pCallback)
 
@@ -440,10 +443,10 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
 
     def distanceFromCell(self, mp) -> int:
         return self.entity.position.distanceToCell(mp)
-    
+
     def joblevel(self, jobId) -> int:
         if jobId not in self.jobs:
-            if jobId != 1: # base
+            if jobId != 1:  # base
                 job = Job.getJobById(jobId)
                 Logger().warn(f"Job '{job.name}' not in player Jobs : {self.jobs}")
             return -1
@@ -463,7 +466,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     def isZaapKnown(self, mapId: float) -> bool:
         if not self._knownZaapMapIds:
             return False
-        return (mapId in self._knownZaapMapIds)
+        return mapId in self._knownZaapMapIds
 
     def jobsNumber(self, onlyLevelOne: bool = False) -> int:
         length: int = 0
@@ -476,15 +479,19 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         for spellw in self.playerSpellList:
             if spellw.id == spellId:
                 return spellw
-    
-    def inSameRpZone(self, cellId:int) -> bool:
+
+    def inSameRpZone(self, cellId: int) -> bool:
         from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
             MapDisplayManager
+
         tgtRpZone = MapDisplayManager().dataMap.cells[cellId].linkedZoneRP
         return tgtRpZone == self.currentZoneRp
-    
+
     def isDead(self) -> bool:
         return PlayerLifeStatusEnum(self.state) != PlayerLifeStatusEnum.STATUS_ALIVE_AND_KICKING
-    
+
     def isPodsFull(self, pourcent=0.95):
-        return PlayedCharacterManager().inventoryWeightMax > 0 and PlayedCharacterManager().inventoryWeight / PlayedCharacterManager().inventoryWeightMax > pourcent
+        return (
+            PlayedCharacterManager().inventoryWeightMax > 0
+            and PlayedCharacterManager().inventoryWeight / PlayedCharacterManager().inventoryWeightMax > pourcent
+        )

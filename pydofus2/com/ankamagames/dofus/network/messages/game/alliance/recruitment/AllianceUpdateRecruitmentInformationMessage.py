@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.alliance.recruitment.AllianceRecruitmentInformation import \
         AllianceRecruitmentInformation
-    
+
 
 class AllianceUpdateRecruitmentInformationMessage(NetworkMessage):
-    recruitmentData: 'AllianceRecruitmentInformation'
-    def init(self, recruitmentData_: 'AllianceRecruitmentInformation'):
+    recruitmentData: "AllianceRecruitmentInformation"
+
+    def init(self, recruitmentData_: "AllianceRecruitmentInformation"):
         self.recruitmentData = recruitmentData_
-        
+
         super().__init__()
-    

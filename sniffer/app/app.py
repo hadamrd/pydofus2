@@ -39,7 +39,7 @@ class DofusSnifferApp:
         @self.app.route("/sniffer_status")
         def status():
             return jsonify({"sniffer_status": "running" if self.is_sniffer_running else "stopped"})
-        
+
         @self.app.route("/toggle_sniffer", methods=["POST"])
         def toggle_sniffer():
             action = "stopped" if self.is_sniffer_running else "started"

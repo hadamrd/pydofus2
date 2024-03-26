@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class BreachInvitationRequestMessage(NetworkMessage):
     guests: list[int]
+
     def init(self, guests_: list[int]):
         self.guests = guests_
-        
+
         super().__init__()
-    

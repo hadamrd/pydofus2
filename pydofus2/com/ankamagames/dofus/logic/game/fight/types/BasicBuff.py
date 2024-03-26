@@ -91,12 +91,7 @@ class BasicBuff:
             entitiesFrame = Kernel().fightEntitiesFrame
             if entitiesFrame:
                 fighterInfo = entitiesFrame.getEntityInfos(currentPlayerId)
-        if (
-            Kernel().beingInReconection
-            or not isPlayerId
-            or fighterInfo
-            and not fighterInfo.spawnInfo.alive
-        ):
+        if Kernel().beingInReconection or not isPlayerId or fighterInfo and not fighterInfo.spawnInfo.alive:
             self.aliveSource = self.source
         else:
             self.aliveSource = currentPlayerId
@@ -309,7 +304,6 @@ class BasicBuff:
     def __eq__(self, other: "BasicBuff", ignoreSpell: bool = False) -> bool:
         from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
             StateBuff
-
 
         if (
             self.targetId != other.targetId

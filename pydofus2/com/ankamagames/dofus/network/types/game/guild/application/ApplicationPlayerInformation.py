@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
         PlayerStatus
-    
+
 
 class ApplicationPlayerInformation(NetworkMessage):
     playerId: int
@@ -17,8 +17,20 @@ class ApplicationPlayerInformation(NetworkMessage):
     accountId: int
     accountTag: str
     accountNickname: str
-    status: 'PlayerStatus'
-    def init(self, playerId_: int, playerName_: str, breed_: int, sex_: bool, level_: int, accountId_: int, accountTag_: str, accountNickname_: str, status_: 'PlayerStatus'):
+    status: "PlayerStatus"
+
+    def init(
+        self,
+        playerId_: int,
+        playerName_: str,
+        breed_: int,
+        sex_: bool,
+        level_: int,
+        accountId_: int,
+        accountTag_: str,
+        accountNickname_: str,
+        status_: "PlayerStatus",
+    ):
         self.playerId = playerId_
         self.playerName = playerName_
         self.breed = breed_
@@ -28,6 +40,5 @@ class ApplicationPlayerInformation(NetworkMessage):
         self.accountTag = accountTag_
         self.accountNickname = accountNickname_
         self.status = status_
-        
+
         super().__init__()
-    

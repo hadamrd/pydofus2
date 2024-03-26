@@ -12,7 +12,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class RoleplayWorldFrame(Frame):
-    
+
     NO_CURSOR: int = -1
     FIGHT_CURSOR: int = 3
     NPC_CURSOR: int = 1

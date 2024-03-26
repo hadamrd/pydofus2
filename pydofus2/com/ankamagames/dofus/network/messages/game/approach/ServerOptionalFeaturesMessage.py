@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ServerOptionalFeaturesMessage(NetworkMessage):
     features: list[int]
+
     def init(self, features_: list[int]):
         self.features = features_
-        
+
         super().__init__()
-    

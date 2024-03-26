@@ -86,22 +86,26 @@ class HaapiKeyManager(EventsHandler, metaclass=Singleton):
             Logger().debug("CALL WITH API KEY :: API KEY IS NULL")
             if not Kernel().gameServerApproachFrame:
                 Logger().debug("CALL WITH API KEY :: Wait GameServerApproachFrame")
-                return KernelEventsManager().onceFramePushed("GameServerApproachFrame", lambda: self.callWithApiKey(callback))
+                return KernelEventsManager().onceFramePushed(
+                    "GameServerApproachFrame", lambda: self.callWithApiKey(callback)
+                )
             self._apikey_listeners.append(callback)
             if self._askedApiKey.is_set():
                 Logger().debug("CALL WITH API KEY :: API KEY ALREADY ASKED")
                 return
-            KernelEventsManager().once(KernelEvent.HaapiApiKeyReady, lambda _, haapikey: self.saveApiKey(haapikey), priority=10)
+            KernelEventsManager().once(
+                KernelEvent.HaapiApiKeyReady, lambda _, haapikey: self.saveApiKey(haapikey), priority=10
+            )
             if not Kernel().gameServerApproachFrame.authenticationTicketAccepted:
                 Logger().debug("CALL WITH API KEY :: Wait authentication ticket accepted")
                 return KernelEventsManager().once(KernelEvent.AuthenticationTicketAccepted, self.onAuthTicketAccepted)
             self.onAuthTicketAccepted()
-        
+
     def onAuthTicketAccepted(self, event=None):
         Logger().debug("CALL WITH API KEY :: ASK FOR API KEY")
         self._askedApiKey.set()
         ConnectionsHandler().send(HaapiApiKeyRequestMessage())
-             
+
     def saveApiKey(self, haapiKey):
         Logger().debug("SAVE API KEY")
         self._apiKey = haapiKey

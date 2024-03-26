@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ExchangeCrafterJobLevelupMessage(NetworkMessage):
     crafterJobLevel: int
+
     def init(self, crafterJobLevel_: int):
         self.crafterJobLevel = crafterJobLevel_
-        
+
         super().__init__()
-    

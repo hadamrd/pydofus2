@@ -6,10 +6,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.AllianceJoine
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
         AllianceInformation
-    
+
 
 class AllianceMembershipMessage(AllianceJoinedMessage):
-    def init(self, allianceInfo_: 'AllianceInformation', rankId_: int):
-        
+    def init(self, allianceInfo_: "AllianceInformation", rankId_: int):
+
         super().init(allianceInfo_, rankId_)
-    

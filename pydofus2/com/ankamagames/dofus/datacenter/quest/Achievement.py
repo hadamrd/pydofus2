@@ -1,7 +1,8 @@
 import re
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementAccountItemCriterion import AchievementAccountItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementAccountItemCriterion import \
+    AchievementAccountItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
     GroupItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
@@ -10,6 +11,8 @@ from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.LevelItemCriterio
     LevelItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.PrestigeLevelItemCriterion import \
     PrestigeLevelItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
+    AchievementCategory
 from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementObjective import \
     AchievementObjective
 from pydofus2.com.ankamagames.dofus.datacenter.quest.Quest import Quest
@@ -24,10 +27,10 @@ from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter
-from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementCategory import \
-        AchievementCategory
+
 if TYPE_CHECKING:
     pass
+
 
 class Achievement(IDataCenter):
 
@@ -61,7 +64,7 @@ class Achievement(IDataCenter):
 
     _desc: str = None
 
-    _category: 'AchievementCategory' = None
+    _category: "AchievementCategory" = None
 
     _currentLevelRewards: AchievementRewardsWrapper = None
 
@@ -104,6 +107,7 @@ class Achievement(IDataCenter):
         if self._desc == None:
             from pydofus2.com.ankamagames.dofus.datacenter.challenges.Challenge import \
                 Challenge
+
             rawText = I18n.getText(self.descriptionId)
 
             def repl(match):
@@ -114,7 +118,7 @@ class Achievement(IDataCenter):
                 if challenge == None:
                     return "???"
                 return challenge.name
-            
+
             self._desc = re.sub("[\s*challenge\s*,\s*(\d+)\s*]", repl, rawText, flags=re.MULTILINE)
 
         return self._desc
@@ -123,7 +127,7 @@ class Achievement(IDataCenter):
     #     return HyperlinkShowChallengeManager.parseChallengeLinks(I18n.getText(self.descriptionId), linkColor, hoverColor)
 
     @property
-    def category(self) -> 'AchievementCategory':
+    def category(self) -> "AchievementCategory":
         if not self._category:
             self._category = AchievementCategory.getAchievementCategoryById(self.categoryId)
         return self._category
@@ -179,6 +183,7 @@ class Achievement(IDataCenter):
     def initCurrentLevelRewards(self, level: int) -> None:
         from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import \
             AchievementReward
+
         criterion: GroupItemCriterion = None
         rewardId: int = 0
         characterRewardsTruncated: bool = False

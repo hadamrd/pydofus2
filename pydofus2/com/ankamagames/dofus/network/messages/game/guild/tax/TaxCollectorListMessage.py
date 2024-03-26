@@ -8,16 +8,22 @@ if TYPE_CHECKING:
         TaxCollectorFightersInformation
     from pydofus2.com.ankamagames.dofus.network.types.game.guild.tax.TaxCollectorInformations import \
         TaxCollectorInformations
-    
+
 
 class TaxCollectorListMessage(AbstractTaxCollectorListMessage):
     nbcollectorMax: int
-    fightersInformations: list['TaxCollectorFightersInformation']
+    fightersInformations: list["TaxCollectorFightersInformation"]
     infoType: int
-    def init(self, nbcollectorMax_: int, fightersInformations_: list['TaxCollectorFightersInformation'], infoType_: int, informations_: list['TaxCollectorInformations']):
+
+    def init(
+        self,
+        nbcollectorMax_: int,
+        fightersInformations_: list["TaxCollectorFightersInformation"],
+        infoType_: int,
+        informations_: list["TaxCollectorInformations"],
+    ):
         self.nbcollectorMax = nbcollectorMax_
         self.fightersInformations = fightersInformations_
         self.infoType = infoType_
-        
+
         super().init(informations_)
-    

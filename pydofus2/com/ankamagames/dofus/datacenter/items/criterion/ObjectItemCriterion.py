@@ -19,7 +19,6 @@ from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import \
 
 class ObjectItemCriterion(ItemCriterion, IDataCenter):
 
-
     def __init__(self, pCriterion: str):
         self._criterionValueQuantity = -1
         super().__init__(pCriterion)
@@ -83,23 +82,23 @@ class ObjectItemCriterion(ItemCriterion, IDataCenter):
             if self._criterionValueQuantity == 0:
                 readableCriterion = I18n.getUiText("ui.common.doPossess", [objectName])
             else:
-                readableCriterion = PatternDecoder.combine(I18n.getUiText(
-                    "ui.common.doPossessQuantityOrMore", [self._criterionValueQuantity + 1, objectName]
-                ))
+                readableCriterion = PatternDecoder.combine(
+                    I18n.getUiText("ui.common.doPossessQuantityOrMore", [self._criterionValueQuantity + 1, objectName])
+                )
 
         elif self._operator.text == ItemCriterionOperator.INFERIOR:
             if self._criterionValueQuantity == 1:
                 readableCriterion = I18n.getUiText("ui.common.doNotPossess", [objectName])
             else:
-                readableCriterion = PatternDecoder.combine(I18n.getUiText(
-                    "ui.common.doPossessQuantityOrLess", [self._criterionValueQuantity - 1, objectName]
-                ))
+                readableCriterion = PatternDecoder.combine(
+                    I18n.getUiText("ui.common.doPossessQuantityOrLess", [self._criterionValueQuantity - 1, objectName])
+                )
 
         elif self._operator.text == ItemCriterionOperator.EQUIPPED:
-            readableCriterion = I18n.getUiText("ui.common.doEquip",[objectName])
-            
+            readableCriterion = I18n.getUiText("ui.common.doEquip", [objectName])
+
         elif self._operator.text == ItemCriterionOperator.NOT_EQUIPPED:
-            readableCriterion = I18n.getUiText("ui.common.doNotEquip",[objectName])
+            readableCriterion = I18n.getUiText("ui.common.doNotEquip", [objectName])
 
         return readableCriterion
 

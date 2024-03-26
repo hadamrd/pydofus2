@@ -4,6 +4,5 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.Symbio
 
 class MimicryObjectAssociatedMessage(SymbioticObjectAssociatedMessage):
     def init(self, hostUID_: int):
-        
+
         super().init(hostUID_)
-    

@@ -27,18 +27,24 @@ class ParallelResourceLoader(AbstractResourceLoader, IResourceLoader, IResourceO
         self._loadDictionary = {}
         self._loadLock = threading.RLock()
 
-    def load(self, uris: Union[Uri, List[Uri]], cache: ICache = None, forcedAdapter: Any = None, singleFile: bool = False) -> None:
+    def load(
+        self, uris: Union[Uri, List[Uri]], cache: ICache = None, forcedAdapter: Any = None, singleFile: bool = False
+    ) -> None:
         newUris = [uris] if isinstance(uris, Uri) else uris
         mustStartLoading = False
 
         with self._loadLock:
             if self._uris:
                 self._filesTotal -= len(self._uris)
-                self._uris.extend([{"uri": uri, "forcedAdapter": forcedAdapter, "singleFile": singleFile} for uri in newUris])
+                self._uris.extend(
+                    [{"uri": uri, "forcedAdapter": forcedAdapter, "singleFile": singleFile} for uri in newUris]
+                )
                 if self._currentlyLoading == 0:
                     mustStartLoading = True
             else:
-                self._uris = [{"uri": uri, "forcedAdapter": forcedAdapter, "singleFile": singleFile} for uri in newUris]
+                self._uris = [
+                    {"uri": uri, "forcedAdapter": forcedAdapter, "singleFile": singleFile} for uri in newUris
+                ]
                 mustStartLoading = True
 
             self._cache = cache

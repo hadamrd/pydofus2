@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.nuggets.NuggetsBeneficiary import \
         NuggetsBeneficiary
-    
+
 
 class NuggetsDistributionMessage(NetworkMessage):
-    beneficiaries: list['NuggetsBeneficiary']
-    def init(self, beneficiaries_: list['NuggetsBeneficiary']):
+    beneficiaries: list["NuggetsBeneficiary"]
+
+    def init(self, beneficiaries_: list["NuggetsBeneficiary"]):
         self.beneficiaries = beneficiaries_
-        
+
         super().__init__()
-    

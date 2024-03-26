@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchieved import \
         AchievementAchieved
-    
+
 
 class AchievementListMessage(NetworkMessage):
-    finishedAchievements: list['AchievementAchieved']
-    def init(self, finishedAchievements_: list['AchievementAchieved']):
+    finishedAchievements: list["AchievementAchieved"]
+
+    def init(self, finishedAchievements_: list["AchievementAchieved"]):
         self.finishedAchievements = finishedAchievements_
-        
+
         super().__init__()
-    

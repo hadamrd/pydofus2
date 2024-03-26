@@ -11,6 +11,7 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import 
 lock = threading.Lock()
 KEY_LANG_INDEX = "langIndex"
 
+
 class XmlConfig(metaclass=ThreadSharedSingleton):
     _constants = OrderedDict[str, object]()
     _aLang = OrderedDict[str, str]()
@@ -28,7 +29,7 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
             m = re.match(pattern, v)
             if m:
                 var = m.group(0).replace("[", "").replace("]", "")
-                if 'path' in var:
+                if "path" in var:
                     second_path_part = v.replace(m.group(0), "")
                     first_path_part = self._constants[var]
                     v = str(Path(os.path.join(first_path_part, second_path_part)))
@@ -61,4 +62,3 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
     @property
     def entries(self):
         return self._constants
-

@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.paddock.PaddockItem import \
         PaddockItem
-    
+
 
 class GameDataPaddockObjectListAddMessage(NetworkMessage):
-    paddockItemDescription: list['PaddockItem']
-    def init(self, paddockItemDescription_: list['PaddockItem']):
+    paddockItemDescription: list["PaddockItem"]
+
+    def init(self, paddockItemDescription_: list["PaddockItem"]):
         self.paddockItemDescription = paddockItemDescription_
-        
+
         super().__init__()
-    

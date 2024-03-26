@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AccessoryPreviewRequestMessage(NetworkMessage):
     genericId: list[int]
+
     def init(self, genericId_: list[int]):
         self.genericId = genericId_
-        
+
         super().__init__()
-    

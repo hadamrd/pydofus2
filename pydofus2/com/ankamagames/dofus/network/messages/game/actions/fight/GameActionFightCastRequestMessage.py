@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class GameActionFightCastRequestMessage(NetworkMessage):
     spellId: int
     cellId: int
+
     def init(self, spellId_: int, cellId_: int):
         self.spellId = spellId_
         self.cellId = cellId_
-        
+
         super().__init__()
-    

@@ -8,12 +8,12 @@ class JobExperience(NetworkMessage):
     jobXP: int
     jobXpLevelFloor: int
     jobXpNextLevelFloor: int
+
     def init(self, jobId_: int, jobLevel_: int, jobXP_: int, jobXpLevelFloor_: int, jobXpNextLevelFloor_: int):
         self.jobId = jobId_
         self.jobLevel = jobLevel_
         self.jobXP = jobXP_
         self.jobXpLevelFloor = jobXpLevelFloor_
         self.jobXpNextLevelFloor = jobXpNextLevelFloor_
-        
+
         super().__init__()
-    

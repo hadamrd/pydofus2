@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class PaddockRemoveItemRequestMessage(NetworkMessage):
     cellId: int
+
     def init(self, cellId_: int):
         self.cellId = cellId_
-        
+
         super().__init__()
-    

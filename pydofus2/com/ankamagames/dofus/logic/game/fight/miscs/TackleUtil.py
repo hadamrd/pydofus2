@@ -36,7 +36,7 @@ from pydofus2.mapTools import MapTools
 
 
 class TackleUtil:
-    
+
     @classmethod
     def getTackle(
         cls,

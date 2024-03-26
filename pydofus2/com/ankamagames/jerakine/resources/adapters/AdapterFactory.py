@@ -9,6 +9,7 @@ from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
 class ResourceError(Exception):
     pass
 
+
 class AdapterFactory:
 
     _customAdapters = dict()
@@ -16,37 +17,39 @@ class AdapterFactory:
     @staticmethod
     def getAdapter(uri: Uri) -> IAdapter:
         uriFileType = uri.fileType
-        if uriFileType.lower() in ['xml', 'meta', 'dm', 'dt']:
+        if uriFileType.lower() in ["xml", "meta", "dm", "dt"]:
             return XmlAdapter()
-        elif uriFileType.lower() in ['png', 'gif', 'jpg', 'jpeg']:
+        elif uriFileType.lower() in ["png", "gif", "jpg", "jpeg"]:
             return BitmapAdapter()
-        elif uriFileType.lower() in ['txt', 'css']:
+        elif uriFileType.lower() in ["txt", "css"]:
             return TxtAdapter()
-        elif uriFileType.lower() == 'swf':
+        elif uriFileType.lower() == "swf":
             return SwfAdapter()
-        elif uriFileType.lower() == 'aswf':
+        elif uriFileType.lower() == "aswf":
             return AdvancedSwfAdapter()
-        elif uriFileType.lower() == 'swl':
+        elif uriFileType.lower() == "swl":
             return SwlAdapter()
-        elif uriFileType.lower() == 'zip':
+        elif uriFileType.lower() == "zip":
             return ZipAdapter()
-        elif uriFileType.lower() == 'mp3':
+        elif uriFileType.lower() == "mp3":
             return MP3Adapter()
-        elif uriFileType.lower() == 'json':
+        elif uriFileType.lower() == "json":
             return JSONAdapter()
         else:
-            if uri.subPath and FileUtils.getExtension(uri.path) == 'swf':
+            if uri.subPath and FileUtils.getExtension(uri.path) == "swf":
                 return AdvancedSwfAdapter()
             customAdapter = AdapterFactory._customAdapters.get(uriFileType)
             if customAdapter:
                 ca = customAdapter()
                 if not isinstance(ca, IAdapter):
-                    raise ResourceError(f'Registered custom adapter for extension {uriFileType} isn\'t an IAdapter class.')
+                    raise ResourceError(
+                        f"Registered custom adapter for extension {uriFileType} isn't an IAdapter class."
+                    )
                 return ca
-            
-            if uriFileType.endswith('s'):
+
+            if uriFileType.endswith("s"):
                 return SignedFileAdapter()
-            
+
             return BinaryAdapter()
 
     @staticmethod

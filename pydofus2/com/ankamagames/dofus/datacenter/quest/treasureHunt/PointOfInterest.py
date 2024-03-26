@@ -15,7 +15,7 @@ class PointOfInterest(IDataCenter):
     nameId: int
     categoryId: int
 
-    def __init__(self):   
+    def __init__(self):
         self._name: str = None
         self._categoryActionLabel: str = None
         super().__init__()

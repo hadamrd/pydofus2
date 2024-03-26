@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GameRolePlayArenaRegistrationWarningMessage(NetworkMessage):
     battleMode: int
+
     def init(self, battleMode_: int):
         self.battleMode = battleMode_
-        
+
         super().__init__()
-    

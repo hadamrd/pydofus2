@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOpt
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.look.IndexedEntityLook import \
         IndexedEntityLook
-    
+
 
 class HumanOptionFollowers(HumanOption):
-    followingCharactersLook: list['IndexedEntityLook']
-    def init(self, followingCharactersLook_: list['IndexedEntityLook']):
+    followingCharactersLook: list["IndexedEntityLook"]
+
+    def init(self, followingCharactersLook_: list["IndexedEntityLook"]):
         self.followingCharactersLook = followingCharactersLook_
-        
+
         super().init()
-    

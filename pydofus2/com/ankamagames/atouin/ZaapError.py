@@ -1,4 +1,3 @@
-
 from pydofus2.com.ankamagames.atouin.ErrorsCodes import codeErrors
 
 
@@ -17,21 +16,19 @@ class ZaapError(Exception):
             self.errorMessage = self.message
             self.errorCode = self.code
         serialized_error = serialize_error(codeError)
-        self.code = serialized_error['code'] or self.errorCode
-        self.message = serialized_error['message'] or self.errorMessage
+        self.code = serialized_error["code"] or self.errorCode
+        self.message = serialized_error["message"] or self.errorMessage
         self.codeErr = codeError.split(".")[1:]
-        
+
     def toJSON(self):
-        return {
-            "code": self.code,
-            "message": self.message
-        }
-        
+        return {"code": self.code, "message": self.message}
+
     def __str__(self):
         return self.toJSON()
-        
+
+
 def serialize_error(code_error: str):
-    obj:dict = None
+    obj: dict = None
     for key in code_error.split("."):
         obj = obj.get(key, {}) if obj else codeErrors.get(key.lower(), {})
     return obj if obj else {}

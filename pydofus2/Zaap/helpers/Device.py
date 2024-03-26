@@ -8,8 +8,7 @@ import subprocess
 import psutil
 import pythoncom
 
-from pydofus2.com.ankamagames.jerakine.logger.Logger import \
-    Logger
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class Device:
@@ -17,11 +16,7 @@ class Device:
 
     @staticmethod
     def get_os_name():
-        os_name_map = {
-            "Windows": "WINDOWS",
-            "Darwin": "MACOS",
-            "Linux": "LINUX"
-        }
+        os_name_map = {"Windows": "WINDOWS", "Darwin": "MACOS", "Linux": "LINUX"}
         return os_name_map.get(platform.system())
 
     @staticmethod
@@ -40,41 +35,33 @@ class Device:
     @staticmethod
     def get_platform_and_architecture():
         # Map Python's platform.system() to JavaScript's os.platform() style
-        system_map = {
-            'Windows': 'win32',
-            'Darwin': 'darwin',
-            'Linux': 'linux'
-        }
+        system_map = {"Windows": "win32", "Darwin": "darwin", "Linux": "linux"}
         plt = system_map.get(platform.system(), platform.system().lower())
 
         # Map Python's platform.machine() to JavaScript's os.arch() style
-        arch_map = {
-            'AMD64': 'x64',
-            'x86_64': 'x64',
-            'i386': 'x86',
-            'i686': 'x86'
-        }
+        arch_map = {"AMD64": "x64", "x86_64": "x64", "i386": "x86", "i686": "x86"}
         arch = arch_map.get(platform.machine(), platform.machine())
 
         return plt, arch
-    
+
     @staticmethod
     def get_cpu_info():
         cpu_count = psutil.cpu_count(logical=True)  # Number of physical cores
         cpu_model = None
-        
+
         # For Windows
         if psutil.WINDOWS:
             try:
                 pythoncom.CoInitialize()
                 import wmi
+
                 w = wmi.WMI()
             except Exception as e:
                 Logger().error(f"Error while getting wmi : {e}", exc_info=True)
             cpu_info = w.Win32_Processor()[0]
             cpu_model = cpu_info.Name
             # Logger().debug(f"cpu_model : {cpu_model}")
-            
+
         # For Unix/Linux
         elif psutil.LINUX or psutil.MACOS or psutil.UNIX:
             with open("/proc/cpuinfo", "r") as f:
@@ -84,15 +71,15 @@ class Device:
                         break
 
         return cpu_count, cpu_model
-    
+
     @staticmethod
     def get_computer_ram():
-        ram_mb = int(psutil.virtual_memory().total / (1024 ** 2))
+        ram_mb = int(psutil.virtual_memory().total / (1024**2))
         return int(2 ** round(math.log(ram_mb, 2)))
 
     @staticmethod
     def get_os_version():
-        return int('.'.join(platform.release().split(".")[:2]))
+        return int(".".join(platform.release().split(".")[:2]))
 
     @staticmethod
     def get_uuid_cmd_per_platform():
@@ -123,7 +110,7 @@ class Device:
         plt = platform.system().lower()
 
         if plt == "darwin":
-            return re.search("IOPlatformUUID.*?=\s*\"(.*?)\"", std_out, re.IGNORECASE).group(1).lower()
+            return re.search('IOPlatformUUID.*?=\s*"(.*?)"', std_out, re.IGNORECASE).group(1).lower()
         elif plt in ["linux", "freebsd"]:
             return std_out.strip().lower()
         elif plt == "windows":
@@ -148,7 +135,7 @@ class Device:
         except Exception as e:
             Logger().error(f"An error occurred: {e}")
             return None
-        
+
     @staticmethod
     def machine_id(with_sha256_hash=True):
         try:

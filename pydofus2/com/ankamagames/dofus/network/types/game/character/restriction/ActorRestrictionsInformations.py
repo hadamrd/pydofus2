@@ -41,7 +41,29 @@ class ActorRestrictionsInformations(NetworkMessage):
     cantSpeakToNPC: bool
     cantChangeZone: bool
     cantAttackMonster: bool
-    def init(self, cantBeAggressed_: bool, cantBeChallenged_: bool, cantTrade_: bool, cantBeAttackedByMutant_: bool, cantRun_: bool, forceSlowWalk_: bool, cantMinimize_: bool, cantMove_: bool, cantAggress_: bool, cantChallenge_: bool, cantExchange_: bool, cantAttack_: bool, cantChat_: bool, cantUseObject_: bool, cantUseTaxCollector_: bool, cantUseInteractive_: bool, cantSpeakToNPC_: bool, cantChangeZone_: bool, cantAttackMonster_: bool):
+
+    def init(
+        self,
+        cantBeAggressed_: bool,
+        cantBeChallenged_: bool,
+        cantTrade_: bool,
+        cantBeAttackedByMutant_: bool,
+        cantRun_: bool,
+        forceSlowWalk_: bool,
+        cantMinimize_: bool,
+        cantMove_: bool,
+        cantAggress_: bool,
+        cantChallenge_: bool,
+        cantExchange_: bool,
+        cantAttack_: bool,
+        cantChat_: bool,
+        cantUseObject_: bool,
+        cantUseTaxCollector_: bool,
+        cantUseInteractive_: bool,
+        cantSpeakToNPC_: bool,
+        cantChangeZone_: bool,
+        cantAttackMonster_: bool,
+    ):
         self.cantBeAggressed = cantBeAggressed_
         self.cantBeChallenged = cantBeChallenged_
         self.cantTrade = cantTrade_
@@ -61,6 +83,5 @@ class ActorRestrictionsInformations(NetworkMessage):
         self.cantSpeakToNPC = cantSpeakToNPC_
         self.cantChangeZone = cantChangeZone_
         self.cantAttackMonster = cantAttackMonster_
-        
+
         super().__init__()
-    

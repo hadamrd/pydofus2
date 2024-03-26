@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollecto
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.fight.ProtectedEntityWaitingForHelpInfo import \
         ProtectedEntityWaitingForHelpInfo
-    
+
 
 class TaxCollectorWaitingForHelpInformations(TaxCollectorComplementaryInformations):
-    waitingForHelpInfo: 'ProtectedEntityWaitingForHelpInfo'
-    def init(self, waitingForHelpInfo_: 'ProtectedEntityWaitingForHelpInfo'):
+    waitingForHelpInfo: "ProtectedEntityWaitingForHelpInfo"
+
+    def init(self, waitingForHelpInfo_: "ProtectedEntityWaitingForHelpInfo"):
         self.waitingForHelpInfo = waitingForHelpInfo_
-        
+
         super().init()
-    

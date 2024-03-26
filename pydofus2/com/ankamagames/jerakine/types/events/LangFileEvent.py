@@ -4,7 +4,7 @@ class LangFileEvent:
 
     def __init__(self, event_type, bubbles=False, cancelable=False, sUrl=None, sUrlProvider=None):
         self.type = event_type
-        self.bubbles = bubbles 
+        self.bubbles = bubbles
         self.cancelable = cancelable
         self._sUrl = sUrl
         self._sUrlProvider = sUrlProvider

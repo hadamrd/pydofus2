@@ -5,9 +5,19 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFi
 class GameFightFighterTaxCollectorLightInformations(GameFightFighterLightInformations):
     firstNameId: int
     lastNameId: int
-    def init(self, firstNameId_: int, lastNameId_: int, id_: int, wave_: int, level_: int, breed_: int, sex_: bool, alive_: bool):
+
+    def init(
+        self,
+        firstNameId_: int,
+        lastNameId_: int,
+        id_: int,
+        wave_: int,
+        level_: int,
+        breed_: int,
+        sex_: bool,
+        alive_: bool,
+    ):
         self.firstNameId = firstNameId_
         self.lastNameId = lastNameId_
-        
+
         super().init(id_, wave_, level_, breed_, sex_, alive_)
-    

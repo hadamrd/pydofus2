@@ -5,9 +5,16 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.Qu
 class QuestObjectiveInformationsWithCompletion(QuestObjectiveInformations):
     curCompletion: int
     maxCompletion: int
-    def init(self, curCompletion_: int, maxCompletion_: int, objectiveId_: int, objectiveStatus_: bool, dialogParams_: list[str]):
+
+    def init(
+        self,
+        curCompletion_: int,
+        maxCompletion_: int,
+        objectiveId_: int,
+        objectiveStatus_: bool,
+        dialogParams_: list[str],
+    ):
         self.curCompletion = curCompletion_
         self.maxCompletion = maxCompletion_
-        
+
         super().init(objectiveId_, objectiveStatus_, dialogParams_)
-    

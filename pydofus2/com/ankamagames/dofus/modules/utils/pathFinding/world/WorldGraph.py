@@ -16,8 +16,10 @@ from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
     DirectionsEnum
 
 WORLDGRAPH_PATH = XmlConfig().getEntry("config.data.pathFinding")
+
+
 class WorldGraph(metaclass=ThreadSharedSingleton):
-    
+
     def __init__(self):
         self._vertices = dict[int, dict[int, Vertex]]()
         self._edges = dict[float, Edge]()
@@ -74,10 +76,10 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
                 self._vertices[mapId] = dict()
             self._vertices[mapId][zone] = vertex
         return vertex
-    
+
     def doesVertexExist(self, v: Vertex) -> bool:
         return v.mapId in self._vertices and v.zoneId in self._vertices[v.mapId]
-    
+
     def getEdges(self) -> dict:
         return self._edges
 
@@ -97,7 +99,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
 
     def getEdge(self, src: Vertex, dest: Vertex) -> Edge:
         return self._edges.get(src.UID, {}).get(dest.UID)
-        
+
     def reset(self):
         self._vertices.clear()
         self._edges.clear()
@@ -110,10 +112,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
         for vertex in self.getVertices(mapId).values():
             for edge in WorldGraph().getOutgoingEdgesFromVertex(vertex):
                 for transition in edge.transitions:
-                    if (
-                        transition.direction
-                        and DirectionsEnum(transition.direction) == direction
-                    ):
+                    if transition.direction and DirectionsEnum(transition.direction) == direction:
                         return True
         return False
 

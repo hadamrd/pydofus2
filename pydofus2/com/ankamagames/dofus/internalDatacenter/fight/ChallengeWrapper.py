@@ -144,22 +144,22 @@ class ChallengeWrapper:
 
     def getTurnsNumberForCompletion(self):
         if self._challenge is None:
-            return float('nan')
+            return float("nan")
         return self._challenge.getTurnsNumberForCompletion()
 
     def getBoundBossId(self):
         if self._challenge is None:
-            return float('nan')
+            return float("nan")
         return self._challenge.getBoundBossId()
 
     def getTargetMonsterId(self):
         if self._challenge is None:
-            return float('nan')
+            return float("nan")
         return self._challenge.getTargetMonsterId()
 
     def getPlayersNumberType(self):
         if self._challenge is None:
-            return float('nan')
+            return float("nan")
         return self._challenge.getPlayersNumberType()
 
     def getFightFrame(self):

@@ -10,7 +10,7 @@ from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 class AbstractLoaderAdapter(ABC):
 
-    _log = Log.getLogger('AbstractLoaderAdapter')
+    _log = Log.getLogger("AbstractLoaderAdapter")
     MEMORY_LOG = {}
 
     def __init__(self):
@@ -53,18 +53,18 @@ class AbstractLoaderAdapter(ABC):
 
     def prepareLoader(self):
         self._ldr = PoolsManager().getLoadersPool().checkOut()
-        self._ldr.contentLoaderInfo.addEventListener('complete', self.onInit)
-        self._ldr.contentLoaderInfo.addEventListener('ioError', self.onError)
+        self._ldr.contentLoaderInfo.addEventListener("complete", self.onInit)
+        self._ldr.contentLoaderInfo.addEventListener("ioError", self.onError)
         if self._dispatchProgress:
-            self._ldr.contentLoaderInfo.addEventListener('progress', self.onProgress)
+            self._ldr.contentLoaderInfo.addEventListener("progress", self.onProgress)
 
     def releaseLoader(self):
         if self._ldr:
             self._ldr.close()
-            self._ldr.contentLoaderInfo.removeEventListener('complete', self.onInit)
-            self._ldr.contentLoaderInfo.removeEventListener('ioError', self.onError)
+            self._ldr.contentLoaderInfo.removeEventListener("complete", self.onInit)
+            self._ldr.contentLoaderInfo.removeEventListener("ioError", self.onError)
             if self._dispatchProgress:
-                self._ldr.contentLoaderInfo.removeEventListener('progress', self.onProgress)
+                self._ldr.contentLoaderInfo.removeEventListener("progress", self.onProgress)
             if self._ldr.loadCompleted:
                 PoolsManager().getLoadersPool().checkIn(self._ldr)
             else:

@@ -15,7 +15,8 @@ if not os.path.exists(D2P_MAPS_PATH):
 
 if not os.path.exists(out_dir):
     os.makedirs(out_dir)
-    
+
+
 def unpackD2pFile(file_p, out_dir):
     file_name = os.path.basename(file_p)
     print("D2P Unpacker for " + file_name)

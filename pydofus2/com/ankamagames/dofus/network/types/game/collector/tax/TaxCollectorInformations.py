@@ -18,24 +18,41 @@ if TYPE_CHECKING:
         ObjectItem
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class TaxCollectorInformations(NetworkMessage):
     uniqueId: int
     firstNameId: int
     lastNameId: int
-    allianceIdentity: 'AllianceInformation'
-    additionalInfos: 'AdditionalTaxCollectorInformation'
+    allianceIdentity: "AllianceInformation"
+    additionalInfos: "AdditionalTaxCollectorInformation"
     worldX: int
     worldY: int
     subAreaId: int
     state: int
-    look: 'EntityLook'
-    complements: list['TaxCollectorComplementaryInformations']
-    characteristics: 'CharacterCharacteristics'
-    equipments: list['ObjectItem']
-    spells: list['TaxCollectorOrderedSpell']
-    def init(self, uniqueId_: int, firstNameId_: int, lastNameId_: int, allianceIdentity_: 'AllianceInformation', additionalInfos_: 'AdditionalTaxCollectorInformation', worldX_: int, worldY_: int, subAreaId_: int, state_: int, look_: 'EntityLook', complements_: list['TaxCollectorComplementaryInformations'], characteristics_: 'CharacterCharacteristics', equipments_: list['ObjectItem'], spells_: list['TaxCollectorOrderedSpell']):
+    look: "EntityLook"
+    complements: list["TaxCollectorComplementaryInformations"]
+    characteristics: "CharacterCharacteristics"
+    equipments: list["ObjectItem"]
+    spells: list["TaxCollectorOrderedSpell"]
+
+    def init(
+        self,
+        uniqueId_: int,
+        firstNameId_: int,
+        lastNameId_: int,
+        allianceIdentity_: "AllianceInformation",
+        additionalInfos_: "AdditionalTaxCollectorInformation",
+        worldX_: int,
+        worldY_: int,
+        subAreaId_: int,
+        state_: int,
+        look_: "EntityLook",
+        complements_: list["TaxCollectorComplementaryInformations"],
+        characteristics_: "CharacterCharacteristics",
+        equipments_: list["ObjectItem"],
+        spells_: list["TaxCollectorOrderedSpell"],
+    ):
         self.uniqueId = uniqueId_
         self.firstNameId = firstNameId_
         self.lastNameId = lastNameId_
@@ -50,6 +67,5 @@ class TaxCollectorInformations(NetworkMessage):
         self.characteristics = characteristics_
         self.equipments = equipments_
         self.spells = spells_
-        
+
         super().__init__()
-    

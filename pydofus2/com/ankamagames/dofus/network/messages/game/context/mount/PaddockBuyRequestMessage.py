@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class PaddockBuyRequestMessage(NetworkMessage):
     proposedPrice: int
+
     def init(self, proposedPrice_: int):
         self.proposedPrice = proposedPrice_
-        
+
         super().__init__()
-    

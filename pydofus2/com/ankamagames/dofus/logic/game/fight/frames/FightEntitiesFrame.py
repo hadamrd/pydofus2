@@ -1,4 +1,3 @@
-
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager as pcm
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
@@ -102,7 +101,6 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
 
     TEAM_CIRCLE_COLOR_2: int = 16711680
 
-
     def __init__(self):
         self._ie = dict()
         self._tempFighterList = list[GameContextActorInformations]()
@@ -123,7 +121,7 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
     @property
     def entities(self) -> dict[int, GameFightFighterInformations]:
         return super().entities
-    
+
     @classmethod
     def getCurrentInstance(cls) -> "FightEntitiesFrame":
         return krnl.Kernel().fightEntitiesFrame
@@ -476,8 +474,9 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
             ):
                 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightChangeVisibilityStep import \
                     FightChangeVisibilityStep
-                inviStep = FightChangeVisibilityStep(fighterId, fighterInfos.stats.invisibilityState);
-                inviStep.start();
+
+                inviStep = FightChangeVisibilityStep(fighterId, fighterInfos.stats.invisibilityState)
+                inviStep.start()
         else:
             self.updateActor(fighterInfos, False)
         self.updateCarriedEntities(fighterInfos)
@@ -493,7 +492,7 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
             self.addOrUpdateActor(actorInfos)
         else:
             if self.entities.get(actorInfos.contextualId):
-                self.hideActor(actorInfos.contextualId);
+                self.hideActor(actorInfos.contextualId)
             self.registerActor(actorInfos)
 
     def updateCarriedEntities(self, fighterInfos: GameContextActorInformations) -> None:
@@ -563,11 +562,12 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
             if infos.contextualId == pId:
                 return -1 if infos not in self._tempFighterList else self._tempFighterList.index(infos)
         return -1
-    
+
     def removeEntity(self, actorId: float) -> None:
         self.removeActor(actorId)
         del self._realFightersLooks[actorId]
         return True
+
 
 class TmpFighterInfos:
 

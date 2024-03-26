@@ -80,5 +80,7 @@ class FightLifeVariationStep(AbstractStatContextualStep, IFightStep):
                 lifePoints - maxLifePoints - stats.getStatTotalValue(StatIds.CUR_PERMANENT_DAMAGE),
             )
         )
-        Logger().info(f"[FightSequence] {self._targetId} lost {-self._delta} ({-self._permanentDamages})HP remaining {stats.getHealthPoints()}")
+        Logger().info(
+            f"[FightSequence] {self._targetId} lost {-self._delta} ({-self._permanentDamages})HP remaining {stats.getHealthPoints()}"
+        )
         super().start()

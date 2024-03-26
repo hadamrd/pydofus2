@@ -62,7 +62,7 @@ class EntityStats:
         if stat and isinstance(stat, DetailedStat):
             return getattr(stat, attrib)
         return 0
-    
+
     def getStatBaseValue(self, statId: float) -> float:
         return self.getDetailedStatValue(statId, "baseValue")
 
@@ -77,7 +77,7 @@ class EntityStats:
 
     def getStatContextModifValue(self, statId: float) -> float:
         return self.getDetailedStatValue(statId, "contextModifValue")
-    
+
     def getStatUsedValue(self, statId: float) -> float:
         stat = self._stats[float(statId)]
         if stat and isinstance(stat, UsableStat):

@@ -41,12 +41,20 @@ class PakProtocol2(AbstractProtocol):
         index = self._indexes[uri.path].get(uri.subPath)
         if not index:
             return
-        fileStream: BinaryStream = index['stream']
-        fileStream.seek(index['o'])
-        resource_bytes = fileStream.readBytes(index['l'])
+        fileStream: BinaryStream = index["stream"]
+        fileStream.seek(index["o"])
+        resource_bytes = fileStream.readBytes(index["l"])
         return resource_bytes
-        
-    def load(self, uri: Uri, observer: 'IResourceObserver', dispatchProgress: bool, cache: 'ICache', forcedAdapter: 'type', uniqueFile: bool) -> None:
+
+    def load(
+        self,
+        uri: Uri,
+        observer: "IResourceObserver",
+        dispatchProgress: bool,
+        cache: "ICache",
+        forcedAdapter: "type",
+        uniqueFile: bool,
+    ) -> None:
         index = None
         data = bytearray()
         fileStream = None
@@ -54,25 +62,25 @@ class PakProtocol2(AbstractProtocol):
             fileStream = self.initStream(uri)
             if not fileStream:
                 if observer:
-                    observer.onFailed(uri, "Unable to find container.", 'PAK_NOT_FOUND')
+                    observer.onFailed(uri, "Unable to find container.", "PAK_NOT_FOUND")
                 return
         index = self._indexes[uri.path].get(uri.subPath)
         if not index:
             if observer:
-                observer.onFailed(uri, "Unable to find the file in the container.", 'FILE_NOT_FOUND_IN_PAK')
+                observer.onFailed(uri, "Unable to find the file in the container.", "FILE_NOT_FOUND_IN_PAK")
             return
-        fileStream: BinaryStream = index['stream']
-        fileStream.seek(index['o'])
-        data = fileStream.readBytes(index['l'])
+        fileStream: BinaryStream = index["stream"]
+        fileStream.seek(index["o"])
+        data = fileStream.readBytes(index["l"])
         self.getAdapter(uri, forcedAdapter)
         try:
             self._adapter.loadFromData(uri, data, observer, dispatchProgress)
         except Exception as e:
             print(e)
-            observer.onFailed(uri, "Can't load byte array from this adapter.", 'INCOMPATIBLE_ADAPTER')
+            observer.onFailed(uri, "Can't load byte array from this adapter.", "INCOMPATIBLE_ADAPTER")
             return
 
-    def initStream(self, uri: Uri) -> 'BufferedReader':
+    def initStream(self, uri: Uri) -> "BufferedReader":
         vMax = 0
         vMin = 0
         dataOffset = 0
@@ -96,7 +104,7 @@ class PakProtocol2(AbstractProtocol):
         self._properties[uri.path] = properties
         while file and file.exists():
             print("working on : " + fileUri.path)
-            fs = BinaryStream(file.open('rb'), True)
+            fs = BinaryStream(file.open("rb"), True)
             vMax = fs.readUnsignedByte()
             vMin = fs.readUnsignedByte()
             if vMax != 2 or vMin != 1:
@@ -124,11 +132,7 @@ class PakProtocol2(AbstractProtocol):
                 filePath = fs.readUTF()
                 fileOffset = fs.readUnsignedInt()
                 fileLength = fs.readUnsignedInt()
-                indexes[filePath] = {
-                    "o": fileOffset + dataOffset,
-                    "l": fileLength,
-                    "stream": fs
-                }
+                indexes[filePath] = {"o": fileOffset + dataOffset, "l": fileLength, "stream": fs}
         return fs
 
     def release(self):

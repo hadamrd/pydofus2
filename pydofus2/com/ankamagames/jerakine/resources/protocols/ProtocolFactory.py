@@ -26,7 +26,9 @@ class ProtocolFactory:
         if customProtocol:
             cp = customProtocol()
             if not isinstance(cp, IProtocol):
-                raise ResourceError(f"Registered custom protocol for extension {uri.protocol} isn't an IProtocol class.")
+                raise ResourceError(
+                    f"Registered custom protocol for extension {uri.protocol} isn't an IProtocol class."
+                )
             return cp
         if uri.protocol == "http" or uri.protocol == "https":
             return HttpProtocol()

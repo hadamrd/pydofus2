@@ -78,7 +78,6 @@ if TYPE_CHECKING:
         ZaapFrame
 
 
-
 class Kernel(metaclass=Singleton):
     def __init__(self) -> None:
         self._worker: Worker = Worker()
@@ -113,6 +112,8 @@ class Kernel(metaclass=Singleton):
             KernelEventsManager
         from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
             ConnectionsHandler
+        from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
+            InterClientManager
         from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
             PlayerManager
         from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
@@ -131,8 +132,6 @@ class Kernel(metaclass=Singleton):
             SpellModifiersManager
         from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
             BenchmarkTimer
-        from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import InterClientManager
-
 
         Logger().debug("Resetting ...")
         BenchmarkTimer.reset()
@@ -150,7 +149,7 @@ class Kernel(metaclass=Singleton):
         InactivityManager().stop()
         InactivityManager.clear()
         InterClientManager().freeFlashKey()
-    
+
         if not reloadData:
             self._worker.terminate()
         else:

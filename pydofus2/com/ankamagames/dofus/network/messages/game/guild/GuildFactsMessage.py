@@ -8,16 +8,21 @@ if TYPE_CHECKING:
         CharacterMinimalSocialPublicInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.social.GuildFactSheetInformations import \
         GuildFactSheetInformations
-    
+
 
 class GuildFactsMessage(NetworkMessage):
-    infos: 'GuildFactSheetInformations'
+    infos: "GuildFactSheetInformations"
     creationDate: int
-    members: list['CharacterMinimalSocialPublicInformations']
-    def init(self, infos_: 'GuildFactSheetInformations', creationDate_: int, members_: list['CharacterMinimalSocialPublicInformations']):
+    members: list["CharacterMinimalSocialPublicInformations"]
+
+    def init(
+        self,
+        infos_: "GuildFactSheetInformations",
+        creationDate_: int,
+        members_: list["CharacterMinimalSocialPublicInformations"],
+    ):
         self.infos = infos_
         self.creationDate = creationDate_
         self.members = members_
-        
+
         super().__init__()
-    

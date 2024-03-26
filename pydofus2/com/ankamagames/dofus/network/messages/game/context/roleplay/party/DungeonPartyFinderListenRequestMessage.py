@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class DungeonPartyFinderListenRequestMessage(NetworkMessage):
     dungeonId: int
+
     def init(self, dungeonId_: int):
         self.dungeonId = dungeonId_
-        
+
         super().__init__()
-    

@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class FriendDeleteRequestMessage(NetworkMessage):
     accountId: int
+
     def init(self, accountId_: int):
         self.accountId = accountId_
-        
+
         super().__init__()
-    

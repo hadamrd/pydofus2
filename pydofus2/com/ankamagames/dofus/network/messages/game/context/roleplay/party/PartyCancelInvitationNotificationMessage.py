@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party
 class PartyCancelInvitationNotificationMessage(AbstractPartyEventMessage):
     cancelerId: int
     guestId: int
+
     def init(self, cancelerId_: int, guestId_: int, partyId_: int):
         self.cancelerId = cancelerId_
         self.guestId = guestId_
-        
+
         super().init(partyId_)
-    

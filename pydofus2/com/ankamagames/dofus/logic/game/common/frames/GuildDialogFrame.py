@@ -16,7 +16,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 class GuildDialogFrame:
     guildEmblem = None
-    
+
     def __init__(self) -> None:
         super().__init__()
         self._guildDialogFrame = None
@@ -30,7 +30,7 @@ class GuildDialogFrame:
 
     @classmethod
     def process(self, msg: Message) -> bool:
-        
+
         if isinstance(msg, LeaveDialogMessage):
             ldm = msg
             Kernel().worker.addFrame(self._guildDialogFrame)
@@ -50,7 +50,7 @@ class GuildDialogFrame:
 
     def leaveDialog(self):
         Kernel().worker.removeFrame(self)
-        
+
     def pulled(self) -> bool:
         KernelEventsManager().send(KernelEvent.LeaveDialog)
         return True

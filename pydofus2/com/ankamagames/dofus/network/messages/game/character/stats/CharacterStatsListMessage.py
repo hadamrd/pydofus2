@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import \
         CharacterCharacteristicsInformations
-    
+
 
 class CharacterStatsListMessage(NetworkMessage):
-    stats: 'CharacterCharacteristicsInformations'
-    def init(self, stats_: 'CharacterCharacteristicsInformations'):
+    stats: "CharacterCharacteristicsInformations"
+
+    def init(self, stats_: "CharacterCharacteristicsInformations"):
         self.stats = stats_
-        
+
         super().__init__()
-    

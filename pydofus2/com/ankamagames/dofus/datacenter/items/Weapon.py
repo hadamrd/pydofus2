@@ -47,7 +47,7 @@ class Weapon(Item, IDataCenter):
         return None
 
     @classmethod
-    def getWeapons(self) -> list['Weapon']:
+    def getWeapons(self) -> list["Weapon"]:
         items = Item.getItems()
         result = list()
         for item in items:

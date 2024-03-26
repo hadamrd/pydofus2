@@ -58,9 +58,7 @@ class FightThrowCharacterStep(AbstractSequencable, IFightStep):
         if not carryingEntity or not carryingEntityInfos.spawnInfo.alive:
             Logger().error(f"warning, the entity [{self._fighterId}] is not carrying [{self._carriedId}]")
             carryingFighterExist = False
-        fighterInfos = Kernel().fightEntitiesFrame.getEntityInfos(
-            self._carriedId
-        )
+        fighterInfos = Kernel().fightEntitiesFrame.getEntityInfos(self._carriedId)
         if self._cellId != -1:
             fighterInfos.disposition.cellId = self._cellId
         if self._carriedId == CurrentPlayedFighterManager().currentFighterId:

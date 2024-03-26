@@ -34,12 +34,7 @@ class Uri:
         else:
             self.path = str_path
             self.subPath = None
-        if (
-            self._secureMode
-            and self._useSecureURI
-            and self._protocol == "file"
-            and not self.isSecure()
-        ):
+        if self._secureMode and self._useSecureURI and self._protocol == "file" and not self.isSecure():
             raise ValueError(f"'{uri}' is an insecure URI.")
 
     def isSecure(self):
@@ -47,16 +42,14 @@ class Uri:
         return True
 
     def toString(self):
-        return f"{self._protocol}://{self._path}" + (
-            f"|{self._subPath}" if self._subPath else ""
-        )
-        
+        return f"{self._protocol}://{self._path}" + (f"|{self._subPath}" if self._subPath else "")
+
     def __str__(self) -> str:
         return self.toString()
-    
+
     def __repr__(self) -> str:
         return self.toString()
-    
+
     def toSum(self):
         return hashlib.md5(self.toString().encode()).hexdigest()
 
@@ -97,10 +90,7 @@ class Uri:
     @subPath.setter
     def subPath(self, value):
         if (not self.subPath and not value) or (
-            self.subPath
-            and value
-            and len(self.subPath) == len(value)
-            and self.subPath.startswith(value)
+            self.subPath and value and len(self.subPath) == len(value) and self.subPath.startswith(value)
         ):
             return
         if value is None or value == "":
@@ -141,11 +131,7 @@ class Uri:
     @property
     def fileType(self):
         if self._fileTypeChanged:
-            path_obj = (
-                Path(self._subPath)
-                if self._subPath and "." in self._subPath
-                else Path(self._path)
-            )
+            path_obj = Path(self._subPath) if self._subPath and "." in self._subPath else Path(self._path)
             file_suffix = path_obj.suffix.split("?")[0]
             self._fileType = file_suffix[1:] if file_suffix.startswith(".") else file_suffix
             self._fileTypeChanged = False
@@ -157,7 +143,7 @@ class Uri:
             return self._uri.replace("/\\/g", "/")
         else:
             raise ValueError(f"Unsupported protocol {self._protocol} for normalization.")
-    
+
     def normalizedUriWithoutSubPath(self) -> str:
         supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
         if self._protocol in supported_protocols:

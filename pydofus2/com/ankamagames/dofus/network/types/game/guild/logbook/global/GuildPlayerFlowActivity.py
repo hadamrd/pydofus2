@@ -6,10 +6,10 @@ class GuildPlayerFlowActivity(GuildLogbookEntryBasicInformation):
     playerId: int
     playerName: str
     playerFlowEventType: int
+
     def init(self, playerId_: int, playerName_: str, playerFlowEventType_: int, id_: int, date_: int):
         self.playerId = playerId_
         self.playerName = playerName_
         self.playerFlowEventType = playerFlowEventType_
-        
+
         super().init(id_, date_)
-    

@@ -18,7 +18,7 @@ from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 
 class AlignmentLevelItemCriterion(ItemCriterion, IDataCenter):
-    
+
     def __init__(self, pCriterion: str):
         super().__init__(pCriterion)
 
@@ -27,7 +27,7 @@ class AlignmentLevelItemCriterion(ItemCriterion, IDataCenter):
         readableCriterionRef = I18n.getUiText("ui.tooltip.AlignmentLevel")
         return readableCriterionRef + " " + self._operator.text + " " + self._criterionValue
 
-    def clone(self) -> 'IItemCriterion':
+    def clone(self) -> "IItemCriterion":
         return AlignmentLevelItemCriterion(self.basicText)
 
     def getCriterion(self) -> int:

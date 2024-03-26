@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GuildApplicationListenMessage(NetworkMessage):
     listen: bool
+
     def init(self, listen_: bool):
         self.listen = listen_
-        
+
         super().__init__()
-    

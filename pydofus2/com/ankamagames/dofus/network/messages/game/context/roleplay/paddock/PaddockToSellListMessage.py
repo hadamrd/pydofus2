@@ -6,16 +6,16 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.paddock.PaddockInformationsForSell import \
         PaddockInformationsForSell
-    
+
 
 class PaddockToSellListMessage(NetworkMessage):
     pageIndex: int
     totalPage: int
-    paddockList: list['PaddockInformationsForSell']
-    def init(self, pageIndex_: int, totalPage_: int, paddockList_: list['PaddockInformationsForSell']):
+    paddockList: list["PaddockInformationsForSell"]
+
+    def init(self, pageIndex_: int, totalPage_: int, paddockList_: list["PaddockInformationsForSell"]):
         self.pageIndex = pageIndex_
         self.totalPage = totalPage_
         self.paddockList = paddockList_
-        
+
         super().__init__()
-    

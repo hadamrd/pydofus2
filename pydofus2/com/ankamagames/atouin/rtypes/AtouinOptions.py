@@ -37,4 +37,3 @@ class AtouinOptions(OptionManager):
         self.add("hideBlackBorder", True)
         self.add("tacticalModeTemplatesPath")
         self.add("useWorldEntityPool", False)
-

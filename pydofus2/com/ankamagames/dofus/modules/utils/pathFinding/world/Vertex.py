@@ -23,25 +23,25 @@ class Vertex:
 
     def __hash__(self) -> int:
         return self.UID
-    
-    def __eq__(self, o: 'Vertex') -> bool:
+
+    def __eq__(self, o: "Vertex") -> bool:
         if o is None:
             return False
         return self.UID == o.UID
-    
+
     def __str__(self) -> str:
         return f"Vertex(mapId={self._mapId}, zoneId={self._zoneId}, uid={self._uid})"
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-        
+
     def to_json(self) -> dict:
         return {
             "mapId": self._mapId,
             "zoneId": self._zoneId,
             "vertexUid": self._uid,
         }
-    
+
     @classmethod
     def from_dict(cls, data):
-        return cls(data['mapId'], data['zoneId'])
+        return cls(data["mapId"], data["zoneId"])

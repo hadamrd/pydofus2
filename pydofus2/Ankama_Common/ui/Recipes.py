@@ -206,7 +206,9 @@ class Recipes:
             Logger().warning(f"Recipe not possible")
             return [], []
         maxOccurrence = self._inventoryDataByGID[recipe.resultId]["actualMaxOccurence"]
-        recipeWeight = sum(self._inventoryDataByGID[eid]["weight"] * qty for eid, qty in zip(recipe.ingredientIds, recipe.quantities))
+        recipeWeight = sum(
+            self._inventoryDataByGID[eid]["weight"] * qty for eid, qty in zip(recipe.ingredientIds, recipe.quantities)
+        )
         maxRecepiesCanCarry = availablePlayerPods // recipeWeight
         nbrRecepiesToRetrieve = min(maxOccurrence, maxRecepiesCanCarry)
         if not qty:

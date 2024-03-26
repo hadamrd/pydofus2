@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class PlayerStatus(NetworkMessage):
     statusId: int
+
     def init(self, statusId_: int):
         self.statusId = statusId_
-        
+
         super().__init__()
-    

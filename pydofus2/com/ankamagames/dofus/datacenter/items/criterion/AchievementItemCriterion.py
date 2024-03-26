@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
 
 
 class AchievementItemCriterion(ItemCriterion, IDataCenter):
-    
+
     def __init__(self, pCriterion: str):
         super().__init__(pCriterion)
 
@@ -33,12 +33,12 @@ class AchievementItemCriterion(ItemCriterion, IDataCenter):
 
         readableValue = f" '{Achievement.getAchievementById(self._criterionValue).name}'"
         readableCriterion = I18n.getUiText("ui.tooltip.unlockAchievement", [readableValue])
-        
+
         if self._operator.text == ItemCriterionOperator.DIFFERENT:
             readableCriterion = I18n.getUiText("ui.tooltip.dontUnlockAchievement", [readableValue])
 
         return readableCriterion
-    
+
     def getCriterion(self) -> int:
         achievementFinishedList = Kernel().questFrame.finishedAccountAchievementIds
         for id in achievementFinishedList:

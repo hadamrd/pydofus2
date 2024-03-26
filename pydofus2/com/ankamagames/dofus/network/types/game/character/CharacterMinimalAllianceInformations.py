@@ -8,12 +8,20 @@ if TYPE_CHECKING:
         BasicNamedAllianceInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class CharacterMinimalAllianceInformations(CharacterMinimalPlusLookInformations):
-    alliance: 'BasicNamedAllianceInformations'
-    def init(self, alliance_: 'BasicNamedAllianceInformations', entityLook_: 'EntityLook', breed_: int, level_: int, name_: str, id_: int):
+    alliance: "BasicNamedAllianceInformations"
+
+    def init(
+        self,
+        alliance_: "BasicNamedAllianceInformations",
+        entityLook_: "EntityLook",
+        breed_: int,
+        level_: int,
+        name_: str,
+        id_: int,
+    ):
         self.alliance = alliance_
-        
+
         super().init(entityLook_, breed_, level_, name_, id_)
-    

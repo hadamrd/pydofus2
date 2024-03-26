@@ -18,7 +18,7 @@ from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import \
 
 
 class GameDataQuery:
-    
+
     @classmethod
     def getQueryableFields(cls, target: object) -> list[str]:
         target = cls.checkPackage(target)

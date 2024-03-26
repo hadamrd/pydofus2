@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterI
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class MonsterInGroupInformations(MonsterInGroupLightInformations):
-    look: 'EntityLook'
-    def init(self, look_: 'EntityLook', genericId_: int, grade_: int, level_: int):
+    look: "EntityLook"
+
+    def init(self, look_: "EntityLook", genericId_: int, grade_: int, level_: int):
         self.look = look_
-        
+
         super().init(genericId_, grade_, level_)
-    

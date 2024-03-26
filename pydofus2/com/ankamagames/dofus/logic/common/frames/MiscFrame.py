@@ -3,14 +3,18 @@ from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
+    TimeManager
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
-from pydofus2.com.ankamagames.dofus.network.enums.HaapiAuthEnum import HaapiAuthTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
+    ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.network.enums.HaapiAuthEnum import \
+    HaapiAuthTypeEnum
 from pydofus2.com.ankamagames.dofus.network.enums.HaapiSessionTypeEnum import \
     HaapiSessionTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.SubscriptionRequiredEnum import SubscriptionRequiredEnum
+from pydofus2.com.ankamagames.dofus.network.enums.SubscriptionRequiredEnum import \
+    SubscriptionRequiredEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSessionConstantsMessage import \
     ServerSessionConstantsMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.approach.ServerSettingsMessage import \
@@ -19,7 +23,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.basic.CurrentServerSta
     CurrentServerStatusUpdateMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.AccountHouseMessage import \
     AccountHouseMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.subscriber.SubscriptionLimitationMessage import SubscriptionLimitationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.subscriber.SubscriptionLimitationMessage import \
+    SubscriptionLimitationMessage
 from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiApiKeyMessage import \
     HaapiApiKeyMessage
 from pydofus2.com.ankamagames.dofus.network.messages.web.haapi.HaapiAuthErrorMessage import \
@@ -137,7 +142,7 @@ class MiscFrame(Frame, metaclass=Singleton):
             if msg.type == HaapiAuthTypeEnum.HAAPI_API_KEY:
                 Logger().error("Error during ApiKey request.")
             return True
-        
+
         if isinstance(msg, SubscriptionLimitationMessage):
             Logger().error("SubscriptionLimitationMessage reason " + msg.reason)
             text = ""
@@ -157,15 +162,19 @@ class MiscFrame(Frame, metaclass=Singleton):
 
             if msg.reason == SubscriptionRequiredEnum.LIMIT_ON_HAVENBAG:
                 text = I18n.getUiText("ui.payzone.limit")
-                payZonePopupMode = "payzone_havenbag"    
+                payZonePopupMode = "payzone_havenbag"
             else:
                 text = I18n.getUiText("ui.payzone.limit")
-                
+
             Logger().warning("SubscriptionLimitationMessage text " + text)
-            KernelEventsManager().send(KernelEvent.TextInformation, text, ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO, TimeManager().getTimestamp())
+            KernelEventsManager().send(
+                KernelEvent.TextInformation,
+                text,
+                ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                TimeManager().getTimestamp(),
+            )
             KernelEventsManager().send(KernelEvent.NonSubscriberPopup, [payZonePopupMode])
             return True
-
 
     @property
     def priority(self) -> int:

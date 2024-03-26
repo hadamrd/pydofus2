@@ -39,7 +39,7 @@ class BenchmarkTimer(threading.Thread):
         self.startedTime = perf_counter()
         self.finished.clear()
         super().start()
-    
+
     def debugData(self):
         sumAllTimers = sum([len(timers) for timers in BenchmarkTimer._createdTimers.values()])
         Logger().info(f"{self.callerName} in timer, Total Timers in all threads: {sumAllTimers}")

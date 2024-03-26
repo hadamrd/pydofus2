@@ -226,7 +226,7 @@ class Map:
         if self._gfxList is None:
             self.computeGfxList()
         return self._gfxCount.get(gfxId, 0)
-    
+
     def getBorderCells(self, direction: DirectionsEnum):
         currentlyCheckedCellX = None
         currentlyCheckedCellY = None
@@ -312,7 +312,7 @@ class Map:
 
     def getGfxCell(self, gfxId):
         return self._gfxCell.get(gfxId)
-    
+
     def getIdentifiedElements(self) -> List[Tuple[MapPoint, GraphicalElement]]:
         identifiedElements = list[Tuple[MapPoint, GraphicalElement]]()
         for layer in self.layers:
@@ -325,17 +325,17 @@ class Map:
                         if element.identifier > 0:
                             identifiedElements.append([MapPoint.fromCellId(cell.cellId), element])
         return identifiedElements
-    
+
     def computeGfxList(self, skipBackground=False, layersFilter=[]) -> list[NormalGraphicalElementData]:
         gfxList = {}
         self._gfxCount = {}
         numLayer = len(self.layers)
         for l in range(numLayer):
-            layer = self.layers[l]            
+            layer = self.layers[l]
             if layersFilter and layer.layerId not in layersFilter:
                 continue
-            layer.layerId 
-            if not(skipBackground and l == 0):
+            layer.layerId
+            if not (skipBackground and l == 0):
                 lsCell = layer.cells
                 numCell = len(lsCell)
                 for c in range(numCell):

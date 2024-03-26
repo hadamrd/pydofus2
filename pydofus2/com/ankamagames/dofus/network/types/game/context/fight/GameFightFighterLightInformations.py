@@ -11,6 +11,7 @@ class GameFightFighterLightInformations(NetworkMessage):
     alive: bool
     sex: bool
     alive: bool
+
     def init(self, id_: int, wave_: int, level_: int, breed_: int, sex_: bool, alive_: bool):
         self.id = id_
         self.wave = wave_
@@ -18,6 +19,5 @@ class GameFightFighterLightInformations(NetworkMessage):
         self.breed = breed_
         self.sex = sex_
         self.alive = alive_
-        
+
         super().__init__()
-    

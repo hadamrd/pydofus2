@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class HavenBagPermissionsUpdateMessage(NetworkMessage):
     permissions: int
+
     def init(self, permissions_: int):
         self.permissions = permissions_
-        
+
         super().__init__()
-    

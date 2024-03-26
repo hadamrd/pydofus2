@@ -210,7 +210,7 @@ class Pathfinding(metaclass=Singleton):
                 if TransitionTypeEnum(tr.type) == TransitionTypeEnum.MAP_ACTION:
                     res.append(tr.cell)
         return res
-    
+
     def findPath(
         self,
         start: MapPoint,

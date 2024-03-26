@@ -4,8 +4,18 @@ from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFig
 
 class FightTemporaryBoostEffect(AbstractFightDispellableEffect):
     delta: int
-    def init(self, delta_: int, uid_: int, targetId_: int, turnDuration_: int, dispelable_: int, spellId_: int, effectId_: int, parentBoostUid_: int):
+
+    def init(
+        self,
+        delta_: int,
+        uid_: int,
+        targetId_: int,
+        turnDuration_: int,
+        dispelable_: int,
+        spellId_: int,
+        effectId_: int,
+        parentBoostUid_: int,
+    ):
         self.delta = delta_
-        
+
         super().init(uid_, targetId_, turnDuration_, dispelable_, spellId_, effectId_, parentBoostUid_)
-    

@@ -22,7 +22,7 @@ class InvalidD2OFile(Exception):
 
 class ModuleReader:
     _clearObjectsCache = False
-    
+
     def __init__(self, filepath: str, name: str) -> None:
         self.filepath = filepath
         self.name = name

@@ -8,18 +8,20 @@ if TYPE_CHECKING:
         CharacterMinimalInformations
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectInteger import \
         ObjectEffectInteger
-    
+
 
 class BreachStateMessage(NetworkMessage):
-    owner: 'CharacterMinimalInformations'
-    bonuses: list['ObjectEffectInteger']
+    owner: "CharacterMinimalInformations"
+    bonuses: list["ObjectEffectInteger"]
     bugdet: int
     saved: bool
-    def init(self, owner_: 'CharacterMinimalInformations', bonuses_: list['ObjectEffectInteger'], bugdet_: int, saved_: bool):
+
+    def init(
+        self, owner_: "CharacterMinimalInformations", bonuses_: list["ObjectEffectInteger"], bugdet_: int, saved_: bool
+    ):
         self.owner = owner_
         self.bonuses = bonuses_
         self.bugdet = bugdet_
         self.saved = saved_
-        
+
         super().__init__()
-    

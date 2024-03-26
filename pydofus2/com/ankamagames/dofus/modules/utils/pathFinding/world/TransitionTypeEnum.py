@@ -18,7 +18,7 @@ class TransitionTypeEnum(Enum):
     INTERACTIVE = 32
 
     NPC_ACTION = 64
-    
+
     ITEM_TELEPORT = 128
-    
+
     ZAAP = 256

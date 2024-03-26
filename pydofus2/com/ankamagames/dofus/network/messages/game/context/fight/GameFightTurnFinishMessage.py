@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class GameFightTurnFinishMessage(NetworkMessage):
     isAfk: bool
+
     def init(self, isAfk_: bool):
         self.isAfk = isAfk_
-        
+
         super().__init__()
-    

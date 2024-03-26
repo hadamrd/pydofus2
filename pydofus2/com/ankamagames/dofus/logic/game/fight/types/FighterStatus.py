@@ -11,7 +11,7 @@ class FighterStatus:
     invulnerableRange: bool = None
     cantTackle: bool = None
     cantBeTackled: bool = None
-    
+
     def __init__(self) -> None:
         pass
 
@@ -20,4 +20,4 @@ class FighterStatus:
         for attribute, value in self.__dict__.items():
             if value is True:
                 active_statuses.append(attribute)
-        return ', '.join(active_statuses)
+        return ", ".join(active_statuses)

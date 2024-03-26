@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.BaseSpawnMo
 
 class SpawnScaledMonsterInformation(BaseSpawnMonsterInformation):
     creatureLevel: int
+
     def init(self, creatureLevel_: int, creatureGenericId_: int):
         self.creatureLevel = creatureLevel_
-        
+
         super().init(creatureGenericId_)
-    

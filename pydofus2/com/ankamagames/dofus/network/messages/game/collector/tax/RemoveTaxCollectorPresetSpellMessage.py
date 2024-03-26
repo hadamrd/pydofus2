@@ -5,14 +5,14 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.uuid import Uuid
-    
+
 
 class RemoveTaxCollectorPresetSpellMessage(NetworkMessage):
-    presetId: 'Uuid'
+    presetId: "Uuid"
     slot: int
-    def init(self, presetId_: 'Uuid', slot_: int):
+
+    def init(self, presetId_: "Uuid", slot_: int):
         self.presetId = presetId_
         self.slot = slot_
-        
+
         super().__init__()
-    

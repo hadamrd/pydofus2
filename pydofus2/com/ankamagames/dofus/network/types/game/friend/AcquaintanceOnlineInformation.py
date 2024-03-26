@@ -8,18 +8,27 @@ if TYPE_CHECKING:
         AccountTagInformation
     from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
         PlayerStatus
-    
+
 
 class AcquaintanceOnlineInformation(AcquaintanceInformation):
     playerId: int
     playerName: str
     moodSmileyId: int
-    status: 'PlayerStatus'
-    def init(self, playerId_: int, playerName_: str, moodSmileyId_: int, status_: 'PlayerStatus', playerState_: int, accountId_: int, accountTag_: 'AccountTagInformation'):
+    status: "PlayerStatus"
+
+    def init(
+        self,
+        playerId_: int,
+        playerName_: str,
+        moodSmileyId_: int,
+        status_: "PlayerStatus",
+        playerState_: int,
+        accountId_: int,
+        accountTag_: "AccountTagInformation",
+    ):
         self.playerId = playerId_
         self.playerName = playerName_
         self.moodSmileyId = moodSmileyId_
         self.status = status_
-        
+
         super().init(playerState_, accountId_, accountTag_)
-    

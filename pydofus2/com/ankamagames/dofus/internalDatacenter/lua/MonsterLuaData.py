@@ -1,6 +1,14 @@
 class MonsterLuaData:
 
-    def __init__(self, pLevel: int, pXp: int, pHiddenLevel: int, pBonusFamily: float = 1.0, pBonusAlmanac: float = 1.0, pAlive: bool = True):
+    def __init__(
+        self,
+        pLevel: int,
+        pXp: int,
+        pHiddenLevel: int,
+        pBonusFamily: float = 1.0,
+        pBonusAlmanac: float = 1.0,
+        pAlive: bool = True,
+    ):
         self.level = pLevel
         self.xp = pXp
         self.hiddenLevel = pHiddenLevel

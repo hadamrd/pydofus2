@@ -10,7 +10,7 @@ if TYPE_CHECKING:
         PlayerStatus
     from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
         GuildInformations
-    
+
 
 class FriendOnlineInformations(FriendInformations):
     playerId: int
@@ -18,14 +18,34 @@ class FriendOnlineInformations(FriendInformations):
     level: int
     alignmentSide: int
     breed: int
-    guildInfo: 'GuildInformations'
+    guildInfo: "GuildInformations"
     moodSmileyId: int
-    status: 'PlayerStatus'
+    status: "PlayerStatus"
     sex: bool
     havenBagShared: bool
     sex: bool
     havenBagShared: bool
-    def init(self, playerId_: int, playerName_: str, level_: int, alignmentSide_: int, breed_: int, guildInfo_: 'GuildInformations', moodSmileyId_: int, status_: 'PlayerStatus', sex_: bool, havenBagShared_: bool, playerState_: int, lastConnection_: int, achievementPoints_: int, leagueId_: int, ladderPosition_: int, accountId_: int, accountTag_: 'AccountTagInformation'):
+
+    def init(
+        self,
+        playerId_: int,
+        playerName_: str,
+        level_: int,
+        alignmentSide_: int,
+        breed_: int,
+        guildInfo_: "GuildInformations",
+        moodSmileyId_: int,
+        status_: "PlayerStatus",
+        sex_: bool,
+        havenBagShared_: bool,
+        playerState_: int,
+        lastConnection_: int,
+        achievementPoints_: int,
+        leagueId_: int,
+        ladderPosition_: int,
+        accountId_: int,
+        accountTag_: "AccountTagInformation",
+    ):
         self.playerId = playerId_
         self.playerName = playerName_
         self.level = level_
@@ -36,6 +56,7 @@ class FriendOnlineInformations(FriendInformations):
         self.status = status_
         self.sex = sex_
         self.havenBagShared = havenBagShared_
-        
-        super().init(playerState_, lastConnection_, achievementPoints_, leagueId_, ladderPosition_, accountId_, accountTag_)
-    
+
+        super().init(
+            playerState_, lastConnection_, achievementPoints_, leagueId_, ladderPosition_, accountId_, accountTag_
+        )

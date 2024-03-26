@@ -86,7 +86,7 @@ class BinaryStream:
 
     def readUTF(self, encoding="utf-8") -> str:
         length = self.readUnsignedShort()
-        return self._unpack(str(length) + "s", length).decode(encoding, errors='replace')
+        return self._unpack(str(length) + "s", length).decode(encoding, errors="replace")
 
     def readUTFBytes(self, length) -> str:
         return self._unpack(str(length) + "s", length)

@@ -38,7 +38,9 @@ class FightSummonStep(AbstractSequencable, IFightStep):
         super().__init__()
         self._summonerId = summonerId
         self._summonInfos = summonInfos
-        Logger().info(f"Fighter ({self._summonerId}) summoned {self._summonInfos.contextualId} on cell {self._summonInfos.disposition.cellId}")
+        Logger().info(
+            f"Fighter ({self._summonerId}) summoned {self._summonInfos.contextualId} on cell {self._summonInfos.disposition.cellId}"
+        )
 
     @property
     def stepType(self) -> str:
@@ -65,9 +67,7 @@ class FightSummonStep(AbstractSequencable, IFightStep):
         summonStats = StatsManager().getStats(self._summonInfos.contextualId)
         summonLifePoints = summonStats.getHealthPoints()
         if self._summonInfos.contextualId == PlayedCharacterManager().id:
-            fighterInfos = Kernel().fightEntitiesFrame.getEntityInfos(
-                self._summonInfos.contextualId
-            )
+            fighterInfos = Kernel().fightEntitiesFrame.getEntityInfos(self._summonInfos.contextualId)
             stats = StatsManager().getStats(fighterInfos.contextualId)
             if not fighterInfos or not stats or not summonStats:
                 super().executeCallbacks()

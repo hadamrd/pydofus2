@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
         AccountTagInformation
-    
+
 
 class AcquaintanceSearchMessage(NetworkMessage):
-    tag: 'AccountTagInformation'
-    def init(self, tag_: 'AccountTagInformation'):
+    tag: "AccountTagInformation"
+
+    def init(self, tag_: "AccountTagInformation"):
         self.tag = tag_
-        
+
         super().__init__()
-    

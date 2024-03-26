@@ -43,7 +43,7 @@ from pydofus2.damageCalculation.tools.StatIds import StatIds
 
 
 class CurrentPlayedFighterManager(metaclass=Singleton):
-    
+
     def __init__(self):
         self._characteristicsInformationsList = dict()
         self._spellCastInFightManagerList = dict()
@@ -75,7 +75,7 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
             currentFighterEntity.canSeeThrough = True
             currentFighterEntity.canWalkThrough = True
             currentFighterEntity.canWalkTo = True
-            
+
     @currentFighterId.setter
     def currentFighterId(self, id: float) -> None:
         self.setCurrentFighterId(id)
@@ -152,7 +152,12 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
             self._spellCastInFightManagerList[id] = scm
         return scm
 
-    def canCastThisSpell(self, spellId: int, lvl: int, pTargetId: float = 0,) -> bool:
+    def canCastThisSpell(
+        self,
+        spellId: int,
+        lvl: int,
+        pTargetId: float = 0,
+    ) -> bool:
         from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import \
             Spell
 
@@ -196,15 +201,15 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
         entityStats = StatsManager().getStats(self.currentFighterId)
         currentPA = int(entityStats.getStatTotalValue(StatIds.ACTION_POINTS)) if entityStats is not None else 0
         if spellId == 0 and player.currentWeapon is not None:
-            weapon : "Weapon" = Item.getItemById(player.currentWeapon.objectGID)
+            weapon: "Weapon" = Item.getItemById(player.currentWeapon.objectGID)
             if not weapon:
                 reason = I18n.getUiText("ui.fightAutomsg.spellcast.notAWeapon", [spellName])
                 return False, reason
             apCost = weapon.apCost
             maxCastPerTurn = weapon.maxCastPerTurn
         else:
-            apCost = thisSpell['apCost']
-            maxCastPerTurn = thisSpell['maxCastPerTurn']
+            apCost = thisSpell["apCost"]
+            maxCastPerTurn = thisSpell["maxCastPerTurn"]
         if apCost > currentPA:
             reason = I18n.getUiText("ui.fightAutomsg.spellcast.needAP", [spellName, apCost])
             return False, reason
@@ -214,22 +219,16 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
         for state in states:
             currentState = SpellState.getSpellStateById(state)
             if currentState.preventsFight and spellId == 0:
-                reason = I18n.getUiText(
-                    "ui.fightAutomsg.spellcast.stateForbidden", [spellName, currentState.name]
-                )
+                reason = I18n.getUiText("ui.fightAutomsg.spellcast.stateForbidden", [spellName, currentState.name])
                 return False, reason
             if currentState.id == DataEnum.SPELL_STATE_ARCHER and spellId == 0:
                 weapon2 = Item.getItemById(player.currentWeapon.objectGID)
                 if weapon2.typeId != DataEnum.ITEM_TYPE_BOW:
-                    reason = I18n.getUiText(
-                        "ui.fightAutomsg.spellcast.stateForbidden", [spellName, currentState.name]
-                    )
+                    reason = I18n.getUiText("ui.fightAutomsg.spellcast.stateForbidden", [spellName, currentState.name])
                     return False, reason
             if currentState.preventsSpellCast:
                 if not spellLevel.statesCriterion or spellLevel.statesCriterion == "":
-                    reason = I18n.getUiText(
-                        "ui.fightAutomsg.spellcast.stateForbidden", [spellName, currentState.name]
-                    )
+                    reason = I18n.getUiText("ui.fightAutomsg.spellcast.stateForbidden", [spellName, currentState.name])
                     return False, reason
                 criterion = GroupItemCriterion(spellLevel.statesCriterion)
                 isRequired = False
@@ -274,7 +273,9 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
             return False, reason
         if pTargetId != 0:
             numberCastOnTarget = spellManager.getCastOnEntity(pTargetId)
-            bonus = SpellModifiersManager().getModifiedInt(self.currentFighterId, spellId, SpellModifierTypeEnum.MAX_CAST_PER_TARGET)
+            bonus = SpellModifiersManager().getModifiedInt(
+                self.currentFighterId, spellId, SpellModifierTypeEnum.MAX_CAST_PER_TARGET
+            )
             if spellLevel.maxCastPerTarget + bonus <= numberCastOnTarget and spellLevel.maxCastPerTarget > 0:
                 reason = I18n.getUiText("ui.fightAutomsg.spellcast.castPerTarget", [spellName])
                 return False, reason

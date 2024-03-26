@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class RawDataMessage(NetworkMessage):
     content: bytearray
+
     def init(self, content_: bytearray):
         self.content = content_
-        
+
         super().__init__()
-    

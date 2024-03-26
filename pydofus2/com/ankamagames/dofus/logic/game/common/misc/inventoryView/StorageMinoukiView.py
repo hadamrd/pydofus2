@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 
 class StorageMinoukiView(StorageGenericView):
-    
+
     def __init__(self):
         super().__init__()
 

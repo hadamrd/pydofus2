@@ -7,9 +7,9 @@ class MountRidingMessage(NetworkMessage):
     isAutopilot: bool
     isRiding: bool
     isAutopilot: bool
+
     def init(self, isRiding_: bool, isAutopilot_: bool):
         self.isRiding = isRiding_
         self.isAutopilot = isAutopilot_
-        
+
         super().__init__()
-    

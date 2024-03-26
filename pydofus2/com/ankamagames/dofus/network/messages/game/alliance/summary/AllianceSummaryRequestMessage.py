@@ -17,7 +17,23 @@ class AllianceSummaryRequestMessage(PaginationRequestAbstractMessage):
     hideFullFilter: bool
     followingAllianceCriteria: bool
     sortDescending: bool
-    def init(self, filterType_: int, textFilter_: str, criterionFilter_: list[int], sortType_: int, languagesFilter_: list[int], recruitmentTypeFilter_: list[int], minPlayerLevelFilter_: int, maxPlayerLevelFilter_: int, hideFullFilter_: bool, followingAllianceCriteria_: bool, sortDescending_: bool, offset_: int, count_: int):
+
+    def init(
+        self,
+        filterType_: int,
+        textFilter_: str,
+        criterionFilter_: list[int],
+        sortType_: int,
+        languagesFilter_: list[int],
+        recruitmentTypeFilter_: list[int],
+        minPlayerLevelFilter_: int,
+        maxPlayerLevelFilter_: int,
+        hideFullFilter_: bool,
+        followingAllianceCriteria_: bool,
+        sortDescending_: bool,
+        offset_: int,
+        count_: int,
+    ):
         self.filterType = filterType_
         self.textFilter = textFilter_
         self.criterionFilter = criterionFilter_
@@ -29,6 +45,5 @@ class AllianceSummaryRequestMessage(PaginationRequestAbstractMessage):
         self.hideFullFilter = hideFullFilter_
         self.followingAllianceCriteria = followingAllianceCriteria_
         self.sortDescending = sortDescending_
-        
+
         super().init(offset_, count_)
-    

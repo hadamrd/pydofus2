@@ -41,7 +41,7 @@ class AStar(metaclass=Singleton):
 
     def addForbidenEdge(self, edge: Edge) -> None:
         self._forbidenEdges.append(edge)
-    
+
     def resetForbinedEdges(self) -> None:
         self._forbidenEdges.clear()
 
@@ -74,7 +74,7 @@ class AStar(metaclass=Singleton):
         if self.running != None:
             self.callbackWithResult(None)
 
-    def compute(self, e = None) -> None:
+    def compute(self, e=None) -> None:
         while self.openList:
             if self.iterations > self.MAX_ITERATION:
                 raise Exception("Too many iterations")

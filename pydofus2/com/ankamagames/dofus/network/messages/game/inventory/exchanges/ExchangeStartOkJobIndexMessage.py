@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class ExchangeStartOkJobIndexMessage(NetworkMessage):
     jobs: list[int]
+
     def init(self, jobs_: list[int]):
         self.jobs = jobs_
-        
+
         super().__init__()
-    

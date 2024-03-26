@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class SubscriptionZoneMessage(NetworkMessage):
     active: bool
+
     def init(self, active_: bool):
         self.active = active_
-        
+
         super().__init__()
-    

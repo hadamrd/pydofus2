@@ -13,8 +13,9 @@ if not os.path.exists(Constants.PROTOCOL_SPEC_PATH):
 with open(Constants.PROTOCOL_SPEC_PATH, "r") as fp:
     D2PROTOCOL = json.load(fp)
 
+
 class ClassSpec:
-    
+
     def __init__(self, infos: dict) -> None:
         self.parent: str = infos.get("parent")
         self.package: str = infos.get("package")
@@ -30,9 +31,10 @@ class ClassSpec:
             self.clsModule = importlib.import_module(modulePath)
         self.cls: INetworkMessage = getattr(self.clsModule, self.name)
         self.json = infos
-        
+
     def __repr__(self) -> str:
         return json.dumps(self.json)
+
 
 class FieldSpec:
 
@@ -49,12 +51,14 @@ class FieldSpec:
 
     def isPrimitive(self):
         return self.typeId != TypeEnum.OBJECT
-    
+
     def isVector(self):
         return self.length or self.lengthTypeId
-    
+
     def __repr__(self) -> str:
         return json.dumps(self.json)
+
+
 class ProtocolSpec:
 
     @staticmethod

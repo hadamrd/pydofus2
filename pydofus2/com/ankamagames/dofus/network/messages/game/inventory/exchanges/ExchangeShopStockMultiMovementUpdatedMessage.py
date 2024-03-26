@@ -6,12 +6,12 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItemToSell import \
         ObjectItemToSell
-    
+
 
 class ExchangeShopStockMultiMovementUpdatedMessage(NetworkMessage):
-    objectInfoList: list['ObjectItemToSell']
-    def init(self, objectInfoList_: list['ObjectItemToSell']):
+    objectInfoList: list["ObjectItemToSell"]
+
+    def init(self, objectInfoList_: list["ObjectItemToSell"]):
         self.objectInfoList = objectInfoList_
-        
+
         super().__init__()
-    

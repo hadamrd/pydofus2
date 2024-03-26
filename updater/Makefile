@@ -18,6 +18,9 @@ PYD2BOT_BUILDENV = $(PYD2BOT_BUILD_DIR)/.buildEnv
 SNIFFER_APP_DIR = $(PYDOFUS_DIR)/sniffer/app
 PYD2BOT_APP_DIR = $(PYD2BOT_DIR)/app
 
+.ONESHELL:
+.PHONY: all sniff serve update decompile gen-protocol gen-msgClasses gen-msgShuffle extract-keys unpack-maps build-venv lint bdist black
+
 venv:
 	@source "$(CURDIR)/spinner.sh"
 	@python -m venv $(VENV_DIR) & spinner "Creating dev env"

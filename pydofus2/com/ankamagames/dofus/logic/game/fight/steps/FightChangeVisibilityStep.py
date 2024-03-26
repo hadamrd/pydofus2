@@ -70,7 +70,7 @@ class FightChangeVisibilityStep(AbstractSequencable, IFightStep):
     @property
     def targets(self) -> list[float]:
         return [self._entityId]
-    
+
     def unspawnEntity(self) -> None:
         if FightEntitiesHolder().getEntity(self._entityId):
             return
@@ -90,7 +90,7 @@ class FightChangeVisibilityStep(AbstractSequencable, IFightStep):
             if fightEntitiesFrame:
                 fightEntitiesFrame.addOrUpdateActor(fightEntitiesFrame.getEntityInfos(self._entityId))
             return tiphonSprite
-        holdedEntity:AnimatedCharacter = FightEntitiesHolder().getEntity(self._entityId)
+        holdedEntity: AnimatedCharacter = FightEntitiesHolder().getEntity(self._entityId)
         if holdedEntity:
             holdedEntity.show()
             FightEntitiesHolder().unholdEntity(self._entityId)

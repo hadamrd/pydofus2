@@ -4,9 +4,21 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.lua.GroupMemberLuaData im
 
 class PlayerLuaData(GroupMemberLuaData):
 
-    def __init__(self, pLevel: int, pIsStillPresentInFight: bool, pWisdom: int, pBonusMap: float, pBonusAlmanac: float, 
-                 pXpBonusPercent: float, pIsRiding: bool, pRideXpBonus: float, pHasGuild: bool, pXpGuild: float,
-                 pSharedXPCoefficient: float, pUnsharedXPCoefficient: float):
+    def __init__(
+        self,
+        pLevel: int,
+        pIsStillPresentInFight: bool,
+        pWisdom: int,
+        pBonusMap: float,
+        pBonusAlmanac: float,
+        pXpBonusPercent: float,
+        pIsRiding: bool,
+        pRideXpBonus: float,
+        pHasGuild: bool,
+        pXpGuild: float,
+        pSharedXPCoefficient: float,
+        pUnsharedXPCoefficient: float,
+    ):
         super().__init__(pLevel, False, pIsStillPresentInFight)
         self.wisdom = pWisdom
         self.bonusMap = pBonusMap

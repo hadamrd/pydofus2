@@ -5,9 +5,9 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 class HouseInformations(NetworkMessage):
     houseId: int
     modelId: int
+
     def init(self, houseId_: int, modelId_: int):
         self.houseId = houseId_
         self.modelId = modelId_
-        
+
         super().__init__()
-    

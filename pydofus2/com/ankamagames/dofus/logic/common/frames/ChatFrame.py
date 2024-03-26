@@ -34,11 +34,11 @@ class ChatFrame(Frame):
         return True
 
     def process(self, msg):
-        
+
         if isinstance(msg, SystemMessageDisplayMessage):
             self.systemMessageDisplay(msg)
             return True
-        
+
         if isinstance(msg, TextInformationMessage):
             timsg = msg
             param = []
@@ -71,15 +71,18 @@ class ChatFrame(Frame):
             KernelEventsManager().send(KernelEvent.ServerTextInfo, msg.msgId, msg.msgType, textId, msgContent, params)
             return True
 
-    def systemMessageDisplay(self, msg : SystemMessageDisplayMessage):
+    def systemMessageDisplay(self, msg: SystemMessageDisplayMessage):
         a = msg.parameters
-        if InfoMessage.getInfoMessageById(40000 + msg.msgId) and InfoMessage.getInfoMessageById(40000 + msg.msgId).textId:
+        if (
+            InfoMessage.getInfoMessageById(40000 + msg.msgId)
+            and InfoMessage.getInfoMessageById(40000 + msg.msgId).textId
+        ):
             textId = InfoMessage.getInfoMessageById(40000 + msg.msgId).textId
         else:
             Logger().error("Information message " + str(40000 + msg.msgId) + " cannot be found.")
             textId = InfoMessage.getInfoMessageById(207).textId
             a = [msg.msgId]
-        msgContent = I18n.getText(textId);
+        msgContent = I18n.getText(textId)
         if msgContent:
             msgContent = ParamsDecoder.applyParams(msgContent, a)
             Logger().warn(f"[textId {textId}] [{I18n.getUiText('ui.popup.warning')}] | {msgContent}")

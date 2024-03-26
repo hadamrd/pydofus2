@@ -8,18 +8,18 @@ if TYPE_CHECKING:
         CharacterCharacteristics
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
         ObjectItem
-    
+
 
 class TaxCollectorEquipmentUpdateMessage(NetworkMessage):
     uniqueId: int
-    object: 'ObjectItem'
+    object: "ObjectItem"
     added: bool
-    characteristics: 'CharacterCharacteristics'
-    def init(self, uniqueId_: int, object_: 'ObjectItem', added_: bool, characteristics_: 'CharacterCharacteristics'):
+    characteristics: "CharacterCharacteristics"
+
+    def init(self, uniqueId_: int, object_: "ObjectItem", added_: bool, characteristics_: "CharacterCharacteristics"):
         self.uniqueId = uniqueId_
         self.object = object_
         self.added = added_
         self.characteristics = characteristics_
-        
+
         super().__init__()
-    

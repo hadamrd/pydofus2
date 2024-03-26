@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class OnConnectionEventMessage(NetworkMessage):
     eventType: int
+
     def init(self, eventType_: int):
         self.eventType = eventType_
-        
+
         super().__init__()
-    

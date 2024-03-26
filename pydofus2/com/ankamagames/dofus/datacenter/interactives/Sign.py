@@ -41,5 +41,5 @@ class Sign(IDataCenter):
             elif self.skillId == DataEnum.SKILL_SIGN_SUBAREA:
                 self._signText = SubArea.getSubAreaById(self._hintOrSubAreaId).name
         return self._signText
-    
+
     idAccessors = IdAccessors(getSignById, getSigns)

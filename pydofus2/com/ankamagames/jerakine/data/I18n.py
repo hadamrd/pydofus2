@@ -5,7 +5,7 @@ from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import \
 
 
 class I18n(AbstractDataManager):
-    
+
     def __init__(self):
         super().__init__()
 

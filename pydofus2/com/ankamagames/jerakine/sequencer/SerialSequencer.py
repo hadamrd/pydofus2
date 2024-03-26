@@ -145,7 +145,7 @@ class SerialSequencer(ISequencer, EventsHandler):
             self.send(SequencerEvent.SEQUENCE_STEP_FINISH, SequencerEvent(self, self._currentStep))
             self.start()
 
-    def onSubSequenceEnd(self, evt_id, e: SequencerEvent=None) -> None:
+    def onSubSequenceEnd(self, evt_id, e: SequencerEvent = None) -> None:
         self._activeSubSequenceCount -= 1
         if not self._activeSubSequenceCount and len(self._steps) == 0:
             self._running = False

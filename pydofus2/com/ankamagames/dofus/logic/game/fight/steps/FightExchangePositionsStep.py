@@ -31,9 +31,7 @@ class FightExchangePositionsStep(AbstractSequencable, IFightStep):
         self._fighterOneNewCell = fighterOneNewCell
         self._fighterTwo = fighterTwo
         self._fighterTwoNewCell = fighterTwoNewCell
-        infos: "GameFightFighterInformations" = Kernel().fightEntitiesFrame.getEntityInfos(
-            self._fighterOne
-        )
+        infos: "GameFightFighterInformations" = Kernel().fightEntitiesFrame.getEntityInfos(self._fighterOne)
         self._fighterOneVisibility = infos.stats.invisibilityState
         infos.disposition.cellId = self._fighterOneNewCell
         infos = Kernel().fightEntitiesFrame.getEntityInfos(self._fighterTwo)
@@ -44,12 +42,8 @@ class FightExchangePositionsStep(AbstractSequencable, IFightStep):
         return "exchangePositions"
 
     def start(self) -> None:
-        fighterInfosOne: GameFightFighterInformations = Kernel().fightEntitiesFrame.getEntityInfos(
-            self._fighterOne
-        )
-        fighterInfosTwo: GameFightFighterInformations = Kernel().fightEntitiesFrame.getEntityInfos(
-            self._fighterTwo
-        )
+        fighterInfosOne: GameFightFighterInformations = Kernel().fightEntitiesFrame.getEntityInfos(self._fighterOne)
+        fighterInfosTwo: GameFightFighterInformations = Kernel().fightEntitiesFrame.getEntityInfos(self._fighterTwo)
         fighterInfosOne.disposition.cellId = self._fighterOneNewCell
         fighterInfosTwo.disposition.cellId = self._fighterTwoNewCell
         self.executeCallbacks()

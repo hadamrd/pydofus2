@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.Object
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffectInteger import \
         ObjectEffectInteger
-    
+
 
 class ObjectEffectMount(ObjectEffect):
     id: int
@@ -17,7 +17,7 @@ class ObjectEffectMount(ObjectEffect):
     level: int
     reproductionCount: int
     reproductionCountMax: int
-    effects: list['ObjectEffectInteger']
+    effects: list["ObjectEffectInteger"]
     capacities: list[int]
     sex: bool
     isRideable: bool
@@ -27,7 +27,25 @@ class ObjectEffectMount(ObjectEffect):
     isRideable: bool
     isFeconded: bool
     isFecondationReady: bool
-    def init(self, id_: int, expirationDate_: int, model_: int, name_: str, owner_: str, level_: int, reproductionCount_: int, reproductionCountMax_: int, effects_: list['ObjectEffectInteger'], capacities_: list[int], sex_: bool, isRideable_: bool, isFeconded_: bool, isFecondationReady_: bool, actionId_: int):
+
+    def init(
+        self,
+        id_: int,
+        expirationDate_: int,
+        model_: int,
+        name_: str,
+        owner_: str,
+        level_: int,
+        reproductionCount_: int,
+        reproductionCountMax_: int,
+        effects_: list["ObjectEffectInteger"],
+        capacities_: list[int],
+        sex_: bool,
+        isRideable_: bool,
+        isFeconded_: bool,
+        isFecondationReady_: bool,
+        actionId_: int,
+    ):
         self.id = id_
         self.expirationDate = expirationDate_
         self.model = model_
@@ -42,6 +60,5 @@ class ObjectEffectMount(ObjectEffect):
         self.isRideable = isRideable_
         self.isFeconded = isFeconded_
         self.isFecondationReady = isFecondationReady_
-        
+
         super().init(actionId_)
-    

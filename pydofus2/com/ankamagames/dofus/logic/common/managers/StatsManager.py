@@ -37,7 +37,7 @@ class StatsManager(metaclass=Singleton):
     def getStats(self, entityId: float) -> EntityStats:
         stats = self._entityStats.get(float(entityId))
         return stats
-    
+
     def addRawStats(self, entityId: float, rawStats: list[CharacterCharacteristic]) -> None:
         entityId = float(entityId)
         with self._lock:
@@ -74,6 +74,7 @@ class StatsManager(metaclass=Singleton):
     def deleteStats(self, entityId: float) -> bool:
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
             PlayedCharacterManager
+
         with self._lock:
             playersIDs = [float(player.id) for _, player in PlayedCharacterManager.getInstances()]
             entityId = float(entityId)

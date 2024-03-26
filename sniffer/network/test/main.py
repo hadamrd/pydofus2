@@ -1,4 +1,3 @@
-
 import random
 import string
 from time import perf_counter
@@ -9,7 +8,7 @@ from pydofus2.sniffer.network.SnifferBuffer import SnifferBuffer
 
 
 def generate_test_data(size: int = 10000024, chunk_size_range=(1000, 10000)) -> List[TCPPacket]:
-    data = ''.join(random.choices(string.ascii_letters + string.digits, k=size))
+    data = "".join(random.choices(string.ascii_letters + string.digits, k=size))
     packets = []
 
     start_seq = 0
@@ -26,6 +25,7 @@ def generate_test_data(size: int = 10000024, chunk_size_range=(1000, 10000)) -> 
 
     return packets, data.encode()
 
+
 def test_sniffer_buffer():
     buffer = SnifferBuffer()
     test_packets, data = generate_test_data()
@@ -34,11 +34,13 @@ def test_sniffer_buffer():
     for packet in test_packets:
         buffer.write(packet)
     print(f"Time elapsed: {perf_counter() - t}")
-    
+
     reconstructed_data = buffer.read()
-    assert reconstructed_data == data, \
-        f"Reconstructed data does not match original data: {reconstructed_data} != {data}"
+    assert (
+        reconstructed_data == data
+    ), f"Reconstructed data does not match original data: {reconstructed_data} != {data}"
 
     print("Test passed!")
+
 
 test_sniffer_buffer()

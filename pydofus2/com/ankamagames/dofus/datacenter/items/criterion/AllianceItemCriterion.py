@@ -13,9 +13,9 @@ class AllianceItemCriterion(ItemCriterion, IDataCenter):
 
     @property
     def text(self) -> str:
-       if self._criterionValue == 0:
-          return I18n.getUiText("ui.criterion.noAlliance")
-       return I18n.getUiText("ui.criterion.hasAlliance")
+        if self._criterionValue == 0:
+            return I18n.getUiText("ui.criterion.noAlliance")
+        return I18n.getUiText("ui.criterion.hasAlliance")
 
     def clone(self) -> IItemCriterion:
         return AllianceItemCriterion(self.basicText)

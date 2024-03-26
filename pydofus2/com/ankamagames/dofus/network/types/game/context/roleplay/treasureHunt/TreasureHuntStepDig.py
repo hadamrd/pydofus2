@@ -4,6 +4,5 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.treasure
 
 class TreasureHuntStepDig(TreasureHuntStep):
     def init(self):
-        
+
         super().init()
-    

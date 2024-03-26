@@ -12,9 +12,9 @@ class LuaFormula:
         self.luaFormula: str
 
     @classmethod
-    def getLuaFormulaById(cls, id: int) -> 'LuaFormula':
+    def getLuaFormulaById(cls, id: int) -> "LuaFormula":
         return GameData().getObject(cls.MODULE, id)
 
     @classmethod
-    def getLuaFormulas(cls) -> List['LuaFormula']:
+    def getLuaFormulas(cls) -> List["LuaFormula"]:
         return GameData().getObjects(cls.MODULE)

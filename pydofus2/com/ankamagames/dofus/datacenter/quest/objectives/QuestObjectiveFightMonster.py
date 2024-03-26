@@ -16,7 +16,7 @@ class QuestObjectiveFightMonster(QuestObjective, IDataCenter):
         if not self.parameters:
             return 0
         return self.parameters.parameter0
-    
+
     @property
     def quantity(self) -> int:
         if not self.parameters:

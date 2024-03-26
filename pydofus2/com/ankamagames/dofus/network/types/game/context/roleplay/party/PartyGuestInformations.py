@@ -10,18 +10,29 @@ if TYPE_CHECKING:
         PartyEntityBaseInformation
     from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
         EntityLook
-    
+
 
 class PartyGuestInformations(NetworkMessage):
     guestId: int
     hostId: int
     name: str
-    guestLook: 'EntityLook'
+    guestLook: "EntityLook"
     breed: int
     sex: bool
-    status: 'PlayerStatus'
-    entities: list['PartyEntityBaseInformation']
-    def init(self, guestId_: int, hostId_: int, name_: str, guestLook_: 'EntityLook', breed_: int, sex_: bool, status_: 'PlayerStatus', entities_: list['PartyEntityBaseInformation']):
+    status: "PlayerStatus"
+    entities: list["PartyEntityBaseInformation"]
+
+    def init(
+        self,
+        guestId_: int,
+        hostId_: int,
+        name_: str,
+        guestLook_: "EntityLook",
+        breed_: int,
+        sex_: bool,
+        status_: "PlayerStatus",
+        entities_: list["PartyEntityBaseInformation"],
+    ):
         self.guestId = guestId_
         self.hostId = hostId_
         self.name = name_
@@ -30,6 +41,5 @@ class PartyGuestInformations(NetworkMessage):
         self.sex = sex_
         self.status = status_
         self.entities = entities_
-        
+
         super().__init__()
-    

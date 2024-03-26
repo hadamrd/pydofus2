@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.character.choice.Chara
 
 class CharacterFirstSelectionMessage(CharacterSelectionMessage):
     doTutorial: bool
+
     def init(self, doTutorial_: bool, id_: int):
         self.doTutorial = doTutorial_
-        
+
         super().init(id_)
-    

@@ -81,7 +81,7 @@ class WorldPoint(IDataCenter):
             self._x = -(self._x & 255)
         if (self._y & 256) == 256:
             self._y = -(self._y & 255)
-            
+
     def setFromCoords(self) -> None:
         if self._x > self.MAP_COORDS_MAX or self._y > self.MAP_COORDS_MAX or self._worldId > self.WORLD_ID_MAX:
             raise JerakineError("Coordinates or world identifier out of range.")

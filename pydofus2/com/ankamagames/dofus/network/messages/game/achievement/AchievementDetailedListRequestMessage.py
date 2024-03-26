@@ -4,8 +4,8 @@ from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
 
 class AchievementDetailedListRequestMessage(NetworkMessage):
     categoryId: int
+
     def init(self, categoryId_: int):
         self.categoryId = categoryId_
-        
+
         super().__init__()
-    

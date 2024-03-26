@@ -46,18 +46,18 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class CommonExchangeManagementFrame(Frame):
-    
+
     def __init__(self, pExchangeType):
         super().__init__()
-        self._exchangeType = pExchangeType;
-        self._numCurrentSequence = 0;
+        self._exchangeType = pExchangeType
+        self._numCurrentSequence = 0
 
     def incrementEchangeSequence(self):
-        self._numCurrentSequence+=1
-    
+        self._numCurrentSequence += 1
+
     def resetEchangeSequence(self):
         self._numCurrentSequence = 0
-    
+
     def leaveShopStock(self):
         ldrmsg = LeaveDialogRequestMessage()
         ldrmsg.init()
@@ -66,31 +66,36 @@ class CommonExchangeManagementFrame(Frame):
         if bidhouseManagementFrame:
             bidhouseManagementFrame.switching = False
         ConnectionsHandler().send(ldrmsg)
-    
+
     def exchangeAccept(self):
         exchangeAcceptMessage = ExchangeAcceptMessage()
         exchangeAcceptMessage.init()
         ConnectionsHandler().send(exchangeAcceptMessage)
-    
+
     def exchangeRefuse(self):
         ldrmsg = LeaveDialogRequestMessage()
         ldrmsg.init()
         ConnectionsHandler().send(ldrmsg)
-    
+
     def exchangeReady(self, isReady):
         ermsg = ExchangeReadyMessage()
         ermsg.init(isReady, self._numCurrentSequence)  # Assuming _numCurrentSequence is an instance variable
-        if Kernel().craftFrame and (Kernel().craftFrame.skillId == DataEnum.SKILL_CHINQ or Kernel().craftFrame.skillId == DataEnum.SKILL_MINOUKI):  # Assuming craftFrame and skillId are accessible attributes/variables
+        if Kernel().craftFrame and (
+            Kernel().craftFrame.skillId == DataEnum.SKILL_CHINQ
+            or Kernel().craftFrame.skillId == DataEnum.SKILL_MINOUKI
+        ):  # Assuming craftFrame and skillId are accessible attributes/variables
             Kernel().craftFrame.saveLastPlayerComponentList()
         ConnectionsHandler().send(ermsg)
-    
+
     def exchangeReadyCrush(self, isReady, focusActionId):
         fermsg = FocusedExchangeReadyMessage()
-        fermsg.init(isReady, self._numCurrentSequence, focusActionId)  # Assuming _numCurrentSequence and focusActionId are accessible attributes/variables
+        fermsg.init(
+            isReady, self._numCurrentSequence, focusActionId
+        )  # Assuming _numCurrentSequence and focusActionId are accessible attributes/variables
         ConnectionsHandler().send(fermsg)
         return True
 
-    def exchangeObjectMove(self, objectUID, quantity):            
+    def exchangeObjectMove(self, objectUID, quantity):
         iw = InventoryManager().inventory.getItem(objectUID)
         if not iw:
             iw = InventoryManager().bankInventory.getItem(objectUID)
@@ -99,12 +104,19 @@ class CommonExchangeManagementFrame(Frame):
         eomvmsg = ExchangeObjectMoveMessage()
         eomvmsg.init(objectUID, quantity)
         ConnectionsHandler().send(eomvmsg)
-    
+
     def process(self, msg):
-        
+
         if isinstance(msg, ExchangeObjectModifiedMessage):
             self._numCurrentSequence += 1
-            iwModified = ItemWrapper.create(msg.object.position, msg.object.objectUID, msg.object.objectGID, msg.object.quantity, msg.object.effects, False)
+            iwModified = ItemWrapper.create(
+                msg.object.position,
+                msg.object.objectUID,
+                msg.object.objectGID,
+                msg.object.quantity,
+                msg.object.effects,
+                False,
+            )
             if self._exchangeType == ExchangeTypeEnum.CRAFT:
                 Kernel().craftFrame.modifyCraftComponent(msg.remote, iwModified)
             KernelEventsManager().send(KernelEvent.ExchangeObjectModified, iwModified, msg.remote)
@@ -114,7 +126,14 @@ class CommonExchangeManagementFrame(Frame):
             self._numCurrentSequence += 1
             itemModifiedArray = []
             for anModifiedItem in msg.object:
-                iwsModified = ItemWrapper.create(anModifiedItem.position, anModifiedItem.objectUID, anModifiedItem.objectGID, anModifiedItem.quantity, anModifiedItem.effects, False)
+                iwsModified = ItemWrapper.create(
+                    anModifiedItem.position,
+                    anModifiedItem.objectUID,
+                    anModifiedItem.objectGID,
+                    anModifiedItem.quantity,
+                    anModifiedItem.effects,
+                    False,
+                )
                 if self._exchangeType == ExchangeTypeEnum.CRAFT:
                     Kernel().craftFrame.modifyCraftComponent(msg.remote, iwsModified)
                 itemModifiedArray.append(iwsModified)
@@ -123,7 +142,14 @@ class CommonExchangeManagementFrame(Frame):
 
         elif isinstance(msg, ExchangeObjectAddedMessage):
             self._numCurrentSequence += 1
-            iwAdded = ItemWrapper.create(msg.object.position, msg.object.objectUID, msg.object.objectGID, msg.object.quantity, msg.object.effects, False)
+            iwAdded = ItemWrapper.create(
+                msg.object.position,
+                msg.object.objectUID,
+                msg.object.objectGID,
+                msg.object.quantity,
+                msg.object.effects,
+                False,
+            )
             if self._exchangeType == ExchangeTypeEnum.CRAFT:
                 Kernel().craftFrame.addCraftComponent(msg.remote, iwAdded)
             KernelEventsManager().send(KernelEvent.ExchangeObjectAdded, iwAdded, msg.remote)
@@ -133,7 +159,14 @@ class CommonExchangeManagementFrame(Frame):
             self._numCurrentSequence += 1
             itemAddedArray = []
             for anAddedObje in msg.object:
-                iwsAdded = ItemWrapper.create(anAddedObje.position, anAddedObje.objectUID, anAddedObje.objectGID, anAddedObje.quantity, anAddedObje.effects, False)
+                iwsAdded = ItemWrapper.create(
+                    anAddedObje.position,
+                    anAddedObje.objectUID,
+                    anAddedObje.objectGID,
+                    anAddedObje.quantity,
+                    anAddedObje.effects,
+                    False,
+                )
                 if self._exchangeType == ExchangeTypeEnum.CRAFT:
                     Kernel().craftFrame.addCraftComponent(msg.remote, iwsAdded)
                 itemAddedArray.append(iwsAdded)
@@ -184,5 +217,5 @@ class CommonExchangeManagementFrame(Frame):
 
     def pulled(self) -> bool:
         if Kernel().worker.contains("CraftFrame"):
-            Kernel().worker.removeFrameByName("CraftFrame");
+            Kernel().worker.removeFrameByName("CraftFrame")
         return True

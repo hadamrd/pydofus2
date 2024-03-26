@@ -56,7 +56,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class SpellInventoryManagementFrame(Frame, metaclass=Singleton):
-    
+
     def __init__(self):
         self._fullSpellList = dict[int, list[SpellWrapper]]()
         self._spellsGlobalCooldowns = dict[int, list[GameFightSpellCooldown]]()
@@ -83,7 +83,7 @@ class SpellInventoryManagementFrame(Frame, metaclass=Singleton):
         return True
 
     def process(self, msg: Message) -> bool:
-        
+
         if isinstance(msg, SpellListMessage):
             alternativeBreedSpells = FeatureManager().isFeatureWithKeywordEnabled("character.spell.breed.alternative")
             playerId = PlayedCharacterManager().id

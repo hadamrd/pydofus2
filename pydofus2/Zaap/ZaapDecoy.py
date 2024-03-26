@@ -22,16 +22,16 @@ from pydofus2.Zaap.Zaapi import Zaapi
 class ZaapError(Exception):
     pass
 
+
 class ZaapDecoy(metaclass=ThreadSharedSingleton):
     GPU = "ANGLE (NVIDIA, NVIDIA GeForce RTX 2060 Direct3D11 vs_5_0 ps_5_0, D3D11-31.0.15.2206)"
     RAM = 32768
     VERSION = None
     ANKAMA_LAUNCHER_PROCESS_NAME = "Ankama Launcher.exe"
-    CONNECTED_ACCOUNTS = set()
+    CONNECTED_ACCOUNTS = 0
     SESSIONS_LAUNCH = 0
-    
-    
-    def __init__(self, mainAccountApiKey: str=""):
+
+    def __init__(self, mainAccountApiKey: str = ""):
         self.kill_ankama_launcher()
         self.haapi = Zaapi(zaap_version=self.version)
         settings_file_path = os.path.join(self.getZaapPath(), "Settings")
@@ -50,14 +50,14 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.mainAccount = self.fetchAccountData(mainAccountApiKey)
         self.haapi.listWithApiKey(self.mainAccountApiKey)
         self.haapi.getAccountStatus(self.mainAccountApiKey)
-        self.zaap_sessionId = self.haapi.startSessionWithApiKey(self.mainAccount['id'], apikey=self.mainAccountApiKey)
-        atexit.register(self.send_exit_events, self.mainAccountApiKey, self.mainAccount['id'], self.zaap_sessionId)
+        self.zaap_sessionId = self.haapi.startSessionWithApiKey(self.mainAccount["id"], apikey=self.mainAccountApiKey)
+        atexit.register(self.send_exit_events, self.mainAccountApiKey, self.mainAccount["id"], self.zaap_sessionId)
         Logger().info(f"Session started with id {self.zaap_sessionId}")
         self.haapi.getFromCms("NEWS", "LAUNCHEREVENTS", self.settings["LANGUAGE"], 1, 1)
         self.haapi.getFromCms("BLOG", "LAUNCHEREVENTS", self.settings["LANGUAGE"], 1, 1)
         self.haapi.getLegalsTou(GameID.DOFUS, self.settings["LANGUAGE"], 11)
         self.haapi.sendDeviceInfos(
-            session_id=self.mainAccount['id'],
+            session_id=self.mainAccount["id"],
             connection_type="ANKAMA",
             client_type="STANDALONE",
             os="WINDOWS",
@@ -77,8 +77,8 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.haapi.getFromCms("BLOG", "LAUNCHER", self.settings["LANGUAGE"], 1, 15)
 
     def killDofusProcesses(self):
-        for process in psutil.process_iter(['name']):
-            if "Dofus" in process.info['name']:
+        for process in psutil.process_iter(["name"]):
+            if "Dofus" in process.info["name"]:
                 pid = process.pid
                 try:
                     process.kill()
@@ -87,32 +87,38 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                     Logger().debug(f"Process Dofus.exe (PID: {pid}) does not exist.")
                 except psutil.AccessDenied:
                     Logger().debug(f"Process Dofus.exe (PID: {pid}) could not be killed due to access denial.")
-    
+
     def kill_ankama_launcher(self):
         self.killDofusProcesses()
         # Flag to check if the process was found
         process_found = False
 
-        for process in psutil.process_iter(['name']):
+        for process in psutil.process_iter(["name"]):
             # Check if process_name matches any running process name
-            if process.info['name'] == self.ANKAMA_LAUNCHER_PROCESS_NAME:
+            if process.info["name"] == self.ANKAMA_LAUNCHER_PROCESS_NAME:
                 process_found = True
                 pid = process.pid
-                Logger().warning(f"Found a running Dofus process {process.info['name']} while trying to run the zaapDecoy launcher, will try to close it")
+                Logger().warning(
+                    f"Found a running Dofus process {process.info['name']} while trying to run the zaapDecoy launcher, will try to close it"
+                )
                 try:
                     process.kill()  # Try to kill the process
-                    Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) has been killed.')
+                    Logger().debug(f"Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) has been killed.")
                 except psutil.NoSuchProcess:
-                    Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) does not exist.')
+                    Logger().debug(f"Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) does not exist.")
                 except psutil.AccessDenied:
-                    Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) could not be killed due to access denial.')
-                    raise SystemError(f'Failed to kill process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) due to access denial.')
+                    Logger().debug(
+                        f"Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) could not be killed due to access denial."
+                    )
+                    raise SystemError(
+                        f"Failed to kill process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}) due to access denial."
+                    )
                 except Exception as e:
-                    Logger().debug(f'Error killing process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}): {e}')
-                    raise SystemError(f'Failed to kill process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}): {e}')
+                    Logger().debug(f"Error killing process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}): {e}")
+                    raise SystemError(f"Failed to kill process {self.ANKAMA_LAUNCHER_PROCESS_NAME} (PID: {pid}): {e}")
 
         if not process_found:
-            Logger().debug(f'Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} was not found running.')
+            Logger().debug(f"Process {self.ANKAMA_LAUNCHER_PROCESS_NAME} was not found running.")
 
     def fetchAccountData(self, apikey):
         result = self.haapi.signOnWithApikey(GameID.ZAAP, apikey)
@@ -130,7 +136,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                         Logger().info(f"Main account apikey found")
                         return api["apikey"]["key"]
         raise ZaapError("No main account apikey found on local disk")
-    
+
     def send_exit_events(self, apiKey, accountId, sessionId):
         Logger().debug("ATEXIT CALLED :: sending zaap exit events")
         self.haapi.endSessionWithApiKey(sessionId, apikey=apiKey)
@@ -191,7 +197,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                 "device": "DESKTOP",
                 "app_name": "ZAAP",
                 "universe": "KROSMOZ",
-                "main_account_id": self.mainAccount['id'],
+                "main_account_id": self.mainAccount["id"],
                 "account_id": accountId,
                 "launch_game": GameID.DOFUS,
                 "launch_session": self.SESSIONS_LAUNCH,
@@ -237,9 +243,9 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
                 "device": "DESKTOP",
                 "app_name": "ZAAP",
                 "universe": "KROSMOZ",
-                "account_id": self.mainAccount['id'],
+                "account_id": self.mainAccount["id"],
                 "main_account_id": accountId,
-                "total_accounts_connected": len(self.CONNECTED_ACCOUNTS),
+                "total_accounts_connected": self.CONNECTED_ACCOUNTS,
                 "active_accounts": self.active_accounts,
             },
         }
@@ -272,13 +278,13 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
 
     @staticmethod
     def get_date():
-        timezone = pytz.timezone('UTC')
+        timezone = pytz.timezone("UTC")
         now = datetime.now(timezone)
         # Correctly format the date with microseconds limited to three digits and a correctly formatted timezone
         formatted_date = now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + now.strftime("%z")
         formatted_date = formatted_date[:-2] + ":" + formatted_date[-2:]
         return formatted_date
-    
+
     def getLoginToken(self, game, certid="", certhash="", apikey=None, login=None):
         if apikey is None:
             if login is None:
@@ -299,12 +305,12 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
 
     @classmethod
     def getZaapPath(cls):
-        return os.path.join(os.environ['APPDATA'], 'zaap')
+        return os.path.join(os.environ["APPDATA"], "zaap")
 
     @classmethod
     def get_certificate_folder_path(cls):
         return os.path.join(cls.getZaapPath(), "certificate")
-    
+
     @classmethod
     def get_apikey_folder_path(cls):
         return os.path.join(cls.getZaapPath(), "keydata")
@@ -325,7 +331,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             hash = CryptoHelper.generate_hash_from_cert(cert, encoders["hm1"], encoders["hm2"])
             deciphered_certs.append({"hash": hash, "certFile": cert_file, "cert": cert})
         return deciphered_certs
-    
+
     @classmethod
     def get_all_stored_apikeys(cls, apikeys_folder=None):
         if not apikeys_folder:
@@ -341,4 +347,3 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             # Logger().debug(f"Apikey data : {apikey_data}")
             deciphered_apikeys.append({"apikeyFile": apikey_file, "apikey": apikey_data})
         return deciphered_apikeys
-    
