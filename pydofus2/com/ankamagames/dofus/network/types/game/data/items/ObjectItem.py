@@ -14,12 +14,22 @@ class ObjectItem(Item):
     effects: list["ObjectEffect"]
     objectUID: int
     quantity: int
+    favorite: bool
 
-    def init(self, position_: int, objectGID_: int, effects_: list["ObjectEffect"], objectUID_: int, quantity_: int):
+    def init(
+        self,
+        position_: int,
+        objectGID_: int,
+        effects_: list["ObjectEffect"],
+        objectUID_: int,
+        quantity_: int,
+        favorite_: bool,
+    ):
         self.position = position_
         self.objectGID = objectGID_
         self.effects = effects_
         self.objectUID = objectUID_
         self.quantity = quantity_
+        self.favorite = favorite_
 
         super().init()

@@ -22,6 +22,7 @@ class IdentificationSuccessWithLoginTokenMessage(IdentificationSuccessMessage):
         subscriptionEndDate_: int,
         havenbagAvailableRoom_: int,
         hasRights_: bool,
+        hasReportRight_: bool,
         hasForceRight_: bool,
         wasAlreadyConnected_: bool,
     ):
@@ -36,6 +37,7 @@ class IdentificationSuccessWithLoginTokenMessage(IdentificationSuccessMessage):
             subscriptionEndDate_,
             havenbagAvailableRoom_,
             hasRights_,
+            hasReportRight_,
             hasForceRight_,
             wasAlreadyConnected_,
         )

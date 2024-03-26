@@ -9,6 +9,7 @@ class GuildInformationsGeneralMessage(NetworkMessage):
     experience: int
     expNextLevelFloor: int
     creationDate: int
+    score: int
 
     def init(
         self,
@@ -18,6 +19,7 @@ class GuildInformationsGeneralMessage(NetworkMessage):
         experience_: int,
         expNextLevelFloor_: int,
         creationDate_: int,
+        score_: int,
     ):
         self.abandonnedPaddock = abandonnedPaddock_
         self.level = level_
@@ -25,5 +27,6 @@ class GuildInformationsGeneralMessage(NetworkMessage):
         self.experience = experience_
         self.expNextLevelFloor = expNextLevelFloor_
         self.creationDate = creationDate_
+        self.score = score_
 
         super().__init__()

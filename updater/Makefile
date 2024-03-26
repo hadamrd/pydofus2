@@ -18,8 +18,8 @@ PYD2BOT_BUILDENV = $(PYD2BOT_BUILD_DIR)/.buildEnv
 SNIFFER_APP_DIR = $(PYDOFUS_DIR)/sniffer/app
 PYD2BOT_APP_DIR = $(PYD2BOT_DIR)/app
 
-.ONESHELL:
-.PHONY: all sniff serve update decompile gen-protocol gen-msgClasses gen-msgShuffle extract-keys unpack-maps build-venv lint bdist black
+.ONESHELL: all
+.PHONY:
 
 venv:
 	@source "$(CURDIR)/spinner.sh"
@@ -36,13 +36,27 @@ serve:
 	@source $(VENVACTIVATE)
 	@python $(PYD2BOT_APP_DIR)/app.py
 
-update: decompile gen-protocol gen-msgClasses gen-msgShuffle extract-keys unpack-maps
+update: decompile gen-protocol gen-msgClasses gen-msgShuffle extract-keys unpack-maps cleanup
 
 decompile:
+	# Check if $(DOFUS_SRC_DIR) exists and delete it if it does
+	@if [ -d "$(DOFUS_SRC_DIR)" ]; then \
+		echo "Removing existing directory $(DOFUS_SRC_DIR)"; \
+		rm -rf $(DOFUS_SRC_DIR); \
+	fi
+	# Create the directory clean for use
+	@mkdir -p $(DOFUS_SRC_DIR)
+	# Decompilation command here
 	@$(FFDEC) -config parallelSpeedUp=true -selectclass $(SELECTCLASS) -export script $(DOFUS_SRC_DIR) $(DOFUSINVOKER)
 
 decompile-all:
 	@$(FFDEC) -config parallelSpeedUp=true -timeout 14400 -exportTimeout 14400 -exportFileTimeout 14400 -export script,binaryData $(CURDIR)/../../d2sources $(DOFUSINVOKER)
+
+cleanup:
+	# Clean up the src directory after the decompilation process completes
+	@echo "Cleaning up $(DOFUS_SRC_DIR)"
+	@rm -rf $(DOFUS_SRC_DIR)
+	@cd $(PYDOFUS_DIR) && black . && isort .
 
 extract-keys:
 	@$(FFDEC) -config parallelSpeedUp=true -export binaryData $(PYDOFUS_BINARY_DATA_DIR) $(DOFUSINVOKER)
@@ -82,16 +96,18 @@ build-venv:
 lint:
 	@tput civis
 	@source "$(CURDIR)/spinner.sh"
-	@cd $(PYD2BOT_BUILD_DIR)
-	@source .buildEnv/Scripts/activate
-	@pip install autoflake
+	@source $(VENVACTIVATE)
+	@pip install black --quiet & spinner "Installing black"
+	@pip install autoflake --quiet & spinner "Installing autoflake"
+	@pip install isort --quiet & spinner "Installing isort"
 	@autoflake --in-place --remove-all-unused-imports --remove-unused-variables --recursive $(PYD2BOT_DIR) & spinner "Cleaning pyd2bot with autoflake"
 	@autoflake --in-place --remove-all-unused-imports --remove-unused-variables --recursive $(PYDOFUS_DIR) & spinner "Cleaning pydofus2 with autoflake"
-	@pip install black --quiet & spinner "Installing black"
 	@black -l 100  $(PYDOFUS_DIR)/**/*/*.py & spinner "formating pydofus2 files lines with black"
 	@black -l 100  $(PYD2BOT_DIR)/**/*/*.py & spinner "formating pyd2bot files lines with black"
 	@black $(PYDOFUS_DIR)/**/*/*.py & spinner "formating pydofus2 with black"
 	@black $(PYD2BOT_DIR)/**/*/*.py & spinner "formating pyd2bot with black"
+	@isort $(PYDOFUS_DIR)/**/*/*.py & spinner "Sorting imports in pydofus2"
+	@isort $(PYD2BOT_DIR)/**/*/*.py & spinner "Sorting imports in pyd2bot"
 	
 bdist:
 	@bstart_time=$SECONDS

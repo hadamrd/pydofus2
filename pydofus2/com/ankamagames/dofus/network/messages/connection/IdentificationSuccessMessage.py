@@ -17,6 +17,7 @@ class IdentificationSuccessMessage(NetworkMessage):
     subscriptionEndDate: int
     havenbagAvailableRoom: int
     hasRights: bool
+    hasReportRight: bool
     hasForceRight: bool
     wasAlreadyConnected: bool
     hasRights: bool
@@ -33,6 +34,7 @@ class IdentificationSuccessMessage(NetworkMessage):
         subscriptionEndDate_: int,
         havenbagAvailableRoom_: int,
         hasRights_: bool,
+        hasReportRight_: bool,
         hasForceRight_: bool,
         wasAlreadyConnected_: bool,
     ):
@@ -44,6 +46,7 @@ class IdentificationSuccessMessage(NetworkMessage):
         self.subscriptionEndDate = subscriptionEndDate_
         self.havenbagAvailableRoom = havenbagAvailableRoom_
         self.hasRights = hasRights_
+        self.hasReportRight = hasReportRight_
         self.hasForceRight = hasForceRight_
         self.wasAlreadyConnected = wasAlreadyConnected_
 

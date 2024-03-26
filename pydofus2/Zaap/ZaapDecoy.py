@@ -51,7 +51,12 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         self.haapi.listWithApiKey(self.mainAccountApiKey)
         self.haapi.getAccountStatus(self.mainAccountApiKey)
         self.zaap_sessionId = self.haapi.startSessionWithApiKey(self.mainAccount["id"], apikey=self.mainAccountApiKey)
-        atexit.register(self.send_exit_events, self.mainAccountApiKey, self.mainAccount["id"], self.zaap_sessionId)
+        atexit.register(
+            self.send_exit_events,
+            self.mainAccountApiKey,
+            self.mainAccount["id"],
+            self.zaap_sessionId,
+        )
         Logger().info(f"Session started with id {self.zaap_sessionId}")
         self.haapi.getFromCms("NEWS", "LAUNCHEREVENTS", self.settings["LANGUAGE"], 1, 1)
         self.haapi.getFromCms("BLOG", "LAUNCHEREVENTS", self.settings["LANGUAGE"], 1, 1)

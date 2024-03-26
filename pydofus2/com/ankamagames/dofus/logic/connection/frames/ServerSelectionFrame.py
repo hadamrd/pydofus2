@@ -35,7 +35,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.ServerStatusUpda
     ServerStatusUpdateMessage
 from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import \
     GameServerInformations
-from pydofus2.com.ankamagames.jerakine.benchmark import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

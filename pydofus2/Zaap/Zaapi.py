@@ -150,7 +150,9 @@ class Zaapi(metaclass=Singleton):
                 raise Exception("Need a session_id to send events")
         url = self.getUrl("SEND_EVENTS")
         response = self.zaap_session.post(
-            url, data={"game": game, "session_id": sessionId, "events": json.dumps(events)}, verify=self.verify_ssl
+            url,
+            data={"game": game, "session_id": sessionId, "events": json.dumps(events)},
+            verify=self.verify_ssl,
         )
         self.zaap_session.cookies.update(response.cookies)
         if not response.ok:
