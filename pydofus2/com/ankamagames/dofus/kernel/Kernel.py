@@ -153,7 +153,9 @@ class Kernel(metaclass=Singleton):
         if not reloadData:
             self._worker.terminate()
         else:
+            disconnectionHandlerFrame = self._worker.getFrameByName("DisconnectionHandlerFrame")
             self._worker.reset()
+            self._worker.addFrame(disconnectionHandlerFrame)
         if ConnectionsHandler().conn and not ConnectionsHandler().conn.closed:
             ConnectionsHandler().closeConnection(DisconnectionReasonEnum.DISCONNECTED_BY_USER)
         self.beingInReconection = False

@@ -33,7 +33,7 @@ def getInitArgs(spec):
 def main(pydofus2_dir):
     with open(ROOTDIR / "template.j2", "r") as f:
         template = Template(f.read())
-        for name, msg in tqdm(json_spec["type"].items()):
+        for msg in tqdm(json_spec["type"].values()):
             init_args, nonPrimitives = getInitArgs(msg)
 
             super_args = []

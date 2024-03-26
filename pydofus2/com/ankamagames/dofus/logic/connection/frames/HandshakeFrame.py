@@ -23,7 +23,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 class HandshakeFrame(Frame):
 
-    TIMEOUT_DELAY: int = 3
+    TIMEOUT_DELAY: int = 30
     TIMEOUT_REPEAT_COUNT: int = 1
 
     def __init__(self):

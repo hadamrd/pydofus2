@@ -36,6 +36,7 @@ class DisconnectionHandlerFrame(Frame):
 
     def __init__(self):
         super().__init__()
+        self._conxTries = 0
 
     @property
     def priority(self) -> int:
@@ -43,7 +44,6 @@ class DisconnectionHandlerFrame(Frame):
 
     def pushed(self) -> bool:
         self._connectionUnexpectedFailureTimes = []
-        self._conxTries = 0
         return True
 
     def process(self, msg: Message) -> bool:
@@ -52,17 +52,21 @@ class DisconnectionHandlerFrame(Frame):
             reason = ConnectionsHandler().handleDisconnection()
             Logger().info(f"Connection '{msg.closedConnection}' closed for reason : {reason}")
             if ConnectionsHandler().hasReceivedMsg:
-                if (
-                    not reason.expected
-                    and not ConnectionsHandler().hasReceivedNetworkMsg
-                    and self._conxTries < self.MAX_CONN_TRIES
-                ):
-                    Logger().error(
-                        f"The connection was closed unexpectedly. Reconnection attempt {self._conxTries}/{self.MAX_CONN_TRIES}."
-                    )
-                    self._conxTries += 1
-                    self._connectionUnexpectedFailureTimes.append(perf_counter())
-                    KernelEventsManager().send(KernelEvent.ClientRestart, reason.message)
+                if not reason.expected and not ConnectionsHandler().hasReceivedNetworkMsg:
+                    if self._conxTries < self.MAX_CONN_TRIES:
+                        self._conxTries += 1
+                        Logger().error(
+                            f"The connection was closed unexpectedly. Reconnection attempt {self._conxTries}/{self.MAX_CONN_TRIES}."
+                        )
+                        self._connectionUnexpectedFailureTimes.append(perf_counter())
+                        KernelEventsManager().send(KernelEvent.ClientRestart, reason.message)
+                    else:
+                        KernelEventsManager().send(
+                            KernelEvent.ClientCrashed,
+                            "Server refuses to let you in. Maybe it is under maintenance.",
+                            DisconnectionReasonEnum.CONNECTION_BLOCKED,
+                        )
+
                 else:
                     if not reason.expected:
                         self._connectionUnexpectedFailureTimes.append(perf_counter())
@@ -138,4 +142,5 @@ class DisconnectionHandlerFrame(Frame):
             return True
 
     def pulled(self) -> bool:
+        Logger().info("DisconnectionHandlerFrame pulled")
         return True

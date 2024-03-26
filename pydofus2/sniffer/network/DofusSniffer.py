@@ -6,6 +6,7 @@ import os
 import threading
 
 import pyshark
+from pyshark.tshark.tshark import get_process_path, get_tshark_interfaces
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
@@ -71,6 +72,9 @@ class DofusSniffer(threading.Thread):
 
     def run(self):
         Logger().debug("Started sniffer")
+        tshark_path = get_process_path()
+        interfaces = get_tshark_interfaces(tshark_path)
+        Logger().debug(f"Available interfaces: {interfaces}")
         try:
             self.loop = asyncio.new_event_loop()
             asyncio.set_event_loop(self.loop)
