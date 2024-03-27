@@ -44,7 +44,7 @@ class PricesData(object):
 class AveragePricesFrame(Frame):
     def __init__(self):
         super().__init__()
-        self._pricesData = []
+        self._pricesData = PricesData()
         self._serverName = PlayerManager().server.name
         self.averagePricesPath = Constants.AVERAGE_PRICES_PATH
         self.askDataTimer: BenchmarkTimer = None
@@ -57,21 +57,26 @@ class AveragePricesFrame(Frame):
 
     @property
     def dataAvailable(self) -> bool:
-        return self._pricesData
+        return self._pricesData is not None
 
     @property
-    def pricesData(self) -> object:
+    def pricesData(self) -> PricesData:
         return self._pricesData
 
     def pushed(self) -> bool:
         if os.path.exists(self.averagePricesPath):
             try:
-                self._pricesData = json.load(open(self.averagePricesPath, "r"))
+                json_pricesData = json.load(open(self.averagePricesPath, "r"))
+                self._pricesData.items = json_pricesData["items"]
+                self._pricesData.lastUpdate = datetime.fromisoformat(
+                    json_pricesData["lastUpdate"]
+                )
             except json.JSONDecodeError as e:
                 Logger().error("Error loading JSON data:", str(e))
                 with open(self.averagePricesPath, "w") as file:
                     json.dump({}, file)
-                self._pricesData = {}
+                self._pricesData.items = {}
+                self._pricesData.lastUpdate = datetime.now()
         return True
 
     def pulled(self) -> bool:
@@ -101,11 +106,13 @@ class AveragePricesFrame(Frame):
 
     def updatePricesData(self, pItemsIds: list[int], pItemsAvgPrices: list[float]) -> None:
         self._pricesData = PricesData()
+        self._pricesData.items = {}
         for itemId, averagePrice in zip(pItemsIds, pItemsAvgPrices):
             self._pricesData.items[itemId] = averagePrice
         if not os.path.exists(os.path.dirname(self.averagePricesPath)):
             os.makedirs(os.path.dirname(self.averagePricesPath))
-        json.dump(self._pricesData.__json__(), open(self.averagePricesPath, "w"))
+        with open(self.averagePricesPath, "w") as file:
+            json.dump(self._pricesData.__json__(), file, indent=4)
         Logger().debug("Average prices data received")
 
     def updateAllowed(self) -> bool:
