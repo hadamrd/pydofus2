@@ -22,6 +22,7 @@ class AchievementReward:
         self.spellsReward = []
         self.titlesReward = []
         self.ornamentsReward = []
+        self.guildPoints = 0
         self._achievement = None
         self._conditions = None
 
@@ -50,6 +51,9 @@ class AchievementReward:
             self._conditions = GroupItemCriterion(self.criteria)
         return self._conditions
 
+    def getGuildPointsReward(self):
+        return self.guildPoints
+    
     def getKamasReward(self, pPlayerLevel):
         return RoleplayManager().getKamasReward(
             self.kamasScaleWithPlayerLevel, self.achievement.level, self.kamasRatio, 1, pPlayerLevel

@@ -6,6 +6,7 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import 
     ItemWrapper
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
     DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.network.Metadata import Metadata
 from pydofus2.com.ankamagames.dofus.types.enums.LanguageEnum import \
     LanguageEnum
@@ -149,6 +150,7 @@ class Kernel(metaclass=Singleton):
         InactivityManager().stop()
         InactivityManager.clear()
         InterClientManager().freeFlashKey()
+        SpellCastSequenceContext.reset()
 
         if not reloadData:
             self._worker.terminate()

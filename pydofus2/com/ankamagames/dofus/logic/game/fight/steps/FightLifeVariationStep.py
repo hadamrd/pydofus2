@@ -2,6 +2,7 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.Stat import Stat
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
     StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.abstract.AbstractStatContextualStep import \
     AbstractStatContextualStep
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
@@ -64,6 +65,12 @@ class FightLifeVariationStep(AbstractStatContextualStep, IFightStep):
         self.apply()
 
     def apply(self) -> None:
+        if not Kernel().fightEntitiesFrame:
+            Logger().warn("FightEntitiesFrame does not exist anymore, we don\'t execute this step.")
+            return
+        if not PlayedCharacterManager().isFighting:
+            Logger().warn("Player does not seem to be fighting, we don\'t execute this step.")
+            return
         stats = StatsManager().getStats(self._targetId)
         res = stats.getHealthPoints() + self._delta
         maxLifePoints = max(1, stats.getMaxHealthPoints() + self._permanentDamages)

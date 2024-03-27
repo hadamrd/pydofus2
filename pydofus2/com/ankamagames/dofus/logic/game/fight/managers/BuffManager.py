@@ -48,8 +48,8 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import \
-        CastingSpell
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
+
 
 
 class BuffManager(metaclass=Singleton):
@@ -59,14 +59,14 @@ class BuffManager(metaclass=Singleton):
 
     def __init__(self):
         self._buffs = dict[int, list[basicBuff.BasicBuff]]()
-        self.spellBuffsToIgnore = list["CastingSpell"]()
+        self.spellBuffsToIgnore = list["SpellCastSequenceContext"]()
         super().__init__()
 
     @classmethod
     def makeBuffFromEffect(
         cls,
         effect: AbstractFightDispellableEffect,
-        castingSpell: "CastingSpell",
+        castingSpell: "SpellCastSequenceContext",
         actionId: int,
     ) -> basicBuff.BasicBuff:
         criticalEffect: bool = False
@@ -141,10 +141,10 @@ class BuffManager(metaclass=Singleton):
                     buff.effect.triggers = effid.triggers
                     buff.effect.targetMask = effid.targetMask
                     buff.effect.effectElement = effid.effectElement
-            buff.castingSpell.spellRank = spellLevel
+            buff.castingSpell.spellLevelData = spellLevel
         if GameDebugManager().buffsDebugActivated:
             Logger().debug(
-                f"[BUFFS DEBUG]      Buff {effect.uid} : spell casted '{buff.castingSpell.spell.name}' ({buff.castingSpell.spell.id}) level {buff.castingSpell.spellRank.grade} by {buff.castingSpell.casterId}"
+                f"[BUFFS DEBUG]      Buff {effect.uid} : spell casted '{buff.castingSpell.spellData.name}' ({buff.castingSpell.spellData.id}) level {buff.castingSpell.spellData.grade} by {buff.castingSpell.casterId}"
             )
         return buff
 
@@ -187,8 +187,7 @@ class BuffManager(metaclass=Singleton):
                         skipBuffUpdate = False
                         for spell in self.spellBuffsToIgnore:
                             if (
-                                spell.castingSpellId == buffItem.castingSpell.castingSpellId
-                                and spell.casterId == targetId
+                                spell.id == buffItem.castingSpell.id and spell.casterId == targetId
                             ):
                                 skipBuffUpdate = True
                         if buffItem.sourceJustReaffected:
@@ -333,9 +332,9 @@ class BuffManager(metaclass=Singleton):
             if (
                 isinstance(sameBuff, TriggeredBuff)
                 and "|" in sameBuff.effect.triggers
-                or sameBuff.castingSpell.spellRank
-                and sameBuff.castingSpell.spellRank.maxStack
-                and len(sameBuff.stack) == sameBuff.castingSpell.spellRank.maxStack
+                or sameBuff.castingSpell.spellLevelData
+                and sameBuff.castingSpell.spellLevelData.maxStack
+                and len(sameBuff.stack) == sameBuff.castingSpell.spellLevelData.maxStack
             ):
                 return
             sameBuff.add(buff)
@@ -400,7 +399,7 @@ class BuffManager(metaclass=Singleton):
         currentFighterId: float = CurrentPlayedFighterManager().currentFighterId
         if targetId in self._buffs:
             for buff in self._buffs[targetId]:
-                if spellId == buff.castingSpell.spell.id and buff.canBeDispell(
+                if spellId == buff.castingSpell.spellData.id and buff.canBeDispell(
                     forceUndispellable, -sys.maxsize + 1, dying
                 ):
                     if GameDebugManager().buffsDebugActivated:

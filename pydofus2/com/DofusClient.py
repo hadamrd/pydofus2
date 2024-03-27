@@ -148,7 +148,7 @@ class DofusClient(threading.Thread):
     def registerGameStartFrame(self, frame: "Frame"):
         self._registredGameStartFrames.append(frame)
 
-    def onChannelTextInformation(event, text, channelId, timestamp):
+    def onChannelTextInformation(self, event, text, channelId, timestamp):
         Logger().info(f"[{timestamp}][{ChatActivableChannelsEnum.to_name(channelId)}] {text}")
 
     def onCharacterSelectionSuccess(self, event, return_value):

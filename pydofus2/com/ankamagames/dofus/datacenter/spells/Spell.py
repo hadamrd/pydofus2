@@ -1,6 +1,8 @@
 import re
 from typing import TYPE_CHECKING, Any
 
+from pydofus2.com.ankamagames.dofus.datacenter.spells.BoundScriptUsageData import BoundScriptUsageData
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellScript import SpellScript
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellType import \
     SpellType
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import \
@@ -12,7 +14,9 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter
 
 if TYPE_CHECKING:
-    pass
+    from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
+    from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone
+
 
 
 class Spell(IDataCenter):
@@ -21,17 +25,11 @@ class Spell(IDataCenter):
 
     def __init__(self):
         super().__init__()
-        self._indexedParam: list = None
-        self._indexedCriticalParam: list = None
         self.id: int = 0
         self.nameId: int = 0
         self.descriptionId: int = 0
         self.typeId: int = 0
         self.order: int = 0
-        self.scriptParams: str = ""
-        self.scriptParamsCritical: str = ""
-        self.scriptId: int = None
-        self.scriptIdCritical: int = None
         self.iconId: int = None
         self.spellLevels = list[int]()
         self.useParamCache: bool = True
@@ -44,7 +42,11 @@ class Spell(IDataCenter):
         self._description: str = ""
         self._spellLevels = list["SpellLevel"]()
         self._spellVariant: SpellVariant = None
-
+        self.boundScriptUsageData: BoundScriptUsageData = None
+        self.criticalHitBoundScriptUsageData: BoundScriptUsageData = None
+        self.defaultPreviewZone:str = ""
+        self._effectZone: "EffectZone" = None
+    
     @classmethod
     def getSpellById(cls, id: int) -> "Spell":
         return GameData().getObject(cls.MODULE, id)
@@ -53,6 +55,15 @@ class Spell(IDataCenter):
     def getSpells(cls) -> list["Spell"]:
         return GameData().getObjects(cls.MODULE)
 
+    @property
+    def effectZone(self) -> "EffectZone":
+        from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone
+
+        if self._effectZone is None:
+            self._effectZone = EffectZone()
+            self._effectZone.rawActivationZone = self.defaultPreviewZone
+        return self._effectZone
+    
     idAccessors: IdAccessors = IdAccessors(getSpellById, getSpells)
 
     @property
@@ -99,40 +110,29 @@ class Spell(IDataCenter):
             self._spellLevels = [SpellLevel.getLevelById(spellLvl) for spellLvl in self.spellLevels]
         return self._spellLevels
 
-    def getScriptId(self, critical: bool = False) -> int:
-        if critical and self.scriptIdCritical:
-            return self.scriptIdCritical
-        return self.scriptId
+    def __str__(self):
+        return f"{self.name} ({self.id})"
+    
+    def getScriptConditions(self, index: int, isCritical: bool):
+        resolvedConditions = self.criticalHitBoundScriptUsageData if isCritical else self.boundScriptUsageData
+        if index >= len(resolvedConditions):
+            return None
+        return resolvedConditions[index]
 
-    def getParamByName(self, name: str, critical: bool = False) -> Any:
-        tmp: list = None
-        tmp2: list = None
-        param: str = None
-        if critical and self.scriptParamsCritical and self.scriptParamsCritical != "None":
-            if not self._indexedCriticalParam or not self.useParamCache:
-                self._indexedCriticalParam = list()
-                if self.scriptParamsCritical:
-                    tmp = self.scriptParamsCritical.split(",")
-                    for param in tmp:
-                        tmp2 = param.split(":")
-                        self._indexedCriticalParam[tmp2[0]] = self.getValue(tmp2[1])
-            return self._indexedCriticalParam[name]
-        if not self._indexedParam or not self.useParamCache:
-            self._indexedParam = list()
-            if self.scriptParams:
-                tmp = self.scriptParams.split(",")
-                for param in tmp:
-                    tmp2 = param.split(":")
-                    self._indexedParam[tmp2[0]] = self.getValue(tmp2[1])
-        return self._indexedParam[name]
+    def getScriptParam(self, scriptIndex: int, name: str, isCritical: bool = False):
+        conditions = self.getScriptConditions(scriptIndex, isCritical)
+        if conditions is None:
+            return None
+        script = SpellScript.getSpellScriptById(conditions.scriptId)
+        if script is None:
+            return None
+        return script.getStringParam(name)
 
-    def getValue(self, str: str) -> Any:
-        regNum = "^[+-]?[0-9.]*$"
-        m = re.fullmatch(regNum, str)
-        if m:
-            num = float(str)
-            return 0 if num is None else num
-        return str
-
-    def __str__(self) -> str:
-        return self.name + " (" + str(self.id) + ")"
+    def getScriptTypeId(self, scriptIndex: int, isCritical: bool = False) -> int:
+        conditions = self.getScriptConditions(scriptIndex, isCritical)
+        if conditions is None:
+            return 1 if isCritical else 0
+        script = SpellScript.getSpellScriptById(conditions.scriptId) if conditions else None
+        if script is None:
+            return 1 if isCritical else 0
+        return script.typeId

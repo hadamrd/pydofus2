@@ -14,8 +14,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterMa
     PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
     CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import \
-    CastingSpell
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import \
     GameDebugManager
 from pydofus2.com.ankamagames.dofus.network.enums.FightDispellableEnum import \
@@ -39,7 +38,7 @@ class BasicBuff:
 
     duration: int
 
-    castingSpell: CastingSpell
+    castingSpell: SpellCastSequenceContext
 
     targetId: float
 
@@ -66,7 +65,7 @@ class BasicBuff:
     def __init__(
         self,
         effect: AbstractFightDispellableEffect = None,
-        castingSpell: CastingSpell = None,
+        castingSpell: SpellCastSequenceContext = None,
         actionId: int = 0,
         param1=None,
         param2=None,
@@ -190,9 +189,7 @@ class BasicBuff:
 
     @property
     def effectOrder(self) -> int:
-        effect: EffectInstance = None
-        for i in range(len(self.castingSpell.spellRank.effects)):
-            effect = self.castingSpell.spellRank.effects[i]
+        for i, effect in enumerate(self.castingSpell.spellLevelData.effects):
             if effect.effectUid == self.dataUid:
                 return i
         return -1
@@ -228,7 +225,7 @@ class BasicBuff:
             self._effect.duration = self.duration
             self._effect.value = value
             self._effect.trigger = self.trigger
-        for slId in self.castingSpell.spell.spellLevels:
+        for slId in self.castingSpell.spellData.spellLevels:
             sl = SpellLevel.getLevelById(slId)
             if sl:
                 foundEi = self.findEffectOnSpellList(self.dataUid, sl.effects)
@@ -313,12 +310,12 @@ class BasicBuff:
             or hasattr(self.effect, "delay")
             and hasattr(other.effect, "delay")
             and self.effect.delay != other.effect.delay
-            or self.castingSpell.spellRank
-            and other.castingSpell.spellRank
+            or self.castingSpell.spellData
+            and other.castingSpell.spellData
             and not ignoreSpell
-            and self.castingSpell.spellRank.id != other.castingSpell.spellRank.id
+            and self.castingSpell.spellData.id != other.castingSpell.spellData.id
             or not ignoreSpell
-            and self.castingSpell.spell.id != other.castingSpell.spell.id
+            and self.castingSpell.spellData.id != other.castingSpell.spellData.id
             or self.__class__.__qualname__ != other.__class__.__qualname__
             or self.source != other.source
             or self.trigger

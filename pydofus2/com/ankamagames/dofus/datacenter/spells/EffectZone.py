@@ -6,12 +6,6 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
 
 class EffectZone(IDataCenter):
 
-    _activationEffect: EffectInstance = EffectInstance()
-
-    _rawDisplayZone: str = None
-
-    _rawActivationZone: str = None
-
     id: int
 
     isDefaultPreviewZoneHidden: bool = False
@@ -47,6 +41,9 @@ class EffectZone(IDataCenter):
     _displayZoneStopAtTarget: int
 
     def __init__(self):
+        self._activationEffect = EffectInstance()
+        self._rawDisplayZone: str = None
+        self._rawActivationZone: str = None
         super().__init__()
 
     @property

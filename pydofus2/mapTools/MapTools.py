@@ -305,3 +305,18 @@ def distL2Maps(mapIdA, mapIdB):
     mpA = MapPosition.getMapPositionById(mapIdA)
     mpB = MapPosition.getMapPositionById(mapIdB)
     return math.sqrt((mpA.posX - mpB.posX) ** 2 + (mpA.posY - mpB.posY) ** 2)
+
+def getNextCellByDirection(param1: int, param2: int) -> int:
+    _loc3_ = math.floor(param1 / MAP_GRID_WIDTH)
+    _loc4_ = math.floor((_loc3_ + 1) / 2)
+    _loc5_ = param1 - _loc3_ * MAP_GRID_WIDTH
+    _loc6_ = math.floor(param1 / MAP_GRID_WIDTH)
+    _loc7_ = math.floor((_loc6_ + 1) / 2)
+    _loc8_ = _loc6_ - _loc7_
+    _loc9_ = param1 - _loc6_ * MAP_GRID_WIDTH
+    return getNextCellByDirectionAndCoord(_loc4_ + _loc5_, _loc9_ - _loc8_, param2)
+
+def getNextCellByDirectionAndCoord(param1: int, param2: int, param3: int) -> int:
+    if not isValidCoord(param1, param2) or not MapDirection.isValidDirection(param3):
+        return -1
+    return getCellIdByCoord(param1 + COORDINATES_DIRECTION[param3].x, param2 + COORDINATES_DIRECTION[param3].y)

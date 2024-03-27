@@ -1,89 +1,100 @@
+import math
 from types import FunctionType
 
 import pydofus2.com.ankamagames.dofus.datacenter.quest.Quest as qst
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
-    Achievement
-from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import \
-    AchievementReward
-from pydofus2.com.ankamagames.dofus.internalDatacenter.FeatureEnum import \
-    FeatureEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.quests.TreasureHuntWrapper import \
-    TreasureHuntWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
-    SpellWrapper
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.common.managers.AccountManager import \
-    AccountManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import \
-    FeatureManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
-    TimeManager
-from pydofus2.com.ankamagames.dofus.misc.utils.ParamsDecoder import \
-    ParamsDecoder
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
-    ChatActivableChannelsEnum
-from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntDigRequestEnum import \
-    TreasureHuntDigRequestEnum
-from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntFlagRequestEnum import \
-    TreasureHuntFlagRequestEnum
-from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntRequestEnum import \
-    TreasureHuntRequestEnum
-from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntTypeEnum import \
-    TreasureHuntTypeEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementFinishedMessage import \
-    AchievementFinishedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementListMessage import \
-    AchievementListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementRewardSuccessMessage import \
-    AchievementRewardSuccessMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestListMessage import \
-    QuestListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestStartedMessage import \
-    QuestStartedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestStepInfoMessage import \
-    QuestStepInfoMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestValidatedMessage import \
-    QuestValidatedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntDigRequestAnswerFailedMessage import \
-    TreasureHuntDigRequestAnswerFailedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntDigRequestAnswerMessage import \
-    TreasureHuntDigRequestAnswerMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntDigRequestMessage import \
-    TreasureHuntDigRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntFinishedMessage import \
-    TreasureHuntFinishedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntFlagRequestAnswerMessage import \
-    TreasureHuntFlagRequestAnswerMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntFlagRequestMessage import \
-    TreasureHuntFlagRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntMessage import \
-    TreasureHuntMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntRequestAnswerMessage import \
-    TreasureHuntRequestAnswerMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchieved import \
-    AchievementAchieved
-from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchievedRewardable import \
-    AchievementAchievedRewardable
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayTreasureHintInformations import \
-    GameRolePlayTreasureHintInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveDetailedInformations import \
-    QuestActiveDetailedInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveInformations import \
-    QuestActiveInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestObjectiveInformationsWithCompletion import \
-    QuestObjectiveInformationsWithCompletion
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
+from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementReward import AchievementReward
+from pydofus2.com.ankamagames.dofus.internalDatacenter.FeatureEnum import FeatureEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.quests.TreasureHuntWrapper import TreasureHuntWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.AccountManager import AccountManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import FeatureManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.misc.utils.ParamsDecoder import ParamsDecoder
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntDigRequestEnum import TreasureHuntDigRequestEnum
+from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntFlagRequestEnum import TreasureHuntFlagRequestEnum
+from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntRequestEnum import TreasureHuntRequestEnum
+from pydofus2.com.ankamagames.dofus.network.enums.TreasureHuntTypeEnum import TreasureHuntTypeEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementFinishedMessage import (
+    AchievementFinishedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementListMessage import (
+    AchievementListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementRewardSuccessMessage import (
+    AchievementRewardSuccessMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementsPioneerRanksMessage import (
+    AchievementsPioneerRanksMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.achievement.AchievementsPioneerRanksRequestMessage import (
+    AchievementsPioneerRanksRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestListMessage import (
+    QuestListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestStartedMessage import (
+    QuestStartedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestStepInfoMessage import (
+    QuestStepInfoMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestValidatedMessage import (
+    QuestValidatedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntDigRequestAnswerFailedMessage import (
+    TreasureHuntDigRequestAnswerFailedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntDigRequestAnswerMessage import (
+    TreasureHuntDigRequestAnswerMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntDigRequestMessage import (
+    TreasureHuntDigRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntFinishedMessage import (
+    TreasureHuntFinishedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntFlagRequestAnswerMessage import (
+    TreasureHuntFlagRequestAnswerMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntFlagRequestMessage import (
+    TreasureHuntFlagRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntMessage import (
+    TreasureHuntMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.treasureHunt.TreasureHuntRequestAnswerMessage import (
+    TreasureHuntRequestAnswerMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchieved import AchievementAchieved
+from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementAchievedRewardable import (
+    AchievementAchievedRewardable,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayTreasureHintInformations import (
+    GameRolePlayTreasureHintInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveDetailedInformations import (
+    QuestActiveDetailedInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveInformations import (
+    QuestActiveInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestObjectiveInformationsWithCompletion import (
+    QuestObjectiveInformationsWithCompletion,
+)
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
+from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
@@ -94,7 +105,11 @@ class QuestFrame(Frame):
 
     EXPEDITION_ACHIEVEMENT_CATEGORY_ID = 136
 
+    KOLIZEUM_CATEGORY_ID = 153
+
     TEMPORIS_CATEGORY: int = 107
+
+    STORAGE_NEW_REWARD = "storageNewReward"
 
     STORAGE_NEW_TEMPORIS_REWARD: str = "storageNewTemporisReward"
 
@@ -156,6 +171,8 @@ class QuestFrame(Frame):
         self._achievementsListProcessed = False
         self._completedQuests = list()
         self._reinitDoneQuests = list()
+        self._finishedCharacterAchievementByIds = dict[int, AchievementAchievedRewardable]()
+        self._pioneerRanks = dict()
         super().__init__()
 
     def treasureHuntFlagRequest(self, questType, index):
@@ -169,6 +186,10 @@ class QuestFrame(Frame):
         ConnectionsHandler().send(thdrmsg)
 
     @property
+    def achievementPioneerRanks(self) -> dict:
+        return self._pioneerRanks
+
+    @property
     def achievmentsList(self) -> AchievementListMessage:
         return self._achievementsList
 
@@ -179,6 +200,10 @@ class QuestFrame(Frame):
     @achievmentsListProcessed.setter
     def achievmentsListProcessed(self, value: bool):
         self._achievementsListProcessed = value
+
+    @property
+    def finishedCharacterAchievementByIds(self) -> dict[int, AchievementAchievedRewardable]:
+        return self._finishedCharacterAchievementByIds
 
     @property
     def followedQuestsCallback(self) -> FunctionType:
@@ -400,9 +425,97 @@ class QuestFrame(Frame):
             return True
 
         elif isinstance(msg, AchievementFinishedMessage):
-            KernelEventsManager().send(
-                KernelEvent.AchievementFinished, msg.achievement.id, msg.achievement.finishedlevel
+            finishedAchievement = Achievement.getAchievementById(msg.achievement.id)
+            achievementAchieved = AchievementAchieved()
+            achievementAchieved.init(
+                msg.achievement.id, msg.achievement.achievedBy, msg.achievement.achievedPioneerRank
             )
+            self._achievementsList.finishedAchievements.append(achievementAchieved)
+            if self._achievementsFinishedCache is None:
+                self._achievementsFinishedCache = []
+            aar = AchievementAchievedRewardable()
+            aar.init(
+                msg.achievement.id,
+                msg.achievement.achievedBy,
+                msg.achievement.achievedPioneerRank,
+                msg.achievement.finishedLevel,
+            )
+            self._achievementsFinishedCache.append(aar)
+
+            if finishedAchievement.category.id == self.TEMPORIS_CATEGORY:
+                characterDst = DataStoreType(
+                    "Module_Ankama_Grimoire", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_CHARACTER
+                )
+                StoreDataManager().setData(characterDst, self.STORAGE_NEW_REWARD, True)
+                KernelEventsManager().send(KernelEvent.AreTemporisRewardsAvailable, True)
+
+            if finishedAchievement.category.id == self.KOLIZEUM_CATEGORY_ID:
+                characDst = DataStoreType(
+                    "Module_Ankama_Grimoire", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_CHARACTER
+                )
+                StoreDataManager().setData(characDst, self.STORAGE_NEW_REWARD, True)
+                KernelEventsManager.send(KernelEvent.AreKolizeumRewardsAvailable, True)
+
+            afmsg = msg
+
+            visible_or_expedition = (
+                finishedAchievement.category.visible
+                or finishedAchievement.category.id == self.EXPEDITION_ACHIEVEMENT_CATEGORY_ID
+                or finishedAchievement.category.id == self.KOLIZEUM_CATEGORY_ID
+            )
+            if visible_or_expedition:
+                if afmsg.achievement.id in self._finishedCharacterAchievementIds:
+                    return True
+                self._finishedAchievements.append(afmsg.achievement)
+                self._rewardableAchievements.append(afmsg.achievement)
+                KernelEventsManager().send(KernelEvent.AchievementFinished, afmsg.achievement)
+                if not self._rewardableAchievementsVisible:
+                    self._rewardableAchievementsVisible = True
+                    KernelEventsManager().send(
+                        KernelEvent.RewardableAchievementsVisible, self._rewardableAchievementsVisible
+                    )
+
+                temporis_or_kolizeum_feature_enabled = (
+                    FeatureManager().isFeatureWithKeywordEnabled(FeatureEnum.TEMPORIS_ACHIEVEMENT_PROGRESS)
+                    and finishedAchievement.category.id == self.TEMPORIS_CATEGORY
+                    or FeatureManager().isFeatureWithKeywordEnabled(FeatureEnum.PVP_KIS)
+                    and finishedAchievement.category.id == self.KOLIZEUM_CATEGORY_ID
+                )
+                if temporis_or_kolizeum_feature_enabled:
+                    # self.displayFinishedAchievementInChat(finishedAchievement, finishedAchievement.category.id == self.TEMPORIS_CATEGORY)
+                    pass
+                else:
+                    info = ParamsDecoder.applyParams(
+                        I18n.getUiText("ui.achievement.achievementUnlockWithLink"), [afmsg.achievement.id]
+                    )
+                    KernelEventsManager().send(
+                        KernelEvent.TextInformation,
+                        info,
+                        ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
+                        TimeManager().getTimestamp()
+                    )
+
+                playerId = PlayedCharacterManager().id
+                AccountManager().achievementPercent = math.floor(
+                    len(self._finishedAchievements) / self._nbAllAchievements * 100
+                )
+                if afmsg.achievement.id not in self._finishedAccountAchievementIds:
+                    self._finishedAccountAchievementIds.append(afmsg.achievement.id)
+
+                if afmsg.achievement.achievedBy == playerId:
+                    self._finishedCharacterAchievementIds.append(afmsg.achievement.id)
+                    self._finishedCharacterAchievementByIds[afmsg.achievement.id] = afmsg.achievement
+                    PlayedCharacterManager().achievementPercent = math.floor(
+                        len(self._finishedCharacterAchievementIds) / self._nbAllAchievements * 100
+                    )
+
+                achievementFinished = Achievement.getAchievementById(afmsg.achievement.id)
+                if achievementFinished:
+                    AccountManager().achievementPoints += achievementFinished.points
+                    if afmsg.achievement.achievedBy == playerId:
+                        PlayedCharacterManager().achievementPoints += achievementFinished.points
+
+            KernelEventsManager().send(KernelEvent.AchievementFinished, msg.achievement)
             return True
 
         if isinstance(msg, AchievementListMessage):
@@ -582,7 +695,18 @@ class QuestFrame(Frame):
                 self.displayRewardedAchievementInChat(rewardedAchievement)
             return True
 
-        return False  # or whatever the default return value should be
+        if isinstance(msg, AchievementsPioneerRanksMessage):
+            aprmsg = msg
+            for pioneerRank in aprmsg.achievementsPioneerRanks:
+                self._pioneerRanks[pioneerRank.achievementId] = pioneerRank.pioneerRank
+            return True
+
+        return False
+
+    def achievementRewardRequest(self):
+        aprrmsg = AchievementsPioneerRanksRequestMessage()
+        aprrmsg.init()
+        ConnectionsHandler().send(aprrmsg)
 
     def doesRewardsUiNeedOpening(self) -> bool:
         return False
@@ -622,7 +746,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp(),
+                            TimeManager().getTimestamp()
                         )
 
                 for spellId in currentAchievementReward.spellsReward:
@@ -636,7 +760,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp(),
+                            TimeManager().getTimestamp()
                         )
 
                 for emoteId in currentAchievementReward.emotesReward:
@@ -650,7 +774,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp(),
+                            TimeManager().getTimestamp()
                         )
 
                 for ornamentId in currentAchievementReward.ornamentsReward:
@@ -664,7 +788,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp(),
+                            TimeManager().getTimestamp()
                         )
 
                 for titleId in currentAchievementReward.titlesReward:
@@ -677,5 +801,5 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp(),
+                            TimeManager().getTimestamp()
                         )

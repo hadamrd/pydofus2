@@ -9,7 +9,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager impor
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 if TYPE_CHECKING:
-    pass
+    from pydofus2.com.ankamagames.dofus.internalDatacenter.connection.BasicCharacterWrapper import BasicCharacterWrapper
 
 from pydofus2.com.ankamagames.dofus.network.types.game.havenbag.HavenBagRoomPreviewInformation import \
     HavenBagRoomPreviewInformation
@@ -31,6 +31,7 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         self.accountId: int = None
         self.communityId: int = None
         self.hasRights: bool = None
+        self.hasReportRight: bool = None
         self.hasConsoleRight: bool = None
         self.nickname: str = None
         self.tag: str = None

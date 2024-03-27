@@ -94,6 +94,7 @@ class AuthentificationFrame(Frame):
             PlayerManager().accountId = ismsg.accountId
             PlayerManager().communityId = ismsg.communityId
             PlayerManager().hasRights = ismsg.hasRights
+            PlayerManager().hasReportRight = ismsg.hasReportRight
             PlayerManager().nickname = ismsg.accountTag.nickname
             PlayerManager().tag = ismsg.accountTag.tagNumber
             PlayerManager().subscriptionEndDate = ismsg.subscriptionEndDate

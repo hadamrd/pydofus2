@@ -167,6 +167,8 @@ class KernelEvent(Enum):
     TreasureHuntDigAnswer = auto()
     TreasureHintInformation = auto()
     TreasureHuntFlagRequestAnswer = auto()
+    AreTemporisRewardsAvailable = auto()
+    AreKolizeumRewardsAvailable = auto()
 
     # Challenges
     ChallengeListUpdate = auto()

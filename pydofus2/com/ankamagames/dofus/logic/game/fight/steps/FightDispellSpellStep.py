@@ -33,7 +33,7 @@ class FightDispellSpellStep(AbstractSequencable, IFightStep):
         refreshEntityLook: bool = False
         for buff in buffs:
             if (
-                buff.castingSpell.spell.id == self._spellId
+                buff.castingSpell.spellData.id == self._spellId
                 and buff.actionId == ActionIds.ACTION_CHARACTER_ADD_APPEARANCE
             ):
                 refreshEntityLook = True

@@ -7,8 +7,12 @@ class ItemCriterionFactory:
     def create(pServerCriterionForm: str) -> IItemCriterion:
         criterion = None
         s = pServerCriterionForm[0:2]
+        if s == "Ar":
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.AchievementPioneerItemCriterion import AchievementPioneerItemCriterion
 
-        if s == "BI":
+            criterion = AchievementPioneerItemCriterion(pServerCriterionForm)
+
+        elif s == "BI":
             from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.UnusableItemCriterion import \
                 UnusableItemCriterion
 

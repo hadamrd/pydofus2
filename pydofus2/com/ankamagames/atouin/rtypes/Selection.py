@@ -1,6 +1,6 @@
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
     MapDisplayManager
-from pydofus2.com.ankamagames.jerakine.types.zones.IZone import IZone
+from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
 
 
 class Selection:
@@ -12,7 +12,7 @@ class Selection:
 
     visible: bool
 
-    zone: IZone = None
+    zone: DisplayZone = None
 
     def __init__(self):
         super().__init__()

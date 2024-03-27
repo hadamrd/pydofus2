@@ -28,7 +28,8 @@ class AchievementRewardsWrapper(AchievementReward):
                 mergedRewards.kamasScaleWithPlayerLevel = reward.kamasScaleWithPlayerLevel
             if reward.experienceRatio:
                 mergedRewards.experienceRatio = reward.experienceRatio
-
+            if reward.guildPoints:
+                mergedRewards.guildPoints = reward.guildPoints
             mergedRewards.itemsReward.extend(reward.itemsReward)
             mergedRewards.itemsQuantityReward.extend(reward.itemsQuantityReward)
             mergedRewards.emotesReward.extend(reward.emotesReward)
@@ -57,7 +58,8 @@ class AchievementRewardsWrapper(AchievementReward):
                 self.kamasScaleWithPlayerLevel = reward.kamasScaleWithPlayerLevel
             if reward.experienceRatio:
                 self.experienceRatio = reward.experienceRatio
-
+            if reward.guildPoints:
+                self.guildPoints = reward.guildPoints
             self.itemsReward.extend(reward.itemsReward)
             self.itemsQuantityReward.extend(reward.itemsQuantityReward)
             self.emotesReward.extend(reward.emotesReward)

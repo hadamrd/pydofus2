@@ -5,6 +5,8 @@ from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
     SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellScript import SpellScript
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import \
     MarkInstance
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkCellsTypeEnum import \
@@ -14,6 +16,7 @@ from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import 
 from pydofus2.com.ankamagames.dofus.network.enums.TeamEnum import TeamEnum
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import \
     GameActionMarkedCell
+from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.dofus.types.entities.Glyph import Glyph
 from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import \
     IDestroyable
@@ -257,3 +260,14 @@ class MarkedCellsManager(IDestroyable, metaclass=Singleton):
         self._aSelection[name] = s
         if cellId != AtouinConstants.MAP_CELLS_COUNT + 1:
             self.update(name, cellId)
+
+    def getResolvedMarkGlyphId(self, casterId, spellId, spellRank, markCellId):
+        spell = SpellWrapper.create(spellId, spellRank, True, casterId)
+        return self.getResolvedMarkGlyphIdFromSpell(spell, casterId, markCellId)
+
+    def getResolvedMarkGlyphIdFromSpell(self, spell:SpellWrapper, casterId:float, markCellId:int):
+        contexts = SpellScriptManager().resolveScriptUsage(spell, False, casterId, markCellId);
+        if not contexts:
+            return 0
+        spellScriptData = SpellScript.getSpellScriptById(contexts[0].scriptId);
+        return spellScriptData.getNumberParam("glyphGfxId");

@@ -175,6 +175,12 @@ class Zaapi(metaclass=Singleton):
         url = self.getUrl("SIGN_ON_WITH_APIKEY", {"game": game_id})
         response = self.zaap_session.post(url, headers={"apikey": apikey}, verify=self.verify_ssl)
         body = response.json()
+        if "reason" in body:
+            if body["reason"] == "BAN":
+                # delete the api key from the disk
+                Logger().error("[AUTH] Account banned")
+                
+            raise HaapiException(f"Error while signing on with apikey: {body['reason']}")
         if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
             Logger().error("[AUTH] Mail not confirmed by user")
             raise Exception(AUTH_STATES.USER_EMAIL_INVALID)

@@ -312,7 +312,7 @@ class SpellWrapper(ISlotData, ICellZoneProvider, IDataCenter):
     def active(self) -> bool:
         if not PlayedCharacterManager().isFighting:
             return True
-        canCast, reason = cpfm.CurrentPlayedFighterManager().canCastThisSpell(self.spellId, self.spellLevel)
+        canCast, _ = cpfm.CurrentPlayedFighterManager().canCastThisSpell(self.spellId, self.spellLevel)
         return canCast
 
     @property
@@ -389,6 +389,12 @@ class SpellWrapper(ISlotData, ICellZoneProvider, IDataCenter):
             finalRange = self.minimalRange
 
         return int(finalRange)
+
+    @property
+    def previewZones(self) -> list[EffectZone]:
+        if self._spellLevel is None:
+            return None
+        return self._spellLevel.previewZones
 
     @property
     def canTargetCasterOutOfZone(self) -> bool:

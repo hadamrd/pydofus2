@@ -291,7 +291,7 @@ class ExchangeManagementFrame(Frame):
                             sourceCurrentPods = int(msg.secondCharacterCurrentWeight)
                             targetMaxPods = int(msg.firstCharacterMaxWeight)
                             sourceMaxPods = int(msg.secondCharacterMaxWeight)
-                    if PlayedCharacterManager.getInstance().id == msg.firstCharacterId:
+                    if PlayedCharacterManager().id == msg.firstCharacterId:
                         exchangeOtherCharacterId = msg.secondCharacterId
                     else:
                         exchangeOtherCharacterId = msg.firstCharacterId
@@ -353,7 +353,7 @@ class ExchangeManagementFrame(Frame):
             return True
 
         elif isinstance(msg, ExchangeStartOkNpcShopMessage):
-            PlayedCharacterManager.getInstance().isInExchange = True
+            PlayedCharacterManager().isInExchange = True
             Kernel().worker.process(ChangeWorldInteractionAction.create(False, True))
             NPCShopItems = []
             for oitsins in msg.objectsInfos:

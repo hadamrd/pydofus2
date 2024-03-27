@@ -1,5 +1,6 @@
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemType import ItemType
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
+from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
 from pydofus2.com.ankamagames.dofus.datacenter.quest.Quest import Quest
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -103,7 +104,8 @@ class ParamsDecoder:
             elif type == "$achievement":
                 achievement = Achievement.getAchievementById(params[nid])
                 if achievement:
-                    newString = HyperlinkShowAchievementManager.addAchievement(achievement.id)
+                    # newString = HyperlinkShowAchievementManager.addAchievement(achievement.id)
+                    newString = f"Achievement {achievement.id}"
                 else:
                     Logger().error(f"{type} {params[nid]} introuvable")
                     newString = ""
@@ -228,12 +230,12 @@ class ParamsDecoder:
                 time_to_display = params[nid] * 1000 - int(time.timestamp())
                 if time_to_display < 0:
                     time_to_display = 0
-                newString = TimeManager.getInstance().getDuration(time_to_display, False, True)
+                newString = TimeManager().getDuration(time_to_display, False, True)
             elif type == "$date":
                 newString = (
-                    TimeManager.getInstance().formatDateIRL(params[nid] * 1000, True, False)
+                    TimeManager().formatDateIRL(params[nid] * 1000, True, False)
                     + " "
-                    + TimeManager.getInstance().formatClock(params[nid] * 1000, False, True)
+                    + TimeManager().formatClock(params[nid] * 1000, False, True)
                 )
             elif type in ["$companion", "$sideKick"]:
                 companion = Companion.getCompanionById(params[nid])

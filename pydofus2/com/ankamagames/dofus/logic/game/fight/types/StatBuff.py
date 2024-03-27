@@ -4,8 +4,7 @@ from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceD
     EffectInstanceDice
 from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import \
     ActionIdHelper
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import \
-    CastingSpell
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightDetailedTemporaryBoostEffect import \
     FightDetailedTemporaryBoostEffect
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import \
@@ -23,7 +22,7 @@ class StatBuff(basicBuff.BasicBuff):
     def __init__(
         self,
         effect: FightTemporaryBoostEffect = None,
-        castingSpell: CastingSpell = None,
+        castingSpell: SpellCastSequenceContext = None,
         actionId: int = 0,
         isRecent: bool = False,
     ):

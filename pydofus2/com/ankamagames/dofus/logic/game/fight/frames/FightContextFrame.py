@@ -58,8 +58,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFight
     CurrentPlayedFighterManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
     SpellModifiersManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import \
-    CastingSpell
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.network.enums.ChallengeBonusEnum import \
     ChallengeBonusEnum
 from pydofus2.com.ankamagames.dofus.network.enums.ChallengeModEnum import \
@@ -424,7 +423,7 @@ class FightContextFrame(Frame):
                 if cd.slaveId != playerId:
                     playedFighterManager.setCurrentSummonedCreature(cd.summonCount, cd.slaveId)
                     playedFighterManager.setCurrentSummonedBomb(cd.bombCount, cd.slaveId)
-            castingSpellPool = dict[int, dict[int, dict[int, CastingSpell]]]()
+            castingSpellPool = dict[int, dict[int, dict[int, SpellCastSequenceContext]]]()
             for buff in gfrmsg.effects:
                 if not castingSpellPool.get(buff.effect.targetId):
                     castingSpellPool[buff.effect.targetId] = {}
@@ -434,9 +433,9 @@ class FightContextFrame(Frame):
                 durationPool = targetPool[buff.effect.turnDuration]
                 castingSpell = durationPool.get(buff.effect.spellId)
                 if not castingSpell:
-                    castingSpell = CastingSpell()
+                    castingSpell = SpellCastSequenceContext()
                     castingSpell.casterId = buff.sourceId
-                    castingSpell.spell = spellmod.Spell.getSpellById(buff.effect.spellId)
+                    castingSpell.spellData = spellmod.Spell.getSpellById(buff.effect.spellId)
                     durationPool[buff.effect.spellId] = castingSpell
                 buffTmp = BuffManager.makeBuffFromEffect(buff.effect, castingSpell, buff.actionId)
                 BuffManager().addBuff(buffTmp)

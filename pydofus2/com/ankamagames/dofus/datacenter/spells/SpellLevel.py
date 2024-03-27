@@ -4,6 +4,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import (
         EffectInstanceDice,
     )
+    from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone
 
 import pydofus2.com.ankamagames.dofus.datacenter.spells.Spell as spellmod
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
@@ -89,6 +90,8 @@ class SpellLevel(ICellZoneProvider, IDataCenter):
     _spell: spellmod.Spell
 
     _spellZoneEffects: list[IZoneShape]
+    
+    previewZones: list["EffectZone"]
 
     def __init__(self):
         super().__init__()

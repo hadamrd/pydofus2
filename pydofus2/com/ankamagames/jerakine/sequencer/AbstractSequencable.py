@@ -10,9 +10,9 @@ class AbstractSequencable(IPausableSequencable):
 
     def __init__(self):
         self._stepListeners = set()
-        self._castingSpellId: int = -1
-        self._paused: bool = False
-        self._finished: bool = False
+        self._castingSpellId = -1
+        self._paused = False
+        self._finished = False
         super().__init__()
 
     @property
@@ -28,7 +28,6 @@ class AbstractSequencable(IPausableSequencable):
         self._finished = bool
 
     def pause(self) -> None:
-
         self._paused = True
 
     def resume(self) -> None:

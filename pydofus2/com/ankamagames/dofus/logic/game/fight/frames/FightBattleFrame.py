@@ -388,7 +388,7 @@ class FightBattleFrame(Frame):
         res = self.getSequencesStack()
         for seq in res:
             Logger().debug(f"{padd}|---> Sequence #{seq._instanceId}")
-            for step in seq._stepsBuffer:
+            for step in seq._steps:
                 Logger().debug(f"{padd}\t|---> {step.__class__.__name__}")
             padd += "\t"
 

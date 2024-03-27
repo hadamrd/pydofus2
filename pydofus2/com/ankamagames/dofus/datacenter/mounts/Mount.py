@@ -1,11 +1,13 @@
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
-    EffectInstance
+
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
     IDataCenter
-
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
+    EffectInstance
 
 class Mount(IDataCenter):
 
@@ -21,7 +23,7 @@ class Mount(IDataCenter):
 
     certificateId: int
 
-    effects: list[EffectInstance]
+    effects: list["EffectInstance"]
 
     _name: str
 

@@ -18,6 +18,7 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import \
     SpellShapeEnum
+from pydofus2.mapTools.SpellZone import SpellZone
 
 
 class EffectInstance(IDataCenter):
@@ -79,13 +80,13 @@ class EffectInstance(IDataCenter):
 
         self.zoneShape: int = None
 
-        self.zoneMinSize: int = None
+        self.zoneMinSize: int = 0
 
         self.zoneEfficiencyPercent: object = None
 
         self.zoneMaxEfficiency: object = None
 
-        self.zoneStopAtTarget: object = None
+        self.zoneStopAtTarget: object = 0
 
         self.effectElement: int = None
 
@@ -93,11 +94,11 @@ class EffectInstance(IDataCenter):
 
         self._effectData: Effect = None
 
-        self._durationstrValue: int
+        self._durationstrValue: int = 0
 
-        self._delaystrValue: int
+        self._delaystrValue: int = 0
 
-        self._durationstr: str
+        self._durationstr: str = ""
 
         self._bonusType: int = -2
 
@@ -117,7 +118,7 @@ class EffectInstance(IDataCenter):
 
         self._priority: int = 0
 
-        self._rawZone: str
+        self._rawZone: str = None
 
         self._theoricShortDescriptionForTooltip: str = "None"
         super().__init__()
@@ -277,8 +278,8 @@ class EffectInstance(IDataCenter):
 
     def parseZone(self) -> None:
         params: list = None
-        if self.rawZone and len(self.rawZone):
-            self.zoneShape = self.rawZone[0]
+        if self.rawZone:
+            self.zoneShape = ord(self.rawZone[0])
             params = self.rawZone[1:].split(",")
             if self.zoneShape == SpellShapeEnum.l:
                 self.zoneMinSize = int(params[0])
@@ -286,7 +287,6 @@ class EffectInstance(IDataCenter):
                 if len(params) > 2:
                     self.zoneEfficiencyPercent = int(params[2])
                     self.zoneMaxEfficiency = int(params[3])
-
                 if len(params) == 5:
                     self.zoneStopAtTarget = int(params[4])
                 return
@@ -296,8 +296,7 @@ class EffectInstance(IDataCenter):
                         self.zoneSize = 1
                     else:
                         self.zoneSize = int(params[0])
-
-                elif len(params) == 2:
+                if len(params) == 2:
                     if SpellZone.hasMinSize(self.rawZone[:1]):
                         self.zoneMinSize = int(params[1])
                     else:

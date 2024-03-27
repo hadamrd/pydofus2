@@ -8,8 +8,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import
     ActionIdHelper
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import \
     BasicBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.CastingSpell import \
-    CastingSpell
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostStateEffect import \
     FightTemporaryBoostStateEffect
 
@@ -30,7 +29,7 @@ class StateBuff(BasicBuff):
     def __init__(
         self,
         effect: FightTemporaryBoostStateEffect = None,
-        castingSpell: CastingSpell = None,
+        castingSpell: SpellCastSequenceContext = None,
         actionId: int = 0,
     ):
         spellState: SpellState = None

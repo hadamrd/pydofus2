@@ -1,26 +1,12 @@
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
-from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightTurnFrame import \
-    FightTurnFrame
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import \
     MarkedCellsManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
     IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.FightEventEnum import \
-    FightEventEnum
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import \
-    MarkInstance
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import \
-    GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import \
     GameActionMarkedCell
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
     AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import \
-    PathElement
-
 
 class FightMarkCellsStep(AbstractSequencable, IFightStep):
 
@@ -70,12 +56,17 @@ class FightMarkCellsStep(AbstractSequencable, IFightStep):
         return "markCells"
 
     def start(self) -> None:
-        evt: str = None
-        ftf: FightTurnFrame = None
-        pe: PathElement = None
-        updatePath: bool = False
-        spell: Spell = Spell.getSpellById(self._markSpellId)
-        originMarkSpellLevel: SpellLevel = spell.getSpellLevel(self._markSpellGrade)
+        spell = Spell.getSpellById(self._markSpellId)
+        originMarkSpellLevel = spell.getSpellLevel(self._markSpellGrade)
+        # glyphGfxId = MarkedCellsManager().getResolvedMarkGlyphId(self._markCasterId, self._markSpellId, self._markSpellGrade, self._markImpactCell)
+        # if self._markType == GameActionMarkTypeEnum.WALL or originMarkSpellLevel.hasZoneShape(SpellShapeEnum.semicolon):
+        #     if glyphGfxId != 0:
+        #         for cellZone in self._cells:
+        #             step = AddGlyphGfxStep(glyphGfxId,cellZone.cellId, self._markId, self._markType, self._markTeamId)
+        #             step.start()
+        # elif glyphGfxId != 0 and not MarkedCellsManager().getGlyph(self._markId) and self._markImpactCell != -1:
+        #     step = AddGlyphGfxStep(glyphGfxId, self._markImpactCell, self._markId, self._markType, self._markTeamId)
+        #     step.start()
         MarkedCellsManager().addMark(
             self._markCasterId,
             self._markId,
@@ -87,19 +78,6 @@ class FightMarkCellsStep(AbstractSequencable, IFightStep):
             self._markActive,
             self._markImpactCell,
         )
-        mi: MarkInstance = MarkedCellsManager().getMarkDatas(self._markId)
-        if mi:
-            FightEventEnum.UNKNOWN_FIGHT_EVENT
-            if mi.markType == GameActionMarkTypeEnum.GLYPH:
-                FightEventEnum.GLYPH_APPEARED
-            if mi.markType == GameActionMarkTypeEnum.TRAP:
-                FightEventEnum.TRAP_APPEARED
-            if mi.markType == GameActionMarkTypeEnum.PORTAL:
-                FightEventEnum.PORTAL_APPEARED
-            if mi.markType == GameActionMarkTypeEnum.RUNE:
-                FightEventEnum.RUNE_APPEARED
-            else:
-                Logger().warn(f"Unknown mark type ({mi.markType}).")
         self.executeCallbacks()
 
     @property
