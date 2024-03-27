@@ -1,4 +1,5 @@
 import threading
+import time
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
@@ -24,6 +25,7 @@ class MovementBehavior(threading.Thread):
         self.stopEvt = threading.Event()
         self.running = threading.Event()
         self.callback = callback
+        self.startTime = None
 
     def stop(self, callback=None):
         self.stopEvt.set()
@@ -52,6 +54,7 @@ class MovementBehavior(threading.Thread):
         Logger().info(f"Movement animation started")
         self.parent.isMoving = True
         self.running.set()
+        self.startTime = time.perf_counter()
         for pe in self.movePath.path[1:] + [self.movePath.end]:
             stepDuration = self.movePath.getStepDuration(self.currStep.orientation)
             if not self.parent.isMoving:
@@ -61,4 +64,7 @@ class MovementBehavior(threading.Thread):
                 Logger().info(f"Movement animation received stop event")
                 return self.tearDown(False)
             self.currStep = pe
+        totalTime = time.perf_counter() - self.startTime
+        if totalTime < 1:
+            time.sleep(1 - totalTime)
         self.tearDown(True)

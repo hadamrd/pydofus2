@@ -1,6 +1,7 @@
+
+import random
+
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.ISpellCastSequence import ISpellCastSequence
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
@@ -38,7 +39,7 @@ class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):
         Logger().debug(
             f"Fighter {context.casterId} Casting Spell '{spellData.name}' ({spellData.id})"
         )
-        Kernel().worker.terminated.wait(1.2)
+        Kernel().worker.terminated.wait(0.7 + abs(random.gauss(0, 0.5)))
         # spellScriptManager().run(context, spellCastSequence, Callback(self.scriptEnd,True), Callback(self.scriptEnd,False))
 
     def start(self) -> None:
