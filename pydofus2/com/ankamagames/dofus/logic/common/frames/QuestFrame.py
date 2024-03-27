@@ -597,7 +597,7 @@ class QuestFrame(Frame):
                     treasureHuntDigAnswerText = I18n.getUiText("ui.treasureHunt.huntSuccess")
 
             if treasureHuntDigAnswerText:
-                Logger().info(treasureHuntDigAnswerText)
+                Logger().info(f"Treasure hunt dig request failed for reason : {treasureHuntDigAnswerText}")
                 KernelEventsManager().send(
                     KernelEvent.TreasureHuntDigAnswer, wrongFlagCount, msg.result, treasureHuntDigAnswerText
                 )

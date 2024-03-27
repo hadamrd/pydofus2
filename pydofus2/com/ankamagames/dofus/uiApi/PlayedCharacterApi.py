@@ -12,6 +12,7 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import 
     ItemWrapper
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import \
     WeaponWrapper
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.network.enums.AlignmentSideEnum import \
     AlignmentSideEnum
 from pydofus2.com.ankamagames.dofus.types.data.PlayerSetInfo import \
@@ -82,6 +83,10 @@ class PlayedCharacterApi(IApi):
     def characteristics(cls) -> CharacterCharacteristicsInformations:
         return PlayedCharacterManager().characteristics
 
+    @classmethod
+    def canRideMount(cls) -> bool:
+        return not PlayerManager().isBasicAccount() and PlayedCharacterApi.getMount() and not PlayedCharacterApi.isRiding() and PlayedCharacterApi.mountLeftEnergyRatio() > 0.05
+    
     @classmethod
     def stats(cls) -> EntityStats:
         return StatsManager().getStats(PlayedCharacterManager().id)
@@ -463,3 +468,10 @@ class PlayedCharacterApi(IApi):
     @classmethod
     def isInKoli(cls) -> bool:
         return PlayedCharacterManager().isInKoli
+    
+    @classmethod
+    def mountLeftEnergyRatio(cls) -> float:
+        mount = cls.getMount()
+        if mount is None:
+            return None
+        return mount.energy / mount.energyMax

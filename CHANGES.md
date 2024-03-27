@@ -49,7 +49,7 @@ Correction de Bugs: Résolution de problèmes dans les modules autotripUseZaap, 
 - Farm form added to webui and is stable
 - UseSkill works now correctly when the resource is picked by another player
 - Treasure hunt haven bag usage was improved and some bugs fixed (still need some work)
-- A ban protection that closes launcher before launching the bot was added 
+- A ban protection that closes launcher before launching the bot was added
 - Everything related to thrift server and its types was cleaned from the repo and python dataclasses where used instead for modeling pyd2bot data
 - It is now possible to run the bot with custom random paths that parkour a zone defined by a set of mapIds
 - Now the bot sends the messages that asks for freindlist, ignored, spouce etc
@@ -59,3 +59,18 @@ Correction de Bugs: Résolution de problèmes dans les modules autotripUseZaap, 
 - pydofus2 now handles AchievmentList message and store infos about the player achievement
 - Readme was updated and install process was simplified, now user defines paths to dofus and its dev directory/logs in env variables
 - And much more little bug fixes and enhacements
+
+## 27.03.2024
+
+Mise à jour majeure du dépôt : Des modifications importantes ont été apportées aux modules liés à l'utilisation des sorts pour assurer la compatibilité du client pydofus2 avec la nouvelle version de Dofus.
+
+Interface utilisateur : Le bouton permettant de lancer les différentes activités affiche désormais une erreur si un bot est déjà actif sur le compte concerné.
+
+Améliorations et corrections de bugs :
+
+De nombreuses corrections ont été apportées à la fonctionnalité permettant l'utilisation automatique des zaaps et des havres-sacs pour les déplacements.
+Pour lutter contre le système anti-bot, l'utilisation des sorts en combat a été ralentie, et des délais ont été introduits entre les combats.
+Une pause obligatoire de 5 minutes entre les chasses aux trésors a été implémentée pour contrecarrer le système anti-bot.
+Gestion des montures : Une gestion spécifique pour l'utilisation des montures a été ajoutée, prenant en compte les cas où la monture manque d'énergie.
+
+Fonctionnalité Autotrip : Lorsqu'une destination est spécifiée uniquement par son MapId, Autotrip désormais cherche automatiquement un vertex accessible sur la carte de destination, au lieu de tenter directement le vertex avec zoneId 1.
