@@ -468,7 +468,6 @@ class QuestFrame(Frame):
                     return True
                 self._finishedAchievements.append(afmsg.achievement)
                 self._rewardableAchievements.append(afmsg.achievement)
-                KernelEventsManager().send(KernelEvent.AchievementFinished, afmsg.achievement)
                 if not self._rewardableAchievementsVisible:
                     self._rewardableAchievementsVisible = True
                     KernelEventsManager().send(
