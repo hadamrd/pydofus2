@@ -72,7 +72,7 @@ class AveragePricesFrame(Frame):
                     json_pricesData["lastUpdate"]
                 )
             except json.JSONDecodeError as e:
-                Logger().error("Error loading JSON data:", str(e))
+                Logger().error(f"Error loading JSON data: {e}")
                 with open(self.averagePricesPath, "w") as file:
                     json.dump({}, file)
                 self._pricesData.items = {}

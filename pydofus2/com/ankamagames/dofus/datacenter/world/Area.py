@@ -12,12 +12,10 @@ from pydofus2.flash.geom.Rectangle import Rectangle
 
 
 class Area(IDataCenter):
-
+    _allAreas: list = None
     MODULE: str = "Areas"
 
     def __init__(self):
-        self._allAreas: list = None
-
         self.id: int = None
 
         self.nameId: int = None
@@ -60,7 +58,7 @@ class Area(IDataCenter):
     def getAllArea(cls) -> list:
         if cls._allAreas:
             return cls._allAreas
-        _allAreas = GameDataField.getobjects(cls.MODULE)
+        _allAreas = GameData().getObjects(cls.MODULE)
         return _allAreas
 
     idAccessors: IdAccessors = IdAccessors(getAreaById, getAllArea)

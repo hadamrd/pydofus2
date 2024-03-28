@@ -39,7 +39,7 @@ class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):
         Logger().debug(
             f"Fighter {context.casterId} Casting Spell '{spellData.name}' ({spellData.id})"
         )
-        Kernel().worker.terminated.wait(0.7 + abs(random.gauss(0, 0.5)))
+        Kernel().worker.terminated.wait(1 + abs(random.gauss(0, 0.3)))
         # spellScriptManager().run(context, spellCastSequence, Callback(self.scriptEnd,True), Callback(self.scriptEnd,False))
 
     def start(self) -> None:

@@ -451,6 +451,10 @@ class PlayedCharacterApi(IApi):
     @classmethod
     def getApplicationInfo(cls) -> GuildApplicationInformation:
         return PlayedCharacterManager().applicationInfo
+    
+    @classmethod
+    def inventoryKamas(cls) -> int:
+        return InventoryManager().inventory.kamas
 
     @classmethod
     def getGuildApplicationInfo(cls) -> GuildInformations:

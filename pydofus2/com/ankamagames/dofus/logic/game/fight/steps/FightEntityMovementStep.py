@@ -53,6 +53,8 @@ class FightEntityMovementStep(AbstractSequencable, IFightStep):
             for e in EntitiesManager().getEntitiesOnCell(self._path.end.cellId):
                 if e.id != self._entityId:
                     Logger().error("Placed the wrong entity on cell")
+            if Kernel().worker.terminated.wait(1):
+                return
             KernelEventsManager().send(KernelEvent.FighterMovementApplied, self._entityId, self._path)
         else:
             Logger().warn(f"Unable to move unknown entity {self._entityId}.")
