@@ -16,9 +16,6 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 
 if TYPE_CHECKING:
-    from pyd2bot.logic.common.frames.BotRPCFrame import BotRPCFrame
-    from pyd2bot.logic.roleplay.behaviors.fight.FarmFights import FarmFights
-
     from pydofus2.com.ankamagames.dofus.logic.common.frames.AlignmentFrame import \
         AlignmentFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.BidHouseManagementFrame import \
@@ -219,14 +216,6 @@ class Kernel(metaclass=Singleton):
     @property
     def roleplayEntitiesFrame(self) -> "RoleplayEntitiesFrame":
         return self._worker.getFrameByName("RoleplayEntitiesFrame")
-
-    @property
-    def farmFrame(self) -> "FarmFights":
-        return self._worker.getFrameByName("BotFarmPathFrame")
-
-    @property
-    def rpcFrame(self) -> "BotRPCFrame":
-        return self._worker.getFrameByName("BotRPCFrame")
 
     @property
     def partyFrame(self) -> "PartyFrame":

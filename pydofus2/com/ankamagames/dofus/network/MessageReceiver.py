@@ -141,6 +141,14 @@ _mule_fight_messages_to_discard = {
     "GameActionFightDodgePointLossMessage",
     "GameActionFightLifePointsLostMessage",
     "ChatSmileyMessage",
+    "GameActionFightDispellEffectMessage",
+    "ChallengeModSelectedMessage",
+    "ChallengeAddMessage",
+    "ChallengeListMessage",
+    "ChallengeNumberMessage",
+    "GameFightStartingMessage",
+    "GameFightJoinMessage",
+    "GameFightOptionStateUpdateMessage"
 }
 
 

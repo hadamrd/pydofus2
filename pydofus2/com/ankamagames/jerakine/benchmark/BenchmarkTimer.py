@@ -14,6 +14,7 @@ class BenchmarkTimer(threading.Thread):
 
     def __init__(self, interval: int, function: FunctionType, args=None, kwargs=None):
         super().__init__()
+        self.daemon = True
         self.interval = interval
         self.function = function
         self.callerName = function.__name__
