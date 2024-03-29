@@ -381,7 +381,7 @@ class FightContextFrame(Frame):
 
         elif isinstance(msg, CurrentMapMessage):
             mcmsg = msg
-            Logger().info(f"[FightContext] Loading fight map {msg.mapId}...")
+            Logger().info(f" Loading fight map {msg.mapId}...")
             if isinstance(mcmsg, CurrentMapInstanceMessage):
                 mdm.MapDisplayManager().mapInstanceId = mcmsg.instantiatedMapId
             else:
@@ -393,14 +393,14 @@ class FightContextFrame(Frame):
             return True
 
         elif isinstance(msg, MapLoadedMessage):
-            Logger().info(f"[FightContext] Fight map Loaded")
+            Logger().info(f"Fight map Loaded")
             gcrmsg = GameContextReadyMessage()
             gcrmsg.init(int(mdm.MapDisplayManager().currentMapPoint.mapId))
             ConnectionsHandler().send(gcrmsg)
             return True
 
         elif isinstance(msg, GameFightResumeMessage):
-            Logger().info(f"[FightContext] Fight resumed after disconnect")
+            Logger().info(f"Fight resumed after disconnect")
             gfrmsg = msg
             playerId = PlayedCharacterManager().id
             CurrentPlayedFighterManager().setCurrentSummonedCreature(gfrmsg.summonCount, playerId)

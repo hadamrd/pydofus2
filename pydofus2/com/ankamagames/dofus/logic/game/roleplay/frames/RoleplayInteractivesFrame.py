@@ -165,6 +165,7 @@ class RoleplayInteractivesFrame(Frame):
             iuem = msg
             if iuem.elemId == self.currentRequestedElementId:
                 self.currentRequestedElementId = -1
+            Logger().error(f"Interactive use error for element: {iuem.elemId}")
             KernelEventsManager().send(KernelEvent.InteractiveUseError, msg.elemId)
             return True
 
