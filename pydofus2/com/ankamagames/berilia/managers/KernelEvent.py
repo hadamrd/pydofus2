@@ -4,7 +4,9 @@ from enum import Enum, auto
 class KernelEvent(Enum):
     # Infos
     TextInformation = auto()
-
+    StorageKamasUpdate = auto()
+    DofusBakKamasAmount = auto()
+    
     # popups
     NonSubscriberPopup = auto()
 

@@ -74,6 +74,7 @@ if TYPE_CHECKING:
         RoleplayWorldFrame
     from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.ZaapFrame import \
         ZaapFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
 
 
 class Kernel(metaclass=Singleton):
@@ -195,7 +196,8 @@ class Kernel(metaclass=Singleton):
             AuthentificationFrame
         from pydofus2.com.ankamagames.dofus.logic.connection.frames.DisconnectionHandlerFrame import \
             DisconnectionHandlerFrame
-
+        from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
+        
         Logger().info("Adding initial frames ...")
         self._worker.addFrame(LatencyFrame())
         self._worker.addFrame(AuthentificationFrame())
@@ -203,7 +205,12 @@ class Kernel(metaclass=Singleton):
         self._worker.addFrame(DisconnectionHandlerFrame())
         self._worker.addFrame(CleanupCrewFrame())
         self._worker.addFrame(ChatFrame())
+        self._worker.addFrame(ExternalGameFrame())
         Logger().info("Initial frames added.")
+
+    @property
+    def externalGameFrame(self) -> "ExternalGameFrame":
+        return self._worker.getFrameByName("ExternalGameFrame")
 
     @property
     def serverSelectionFrame(self) -> "ServerSelectionFrame":

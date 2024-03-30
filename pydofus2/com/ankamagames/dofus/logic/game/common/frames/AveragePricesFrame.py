@@ -3,10 +3,13 @@ import os
 from datetime import datetime
 
 from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus.internalDatacenter.FeatureEnum import FeatureEnum
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
     ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import FeatureManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import \
     GameContextEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextCreateMessage import \
@@ -27,7 +30,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 class PricesData(object):
     def __init__(self):
-        self.lastUpdate: datetime = datetime.now()
+        self.lastUpdate = datetime.now()
         self.items = dict[int, float]()
 
     def __json__(self):
@@ -44,11 +47,9 @@ class PricesData(object):
 class AveragePricesFrame(Frame):
     def __init__(self):
         super().__init__()
-        self._pricesData = PricesData()
+        self._pricesData = None
         self._serverName = PlayerManager().server.name
         self.averagePricesPath = Constants.AVERAGE_PRICES_PATH
-        self.askDataTimer: BenchmarkTimer = None
-        self.nbrAsked = 0
         self.pricesDataAsked = False
 
     @property
@@ -67,42 +68,34 @@ class AveragePricesFrame(Frame):
         if os.path.exists(self.averagePricesPath):
             try:
                 json_pricesData = json.load(open(self.averagePricesPath, "r"))
+                self._pricesData = PricesData()
                 self._pricesData.items = json_pricesData["items"]
                 self._pricesData.lastUpdate = datetime.fromisoformat(
                     json_pricesData["lastUpdate"]
                 )
             except json.JSONDecodeError as e:
                 Logger().error(f"Error loading JSON data: {e}")
-                with open(self.averagePricesPath, "w") as file:
-                    json.dump({}, file)
-                self._pricesData.items = {}
-                self._pricesData.lastUpdate = datetime.now()
         return True
 
     def pulled(self) -> bool:
-        if self.askDataTimer:
-            self.askDataTimer.cancel()
         self._pricesData.clear()
         return True
 
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, GameContextCreateMessage):
-            if msg.context == GameContextEnum.ROLE_PLAY and not self.pricesDataAsked:
+            if msg.context == GameContextEnum.ROLE_PLAY and not self.updateAllowed():
                 self.askPricesData()
             return False
 
         if isinstance(msg, ObjectAveragePricesMessage):
-            if self.askDataTimer:
-                self.askDataTimer.cancel()
             self.updatePricesData(msg.ids, msg.avgPrices)
             return True
 
         if isinstance(msg, ObjectAveragePricesErrorMessage):
             return True
 
-        else:
-            return False
+        return False
 
     def updatePricesData(self, pItemsIds: list[int], pItemsAvgPrices: list[float]) -> None:
         self._pricesData = PricesData()
@@ -121,7 +114,7 @@ class AveragePricesFrame(Frame):
             if (
                 now.year == self._pricesData.lastUpdate.year
                 and now.month == self._pricesData.lastUpdate.month
-                and now.date == self._pricesData.lastUpdate.date
+                and now.day == self._pricesData.lastUpdate.day
             ):
                 return False
         return True
@@ -130,6 +123,8 @@ class AveragePricesFrame(Frame):
         return self._pricesData.items.get(guid)
 
     def askPricesData(self) -> None:
+        if self.pricesDataAsked:
+            return
         self.pricesDataAsked = True
         oapgm: ObjectAveragePricesGetMessage = ObjectAveragePricesGetMessage()
         oapgm.init()

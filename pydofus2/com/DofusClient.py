@@ -35,6 +35,7 @@ from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
 from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
     ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
@@ -83,6 +84,7 @@ class DofusClient(threading.Thread):
         self.terminated = threading.Event()
         self._ended_correctly = False
         self._banned = False
+        self._taking_nap = False
 
     def initListeners(self):
         KernelEventsManager().once(
@@ -164,9 +166,9 @@ class DofusClient(threading.Thread):
         self._shutDownReason = reason
         self.shutdown(message, reason)
 
-    def onRestart(self, event, message):
+    def onRestart(self, event, message, afterTime=0):
         Logger().debug(f"Restart requested by event {event.name} for reason: {message}")
-        self.onReconnect(event, message)
+        self.onReconnect(event, message, afterTime)
 
     def onLoginTimeout(self, listener: Listener):
         self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
@@ -256,7 +258,12 @@ class DofusClient(threading.Thread):
         self._reconnectRecord.append({"restartTime": formatted_time, "reason": message})
         Kernel().reset(reloadData=True)
         if afterTime:
-            self.terminated.wait(afterTime)
+            Logger().info(f"Taking a nap for {afterTime}sec before reconnecting again")
+            self._taking_nap = True
+            BenchmarkTimer(afterTime, self.initListenersAndLogin).start()
+
+    def initListenersAndLogin(self):
+        self._taking_nap = False
         self.initListeners()
         self.prepareLogin()
         self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
