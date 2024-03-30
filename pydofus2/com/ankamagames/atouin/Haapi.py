@@ -84,7 +84,7 @@ class Haapi(metaclass=Singleton):
         self.dofus_session.mount("http://", adapter)
         self.dofus_session.mount("https://", adapter)
         self.dofus_session.headers.update(self.dofus_headers)
-        if "haapi_proxies" in Constants.USER_SETTINGS:
+        if "haapi_proxies" in Constants.USER_SETTINGS and Constants.USER_SETTINGS.get("use_proxy", False):
             self.dofus_session.proxies.update(Constants.USER_SETTINGS["haapi_proxies"])
         self.verify_ssl = False
 

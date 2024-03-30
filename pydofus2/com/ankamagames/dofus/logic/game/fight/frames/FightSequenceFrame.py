@@ -2,136 +2,94 @@ from types import FunctionType
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.enums.ElementEnum import ElementEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
-    SpellWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.ISpellCastSequence import ISpellCastSequence
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.SpellCastSequence import SpellCastSequence
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import \
-    MarkedCellsManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.messages.GameActionFightLeaveMessage import \
-    GameActionFightLeaveMessage
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import \
-    ActionIdHelper
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import \
-    ActionIdProtocol
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.FightEntitiesHolder import \
-    FightEntitiesHolder
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightActionPointsLossDodgeStep import \
-    FightActionPointsLossDodgeStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightActionPointsVariationStep import \
-    FightActionPointsVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightCarryCharacterStep import \
-    FightCarryCharacterStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightChangeVisibilityStep import \
-    FightChangeVisibilityStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightCloseCombatStep import \
-    FightCloseCombatStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDeathStep import \
-    FightDeathStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDispellEffectStep import \
-    FightDispellEffectStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDispellSpellStep import \
-    FightDispellSpellStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDispellStep import \
-    FightDispellStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDisplayBuffStep import \
-    FightDisplayBuffStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEnteringStateStep import \
-    FightEnteringStateStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEntityMovementStep import \
-    FightEntityMovementStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEntitySlideStep import \
-    FightEntitySlideStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightExchangePositionsStep import \
-    FightExchangePositionsStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightFighterStatsListStep import \
-    FightFighterStatsListStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightInvisibleTemporarilyDetectedStep import \
-    FightInvisibleTemporarilyDetectedStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightKillStep import \
-    FightKillStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightLeavingStateStep import \
-    FightLeavingStateStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightLifeVariationStep import \
-    FightLifeVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMarkActivateStep import \
-    FightMarkActivateStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMarkCellsStep import \
-    FightMarkCellsStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMarkTriggeredStep import \
-    FightMarkTriggeredStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightModifyEffectsDurationStep import \
-    FightModifyEffectsDurationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMovementPointsLossDodgeStep import \
-    FightMovementPointsLossDodgeStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMovementPointsVariationStep import \
-    FightMovementPointsVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightPlaySpellScriptStep import \
-    FightPlaySpellScriptStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightReducedDamagesStep import \
-    FightReducedDamagesStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightReflectedDamagesStep import \
-    FightReflectedDamagesStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightReflectedSpellStep import \
-    FightReflectedSpellStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightRefreshFighterStep import \
-    FightRefreshFighterStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightShieldPointsVariationStep import \
-    FightShieldPointsVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSpellCastStep import \
-    FightSpellCastStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSpellCooldownVariationStep import \
-    FightSpellCooldownVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSpellImmunityStep import \
-    FightSpellImmunityStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightStealingKamasStep import \
-    FightStealingKamasStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSummonStep import \
-    FightSummonStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTackledStep import \
-    FightTackledStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTeleportStep import \
-    FightTeleportStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTemporaryBoostStep import \
-    FightTemporaryBoostStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightThrowCharacterStep import \
-    FightThrowCharacterStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTurnListStep import \
-    FightTurnListStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightUnmarkCellsStep import \
-    FightUnmarkCellsStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightUpdateStatStep import \
-    FightUpdateStatStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightVanishStep import \
-    FightVanishStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightVisibilityStep import \
-    FightVisibilityStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import \
-    MarkInstance
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import \
-    StatBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
-    StateBuff
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import \
-    GameActionFightInvisibilityStateEnum
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import \
-    GameActionMarkTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import MarkedCellsManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.messages.GameActionFightLeaveMessage import (
+    GameActionFightLeaveMessage,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import ActionIdProtocol
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.FightEntitiesHolder import FightEntitiesHolder
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightActionPointsLossDodgeStep import (
+    FightActionPointsLossDodgeStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightActionPointsVariationStep import (
+    FightActionPointsVariationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightCarryCharacterStep import FightCarryCharacterStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightChangeVisibilityStep import FightChangeVisibilityStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightCloseCombatStep import FightCloseCombatStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDeathStep import FightDeathStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDispellEffectStep import FightDispellEffectStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDispellSpellStep import FightDispellSpellStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDispellStep import FightDispellStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightDisplayBuffStep import FightDisplayBuffStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEnteringStateStep import FightEnteringStateStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEntityMovementStep import FightEntityMovementStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEntitySlideStep import FightEntitySlideStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightExchangePositionsStep import FightExchangePositionsStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightFighterStatsListStep import FightFighterStatsListStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightInvisibleTemporarilyDetectedStep import (
+    FightInvisibleTemporarilyDetectedStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightKillStep import FightKillStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightLeavingStateStep import FightLeavingStateStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightLifeVariationStep import FightLifeVariationStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMarkActivateStep import FightMarkActivateStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMarkCellsStep import FightMarkCellsStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMarkTriggeredStep import FightMarkTriggeredStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightModifyEffectsDurationStep import (
+    FightModifyEffectsDurationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMovementPointsLossDodgeStep import (
+    FightMovementPointsLossDodgeStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMovementPointsVariationStep import (
+    FightMovementPointsVariationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightPlaySpellScriptStep import FightPlaySpellScriptStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightReducedDamagesStep import FightReducedDamagesStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightReflectedDamagesStep import FightReflectedDamagesStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightReflectedSpellStep import FightReflectedSpellStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightRefreshFighterStep import FightRefreshFighterStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightShieldPointsVariationStep import (
+    FightShieldPointsVariationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSpellCastStep import FightSpellCastStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSpellCooldownVariationStep import (
+    FightSpellCooldownVariationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSpellImmunityStep import FightSpellImmunityStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightStealingKamasStep import FightStealingKamasStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightSummonStep import FightSummonStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTackledStep import FightTackledStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTeleportStep import FightTeleportStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTemporaryBoostStep import FightTemporaryBoostStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightThrowCharacterStep import FightThrowCharacterStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightTurnListStep import FightTurnListStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightUnmarkCellsStep import FightUnmarkCellsStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightUpdateStatStep import FightUpdateStatStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightVanishStep import FightVanishStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightVisibilityStep import FightVisibilityStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import MarkInstance
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import StatBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import (
+    GameActionFightInvisibilityStateEnum,
+)
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptManager import SpellScriptManager
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import \
-    IMovable
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import IMovable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.sequencer.ParallelStartSequenceStep import \
-    ParallelStartSequenceStep
-from pydofus2.com.ankamagames.jerakine.types.events.SequencerEvent import \
-    SequencerEvent
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import \
-    SpellShapeEnum
+from pydofus2.com.ankamagames.jerakine.sequencer.ParallelStartSequenceStep import ParallelStartSequenceStep
+from pydofus2.com.ankamagames.jerakine.types.events.SequencerEvent import SequencerEvent
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import SpellShapeEnum
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightBattleFrame import (
@@ -139,165 +97,210 @@ if TYPE_CHECKING:
     )
 
 from pydofus2.com.ankamagames.dofus.datacenter.effects.Effect import Effect
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import \
-    EffectInstanceDice
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import EffectInstanceDice
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.MapMovementAdapter import \
-    MapMovementAdapter
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import \
-    BuffManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import \
-    BasicBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import \
-    SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import \
-    GameDebugManager
-from pydofus2.com.ankamagames.dofus.network.enums.FightSpellCastCriticalEnum import \
-    FightSpellCastCriticalEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.AbstractGameActionMessage import \
-    AbstractGameActionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightActivateGlyphTrapMessage import \
-    GameActionFightActivateGlyphTrapMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightCarryCharacterMessage import \
-    GameActionFightCarryCharacterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightChangeLookMessage import \
-    GameActionFightChangeLookMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightCloseCombatMessage import \
-    GameActionFightCloseCombatMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDeathMessage import \
-    GameActionFightDeathMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellableEffectMessage import \
-    GameActionFightDispellableEffectMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellEffectMessage import \
-    GameActionFightDispellEffectMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellMessage import \
-    GameActionFightDispellMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellSpellMessage import \
-    GameActionFightDispellSpellMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDodgePointLossMessage import \
-    GameActionFightDodgePointLossMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDropCharacterMessage import \
-    GameActionFightDropCharacterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightExchangePositionsMessage import \
-    GameActionFightExchangePositionsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightInvisibilityMessage import \
-    GameActionFightInvisibilityMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightInvisibleDetectedMessage import \
-    GameActionFightInvisibleDetectedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightKillMessage import \
-    GameActionFightKillMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightLifeAndShieldPointsLostMessage import \
-    GameActionFightLifeAndShieldPointsLostMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightLifePointsGainMessage import \
-    GameActionFightLifePointsGainMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightLifePointsLostMessage import \
-    GameActionFightLifePointsLostMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightMarkCellsMessage import \
-    GameActionFightMarkCellsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightModifyEffectsDurationMessage import \
-    GameActionFightModifyEffectsDurationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightMultipleSummonMessage import \
-    GameActionFightMultipleSummonMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightPointsVariationMessage import \
-    GameActionFightPointsVariationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightReduceDamagesMessage import \
-    GameActionFightReduceDamagesMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightReflectDamagesMessage import \
-    GameActionFightReflectDamagesMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightReflectSpellMessage import \
-    GameActionFightReflectSpellMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSlideMessage import \
-    GameActionFightSlideMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSpellCastMessage import \
-    GameActionFightSpellCastMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSpellCooldownVariationMessage import \
-    GameActionFightSpellCooldownVariationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSpellImmunityMessage import \
-    GameActionFightSpellImmunityMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightStealKamaMessage import \
-    GameActionFightStealKamaMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSummonMessage import \
-    GameActionFightSummonMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTackledMessage import \
-    GameActionFightTackledMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTeleportOnSameMapMessage import \
-    GameActionFightTeleportOnSameMapMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightThrowCharacterMessage import \
-    GameActionFightThrowCharacterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTriggerEffectMessage import \
-    GameActionFightTriggerEffectMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTriggerGlyphTrapMessage import \
-    GameActionFightTriggerGlyphTrapMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightUnmarkCellsMessage import \
-    GameActionFightUnmarkCellsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightVanishMessage import \
-    GameActionFightVanishMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.sequence.SequenceEndMessage import \
-    SequenceEndMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.sequence.SequenceStartMessage import \
-    SequenceStartMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.FighterStatsListMessage import \
-    FighterStatsListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightRefreshFighterMessage import \
-    GameFightRefreshFighterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterMessage import \
-    GameFightShowFighterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterRandomStaticPoseMessage import \
-    GameFightShowFighterRandomStaticPoseMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnListMessage import \
-    GameFightTurnListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.RefreshCharacterStatsMessage import \
-    RefreshCharacterStatsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import \
-    GameMapMovementMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import \
-    AbstractFightDispellableEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import \
-    FightTemporaryBoostEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacterInformations import \
-    GameFightCharacterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEntityInformation import \
-    GameFightEntityInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterNamedInformations import \
-    GameFightFighterNamedInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import \
-    GameFightMonsterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import \
-    GameFightSpellCooldown
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnCharacterInformation import \
-    SpawnCharacterInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnCompanionInformation import \
-    SpawnCompanionInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnMonsterInformation import \
-    SpawnMonsterInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnScaledMonsterInformation import \
-    SpawnScaledMonsterInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
-    GameContextActorInformations
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.MapMovementAdapter import MapMovementAdapter
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import BuffManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
+from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import GameDebugManager
+from pydofus2.com.ankamagames.dofus.network.enums.FightSpellCastCriticalEnum import FightSpellCastCriticalEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.AbstractGameActionMessage import (
+    AbstractGameActionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightActivateGlyphTrapMessage import (
+    GameActionFightActivateGlyphTrapMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightCarryCharacterMessage import (
+    GameActionFightCarryCharacterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightChangeLookMessage import (
+    GameActionFightChangeLookMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightCloseCombatMessage import (
+    GameActionFightCloseCombatMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDeathMessage import (
+    GameActionFightDeathMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellableEffectMessage import (
+    GameActionFightDispellableEffectMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellEffectMessage import (
+    GameActionFightDispellEffectMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellMessage import (
+    GameActionFightDispellMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellSpellMessage import (
+    GameActionFightDispellSpellMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDodgePointLossMessage import (
+    GameActionFightDodgePointLossMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDropCharacterMessage import (
+    GameActionFightDropCharacterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightExchangePositionsMessage import (
+    GameActionFightExchangePositionsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightInvisibilityMessage import (
+    GameActionFightInvisibilityMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightInvisibleDetectedMessage import (
+    GameActionFightInvisibleDetectedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightKillMessage import (
+    GameActionFightKillMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightLifeAndShieldPointsLostMessage import (
+    GameActionFightLifeAndShieldPointsLostMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightLifePointsGainMessage import (
+    GameActionFightLifePointsGainMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightLifePointsLostMessage import (
+    GameActionFightLifePointsLostMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightMarkCellsMessage import (
+    GameActionFightMarkCellsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightModifyEffectsDurationMessage import (
+    GameActionFightModifyEffectsDurationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightMultipleSummonMessage import (
+    GameActionFightMultipleSummonMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightPointsVariationMessage import (
+    GameActionFightPointsVariationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightReduceDamagesMessage import (
+    GameActionFightReduceDamagesMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightReflectDamagesMessage import (
+    GameActionFightReflectDamagesMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightReflectSpellMessage import (
+    GameActionFightReflectSpellMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSlideMessage import (
+    GameActionFightSlideMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSpellCastMessage import (
+    GameActionFightSpellCastMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSpellCooldownVariationMessage import (
+    GameActionFightSpellCooldownVariationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSpellImmunityMessage import (
+    GameActionFightSpellImmunityMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightStealKamaMessage import (
+    GameActionFightStealKamaMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightSummonMessage import (
+    GameActionFightSummonMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTackledMessage import (
+    GameActionFightTackledMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTeleportOnSameMapMessage import (
+    GameActionFightTeleportOnSameMapMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightThrowCharacterMessage import (
+    GameActionFightThrowCharacterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTriggerEffectMessage import (
+    GameActionFightTriggerEffectMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightTriggerGlyphTrapMessage import (
+    GameActionFightTriggerGlyphTrapMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightUnmarkCellsMessage import (
+    GameActionFightUnmarkCellsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightVanishMessage import (
+    GameActionFightVanishMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.sequence.SequenceEndMessage import SequenceEndMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.sequence.SequenceStartMessage import (
+    SequenceStartMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.FighterStatsListMessage import (
+    FighterStatsListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightRefreshFighterMessage import (
+    GameFightRefreshFighterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterMessage import (
+    GameFightShowFighterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterRandomStaticPoseMessage import (
+    GameFightShowFighterRandomStaticPoseMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnListMessage import (
+    GameFightTurnListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.RefreshCharacterStatsMessage import (
+    RefreshCharacterStatsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import GameMapMovementMessage
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import (
+    AbstractFightDispellableEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import (
+    FightTemporaryBoostEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacterInformations import (
+    GameFightCharacterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEntityInformation import (
+    GameFightEntityInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterNamedInformations import (
+    GameFightFighterNamedInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import (
+    GameFightMonsterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import (
+    GameFightSpellCooldown,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnCharacterInformation import (
+    SpawnCharacterInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnCompanionInformation import (
+    SpawnCompanionInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnMonsterInformation import (
+    SpawnMonsterInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnScaledMonsterInformation import (
+    SpawnScaledMonsterInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import (
+    GameContextActorInformations,
+)
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
-    ISequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
 from pydofus2.com.ankamagames.jerakine.sequencer.ISequencer import ISequencer
-from pydofus2.com.ankamagames.jerakine.sequencer.SerialSequencer import \
-    SerialSequencer
+from pydofus2.com.ankamagames.jerakine.sequencer.SerialSequencer import SerialSequencer
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
-    MovementPath
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
 
 
 class FightSequenceFrame(Frame, ISpellCastSequence):
@@ -366,11 +369,11 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         if self._castContexts and len(self._castContexts) > 1:
             return self._castContexts[-1]
         return self._forcedCastSequenceContext
-    
+
     @property
     def steps(self) -> list[ISequencable]:
         return self._steps
-    
+
     @property
     def parent(self) -> "FightSequenceFrame":
         return self._parent
@@ -426,13 +429,16 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
                 closeCombatWeaponId = gafccmsg.weaponGenericId
                 gafscmsg = GameActionFightSpellCastMessage()
                 gafscmsg.init(
-                    gafccmsg.targetId,
-                    gafccmsg.destinationCellId,
-                    gafccmsg.critical,
-                    gafccmsg.silentCast,
-                    gafccmsg.verboseCast,
-                    gafccmsg.actionId,
-                    gafccmsg.sourceId,
+                    targetId_=gafccmsg.targetId,
+                    destinationCellId_=gafccmsg.destinationCellId,
+                    critical_=gafccmsg.critical,
+                    silentCast_=gafccmsg.silentCast,
+                    verboseCast_=gafccmsg.verboseCast,                    
+                    actionId_=gafccmsg.actionId,
+                    sourceId_=gafccmsg.sourceId,
+                    spellId_=0,
+                    spellLevel_=0,
+                    portalsIds_=[]
                 )
                 if forceDetailedLogs:
                     gafscmsg.verboseCast = True
@@ -1043,7 +1049,11 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
 
     def cellsHasBeenMarked(self, gafmcmsg: GameActionFightMarkCellsMessage) -> None:
         spellId: int = gafmcmsg.mark.markSpellId
-        if self._forcedCastSequenceContext and self._forcedCastSequenceContext.spellData and self._forcedCastSequenceContext.spellData.id != 1750:
+        if (
+            self._forcedCastSequenceContext
+            and self._forcedCastSequenceContext.spellData
+            and self._forcedCastSequenceContext.spellData.id != 1750
+        ):
             self._forcedCastSequenceContext.markId = gafmcmsg.mark.markId
             self._forcedCastSequenceContext.markType = gafmcmsg.mark.markType
             self._forcedCastSequenceContext.casterId = gafmcmsg.sourceId
@@ -1239,9 +1249,7 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         self.pushStep(FightMarkTriggeredStep(gaftgtmsg.triggeringCharacterId, gaftgtmsg.sourceId, gaftgtmsg.markId))
         self._forcedCastSequenceContext = SpellCastSequenceContext()
         self._forcedCastSequenceContext.casterId = gaftgtmsg.sourceId
-        triggeringCharacterInfos = Kernel().fightEntitiesFrame.getEntityInfos(
-            gaftgtmsg.triggeringCharacterId
-        )
+        triggeringCharacterInfos = Kernel().fightEntitiesFrame.getEntityInfos(gaftgtmsg.triggeringCharacterId)
         triggeredCellId = triggeringCharacterInfos.disposition.cellId if triggeringCharacterInfos else -1
         mark: MarkInstance = MarkedCellsManager().getMarkDatas(gaftgtmsg.markId)
         if triggeredCellId != -1:
@@ -1256,8 +1264,8 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
                         triggeredSpellId = eid.parameter0
                 if triggeredSpellId:
                     self._forcedCastSequenceContext.spellData = Spell.getSpellById(triggeredSpellId)
-                    self._forcedCastSequenceContext.spellLevelData = self._forcedCastSequenceContext.spellData.getSpellLevel(
-                        mark.associatedSpellLevel.grade
+                    self._forcedCastSequenceContext.spellLevelData = (
+                        self._forcedCastSequenceContext.spellData.getSpellLevel(mark.associatedSpellLevel.grade)
                     )
                     self._forcedCastSequenceContext.targetedCellId = gaftgtmsg.markImpactCell
                     if mark.markType == GameActionMarkTypeEnum.GLYPH:
@@ -1306,7 +1314,10 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
                 myCastingSpell = SpellCastSequenceContext(self._forcedCastSequenceContext == None)
             if self._forcedCastSequenceContext:
                 myCastingSpell.id = self._forcedCastSequenceContext.id
-                if self._forcedCastSequenceContext.spellData and self._forcedCastSequenceContext.spellData.id == gaftbmsg.effect.spellId:
+                if (
+                    self._forcedCastSequenceContext.spellData
+                    and self._forcedCastSequenceContext.spellData.id == gaftbmsg.effect.spellId
+                ):
                     myCastingSpell.spellLevelData = self._forcedCastSequenceContext.spellLevelData
             myCastingSpell.spellData = Spell.getSpellById(gaftbmsg.effect.spellId)
             myCastingSpell.casterId = gaftbmsg.sourceId
@@ -1338,7 +1349,10 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
                         buff.effect.visibleInFightLog = True
                     if GameDebugManager().detailedFightLog_showBuffsInUi:
                         buff.effect.visibleInBuffUi = True
-                    if actionId == ActionIds.ACTION_SET_SPELL_RANGE_MAX or actionId == ActionIds.ACTION_SET_SPELL_RANGE_MIN:
+                    if (
+                        actionId == ActionIds.ACTION_SET_SPELL_RANGE_MAX
+                        or actionId == ActionIds.ACTION_SET_SPELL_RANGE_MIN
+                    ):
                         targetBuffs = BuffManager().getAllBuff(gaftbmsg.effect.targetId)
                         if targetBuffs:
                             for oldBuff in targetBuffs:
@@ -1436,7 +1450,7 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         if self.context is not None:
             self.castingSpellId = self.context.id
         self._steps.append(step)
-    
+
     def pushPointsVariationStep(self, fighterId: float, actionId: int, delta: int) -> None:
         step: IFightStep = None
         if actionId in [
@@ -1476,8 +1490,12 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
             step.castingSpellId = self.context.id
         self._steps.append(step)
 
-    def pushPlaySpellScriptStep(self, castSequence:ISpellCastSequence, specifictargetedCellId:int = -1) -> FightPlaySpellScriptStep:
-        scriptTypes = SpellScriptManager().resolveScriptUsageFromCastContext(castSequence.context, specifictargetedCellId)
+    def pushPlaySpellScriptStep(
+        self, castSequence: ISpellCastSequence, specifictargetedCellId: int = -1
+    ) -> FightPlaySpellScriptStep:
+        scriptTypes = SpellScriptManager().resolveScriptUsageFromCastContext(
+            castSequence.context, specifictargetedCellId
+        )
         step = FightPlaySpellScriptStep(scriptTypes, castSequence, castSequence.context.spellLevelData.grade)
         if self.context:
             step.castingSpellId = self.context.id
@@ -1540,7 +1558,7 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
     @steps.setter
     def steps(self, value: list):
         self._steps = value
-    
+
     @context.setter
     def context(self, value: SpellCastSequenceContext):
         self._lastCastingSpell = value

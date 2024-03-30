@@ -44,7 +44,7 @@ class Zaapi(metaclass=Singleton):
             "accept-language": "en-US",
         }
         self.zaap_session.headers.update(self.zaap_headers)
-        if "zaapi_proxies" in Constants.USER_SETTINGS:
+        if "zaapi_proxies" in Constants.USER_SETTINGS and Constants.USER_SETTINGS.get("use_proxy", False):
             self.zaap_session.proxies.update(Constants.USER_SETTINGS["zaapi_proxies"])
         self.verify_ssl = False
 
