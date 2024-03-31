@@ -12,3 +12,4 @@ psutil
 wmi
 cryptography
 pytz
+dataclass_json

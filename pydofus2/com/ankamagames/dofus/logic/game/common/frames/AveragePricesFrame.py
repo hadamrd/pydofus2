@@ -1,56 +1,63 @@
 import json
 import os
 from datetime import datetime
+from dataclasses_json import dataclass_json, LetterCase, config
+from threading import Lock
 
 from pydofus2.com.ankamagames.dofus import Constants
-from pydofus2.com.ankamagames.dofus.internalDatacenter.FeatureEnum import FeatureEnum
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import FeatureManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
-from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import \
-    GameContextEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextCreateMessage import \
-    GameContextCreateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.ObjectAveragePricesErrorMessage import \
-    ObjectAveragePricesErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.ObjectAveragePricesGetMessage import \
-    ObjectAveragePricesGetMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.ObjectAveragePricesMessage import \
-    ObjectAveragePricesMessage
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-    BenchmarkTimer
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import GameContextEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextCreateMessage import (
+    GameContextCreateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.ObjectAveragePricesErrorMessage import (
+    ObjectAveragePricesErrorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.ObjectAveragePricesGetMessage import (
+    ObjectAveragePricesGetMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.ObjectAveragePricesMessage import (
+    ObjectAveragePricesMessage,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
-class PricesData(object):
-    def __init__(self):
-        self.lastUpdate = datetime.now()
-        self.items = dict[int, float]()
+from dataclasses import dataclass, field
+from datetime import datetime
+import json
+from typing import Dict
 
-    def __json__(self):
-        return {"lastUpdate": self.lastUpdate.isoformat(), "items": self.items}
+pricesDataLock = Lock()
 
-    def __dict__(self):
-        return {"lastUpdate": self.lastUpdate.isoformat(), "items": self.items}
 
-    def clear(self):
-        self.items = None
-        self.lastUpdate = None
+@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass
+class PricesData:
+    last_update: datetime = field(metadata=config(encoder=datetime.isoformat, decoder=datetime.fromisoformat))
+    items: Dict[int, float] = field(default_factory=dict)
 
 
 class AveragePricesFrame(Frame):
+    _pricesData: Dict[str, PricesData] = {}
+
     def __init__(self):
         super().__init__()
-        self._pricesData = None
-        self._serverName = PlayerManager().server.name
-        self.averagePricesPath = Constants.AVERAGE_PRICES_PATH
-        self.pricesDataAsked = False
+        if not AveragePricesFrame._pricesData:
+            if os.path.exists(Constants.AVERAGE_PRICES_PATH):
+                try:
+                    with open(Constants.AVERAGE_PRICES_PATH, "r") as file:
+                        data: Dict = json.load(file)
+                        with pricesDataLock:
+                            for server, prices_data in data.items():
+                                AveragePricesFrame._pricesData[server] = PricesData.from_dict(prices_data)
+                except json.JSONDecodeError as e:
+                    Logger().error(f"Error loading average prices JSON data: {e}")
+        self._server_name = PlayerManager().server.name
+        self._prices_data_asked = False
 
     @property
     def priority(self) -> int:
@@ -58,33 +65,23 @@ class AveragePricesFrame(Frame):
 
     @property
     def dataAvailable(self) -> bool:
-        return self._pricesData is not None
+        return AveragePricesFrame._pricesData is not None
 
     @property
     def pricesData(self) -> PricesData:
         return self._pricesData
 
     def pushed(self) -> bool:
-        if os.path.exists(self.averagePricesPath):
-            try:
-                json_pricesData = json.load(open(self.averagePricesPath, "r"))
-                self._pricesData = PricesData()
-                self._pricesData.items = json_pricesData["items"]
-                self._pricesData.lastUpdate = datetime.fromisoformat(
-                    json_pricesData["lastUpdate"]
-                )
-            except json.JSONDecodeError as e:
-                Logger().error(f"Error loading JSON data: {e}")
+        self._server_name = PlayerManager().server.name
         return True
 
     def pulled(self) -> bool:
-        self._pricesData.clear()
         return True
 
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, GameContextCreateMessage):
-            if msg.context == GameContextEnum.ROLE_PLAY and not self.updateAllowed():
+            if msg.context == GameContextEnum.ROLE_PLAY and self.updateAllowed():
                 self.askPricesData()
             return False
 
@@ -98,34 +95,41 @@ class AveragePricesFrame(Frame):
         return False
 
     def updatePricesData(self, pItemsIds: list[int], pItemsAvgPrices: list[float]) -> None:
-        self._pricesData = PricesData()
-        self._pricesData.items = {}
-        for itemId, averagePrice in zip(pItemsIds, pItemsAvgPrices):
-            self._pricesData.items[itemId] = averagePrice
-        if not os.path.exists(os.path.dirname(self.averagePricesPath)):
-            os.makedirs(os.path.dirname(self.averagePricesPath))
-        with open(self.averagePricesPath, "w") as file:
-            json.dump(self._pricesData.__json__(), file, indent=4)
-        Logger().debug("Average prices data received")
+        with pricesDataLock:
+            # Initialize PricesData with current datetime and empty items
+            self._pricesData[self._server_name] = PricesData(last_update=datetime.now(), items={})
+
+            # Update the items dictionary with the provided IDs and average prices
+            for itemId, averagePrice in zip(pItemsIds, pItemsAvgPrices):
+                self._pricesData[self._server_name].items[itemId] = averagePrice
+
+            # Ensure the directory for the averagePricesPath exists
+            if not os.path.exists(os.path.dirname(Constants.AVERAGE_PRICES_PATH)):
+                os.makedirs(os.path.dirname(Constants.AVERAGE_PRICES_PATH))
+
+            # Serialize the PricesData to JSON and write to the file
+            with open(Constants.AVERAGE_PRICES_PATH, "w") as file:
+                prices_data_dict = {
+                    server_name: prices_data.to_dict() for server_name, prices_data in self._pricesData.items()
+                }
+                json.dump(prices_data_dict, file, indent=4)
+
+        Logger().debug("Average prices data updated and saved.")
 
     def updateAllowed(self) -> bool:
-        if self.dataAvailable:
-            now = datetime.now()
-            if (
-                now.year == self._pricesData.lastUpdate.year
-                and now.month == self._pricesData.lastUpdate.month
-                and now.day == self._pricesData.lastUpdate.day
-            ):
-                return False
+        if self._pricesData is not None and self._server_name in self._pricesData and datetime.now().date() == self._pricesData[self._server_name].last_update.date():
+            Logger().debug("Average prices data already up to date")
+            return False
         return True
 
-    def getItemAveragePrice(self, guid):
-        return self._pricesData.items.get(guid)
+    def getItemAveragePrice(self, guid: int):
+        return self._pricesData[self._server_name].items.get(guid)
 
     def askPricesData(self) -> None:
-        if self.pricesDataAsked:
+        if self._prices_data_asked:
             return
-        self.pricesDataAsked = True
-        oapgm: ObjectAveragePricesGetMessage = ObjectAveragePricesGetMessage()
+        Logger().debug("Asking for average prices data")
+        self._prices_data_asked = True
+        oapgm = ObjectAveragePricesGetMessage()
         oapgm.init()
         ConnectionsHandler().send(oapgm)
