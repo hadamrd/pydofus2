@@ -578,6 +578,49 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    connection
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            connection
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
                 
   
@@ -585,11 +628,117 @@
   
   
     <li class="md-nav__item">
-      <a href="../ReloginToken/" class="md-nav__link">
+      <a href="../../connection/ReloginToken/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     ReloginToken
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../connection/PlayerLoginSuccess/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PlayerLoginSuccess
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    social
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            social
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social/AlignmentRankUpdate/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AlignmentRankUpdate
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../social/UpdateWarEffortHook/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UpdateWarEffortHook
   </span>
   
 
@@ -690,7 +839,7 @@
 <li><code>error</code>: A description of the error that caused the shutdown.</li>
 </ul>
 <h2 id="example-usage">Example Usage</h2>
-<pre><code class="language-python">def on_client_shutdown(error):
+<pre><code class="language-python">def on_client_shutdown(event, error):
     print(f&quot;Client shutdown due to: {error}&quot;)
 
 KernelEventsManager().on(KernelEvent.ClientShutdown, on_client_shutdown)
