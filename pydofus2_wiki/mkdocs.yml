@@ -1,0 +1,9 @@
+site_name: Pydofus2 wiki
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Events:
+      - Job Experience Update: events/job_experience_update.md
+      # Add other events here
