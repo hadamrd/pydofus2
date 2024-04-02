@@ -2,6 +2,7 @@ import atexit
 import locale
 import sys
 import threading
+import time
 import traceback
 from datetime import datetime
 from time import perf_counter
@@ -86,6 +87,7 @@ class DofusClient(threading.Thread):
         self._ended_correctly = False
         self._banned = False
         self._taking_nap = False
+        self._startTime = None
 
     def initListeners(self):
         KernelEventsManager().once(
@@ -170,7 +172,7 @@ class DofusClient(threading.Thread):
     def onCharacterSelectionSuccess(self, event, return_value):
         Logger().info("Adding game start frames")
         for frame in self._registredGameStartFrames:
-            self.worker.addFrame(frame())
+            self.worker.addFrame(frame)
 
     def onInGame(self):
         Logger().info("Character entered game server successfully")
@@ -251,7 +253,7 @@ class DofusClient(threading.Thread):
             Logger().info(f"Auto connect character id set to {self._characterId} for server {self._serverId}")
         Logger().info("Adding game start frames ...")
         for frame in self._registredInitFrames:
-            self.worker.addFrame(frame())
+            self.worker.addFrame(frame)
         if not self._loginToken:
             if self._apikey is None:
                 return self.shutdown(
@@ -320,6 +322,7 @@ class DofusClient(threading.Thread):
 
     def run(self):
         try:
+            self._startTime = time.time()
             self.init()
             self.prepareLogin()
             self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
