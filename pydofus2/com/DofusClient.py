@@ -79,6 +79,7 @@ class DofusClient(threading.Thread):
         self._crashed = False
         self._shutDownMessage = ""
         self._reconnectRecord = []
+        self._customEventListeners = []
         self._shutDownListeners = []
         self.kernel = None
         self.terminated = threading.Event()
@@ -105,15 +106,23 @@ class DofusClient(threading.Thread):
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
                 (KernelEvent.FightStarted, self.onFight),
                 (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),
-                (KernelEvent.TextInformation, self.onChannelTextInformation),
+                (KernelEvent.TextInformation, self.onChannelTextInformation)
             ],
             originator=self,
         )
+        for event, callback, once in self._customEventListeners:
+            if once:
+                KernelEventsManager().once(event, callback, originator=self)
+            else:
+                KernelEventsManager().on(event, callback, originator=self)
 
     @property
     def worker(self):
         return Kernel().worker
 
+    def addEventListener(self, event, callback, once=True):
+        self._customEventListeners.append((event, callback, once))
+        
     def init(self):
         Logger().info("Initializing ...")
         ZaapDecoy.SESSIONS_LAUNCH += 1
@@ -129,6 +138,11 @@ class DofusClient(threading.Thread):
         self.initListeners()
         Logger().info("Initialized")
         return True
+
+    def setCredentials(self, apikey, certId=0, certHash=""):
+        self._apikey = apikey
+        self._certId = certId
+        self._certHash = certHash
 
     def setApiKey(self, apiKey):
         self._apikey = apiKey
@@ -180,6 +194,9 @@ class DofusClient(threading.Thread):
 
     def onHaapiApiKeyReady(self, event, apikey):
         pass
+    
+    def onServersList(self, event, serversList, serversUsedList, serversTypeAvailableSlots):
+        pass
 
     def onloginSuccess(self, event, ismsg):
         ZaapDecoy.CONNECTED_ACCOUNTS += 1
@@ -204,8 +221,8 @@ class DofusClient(threading.Thread):
 
     def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):
         Logger().error(f"Server selection refused for reason : {error_text}")
-        # self._crashed = True
-        # self.shutdown(DisconnectionReasonEnum.EXCEPTION_THROWN, error_text)
+        self._crashed = True
+        self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 
     def onConnectionClosed(self, event, connId):
         pass

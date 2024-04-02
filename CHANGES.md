@@ -74,3 +74,12 @@ Une pause obligatoire de 5 minutes entre les chasses aux trésors a été implé
 Gestion des montures : Une gestion spécifique pour l'utilisation des montures a été ajoutée, prenant en compte les cas où la monture manque d'énergie.
 
 Fonctionnalité Autotrip : Lorsqu'une destination est spécifiée uniquement par son MapId, Autotrip désormais cherche automatiquement un vertex accessible sur la carte de destination, au lieu de tenter directement le vertex avec zoneId 1.
+
+## 31.03.2024
+
+Auto trip use zaap, maintenant traite les cas particulier et gère le déplacement de Ankarnam vers Astrub correctement, gère aussi maintenant les déplacements de/vers albuera.
+Average prices frame maintenant ne demande les données des prix moyens qu'une fois par jour comme le client.
+Multiple paths farmer maintenant estime le temps à passer par chemin à partir d'un multiple du cover time et donc s'adapte automatiquement à la taille de votre trajet.
+Le bot maintenant prend des pauses de 30 mins après chaque 2h de farme pour s'assimiler plus à un humain et se faire encore moins détecter.
+Un paramètre à été ajouté pour contrôler le nombre de fights pat minute que le bot a le droit de faire et ainsi l'adapter plus pour avoir un comportement humain.
+La fonctionnalité de combat en group fonctionne de nouveau et s'intégrera prochainement à l'interface graphique.

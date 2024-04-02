@@ -1,3 +1,4 @@
+import stat
 import threading
 from enum import Enum
 from typing import Any, Generator, List, Tuple, Type, TypeVar
@@ -16,6 +17,7 @@ class SingletonEvent(Enum):
 
 class Singleton(type):
     _instances = dict[str, dict[type, Any]]()
+    _wait_events = dict[str, dict[type, threading.Event]]()
     eventsHandler = EventsHandler()
 
     @staticmethod
@@ -63,7 +65,7 @@ class Singleton(type):
                 del Singleton._instances[cls.threadName()][clz]
             scheduledForDelete.clear()
 
-    def getInstance(cls: Type[T], thrid: int) -> T:  # -> T
+    def getInstance(cls: Type[T], thrid: int) -> T:
         if thrid in Singleton._instances:
             return Singleton._instances[thrid].get(cls)
 
@@ -83,11 +85,18 @@ class Singleton(type):
 
         Singleton.eventsHandler.on(SingletonEvent.THREAD_REGISTER, onThreadRegister, priority, timeout, ontimeout)
 
-    def waitThreadRegister(cls: Type[T], thname: int, timeout: float) -> T:
+    def waitThreadRegister(cls: Type[T], thname: str, timeout: float) -> T:
         if thname in Singleton._instances and cls in Singleton._instances[thname]:
             return cls.getInstance(thname)
         waitEvt = threading.Event()
+        Singleton._wait_events[thname] = waitEvt
         cls.onceThreadRegister(thname, waitEvt.set)
         if not waitEvt.wait(timeout):
             raise TimeoutError(f"wait for {cls.__name__} signleton instanciation from thread {thname} timed out!")
         return cls.getInstance(thname)
+
+    @staticmethod
+    def clearEventsWaits(thname):
+        if thname in Singleton._wait_events:
+            Singleton._wait_events[thname].set()
+            del Singleton._wait_events[thname]

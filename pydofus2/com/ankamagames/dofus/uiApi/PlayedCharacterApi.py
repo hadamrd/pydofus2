@@ -166,11 +166,11 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def getBreedSpellActivatedIds(cls) -> list:
-        spellsInventory: list = PlayedCharacterManager().spellsInventory
-        activatedSpellIds: list = list()
-        playerBreedId: int = PlayedCharacterManager().infos.breed
-        breedData: Breed = Breed.getBreedById(playerBreedId)
-        breedSpellsId: list = breedData.allSpellsId
+        spellsInventory = PlayedCharacterManager().spellsInventory
+        activatedSpellIds = list()
+        playerBreedId = PlayedCharacterManager().infos.breed
+        breedData = Breed.getBreedById(playerBreedId)
+        breedSpellsId = breedData.allSpellsId
         for spellWrapper in spellsInventory:
             if spellWrapper is not None:
                 if spellWrapper.variantActivated and breedSpellsId.find(spellWrapper.id) != -1:

@@ -128,7 +128,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     def fetchAccountData(self, apikey):
         result = self.haapi.signOnWithApikey(GameID.ZAAP, apikey)
         if "reason" in result:
-            raise ZaapError(f"Failed to sign on with apikey: {result['reason']}")
+            raise ZaapError(f"Failed to sign on with apikey for reason {result['reason']}")
         return result
 
     def find_main_account_apikey(self):
@@ -352,3 +352,28 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             # Logger().debug(f"Apikey data : {apikey_data}")
             deciphered_apikeys.append({"apikeyFile": apikey_file, "apikey": apikey_data})
         return deciphered_apikeys
+
+    @classmethod
+    def get_stored_certificate(cls, username):
+        if not username:
+            raise ZaapError("No username provided")
+        certFolder = cls.get_certificate_folder_path()
+        user_name_hash = CryptoHelper.create_hash_from_string_sha256(username)
+        cert_path = os.path.join(certFolder, f".certif{user_name_hash}")
+        if not os.path.exists(cert_path):
+            raise ZaapError(f"Certificate file for user {username} not found")
+        cert = CryptoHelper.decrypt_from_file(str(cert_path))
+        encoders = CryptoHelper.create_hm_encoder()
+        hash = CryptoHelper.generate_hash_from_cert(cert, encoders["hm1"], encoders["hm2"])
+        return {"id": cert["id"], "hash": hash}
+
+    @classmethod
+    def get_stored_apikey(cls, accountId):
+        if not accountId:
+            raise ZaapError("No username provided")
+        apikeys_folder = cls.get_apikey_folder_path()
+        apikey_file_path = os.path.join(apikeys_folder, f".keydata{accountId}")
+        if not os.path.exists(apikey_file_path):
+            raise ZaapError(f"Apikey file for user {accountId} not found")
+        apikey_data = CryptoHelper.decrypt_from_file(str(apikey_file_path))
+        return apikey_data

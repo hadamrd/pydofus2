@@ -85,7 +85,7 @@ class ServerSelectionFrame(Frame):
             self._serversList.sort(key=lambda x: x.date)
             self.broadcastServersListUpdate()
             if AuthentificationManager()._lva and AuthentificationManager()._lva.serverId is not None:
-                self.process(ServerSelectionAction.create(AuthentificationManager()._lva.serverId))
+                self.selectServer(AuthentificationManager()._lva.serverId)
             else:
                 Logger().warning("No serverId specified in Auth Manager, cannot select any server.")
             return True
