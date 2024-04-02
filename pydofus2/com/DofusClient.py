@@ -91,7 +91,7 @@ class DofusClient(threading.Thread):
 
     def initListeners(self):
         KernelEventsManager().once(
-            KernelEvent.CharacterSelectedSuccessfully,
+            KernelEvent.CharacterSelectionSuccess,
             self.onCharacterSelectionSuccess,
             originator=self,
         )
@@ -104,7 +104,7 @@ class DofusClient(threading.Thread):
                 (KernelEvent.ClientRestart, self.onRestart),
                 (KernelEvent.ClientReconnect, self.onReconnect),
                 (KernelEvent.ClientClosed, self.onConnectionClosed),
-                (KernelEvent.PlayerLoggedIn, self.onloginSuccess),
+                (KernelEvent.PlayerLoginSuccess, self.onloginSuccess),
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
                 (KernelEvent.FightStarted, self.onFight),
                 (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),

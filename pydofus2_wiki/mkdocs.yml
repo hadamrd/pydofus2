@@ -5,5 +5,21 @@ theme:
 nav:
   - Home: index.md
   - Events:
-      - Job Experience Update: events/job_experience_update.md
-      # Add other events here
+      - job:
+        - JobExperienceUpdate: events/job/JobExperienceUpdate.md
+      - character:
+        - CharacterCreationResult: events/character/CharacterCreationresult.md
+        - CharacterNameSuggestion: events/character/CharacterNameSuggestion.md
+        - CharacterNamesuggestionFailed: events/character/CharacterNameSuggestionFailed.md
+      - client:
+        - ClientRestart: events/client/ClientRestart.md
+        - ClientShutdown: events/client/ClientShutdown.md
+        - ClientCrashed: events/client/ClientCrashed.md
+      - connection:
+        - ReloginToken: events/connection/ReloginToken.md
+        - PlayerLoginSuccess: events/connection/PlayerLoginSuccess.md
+        - CharacterSelectionSuccess: events/connection/CharacterSelectionSuccess.md
+      - social:
+        - AlignmentRankUpdate: events/social/AlignmentRankUpdate.md
+        - UpdateWarEffortHook: events/social/UpdateWarEffortHook.md
+

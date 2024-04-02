@@ -13,7 +13,7 @@ class KernelEvent(Enum):
     # Server
     ServersList = auto()
     CharactersList = auto()
-    CharacterSelectedSuccessfully = auto()
+    CharacterSelectionSuccess = auto()
     SelectedServerData = auto()
     ServerStatusUpdate = auto()
     SelectedServerRefused = auto()
@@ -79,8 +79,7 @@ class KernelEvent(Enum):
     PlayerMovementCompleted = auto()
 
     # Player updates
-    PlayerLoggedIn = auto()
-    PlayerInGameReady = auto()
+    PlayerLoginSuccess = auto()
     PlayerDead = auto()
     PlayerAlive = auto()
     CharacterStats = auto()

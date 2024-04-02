@@ -309,7 +309,7 @@ class GameServerApproachFrame(Frame):
             Kernel().worker.addFrame(AveragePricesFrame())
             Kernel().worker.addFrame(NpcFrame())
             Kernel().worker.addFrame(PartyFrame())
-            KernelEventsManager().send(KernelEvent.CharacterSelectedSuccessfully, return_value=cssmsg.infos)
+            KernelEventsManager().send(KernelEvent.CharacterSelectionSuccess, cssmsg.infos)
 
             # if Kernel().beingInReconection and not self._reconnectMsgSend:
             #     self._reconnectMsgSend = True

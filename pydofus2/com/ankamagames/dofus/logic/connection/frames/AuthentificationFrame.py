@@ -109,11 +109,10 @@ class AuthentificationFrame(Frame):
             PlayerManager().accountCreation = ismsg.accountCreation
             PlayerManager().wasAlreadyConnected = ismsg.wasAlreadyConnected
             DataStoreType.ACCOUNT_ID = str(ismsg.accountId)
-            KernelEventsManager().send(KernelEvent.PlayerLoggedIn, ismsg)
             Kernel().worker.removeFrame(self)
             Kernel().worker.addFrame(CharacterFrame())
             Kernel().worker.addFrame(ServerSelectionFrame())
-            KernelEventsManager().send(KernelEvent.PlayerInGameReady, msg)
+            KernelEventsManager().send(KernelEvent.PlayerLoginSuccess, ismsg)
             return True
 
         elif isinstance(msg, IdentificationFailedMessage):

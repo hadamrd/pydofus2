@@ -1,0 +1,34 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - preproduction  # Or your default branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: |
+          cd pydofus2_wiki  # Change 'pydofus2_wiki' to your MkDocs project's actual path
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material
+          
+      - name: Build MkDocs site
+        run: |
+          cd pydofus2_wiki  # Change 'pydofus2_wiki' to your MkDocs project's actual path
+          mkdocs build --verbose --clean --strict
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./pydofus2_wiki/site  # Adjust path to where MkDocs outputs the site
