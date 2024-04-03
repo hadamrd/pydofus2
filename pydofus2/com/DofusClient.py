@@ -112,18 +112,15 @@ class DofusClient(threading.Thread):
             ],
             originator=self,
         )
-        for event, callback, once in self._customEventListeners:
-            if once:
-                KernelEventsManager().once(event, callback, originator=self)
-            else:
-                KernelEventsManager().on(event, callback, originator=self)
+        for event, callback, kwargs in self._customEventListeners:
+            KernelEventsManager().on(event, callback, **kwargs, originator=self)
 
     @property
     def worker(self):
         return Kernel().worker
 
-    def addEventListener(self, event, callback, once=True):
-        self._customEventListeners.append((event, callback, once))
+    def addEventListener(self, event, callback, **kwargs):
+        self._customEventListeners.append((event, callback, kwargs))
         
     def init(self):
         Logger().info("Initializing ...")

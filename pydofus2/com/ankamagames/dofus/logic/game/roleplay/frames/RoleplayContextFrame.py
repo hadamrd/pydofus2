@@ -94,7 +94,7 @@ class RoleplayContextFrame(Frame):
         return self._entitiesFrame
 
     def pushed(self) -> bool:
-        self.movementFrame = RoleplayMovementFrame()
+        self._movementFrame = RoleplayMovementFrame()
         self._worldFrame = rplWF.RoleplayWorldFrame()
         self._entitiesFrame = ref.RoleplayEntitiesFrame()
         self._interactivesFrame = rif.RoleplayInteractivesFrame()
@@ -129,8 +129,8 @@ class RoleplayContextFrame(Frame):
                 Kernel().worker.removeFrame(self._worldFrame)
             if self._interactivesFrame:
                 Kernel().worker.removeFrame(self._interactivesFrame)
-            if self.movementFrame:
-                Kernel().worker.removeFrame(self.movementFrame)
+            if self._movementFrame:
+                Kernel().worker.removeFrame(self._movementFrame)
             if PlayedCharacterManager().isInHouse:
                 wp = WorldPointWrapper(
                     msg.mapId,
@@ -149,7 +149,7 @@ class RoleplayContextFrame(Frame):
         elif isinstance(msg, MapLoadedMessage):
             Kernel().worker.addFrame(self._entitiesFrame)
             Kernel().worker.addFrame(self._worldFrame)
-            Kernel().worker.addFrame(self.movementFrame)
+            Kernel().worker.addFrame(self._movementFrame)
             Kernel().worker.addFrame(self._interactivesFrame)
             Kernel().worker.resume()
             KernelEventsManager().send(KernelEvent.MapLoaded, msg.id)
@@ -248,7 +248,7 @@ class RoleplayContextFrame(Frame):
         self._interactivesFrame.clear()
         Kernel().worker.removeFrame(self._entitiesFrame)
         # Kernel().worker.removeFrame(self._worldFrame)
-        Kernel().worker.removeFrame(self.movementFrame)
+        Kernel().worker.removeFrame(self._movementFrame)
         Kernel().worker.removeFrame(self._interactivesFrame)
         return True
 
