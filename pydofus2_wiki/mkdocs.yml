@@ -1,0 +1,36 @@
+site_name: Pydofus2 wiki
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - EventsManagement:
+    - KernelEventsManager: eventsManagement/KernelEventsManager.md
+  - Events:
+      - job:
+        - JobExperienceUpdate: events/job/JobExperienceUpdate.md
+        - JobLevelUp: events/job/JobLevelUp.md
+      - character:
+        - CharacterCreationResult: events/character/CharacterCreationresult.md
+        - CharacterNameSuggestion: events/character/CharacterNameSuggestion.md
+        - CharacterNamesuggestionFailed: events/character/CharacterNameSuggestionFailed.md
+      - client:
+        - ClientRestart: events/client/ClientRestart.md
+        - ClientShutdown: events/client/ClientShutdown.md
+        - ClientCrashed: events/client/ClientCrashed.md
+      - connection:
+        - ReloginToken: events/connection/ReloginToken.md
+        - PlayerLoginSuccess: events/connection/PlayerLoginSuccess.md
+        - CharacterSelectionSuccess: events/connection/CharacterSelectionSuccess.md
+      - social:
+        - AlignmentRankUpdate: events/social/AlignmentRankUpdate.md
+        - UpdateWarEffortHook: events/social/UpdateWarEffortHook.md
+      - updates:
+        - KamasUpdate: events/updates/KamasUpdate.md
+        - PlayerLevelUp: events/updates/PlayerLevelUp.md
+      - inventory:
+        - ObjectAdded: events/inventory/ObjectAdded.md
+        - ObtainedItem: events/inventory/ObtainedItem.md
+      - fight:
+        - FightStarted: events/fight/FightStarted.md
+

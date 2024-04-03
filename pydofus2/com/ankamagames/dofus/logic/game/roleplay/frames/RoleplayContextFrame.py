@@ -163,7 +163,7 @@ class RoleplayContextFrame(Frame):
         elif isinstance(msg, ObtainedItemMessage):
             bonusQty = msg.bonusQuantity if isinstance(msg, ObtainedItemWithBonusMessage) else 0
             qty = msg.baseQuantity + bonusQty
-            iw = ItemWrapper.create(0, 0, msg.genericId, 1, None)
+            iw = ItemWrapper.create(0, 0, msg.genericId, qty, None)
             Logger().debug(f"Obtained item {iw.name} ({msg.genericId}) x {qty}")
             KernelEventsManager().send(KernelEvent.ObtainedItem, iw, qty)
             return True

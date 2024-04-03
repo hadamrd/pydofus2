@@ -189,7 +189,7 @@ class ServerSelectionFrame(Frame):
         return True
 
     def getSelectableServers(self) -> list:
-        selectableServers: list = list()
+        selectableServers = list()
         for server in self._serversList:
             if server.status == ServerStatusEnum.ONLINE and server.isSelectable:
                 selectableServers.append(server.id)
@@ -253,14 +253,6 @@ class ServerSelectionFrame(Frame):
 
         return function
 
-    def onValidServerSelection(self) -> None:
-        self._alreadyConnectedToServerId = 0
-        self.process(self._serverSelectionAction)
-        self._serverSelectionAction = None
-
-    def onCancelServerSelection(self) -> None:
-        self._serverSelectionAction = None
-
     def requestServerSelection(self, serverId: int) -> None:
         ssmsg = ServerSelectionMessage()
         ssmsg.init(serverId)
@@ -272,19 +264,20 @@ class ServerSelectionFrame(Frame):
                 return server
 
     def selectServer(self, serverId: int) -> None:
-        if self._alreadyConnectedToServerId:
-            Logger().info(f"Already connected to server {self._alreadyConnectedToServerId}.")
-
+        if self._alreadyConnectedToServerId and self._alreadyConnectedToServerId == serverId:
+            Logger().warning(f"Already connected to server {self._alreadyConnectedToServerId}.")
+            return
+    
         if self._alreadyConnectedToServerId > 0 and serverId != self._alreadyConnectedToServerId:
             self._serverSelectionAction = ServerSelectionAction.create(serverId)
             self.serverAlreadyInName = Server.getServerById(self._alreadyConnectedToServerId).name
             self.serverSelectedName = Server.getServerById(serverId).name
 
         for server in self._serversList:
-            Logger().info(f"Server {server.id} status {ServerStatusEnum(server.status).name}.")
             if str(server.id) == str(serverId):
                 if ServerStatusEnum(server.status) == ServerStatusEnum.ONLINE:
                     self.requestServerSelection(server.id)
+                    return
                 elif ServerStatusEnum(server.status) == ServerStatusEnum.SAVING:
                     self._waitingServerOnline = server.id
                     Logger().info(f"Server {server.id} is saving, waiting for it to be online.")

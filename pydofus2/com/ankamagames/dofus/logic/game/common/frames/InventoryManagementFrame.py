@@ -146,11 +146,10 @@ class InventoryManagementFrame(Frame):
             return True
 
         if isinstance(msg, ObjectQuantityMessage):
-            oqm = msg
-            iw = InventoryManager().inventory.modifyItemQuantity(oqm.objectUID, oqm.quantity)
+            iw = InventoryManager().inventory.modifyItemQuantity(msg.objectUID, msg.quantity)
             for shortcutQty in InventoryManager().shortcutBarItems:
-                if shortcutQty and shortcutQty.id == oqm.objectUID:
-                    shortcutQty.quantity = oqm.quantity
+                if shortcutQty and shortcutQty.id == msg.objectUID:
+                    shortcutQty.quantity = msg.quantity
             KernelEventsManager().send(KernelEvent.ObjectAdded, iw)
             return True
 

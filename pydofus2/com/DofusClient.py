@@ -91,7 +91,7 @@ class DofusClient(threading.Thread):
 
     def initListeners(self):
         KernelEventsManager().once(
-            KernelEvent.CharacterSelectedSuccessfully,
+            KernelEvent.CharacterSelectionSuccess,
             self.onCharacterSelectionSuccess,
             originator=self,
         )
@@ -104,7 +104,7 @@ class DofusClient(threading.Thread):
                 (KernelEvent.ClientRestart, self.onRestart),
                 (KernelEvent.ClientReconnect, self.onReconnect),
                 (KernelEvent.ClientClosed, self.onConnectionClosed),
-                (KernelEvent.PlayerLoggedIn, self.onloginSuccess),
+                (KernelEvent.PlayerLoginSuccess, self.onloginSuccess),
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
                 (KernelEvent.FightStarted, self.onFight),
                 (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),
@@ -169,7 +169,7 @@ class DofusClient(threading.Thread):
     def onChannelTextInformation(self, event, text, channelId, timestamp):
         Logger().info(f"[{timestamp}][{ChatActivableChannelsEnum.to_name(channelId)}] {text}")
 
-    def onCharacterSelectionSuccess(self, event, return_value):
+    def onCharacterSelectionSuccess(self, event, characterBaseInformations):
         Logger().info("Adding game start frames")
         for frame in self._registredGameStartFrames:
             self.worker.addFrame(frame)
@@ -192,7 +192,7 @@ class DofusClient(threading.Thread):
         self.lastLoginTime = perf_counter()
 
     def onFight(self, event):
-        pass
+        ...
 
     def onHaapiApiKeyReady(self, event, apikey):
         pass
