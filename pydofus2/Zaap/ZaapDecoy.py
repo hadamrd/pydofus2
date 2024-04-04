@@ -361,6 +361,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             apikey_data: StoredApikey = StoredApikey.from_dict(apikey_dict)
             Logger().debug(f"Found Apikey data : {apikey_data.key} for account {apikey_data.accountId}")
             deciphered_apikeys.append(apikey_data)
+        cls._apikeys = deciphered_apikeys
         return deciphered_apikeys
 
     @classmethod

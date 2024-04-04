@@ -261,7 +261,7 @@ class DofusClient(threading.Thread):
                 self._loginToken = self.zaap.getLoginToken(GameID.DOFUS, self._certId, self._certHash, self._apikey)
             except Exception as exc:
                 return self.shutdown(
-                    message=f"Generate login for reason failed with error: {exc}",
+                    message=f"Generate login failed with error: {exc}",
                     reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                 )
         AuthentificationManager().setToken(self._loginToken)
@@ -348,6 +348,7 @@ class DofusClient(threading.Thread):
             self._banned = True
 
         if Haapi().game_sessionId:
+            Logger().info("Sending end events")
             HaapiEventsManager().sendEndEvent()
 
         ZaapDecoy.CONNECTED_ACCOUNTS -= 1

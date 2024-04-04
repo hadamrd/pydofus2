@@ -2,15 +2,15 @@ import importlib
 import json
 import os
 
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
     INetworkMessage
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 ROOTDIR = os.path.dirname(__file__)
-if not os.path.exists(Constants.PROTOCOL_SPEC_PATH):
-    raise Exception(f"{Constants.PROTOCOL_SPEC_PATH} file not found")
-with open(Constants.PROTOCOL_SPEC_PATH, "r") as fp:
+if not os.path.exists(settings.PROTOCOL_SPEC_PATH):
+    raise Exception(f"{settings.PROTOCOL_SPEC_PATH} file not found")
+with open(settings.PROTOCOL_SPEC_PATH, "r") as fp:
     D2PROTOCOL = json.load(fp)
 
 

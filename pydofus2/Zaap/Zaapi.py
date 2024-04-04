@@ -10,7 +10,7 @@ from urllib3.exceptions import InsecureRequestWarning
 
 from pydofus2.com.ankamagames.atouin.HappiConfig import (AUTH_STATES,
                                                          ZAAP_CONFIG)
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
@@ -44,8 +44,8 @@ class Zaapi(metaclass=Singleton):
             "accept-language": "en-US",
         }
         self.zaap_session.headers.update(self.zaap_headers)
-        if "zaapi_proxies" in Constants.USER_SETTINGS and Constants.USER_SETTINGS.get("use_proxy", False):
-            self.zaap_session.proxies.update(Constants.USER_SETTINGS["zaapi_proxies"])
+        if "zaapi_proxies" in settings.USER_SETTINGS and settings.USER_SETTINGS.get("use_proxy", False):
+            self.zaap_session.proxies.update(settings.USER_SETTINGS["zaapi_proxies"])
         self.verify_ssl = False
 
     def getUrl(self, request, params={}):
@@ -263,7 +263,7 @@ class Zaapi(metaclass=Singleton):
             "avatar": body["avatar_url"],
         }
 
-    def createToken(self, game, certId="", certHash="", apikey=None):
+    def createToken(self, game, certId=0, certHash="", apikey=None):
         nbrtries = 0
         while nbrtries < 5:
             try:

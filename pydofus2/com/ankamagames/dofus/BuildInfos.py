@@ -1,4 +1,4 @@
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 from pydofus2.com.ankamagames.dofus.misc.BuildTypeParser import BuildTypeParser
 from pydofus2.com.ankamagames.dofus.network.enums.BuildTypeEnum import \
     BuildTypeEnum
@@ -7,7 +7,7 @@ from pydofus2.com.ankamagames.jerakine.types.Version import Version
 
 
 class BuildInfos(metaclass=Singleton):
-    with open(Constants.GAME_VERSION_PATH, "r") as fp:
+    with open(settings.GAME_VERSION_PATH, "r") as fp:
         VERSION: Version = Version(fp.read().strip(), BuildTypeEnum.RELEASE.value)
 
     BUILD_DATE: str = "01/Jan/1970"

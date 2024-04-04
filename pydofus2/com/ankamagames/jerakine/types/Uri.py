@@ -3,7 +3,7 @@ import platform
 from pathlib import Path
 from urllib.parse import urlparse
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 
 
 class Uri:
@@ -124,9 +124,9 @@ class Uri:
 
             uiRoot = Path(LangManager().getEntry("config.mod.path"))
             if not uiRoot.is_absolute():
-                return Constants.DOFUS_HOME / uiRoot / tmp
+                return settings.DOFUS_HOME / uiRoot / tmp
             return uiRoot / tmp
-        return Constants.DOFUS_HOME / tmp
+        return settings.DOFUS_HOME / tmp
 
     @property
     def fileType(self):

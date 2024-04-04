@@ -4,7 +4,7 @@ from datetime import datetime
 from dataclasses_json import dataclass_json, LetterCase, config
 from threading import Lock
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import GameContextEnum
@@ -47,9 +47,9 @@ class AveragePricesFrame(Frame):
     def __init__(self):
         super().__init__()
         if not AveragePricesFrame._pricesData:
-            if os.path.exists(Constants.AVERAGE_PRICES_PATH):
+            if os.path.exists(settings.AVERAGE_PRICES_PATH):
                 try:
-                    with open(Constants.AVERAGE_PRICES_PATH, "r") as file:
+                    with open(settings.AVERAGE_PRICES_PATH, "r") as file:
                         data: Dict = json.load(file)
                         with pricesDataLock:
                             for server, prices_data in data.items():
@@ -104,11 +104,11 @@ class AveragePricesFrame(Frame):
                 self._pricesData[self._server_name].items[itemId] = averagePrice
 
             # Ensure the directory for the averagePricesPath exists
-            if not os.path.exists(os.path.dirname(Constants.AVERAGE_PRICES_PATH)):
-                os.makedirs(os.path.dirname(Constants.AVERAGE_PRICES_PATH))
+            if not os.path.exists(os.path.dirname(settings.AVERAGE_PRICES_PATH)):
+                os.makedirs(os.path.dirname(settings.AVERAGE_PRICES_PATH))
 
             # Serialize the PricesData to JSON and write to the file
-            with open(Constants.AVERAGE_PRICES_PATH, "w") as file:
+            with open(settings.AVERAGE_PRICES_PATH, "w") as file:
                 prices_data_dict = {
                     server_name: prices_data.to_dict() for server_name, prices_data in self._pricesData.items()
                 }

@@ -1,7 +1,7 @@
 import importlib
 import json
 
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
@@ -14,7 +14,7 @@ from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import \
 from pydofus2.com.ankamagames.jerakine.network.RawDataParser import \
     RawDataParser
 
-with open(Constants.PROTOCOL_MSG_SHUFFLE_PATH, "r") as fp:
+with open(settings.PROTOCOL_MSG_SHUFFLE_PATH, "r") as fp:
     msgShuffle: dict = json.load(fp)
 
 

@@ -5,9 +5,9 @@ import sys
 import threading
 from pathlib import Path
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 
-LOGS_PATH = Path(Constants.LOGS_DIR)
+LOGS_PATH = Path(settings.LOGS_DIR)
 if not os.path.isdir(LOGS_PATH):
     os.makedirs(LOGS_PATH)
 

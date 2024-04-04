@@ -2,7 +2,7 @@ import threading
 from functools import lru_cache
 from pathlib import Path
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.dataAdapter.dlm import DLM
 
@@ -19,7 +19,7 @@ class MapLoader:
         with lock:
             if key is not None:
                 cls.reader.setKey(key)
-            map_p = Path(Constants.MAPS_PATH) / MapLoader.getMapURI(mapId)
+            map_p = Path(settings.MAPS_PATH) / MapLoader.getMapURI(mapId)
             if not map_p.exists():
                 raise Exception(f"Map {mapId} not found in path {map_p}")
             with open(map_p, "rb") as f:

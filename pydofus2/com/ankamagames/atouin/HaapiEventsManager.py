@@ -15,6 +15,7 @@ from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
     HaapiKeyManager
+from pydofus2.com.ankamagames.jerakine.logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 
@@ -64,9 +65,11 @@ class HaapiEventsManager(metaclass=Singleton):
     def sendEndEvent(self):
         if not self.used_shortcuts:
             Haapi().sendEvent(game=GameID.DOFUS, session_id=Haapi().game_sessionId, **self.getDofusCloseEvent())
+            Logger().info("Sent end event without shortcuts")
         else:
             events = [self.getDofusCloseEvent(), self.getShortCutsUsedEvent()]
             Haapi().sendEvents(GameID.DOFUS, Haapi().game_sessionId, events)
+            Logger().info("Sent end event with shortcuts")
 
     def registerShortcutUse(self, shortcut_id):
         if shortcut_id not in self.used_shortcuts:
@@ -130,6 +133,7 @@ class HaapiEventsManager(metaclass=Singleton):
                 HaapiEvent.GameSessionReadyEvent, lambda event, sessionId: self.sendBannerEvent(data), originator=self
             )
         Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
+        Logger().info(f"Sent banner event for {data['button_name']}")
 
     def sendRandomEvent(self):
         if random.random() < 0.1:

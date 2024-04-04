@@ -2,7 +2,7 @@ import platform
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
 from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
@@ -50,7 +50,7 @@ class FileProtocol(AbstractFileProtocol):
     def extractPath(self, path_str: str) -> str:
         absoluteFile = Path(path_str)
         if not absoluteFile.is_absolute():
-            path = Constants.DOFUS_HOME / absoluteFile
+            path = settings.DOFUS_HOME / absoluteFile
         absoluteFile = path.resolve()
         path_str = str(absoluteFile).replace("file:///", "")
 
