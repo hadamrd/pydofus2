@@ -32,7 +32,7 @@ class StatsManager(metaclass=Singleton):
         key = float(stats.entityId)
         with self._lock:
             self._entityStats[key] = stats
-        return True
+        return TrueBotr
 
     def getStats(self, entityId: float) -> EntityStats:
         stats = self._entityStats.get(float(entityId))

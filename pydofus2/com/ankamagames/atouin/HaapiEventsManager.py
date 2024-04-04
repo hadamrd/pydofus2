@@ -1,8 +1,10 @@
 from datetime import datetime
+import random
 
 import pytz
 
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
     PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
@@ -129,7 +131,23 @@ class HaapiEventsManager(metaclass=Singleton):
             )
         Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
 
-
-if __name__ == "__main__":
-    date = HaapiEventsManager.get_date()
-    print(date)
+    def sendRandomEvent(self):
+        if random.random() < 0.1:
+            self.sendMapOpenEvent()
+            Kernel().worker.terminated.wait(2)
+        elif random.random() < 0.1:
+            if random.random() < 0.5:
+                self.registerShortcutUse('openInventory')
+                Kernel().worker.terminated.wait(0.2)
+            else:
+                self.sendInventoryOpenEvent()
+                Kernel().worker.terminated.wait(2)
+        elif random.random() < 0.1:
+            self.sendSocialOpenEvent()
+            Kernel().worker.terminated.wait(2)
+        elif random.random() < 0.1:
+            self.sendQuestsOpenEvent()
+            Kernel().worker.terminated.wait(2)
+        elif random.random() < 0.1:
+            self.registerShortcutUse('openCharacterSheet')
+            Kernel().worker.terminated.wait(2)

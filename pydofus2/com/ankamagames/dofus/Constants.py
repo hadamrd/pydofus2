@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 
+from pydofus2.Zaap.ZaapDecoy import ZaapDecoy
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
     ByteArray
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
@@ -49,10 +50,7 @@ DATASTORE_COMPUTER_OPTIONS = DataStoreType(
 MAX_LOGIN_ATTEMPTS = 3
 
 ROOTDIR = Path(os.path.dirname(__file__))
-
 APPDATA_DIR = Path(os.getenv("APPDATA"))
-
-
 PYDOFUS2_APPDIR = APPDATA_DIR / "pydofus2"
 
 # If the directory does not exist, create it
@@ -69,21 +67,20 @@ if not SETTINGS_DIR.exists():
 with open(SETTINGS_DIR, "r") as fs:
     USER_SETTINGS = json.load(fs)
 
-DOFUS_HOME = USER_SETTINGS.get("DOFUS_HOME")
-LOGS_DIR = USER_SETTINGS.get("LOGS_DIR")
-
+DOFUS_HOME = ZaapDecoy.get_dofus_location()
 if not DOFUS_HOME:
-    DOFUS_HOME = Path(os.getenv("DOFUS_HOME")) if os.getenv("DOFUS_HOME") else None
-
+    DOFUS_HOME = Path(USER_SETTINGS.get("DOFUS_HOME")) if USER_SETTINGS.get("DOFUS_HOME") else None
+    if not DOFUS_HOME:
+        DOFUS_HOME = Path(os.getenv("DOFUS_HOME")) if os.getenv("DOFUS_HOME") else None
+        if not DOFUS_HOME:
+            raise Exception("DOFUS_HOME not found in ZAAP settings, PYDOFUS2 USER settings and not found in environment variables!")
+    
+    
+LOGS_DIR = USER_SETTINGS.get("LOGS_DIR")    
 if not LOGS_DIR:
     LOGS_DIR = Path(os.getenv("LOGS_DIR")) if os.getenv("LOGS_DIR") else None
-
-if not DOFUS_HOME:
-    raise Exception("DOFUS_HOME not found in settings and not found in environment variables!")
-
-if not LOGS_DIR:
-    # default logs dir in roaming folder
-    LOGS_DIR = PYDOFUS2_APPDIR / "Logs"
+    if not LOGS_DIR:
+        LOGS_DIR = PYDOFUS2_APPDIR / "Logs"
 
 MAPS_PATH = PYDOFUS2_APPDIR / "content" / "maps"
 

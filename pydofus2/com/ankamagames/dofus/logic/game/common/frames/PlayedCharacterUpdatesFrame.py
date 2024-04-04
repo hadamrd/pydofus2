@@ -164,20 +164,19 @@ class PlayedCharacterUpdatesFrame(Frame):
             return True
 
         if isinstance(msg, CharacterStatsListMessage):
-            cslmsg = msg
             fightBattleFrame = krnl.Kernel().battleFrame
             if fightBattleFrame is not None and fightBattleFrame.executingSequence:
-                fightBattleFrame.delayCharacterStatsList(cslmsg)
+                fightBattleFrame.delayCharacterStatsList(msg)
             else:
-                self.updateCharacterStatsList(cslmsg.stats)
+                self.updateCharacterStatsList(msg.stats)
             if self.roleplayContextFrame and self.roleplayContextFrame.entitiesFrame:
                 playerInfos = self.roleplayContextFrame.entitiesFrame.getEntityInfos(pcm.PlayedCharacterManager().id)
                 if playerInfos:
-                    playerInfos.alignmentInfos = cslmsg.stats.alignmentInfos
+                    playerInfos.alignmentInfos = msg.stats.alignmentInfos
             if krnl.Kernel().questFrame:
-                if krnl.Kernel().questFrame.achievmentsListProcessed == False:
+                if not krnl.Kernel().questFrame.achievmentsListProcessed:
                     krnl.Kernel().questFrame.processAchievements(True)
-            KernelEventsManager().send(KernelEvent.CharacterStats)
+            KernelEventsManager().send(KernelEvent.CharacterStats, msg.stats)
             return True
 
         if isinstance(msg, MapComplementaryInformationsDataMessage):

@@ -177,9 +177,7 @@ class Zaapi(metaclass=Singleton):
         body = response.json()
         if "reason" in body:
             if body["reason"] == "BAN":
-                # delete the api key from the disk
                 Logger().error("[AUTH] Account banned")
-                
             raise HaapiException(f"Error while signing on with apikey: {body['reason']}")
         if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
             Logger().error("[AUTH] Mail not confirmed by user")
@@ -291,13 +289,11 @@ class Zaapi(metaclass=Singleton):
                         return None
                     elif (
                         response.json().get("reason")
-                        == f"Invalid security parameters. certificate_id : {certId}, certificate_hash: {certHash}"
+                        == f"Invalid security parameters."
                     ):
-                        Logger().error("Invalid security parameters, please check your certificate")
-                        return None
+                        raise HaapiException(f"Invalid security parameters, please check your certificate (certificate_id : {certId}, certificate_hash: {certHash})")
                     else:
-                        Logger().error("Error while calling HAAPI to get Login Token : %s" % response.json())
-                        return None
+                        raise HaapiException("Error while calling HAAPI to get Login Token : %s" % response.json())
                 else:
                     from lxml import html
 

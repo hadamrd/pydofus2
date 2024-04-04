@@ -128,13 +128,9 @@ class AnsiFormatter(logging.Formatter):
         # Create a copy of the original format to insert formatted module and levelname
         original_format = self._fmt
         try:
-            # Temporarily adjust the formatter's format string to include the changes
             self._fmt = self._fmt.replace("%(module)s", formatted_module).replace("%(levelname)s", formatted_levelname)
-
-            # Now format the record with the adjusted format
             formatted_message = super().format(record)
         finally:
-            # Ensure the formatter's format is reset, even if an error occurs
             self._fmt = original_format
 
         return f"{color}{formatted_message}\033[0m"
