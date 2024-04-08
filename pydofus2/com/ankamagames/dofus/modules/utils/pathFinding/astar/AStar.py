@@ -24,7 +24,7 @@ from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 class AStar(metaclass=Singleton):
     DEBUG = False
     _forbiddenSubareaIds = list[int]()
-    _forbidenEdges = list[Edge]()
+    _forbiddenEdges = list[Edge]()
     HEURISTIC_SCALE: int = 1
     INDOOR_WEIGHT: int = 0
     MAX_ITERATION: int = 10000
@@ -40,10 +40,10 @@ class AStar(metaclass=Singleton):
         self.running = None
 
     def addForbidenEdge(self, edge: Edge) -> None:
-        self._forbidenEdges.append(edge)
+        self._forbiddenEdges.append(edge)
 
     def resetForbinedEdges(self) -> None:
-        self._forbidenEdges.clear()
+        self._forbiddenEdges.clear()
 
     def search(
         self, worldGraph: WorldGraph, src: Vertex, dst: Union[Vertex, List[Vertex]], maxPathLength=None
@@ -92,7 +92,7 @@ class AStar(metaclass=Singleton):
             edges = self.worldGraph.getOutgoingEdgesFromVertex(current.vertex)
             for edge in edges:
                 if (
-                    edge not in self._forbidenEdges
+                    edge not in self._forbiddenEdges
                     and self.hasValidTransition(edge)
                     and self.hasValidDestinationSubarea(edge)
                 ):
@@ -104,8 +104,8 @@ class AStar(metaclass=Singleton):
                 else:
                     if self.DEBUG:
                         reasons = []
-                        if edge in self._forbidenEdges:
-                            reasons.append("Edge is in forbiden edges list")
+                        if edge in self._forbiddenEdges:
+                            reasons.append("Edge is in forbidden edges list")
                         if not self.hasValidTransition(edge):
                             reasons.append("Edge has a non valid transition")
                         if not self.hasValidDestinationSubarea(edge):

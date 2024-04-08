@@ -1,17 +1,17 @@
-from dataclasses import dataclass, field
-from dataclasses_json import dataclass_json
 from typing import Optional
+from pydantic import BaseModel
 
-@dataclass_json
-@dataclass
-class Certificate:
+
+class Certificate(BaseModel):
     id: int
     encodedCertificate: str
     login: str
 
-@dataclass_json
-@dataclass
-class StoredApikey:
+    def __repr__(self):
+        return f"Certificate(id={self.id}, login='{self.login}')"
+
+
+class StoredApikey(BaseModel):
     key: str
     provider: str
     refreshToken: str
@@ -20,17 +20,16 @@ class StoredApikey:
     login: str
     certificate: Optional[Certificate]
     refreshDate: int
-    
+
     def __repr__(self):
         return f"StoredApikey(login={self.login}, provider={self.provider}, accountId={self.accountId}, isStayLoggedIn={self.isStayLoggedIn})"
 
-@dataclass_json
-@dataclass
-class StoredCertificate:
+
+class StoredCertificate(BaseModel):
     id: int
     encodedCertificate: str
     login: str
-    hash: Optional[str] = field(default="")
-    
+    hash: Optional[str] = ""
+
     def __repr__(self):
         return f"StoredCertificate(id={self.id}, login='{self.login}', hash='{self.hash}')"

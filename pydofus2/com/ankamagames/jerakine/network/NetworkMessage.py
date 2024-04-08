@@ -1,3 +1,4 @@
+from threading import Thread
 import zlib
 from types import FunctionType
 from typing import TYPE_CHECKING
@@ -10,7 +11,6 @@ from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
     INetworkMessage
 from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
     ClassSpec, ProtocolSpec)
-from pydofus2.com.ankamagames.jerakine.network.utils.FuncTree import FuncTree
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
@@ -19,14 +19,13 @@ if TYPE_CHECKING:
 
 class NetworkMessage(INetworkMessage):
 
-    GLOBAL_INSTANCE_ID: int = 0
+    GLOBAL_INSTANCE_ID = {}
     PACKET_ID_RIGHT_SHIFT: int = 2
     BIT_MASK: int = 3
     HASH_FUNCTION: FunctionType
 
     def __init__(self):
-        NetworkMessage.GLOBAL_INSTANCE_ID = (NetworkMessage.GLOBAL_INSTANCE_ID + 1) % 1000
-        self._instance_id = NetworkMessage.GLOBAL_INSTANCE_ID
+        self._instance_id = self.getGlobalInstanceId()
         self.receptionTime: int = None
         self.sourceConnection: str = None
         self._name = None
@@ -47,10 +46,6 @@ class NetworkMessage(INetworkMessage):
         return msgId << self.PACKET_ID_RIGHT_SHIFT | typeLen
 
     @property
-    def isInitialized(self) -> bool:
-        raise Exception("Not implemented")
-
-    @property
     def unpacked(self) -> bool:
         return self._unpacked
 
@@ -58,31 +53,11 @@ class NetworkMessage(INetworkMessage):
     def unpacked(self, value: bool) -> None:
         self._unpacked = value
 
-    def writePacket(self, output: ByteArray, id: int, data: ByteArray) -> None:
-        typeLen: int = len(self.computeTypeLen(data))
-        output.writeShort(self.subComputeStaticHeader(id, typeLen))
-        output.writeUnsignedInt(self._instance_id)
-        if typeLen == 0:
-            return
-        elif typeLen == 1:
-            output.writeByte(len(data))
-        elif typeLen == 2:
-            output.writeShort(len(data))
-        elif typeLen == 3:
-            high = len(data) >> 16 & 255
-            low = len(data) & 65535
-            output.writeByte(high)
-            output.writeShort(low)
-        output.writeByteArray(data, 0, len(data))
-
     def getMessageId(self) -> int:
         return ProtocolSpec.getProtocolIdByName(self.__class__.__name__)
 
     def getSpec(self) -> ClassSpec:
         return ProtocolSpec.getClassSpecByName(self.__class__.__name__)
-
-    def reset(self) -> None:
-        raise Exception("Not implemented")
 
     @classmethod
     def unpack(cls, data: ByteArray, length: int = None) -> "NetworkMessage":
@@ -123,15 +98,6 @@ class NetworkMessage(INetworkMessage):
     def from_json(cls, mjson: dict):
         return nmencoder.NetworkMessageEncoder.decodeFromJson(mjson)
 
-    def unpackAsync(self, input: ByteArray, length: int) -> FuncTree:
-        raise Exception("Not implemented")
-
-    def readExternal(self, input: ByteArray) -> None:
-        raise Exception("Not implemented")
-
-    def writeExternal(self, output: ByteArray) -> None:
-        raise Exception("Not implemented")
-
     def __eq__(self, __o: "NetworkMessage") -> bool:
         if __o is None:
             return False
@@ -144,8 +110,20 @@ class NetworkMessage(INetworkMessage):
         return self._instance_id
 
     def __str__(self) -> str:
-        className: str = self.__class__.__name__
+        className = self.__class__.__name__
         return className.split(".")[-1] + " @" + str(self._instance_id)
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @classmethod
+    def getGlobalInstanceId(cls) -> int:
+        threadName = Thread.currentThread().getName()
+        if threadName not in NetworkMessage.GLOBAL_INSTANCE_ID:
+            NetworkMessage.GLOBAL_INSTANCE_ID[threadName] = 0
+        NetworkMessage.GLOBAL_INSTANCE_ID[threadName] += 1
+        return NetworkMessage.GLOBAL_INSTANCE_ID[threadName]
+
+    @classmethod
+    def clearGlobalInstanceId(cls):
+        del NetworkMessage.GLOBAL_INSTANCE_ID[Thread.currentThread().getName()]

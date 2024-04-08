@@ -260,10 +260,10 @@ class MapPoint:
         allowItself: bool = True,
         allowThoughEntity: bool = True,
         ignoreSpeed: bool = False,
-        forbidenCellsId: list = None,
+        forbiddenCellsId: list = None,
     ) -> "MapPoint":
-        if forbidenCellsId is None:
-            forbidenCellsId = list()
+        if forbiddenCellsId is None:
+            forbiddenCellsId = list()
         cells: list[MapPoint] = list[MapPoint](8 * [None])
         weights: list[int] = list[int](8 * [-1])
         orientationDist = [MapPoint.getOrientationsDistance(i, orientation) for i in range(8)]
@@ -272,13 +272,13 @@ class MapPoint:
             cells[i] = mp
             if mp is not None:
                 speed = mapProvider.getCellSpeed(mp.cellId)
-                if mp.cellId not in forbidenCellsId:
+                if mp.cellId not in forbiddenCellsId:
                     if mapProvider.pointMov(mp._nX, mp._nY, allowThoughEntity, self.cellId):
                         weights[i] = orientationDist[i] + (
                             (5 - speed if speed >= 0 else 11 + abs(speed)) if not ignoreSpeed else 0
                         )
                     else:
-                        forbidenCellsId.append(mp.cellId)
+                        forbiddenCellsId.append(mp.cellId)
                         weights[i] = -1
                 else:
                     if mapProvider.pointMov(mp._nX, mp._nY, allowThoughEntity, self.cellId):

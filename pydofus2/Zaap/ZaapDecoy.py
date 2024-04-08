@@ -339,7 +339,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             cert_path = os.path.join(cert_folder, cert_file)
             Logger().debug(f"Extracting certificate data from file {cert_path}")
             cert_dict = CryptoHelper.decrypt_from_file(cert_path)
-            cert: StoredCertificate = StoredCertificate.from_dict(cert_dict)
+            cert: StoredCertificate = StoredCertificate(**cert_dict)
             Logger().debug(f"Found certificate data for login {cert.login} with id {cert.id}")
             cert.hash = CryptoHelper.generate_hash_from_cert(cert.encodedCertificate, encoders["hm1"], encoders["hm2"])
             deciphered_certs.append(cert)
@@ -358,7 +358,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             apikey_file_path = os.path.join(apikeys_folder, apikey_filename)
             Logger().debug(f"Extracting apikey data from file {apikey_file_path} ...")
             apikey_dict = CryptoHelper.decrypt_from_file(apikey_file_path)
-            apikey_data: StoredApikey = StoredApikey.from_dict(apikey_dict)
+            apikey_data: StoredApikey = StoredApikey(**apikey_dict)
             Logger().debug(f"Found Apikey data : {apikey_data.key} for account {apikey_data.accountId}")
             deciphered_apikeys.append(apikey_data)
         cls._apikeys = deciphered_apikeys
@@ -395,7 +395,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     def get_stored_certificate(cls, username) -> StoredCertificate:
         cert_path = cls.get_certficate_filepath(username)
         cert_dict = CryptoHelper.decrypt_from_file(cert_path)
-        cert: StoredCertificate = StoredCertificate.from_dict(cert_dict)
+        cert: StoredCertificate = StoredCertificate(**cert_dict)
         encoders = CryptoHelper.create_hm_encoder()
         cert.hash = CryptoHelper.generate_hash_from_cert(cert.encodedCertificate, encoders["hm1"], encoders["hm2"])
         return cert
@@ -404,7 +404,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     def get_stored_apikey(cls, accountId) -> StoredApikey:
         apikey_file_path = cls.get_apikey_filepath(accountId)
         apikey_dict = CryptoHelper.decrypt_from_file(str(apikey_file_path))
-        apikey_data = StoredApikey.from_dict(apikey_dict)
+        apikey_data = StoredApikey(**apikey_dict)
         return apikey_data
     
     @classmethod

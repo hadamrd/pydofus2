@@ -53,7 +53,7 @@ class AveragePricesFrame(Frame):
                         data: Dict = json.load(file)
                         with pricesDataLock:
                             for server, prices_data in data.items():
-                                AveragePricesFrame._pricesData[server] = PricesData.from_dict(prices_data)
+                                AveragePricesFrame._pricesData[server] = PricesData(**prices_data)
                 except json.JSONDecodeError as e:
                     Logger().error(f"Error loading average prices JSON data: {e}")
         self._server_name = PlayerManager().server.name
@@ -110,7 +110,7 @@ class AveragePricesFrame(Frame):
             # Serialize the PricesData to JSON and write to the file
             with open(settings.AVERAGE_PRICES_PATH, "w") as file:
                 prices_data_dict = {
-                    server_name: prices_data.to_dict() for server_name, prices_data in self._pricesData.items()
+                    server_name: prices_data.model_dump() for server_name, prices_data in self._pricesData.items()
                 }
                 json.dump(prices_data_dict, file, indent=4)
 

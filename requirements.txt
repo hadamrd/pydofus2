@@ -11,4 +11,4 @@ psutil
 wmi
 cryptography
 pytz
-dataclasses-json
+pydantic

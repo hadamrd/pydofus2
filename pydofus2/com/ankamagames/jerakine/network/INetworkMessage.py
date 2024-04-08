@@ -14,10 +14,6 @@ class INetworkMessage(IdentifiedMessage, QueueableMessage):
         raise NotImplementedError("This method must be overriden")
 
     @property
-    def isInitialized(self) -> bool:
-        raise NotImplementedError("This method must be overriden")
-
-    @property
     def unpacked(self) -> bool:
         raise NotImplementedError("This method must be overriden")
 
