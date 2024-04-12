@@ -25,6 +25,7 @@ class HaapiEventsManager(metaclass=Singleton):
     SCREEN_SIZE = 17
     QUALITY = 0
     CLIENTS_OPEN = 0
+    DEACTIVATE = False
 
     def __init__(self):
         self.used_shortcuts = {}
@@ -39,6 +40,8 @@ class HaapiEventsManager(metaclass=Singleton):
         return formatted_date
 
     def sendStartEvent(self, sessionId):
+        if self.DEACTIVATE:
+            return
         self.CLIENTS_OPEN += 1
         Haapi().sendEvent(
             game=GameID.DOFUS,
@@ -63,6 +66,8 @@ class HaapiEventsManager(metaclass=Singleton):
         }
 
     def sendEndEvent(self):
+        if self.DEACTIVATE:
+            return
         if not self.used_shortcuts:
             Haapi().sendEvent(game=GameID.DOFUS, session_id=Haapi().game_sessionId, **self.getDofusCloseEvent())
             Logger().info("Sent end event without shortcuts")
@@ -100,34 +105,50 @@ class HaapiEventsManager(metaclass=Singleton):
         }
 
     def sendCharacteristicsOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(1, "Characteristics")
         self.sendBannerEvent(data)
 
     def sendInventoryOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(3, "Inventory")
         self.sendBannerEvent(data)
 
     def sendQuestsOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(4, "Quests")
         self.sendBannerEvent(data)
 
     def sendMapOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(5, "Map")
         self.sendBannerEvent(data)
 
     def sendSocialOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(6, "Social")
         self.sendBannerEvent(data)
 
     def sendProfessionsOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(9, "Professions")
         self.sendBannerEvent(data)
 
     def senfHavenBagOpenEvent(self):
+        if self.DEACTIVATE:
+            return
         data = self.getButtonEventData(12, "Haven Bag")
         self.sendBannerEvent(data)
 
     def sendBannerEvent(self, data):
+        if self.DEACTIVATE:
+            return
         if not Haapi().game_sessionId:
             return HaapiKeyManager().once(
                 HaapiEvent.GameSessionReadyEvent, lambda event, sessionId: self.sendBannerEvent(data), originator=self
@@ -136,6 +157,8 @@ class HaapiEventsManager(metaclass=Singleton):
         Logger().info(f"Sent banner event for {data['button_name']}")
 
     def sendRandomEvent(self):
+        if self.DEACTIVATE:
+            return
         if random.random() < 0.1:
             self.sendMapOpenEvent()
             Kernel().worker.terminated.wait(2)

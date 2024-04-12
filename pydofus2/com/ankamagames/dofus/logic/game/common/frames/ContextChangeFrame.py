@@ -1,3 +1,4 @@
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
     KernelEventsManager
@@ -36,6 +37,7 @@ class ContextChangeFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, GameContextDestroyMessage):
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHANGING_CONTEXT)
             return True
 
         elif isinstance(msg, GameContextCreateMessage):
@@ -46,6 +48,7 @@ class ContextChangeFrame(Frame):
 
                 Kernel().worker.addFrame(RoleplayContextFrame())
                 KernelEventsManager().send(KernelEvent.RoleplayStarted)
+                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_ROLEPLAY)
 
             elif self.currentContext == GameContextEnum.FIGHT:
                 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightContextFrame import \
@@ -54,6 +57,7 @@ class ContextChangeFrame(Frame):
                 if not Kernel().isMule:
                     Kernel().worker.addFrame(FightContextFrame())
                 KernelEventsManager().send(KernelEvent.FightStarted)
+                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_FIGHTING)
             return True
 
         elif isinstance(msg, GameContextQuitAction):

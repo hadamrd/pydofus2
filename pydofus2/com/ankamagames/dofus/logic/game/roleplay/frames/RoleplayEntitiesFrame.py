@@ -1,5 +1,6 @@
 import threading
 
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
     EntitiesManager
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
@@ -170,6 +171,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         self.treasureHuntNpc = False
 
     def requestMapData(self):
+        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.REQUESTING_MAP_DATA)
         self.mcidm_processed = False
         self._waitForMap = False
         self.sendMapDataRequest()
@@ -204,6 +206,8 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
 
         elif isinstance(msg, MapComplementaryInformationsDataMessage):
             Logger().info("Map data received")
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_RECEIVED)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.PROCESSING_MAP_DATA)
             if self.mapDataRequestTimer:
                 self.mapDataRequestTimer.cancel()
             self.processingMapData.clear()
@@ -320,6 +324,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             if type(msg) is MapComplementaryInformationsDataInHavenBagMessage:
                 Logger().debug("Played entered haven bag")
                 KernelEventsManager().send(KernelEvent.InHavenBag)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_PROCESSED)
             return True
 
         if isinstance(msg, GameRolePlayShowActorMessage):

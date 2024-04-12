@@ -178,7 +178,7 @@ class EventsHandler:
     def remove_listeners(self, event_id, callbacks) -> list:
         if event_id not in self._listeners:
             return Logger().warning(f"Event {event_id} not found")
-        for priority, listeners in self._listeners[event_id].items():
+        for _, listeners in self._listeners[event_id].items():
             listeners = list(filter(lambda l: l.callback not in callbacks, listeners))
         if event_id in self._sorted:
             del self._sorted[event_id]
@@ -186,7 +186,7 @@ class EventsHandler:
     def remove_listener(self, event_id, callback):
         if event_id not in self._listeners:
             return Logger().warning(f"Event {event_id} not found")
-        for priority, listeners in self._listeners[event_id].items():
+        for _, listeners in self._listeners[event_id].items():
             listeners = list(filter(lambda l: l.callback != callback, listeners))
         if event_id in self._sorted:
             del self._sorted[event_id]

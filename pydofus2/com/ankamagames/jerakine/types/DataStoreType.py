@@ -3,6 +3,7 @@ class JerakineError(Exception):
 
 
 class DataStoreType:
+    
     def __init__(
         self,
         sCategory: str,
