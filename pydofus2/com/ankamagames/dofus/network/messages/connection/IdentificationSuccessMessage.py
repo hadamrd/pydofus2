@@ -19,6 +19,7 @@ class IdentificationSuccessMessage(NetworkMessage):
     hasForceRight: bool
     wasAlreadyConnected: bool
     hasRights: bool
+    hasReportRight: bool
     hasForceRight: bool
     wasAlreadyConnected: bool
 

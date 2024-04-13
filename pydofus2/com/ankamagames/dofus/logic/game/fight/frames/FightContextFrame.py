@@ -37,6 +37,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFight
 )
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import SpellModifiersManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayEntitiesFrame import RoleplayEntitiesFrame
 from pydofus2.com.ankamagames.dofus.network.enums.ChallengeBonusEnum import ChallengeBonusEnum
 from pydofus2.com.ankamagames.dofus.network.enums.ChallengeModEnum import ChallengeModEnum
 from pydofus2.com.ankamagames.dofus.network.enums.ChallengeStateEnum import ChallengeStateEnum
@@ -112,6 +113,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFigh
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightLeaveMessage import (
     GameFightLeaveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightOptionStateUpdateMessage import (
+    GameFightOptionStateUpdateMessage,
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightResumeMessage import (
     GameFightResumeMessage,
@@ -516,7 +520,8 @@ class FightContextFrame(Frame):
             SpellWrapper.resetAllCoolDown(PlayedCharacterManager().id, None)
             SpellModifiersManager.clear()
             Kernel().worker.removeFrame(self)
-            return False
+            KernelEventsManager().send(KernelEvent.FightEnded)
+            return True
 
         elif isinstance(msg, ChallengeTargetsListRequestAction):
             ctlra = msg
@@ -547,7 +552,8 @@ class FightContextFrame(Frame):
             return True
 
         elif isinstance(msg, GameActionFightNoSpellCastMessage):
-            return False
+            KernelEventsManager().send(KernelEvent.ActionFightNoSpellCast)
+            return True
 
         elif isinstance(msg, UpdateSpellModifierAction):
             usma = msg
@@ -654,6 +660,16 @@ class FightContextFrame(Frame):
         elif isinstance(msg, ChallengeBonusChoiceSelectedMessage):
             self._challengeBonusType = msg.challengeBonus
             KernelEventsManager().send(KernelEvent.ChallengeBonusSelected, self._challengeBonusType)
+            return True
+        # THIS IS CUSTOM INTEGRATION.
+        elif isinstance(msg, GameFightOptionStateUpdateMessage):
+            gfosumsg = msg
+            KernelEventsManager().send(
+                KernelEvent.FightOptionStateUpdate, gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state
+            )
+            if Kernel().worker.getFrameByType(RoleplayEntitiesFrame):
+                return False
+
             return True
 
         return False
