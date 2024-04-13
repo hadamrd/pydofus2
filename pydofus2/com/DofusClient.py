@@ -63,7 +63,7 @@ class DofusClient(threading.Thread):
     minLoginInterval = 60 * 3
     LOGIN_TIMEOUT = 35
     with global_data_lock:
-        _running_clients = []
+        _running_clients = list["DofusClient"]()
 
     def __init__(self, name="DofusClient"):
         super().__init__(name=name)
