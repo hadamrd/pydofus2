@@ -43,16 +43,16 @@ class AveragePricesFrame(Frame):
 
     def __init__(self):
         super().__init__()
-        if not AveragePricesFrame._pricesData:
-            if os.path.exists(Constants.AVERAGE_PRICES_PATH):
-                try:
-                    with open(Constants.AVERAGE_PRICES_PATH, "r") as file:
-                        data: Dict = json.load(file)
-                        with pricesDataLock:
+        with pricesDataLock:
+            if not AveragePricesFrame._pricesData:
+                if os.path.exists(Constants.AVERAGE_PRICES_PATH):
+                    try:
+                        with open(Constants.AVERAGE_PRICES_PATH, "r") as file:
+                            data: Dict = json.load(file)
                             for server, prices_data in data.items():
                                 AveragePricesFrame._pricesData[server] = PricesData.from_dict(prices_data)
-                except json.JSONDecodeError as e:
-                    Logger().error(f"Error loading average prices JSON data: {e}")
+                    except json.JSONDecodeError as e:
+                        Logger().error(f"Error loading average prices JSON data: {e}")
         self._server_name = PlayerManager().server.name
         self._prices_data_asked = False
 
