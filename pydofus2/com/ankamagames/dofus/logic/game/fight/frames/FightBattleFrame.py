@@ -8,6 +8,8 @@ from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
@@ -68,6 +70,21 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFigh
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnListMessage import (
     GameFightTurnListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnReadyMessage import (
+    GameFightTurnReadyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnReadyRequestMessage import (
+    GameFightTurnReadyRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnResumeMessage import (
+    GameFightTurnResumeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnStartMessage import (
+    GameFightTurnStartMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightTurnStartPlayingMessage import (
+    GameFightTurnStartPlayingMessage,
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.SlaveNoLongerControledMessage import (
     SlaveNoLongerControledMessage,
@@ -189,6 +206,27 @@ class FightBattleFrame(Frame):
                 self.updateTurnsList(gftmsg.ids, gftmsg.deadsIds)
             return True
 
+        elif isinstance(msg, GameFightTurnStartMessage):
+            if not Kernel().fightEntitiesFrame:
+                return KernelEventsManager().onceFramePushed(
+                    "FightEntitiesFrame", self.process, [msg], originator=self
+                )
+            Logger().separator(f"Player {msg.id} turn to play", "~")
+            self._currentPlayerId = msg.id
+            if not self._lastPlayerId:
+                self._lastPlayerId = self._currentPlayerId
+            if not isinstance(msg, GameFightTurnResumeMessage):
+                bffm.BuffManager().decrementDuration(msg.id)
+                bffm.BuffManager().resetTriggerCount(msg.id)
+            if Kernel().battleFrame:
+                Kernel().battleFrame.removeSavedPosition(msg.id)
+                if Kernel().fightEntitiesFrame:
+                    for entityId, infos in Kernel().fightEntitiesFrame.entities.items():
+                        if infos and infos.stats.summoner == msg.id:
+                            Kernel().battleFrame.removeSavedPosition(entityId)
+            KernelEventsManager().send(KernelEvent.FightTurnStart, msg.id)
+            return True
+
         elif isinstance(msg, GameFightSynchronizeMessage):
             gftcimsg = msg
             if self._newWave:
@@ -233,7 +271,8 @@ class FightBattleFrame(Frame):
                 Kernel().worker.addFrame(self._sequenceFrameSwitcher)
             self._currentSequenceFrame = fseqf.FightSequenceFrame(self, self._currentSequenceFrame)
             self._sequenceFrameSwitcher.currentFrame = self._currentSequenceFrame
-            return False
+            KernelEventsManager().send(KernelEvent.SequenceStart, msg.sequenceType, msg.authorId)
+            return True
 
         elif isinstance(msg, SequenceEndMessage):
             semsg = msg
@@ -253,7 +292,8 @@ class FightBattleFrame(Frame):
                 self._currentSequenceFrame.execute()
                 self._sequenceFrameSwitcher.currentFrame = self._currentSequenceFrame.parent
                 self._currentSequenceFrame = self._currentSequenceFrame.parent
-            return False
+            KernelEventsManager().send(KernelEvent.SequenceEnd)
+            return True
 
         elif isinstance(msg, GameFightNewWaveMessage):
             gfnwmsg = msg
@@ -298,7 +338,7 @@ class FightBattleFrame(Frame):
                 self.endBattle(gfemsg)
             FightersStateManager().endFight()
             CurrentPlayedFighterManager().endFight()
-            return False
+            return True
 
         elif isinstance(msg, GameContextDestroyMessage):
             if self._battleResults:
@@ -327,6 +367,21 @@ class FightBattleFrame(Frame):
         elif isinstance(msg, RemoveSpellModifierMessage):
             SpellModifiersManager().deleteSpellModifierAction(msg.actorId, msg.modifierType, msg.actionType)
             return True
+        elif isinstance(msg, GameFightTurnStartPlayingMessage):
+            if PlayerManager().kisServerPort <= 0:
+                KernelEventsManager().send(KernelEvent.FightTurnStartPlaying)
+
+            return True
+
+        elif isinstance(msg, GameFightTurnReadyRequestMessage):
+            if self.executingSequence:
+                Logger().warn("Delaying turn end acknowledgement because we're still in a sequence.")
+                self._confirmTurnEnd = True
+            else:
+                self.confirmTurnEnd()
+
+            KernelEventsManager().send(KernelEvent.FightTurnReadyRequest)
+            return False
 
         elif isinstance(msg, GameFightTurnEndMessage):
             if not self._confirmTurnEnd:
@@ -336,6 +391,7 @@ class FightBattleFrame(Frame):
             entityInfos = Kernel().fightEntitiesFrame.getEntityInfos(msg.id)
             if isinstance(entityInfos, GameFightFighterInformations) and not entityInfos.spawnInfo.alive:
                 bffm.BuffManager().markFinishingBuffs(msg.id)
+                KernelEventsManager().send(KernelEvent.FightTurnEnd, msg.id)
                 if msg.id == CurrentPlayedFighterManager().currentFighterId:
                     CurrentPlayedFighterManager().getSpellCastManager().nextTurn()
                     SpellWrapper.refreshAllPlayerSpellHolder(msg.id)
@@ -369,6 +425,22 @@ class FightBattleFrame(Frame):
         self._destroyed = True
         KernelEventsManager().send(KernelEvent.FightEnded)
         return True
+
+    def confirmTurnEnd(self):
+        fighterInfos = Kernel().fightEntitiesFrame.getEntityInfos(self._lastPlayerId)
+        if fighterInfos:
+            bffm.BuffManager().markFinishingBuffs(self._lastPlayerId)
+            if self._lastPlayerId == CurrentPlayedFighterManager().currentFighterId:
+                SpellWrapper.refreshAllPlayerSpellHolder(self._lastPlayerId)
+            KernelEventsManager().send(KernelEvent.FightTurnEnd, self._lastPlayerId)
+        else:
+            Logger().error(f"Can't find fighter infos for player {self._lastPlayerId}")
+        spellCastManager = CurrentPlayedFighterManager().getSpellCastManagerById(self._lastPlayerId)
+        if spellCastManager:
+            spellCastManager.nextTurn()
+        turnReadyMsg = GameFightTurnReadyMessage()
+        turnReadyMsg.init(True)
+        ConnectionsHandler().send(turnReadyMsg)
 
     def getSequencesStack(self) -> list[fseqf.FightSequenceFrame]:
         res = []

@@ -23,9 +23,9 @@ T = TypeVar("T", bound="Frame")
 
 
 class Worker(MessageHandler):
-    DEBUG_FRAMES: bool = False
-    DEBUG_MESSAGES: bool = False
-    DEBUG_FRAMES_PROCESSING: bool = False
+    DEBUG_FRAMES: bool = True
+    DEBUG_MESSAGES: bool = True
+    DEBUG_FRAMES_PROCESSING: bool = True
     LOCK = threading.Lock()
     CONDITION = threading.Condition(LOCK)
     LAST_TIME = time.perf_counter()

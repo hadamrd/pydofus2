@@ -1,6 +1,8 @@
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.atouin.messages.EntityMovementCompleteMessage import EntityMovementCompleteMessage
+from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
     CurrentPlayedFighterManager,
@@ -83,7 +85,8 @@ class FightTurnFrame(Frame):
         if isinstance(msg, GameMapNoMovementMessage):
             if self.myTurn:
                 self._isRequestingMovement = False
-            return False
+                KernelEventsManager().send(KernelEvent.FightMapNoMovement)
+            return True
 
         elif isinstance(msg, EntityMovementCompleteMessage):
             if self.myTurn:

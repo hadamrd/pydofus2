@@ -46,10 +46,17 @@ class KernelEvent(Enum):
 
     # Fight
     FightSwordShowed = auto()
+    FightTurnReadyRequest = auto()
+    FightTurnStart = auto()
+    FightTurnStartPlaying = auto()
+    FightTurnEnd = auto()
+    FightOptionStateUpdate = auto()
     FightResumed = auto()
     FighterMovementApplied = auto()
     FighterCastedSpell = auto()
     SequenceExecFinished = auto()
+    SequenceEnd = auto()
+    SequenceStart = auto()
     FightStarted = auto()
     FightEnded = auto()
     MuleFightContext = auto()
@@ -57,6 +64,8 @@ class KernelEvent(Enum):
     FightJoined = auto()
     RoleplayStarted = auto()
     FightLeader = auto()
+    ActionFightNoSpellCast = auto()
+    FightMapNoMovement = auto()
 
     # buffs in fight
     BuffAdd = auto()
