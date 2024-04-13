@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import \
-    LeaveDialogMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import LeaveDialogMessage
 
 
 class ExchangeLeaveMessage(LeaveDialogMessage):

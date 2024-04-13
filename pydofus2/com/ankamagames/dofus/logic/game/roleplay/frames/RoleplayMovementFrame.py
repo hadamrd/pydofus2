@@ -1,41 +1,39 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.MapMovementAdapter import \
-    MapMovementAdapter
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.RequestTypeEnum import \
-    RequestTypesEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementConfirmMessage import \
-    GameMapMovementConfirmMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import \
-    GameMapMovementMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapNoMovementMessage import \
-    GameMapNoMovementMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayFightRequestCanceledMessage import \
-    GameRolePlayFightRequestCanceledMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.havenbag.EditHavenBagFinishedMessage import \
-    EditHavenBagFinishedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import \
-    LeaveDialogMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import \
-    InteractiveUsedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseEndedMessage import \
-    InteractiveUseEndedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseErrorMessage import \
-    InteractiveUseErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeLeaveMessage import \
-    ExchangeLeaveMessage
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-    AnimatedCharacter
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-    BenchmarkTimer
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.MapMovementAdapter import MapMovementAdapter
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.RequestTypeEnum import RequestTypesEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementConfirmMessage import (
+    GameMapMovementConfirmMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import GameMapMovementMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapNoMovementMessage import (
+    GameMapNoMovementMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayFightRequestCanceledMessage import (
+    GameRolePlayFightRequestCanceledMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.havenbag.EditHavenBagFinishedMessage import (
+    EditHavenBagFinishedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import LeaveDialogMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import (
+    InteractiveUsedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseEndedMessage import (
+    InteractiveUseEndedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseErrorMessage import (
+    InteractiveUseErrorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeLeaveMessage import (
+    ExchangeLeaveMessage,
+)
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

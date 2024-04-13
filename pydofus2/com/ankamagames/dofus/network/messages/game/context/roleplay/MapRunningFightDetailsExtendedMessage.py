@@ -1,13 +1,14 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapRunningFightDetailsMessage import \
-    MapRunningFightDetailsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapRunningFightDetailsMessage import (
+    MapRunningFightDetailsMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterLightInformations import \
-        GameFightFighterLightInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeam import \
-        NamedPartyTeam
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterLightInformations import (
+        GameFightFighterLightInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeam import NamedPartyTeam
 
 
 class MapRunningFightDetailsExtendedMessage(MapRunningFightDetailsMessage):

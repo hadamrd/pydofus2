@@ -6,19 +6,16 @@ if TYPE_CHECKING:
 
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
-    GroupItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemSet import ItemSet
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemType import ItemType
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import \
-    ItemCategoryEnum
+from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import ItemCategoryEnum
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.data.IPostInit import IPostInit
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 if TYPE_CHECKING:
@@ -366,8 +363,7 @@ class Item(IPostInit, IDataCenter):
 
     @property
     def recipes(self) -> list["Recipe"]:
-        from pydofus2.com.ankamagames.dofus.datacenter.jobs.Recipe import \
-            Recipe
+        from pydofus2.com.ankamagames.dofus.datacenter.jobs.Recipe import Recipe
 
         if not self._recipes:
             numRecipes = len(self.recipeIds)

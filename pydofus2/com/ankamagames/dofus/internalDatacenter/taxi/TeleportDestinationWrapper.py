@@ -1,12 +1,9 @@
 from pydofus2.com.ankamagames.dofus.datacenter.world.Area import Area
 from pydofus2.com.ankamagames.dofus.datacenter.world.Hint import Hint
 from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
-from pydofus2.com.ankamagames.dofus.internalDatacenter.world.WorldPointWrapper import \
-    WorldPointWrapper
-from pydofus2.com.ankamagames.dofus.network.enums.TeleporterTypeEnum import \
-    TeleporterTypeEnum
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.dofus.internalDatacenter.world.WorldPointWrapper import WorldPointWrapper
+from pydofus2.com.ankamagames.dofus.network.enums.TeleporterTypeEnum import TeleporterTypeEnum
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class TeleportDestinationWrapper(IDataCenter):

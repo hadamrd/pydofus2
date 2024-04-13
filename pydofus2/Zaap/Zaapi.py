@@ -8,8 +8,7 @@ import pytz
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 
-from pydofus2.com.ankamagames.atouin.HappiConfig import (AUTH_STATES,
-                                                         ZAAP_CONFIG)
+from pydofus2.com.ankamagames.atouin.HappiConfig import AUTH_STATES, ZAAP_CONFIG
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -179,7 +178,7 @@ class Zaapi(metaclass=Singleton):
             if body["reason"] == "BAN":
                 # delete the api key from the disk
                 Logger().error("[AUTH] Account banned")
-                
+
             raise HaapiException(f"Error while signing on with apikey: {body['reason']}")
         if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
             Logger().error("[AUTH] Mail not confirmed by user")

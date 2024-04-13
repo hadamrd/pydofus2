@@ -5,14 +5,10 @@ import pydofus2.com.ankamagames.dofus.Constants as Constants
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
-from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import \
-    ProtocolSpec
-from pydofus2.com.ankamagames.jerakine.network.RawDataParser import \
-    RawDataParser
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import ProtocolSpec
+from pydofus2.com.ankamagames.jerakine.network.RawDataParser import RawDataParser
 
 with open(Constants.PROTOCOL_MSG_SHUFFLE_PATH, "r") as fp:
     msgShuffle: dict = json.load(fp)
@@ -148,7 +144,7 @@ _mule_fight_messages_to_discard = {
     "ChallengeNumberMessage",
     "GameFightStartingMessage",
     "GameFightJoinMessage",
-    "GameFightOptionStateUpdateMessage"
+    "GameFightOptionStateUpdateMessage",
 }
 
 

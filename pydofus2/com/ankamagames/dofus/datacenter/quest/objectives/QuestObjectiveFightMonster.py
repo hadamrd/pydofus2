@@ -1,7 +1,5 @@
-from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import \
-    QuestObjective
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import QuestObjective
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class QuestObjectiveFightMonster(QuestObjective, IDataCenter):

@@ -1,7 +1,5 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.ListView import \
-    ListView
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.ListView import ListView
 
 
 class RealView(ListView):

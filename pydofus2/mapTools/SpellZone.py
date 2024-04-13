@@ -1,7 +1,7 @@
 class SpellZone:
-    
+
     @classmethod
-    def fromRawZone(cls, param1: str) -> 'SpellZone':
+    def fromRawZone(cls, param1: str) -> "SpellZone":
         if param1 is None:
             param1 = "P"
         spellZone = SpellZone()
@@ -20,7 +20,7 @@ class SpellZone:
 
         if len(params) > 0:
             spellZone.radius = int(params[0])
-        
+
         if SpellZone.hasMinSize(spellZone.shape):
             if len(params) > 1:
                 spellZone.minRadius = int(params[1])
@@ -31,7 +31,7 @@ class SpellZone:
                 spellZone.degression = int(params[1])
             if len(params) > 2:
                 spellZone.maxDegressionTicks = int(params[2])
-        
+
         if len(params) > 3:
             spellZone.maxDegressionTicks = int(params[3])
         if len(params) > 4:

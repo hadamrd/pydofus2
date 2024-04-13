@@ -3,29 +3,29 @@ import sys
 
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (QApplication, QErrorMessage, QGraphicsPixmapItem,
-                             QGraphicsScene, QGraphicsView, QMainWindow)
+from PyQt5.QtWidgets import (
+    QApplication,
+    QErrorMessage,
+    QGraphicsPixmapItem,
+    QGraphicsScene,
+    QGraphicsView,
+    QMainWindow,
+)
 
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
-from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import \
-    NormalGraphicalElementData
+from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import (
+    NormalGraphicalElementData,
+)
 from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-    MapDisplayManager
-from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import \
-    ElementsAdapter
-from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import \
-    I18nFileAccessor
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
+from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import ElementsAdapter
+from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import I18nFileAccessor
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
-from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
-    AdapterFactory
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import \
-    ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import \
-    ResourceLoaderFactory
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import \
-    ResourceLoaderType
+from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
+from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
+from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import ResourceLoaderFactory
+from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import ResourceLoaderType
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 I18nFileAccessor()  # This will load the i18n files don't forget to do it

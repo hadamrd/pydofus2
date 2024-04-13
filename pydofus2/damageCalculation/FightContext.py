@@ -12,7 +12,7 @@ class FightContext:
         gameMap: MapTranslator,
         targetedCell,
         originalCaster: HaxeFighter,
-        fighters:list[HaxeFighter]=None,
+        fighters: list[HaxeFighter] = None,
         fighterInitialPositions=None,
         inputPortalCellId=-1,
         debugMode=False,
@@ -44,8 +44,10 @@ class FightContext:
         return self.inputPortalCellId != -1
 
     def removeFighterCells(self, fighter_id: float) -> None:
-        self.fighterInitialPositions = [fighter for fighter in self.fighterInitialPositions if fighter['id'] != fighter_id]
-        
+        self.fighterInitialPositions = [
+            fighter for fighter in self.fighterInitialPositions if fighter["id"] != fighter_id
+        ]
+
     def isCellEmptyForMovement(self, param1: int) -> bool:
         for _loc4_ in self.fighters:
             if _loc4_.getCurrentPositionCell() == param1:

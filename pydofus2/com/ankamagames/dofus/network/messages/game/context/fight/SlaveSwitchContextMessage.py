@@ -1,15 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import \
-        CharacterCharacteristicsInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.SpellItem import \
-        SpellItem
-    from pydofus2.com.ankamagames.dofus.network.types.game.shortcut.Shortcut import \
-        Shortcut
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import (
+        CharacterCharacteristicsInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.SpellItem import SpellItem
+    from pydofus2.com.ankamagames.dofus.network.types.game.shortcut.Shortcut import Shortcut
 
 
 class SlaveSwitchContextMessage(NetworkMessage):

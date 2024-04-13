@@ -1,13 +1,16 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.TaxCollectorDialogQuestionExtendedMessage import \
-    TaxCollectorDialogQuestionExtendedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.TaxCollectorDialogQuestionExtendedMessage import (
+    TaxCollectorDialogQuestionExtendedMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicAllianceInformations import \
-        BasicAllianceInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicNamedAllianceInformations import \
-        BasicNamedAllianceInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicAllianceInformations import (
+        BasicAllianceInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicNamedAllianceInformations import (
+        BasicNamedAllianceInformations,
+    )
 
 
 class AllianceTaxCollectorDialogQuestionExtendedMessage(TaxCollectorDialogQuestionExtendedMessage):

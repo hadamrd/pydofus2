@@ -1,6 +1,6 @@
 import math
-from typing import List
 from enum import Enum, auto
+from typing import List
 
 from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import SpellManager
@@ -21,8 +21,18 @@ class HaxeFighter:
     BASE_PERMANENT_DAMAGE_PERCENT = 10
     MAX_PERMANENT_DAMAGE_PERCENT = 50
 
-    def __init__(self, fighter_id: float, level: int, breed: int, player_type: PlayerTypeEnum, team_id: int, 
-                 is_static_element: bool, buffs: List[HaxeBuff], fighter_data: IFighterData, is_summon_cast_previewed: bool = False):
+    def __init__(
+        self,
+        fighter_id: float,
+        level: int,
+        breed: int,
+        player_type: PlayerTypeEnum,
+        team_id: int,
+        is_static_element: bool,
+        buffs: List[HaxeBuff],
+        fighter_data: IFighterData,
+        is_summon_cast_previewed: bool = False,
+    ):
         self.totalEffects = []  # Assuming List is a Python list for simplicity
         self.teamId = team_id
         self.playerType = player_type
@@ -49,7 +59,9 @@ class HaxeFighter:
 
     def wasTeleportedInInvalidCellThisTurn(self, param1):
         for effect_output in self.pendingEffects:
-            if effect_output.movement is not None and not param1.map.isCellWalkable(effect_output.movement.newPosition):
+            if effect_output.movement is not None and not param1.map.isCellWalkable(
+                effect_output.movement.newPosition
+            ):
                 return True
         return False
 
@@ -109,6 +121,7 @@ class HaxeFighter:
 
     def storePendingBuff(self, param1):
         if param1.spell.maxEffectsStack != -1:
+
             def comparator(buff1, buff2):
                 if buff1.effect.id != buff2.effect.id:
                     if buff1.spell.id == buff2.spell.id and buff1.effect.actionId == buff2.effect.actionId:
@@ -154,7 +167,7 @@ class HaxeFighter:
             "outputs": [effect for effect in self.pendingEffects],
             "buffs": self._buffs.copy(),
             "cell": self.getCurrentPositionCell(),
-            "previousPosition": self._pendingPreviousPosition
+            "previousPosition": self._pendingPreviousPosition,
         }
         return self._save
 

@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.BaseSpawnMonsterInformation import \
-    BaseSpawnMonsterInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.BaseSpawnMonsterInformation import (
+    BaseSpawnMonsterInformation,
+)
 
 
 class SpawnScaledMonsterInformation(BaseSpawnMonsterInformation):

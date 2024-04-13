@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.debug.DebugInClientMessage import \
-    DebugInClientMessage
+from pydofus2.com.ankamagames.dofus.network.messages.debug.DebugInClientMessage import DebugInClientMessage
 
 
 class ClientYouAreDrunkMessage(DebugInClientMessage):

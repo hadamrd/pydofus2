@@ -1,12 +1,9 @@
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager as storageoptmgr
 from pydofus2.com.ankamagames.dofus.datacenter.effects.Effect import Effect
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
-    EffectInstance
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageGenericView import \
-    StorageGenericView
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageGenericView import StorageGenericView
 
 
 class BankAssociatedRunesView(StorageGenericView):

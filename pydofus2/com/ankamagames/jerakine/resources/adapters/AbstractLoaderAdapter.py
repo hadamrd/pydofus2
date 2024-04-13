@@ -1,10 +1,8 @@
 from abc import ABC, abstractmethod
 
-from pydofus2.com.ankamagames.atouin.resources.ResourceErrorCode import \
-    ResourceErrorCode
+from pydofus2.com.ankamagames.atouin.resources.ResourceErrorCode import ResourceErrorCode
 from pydofus2.com.ankamagames.jerakine.pools.PoolsManager import PoolsManager
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 

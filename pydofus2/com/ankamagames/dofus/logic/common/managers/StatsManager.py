@@ -1,20 +1,21 @@
 import threading
 
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.DetailedStats import \
-    DetailedStat
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import \
-    EntityStats
+from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.DetailedStats import DetailedStat
+from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import EntityStats
 from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.Stat import Stat
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.UsableStat import \
-    UsableStat
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristic import \
-    CharacterCharacteristic
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicDetailed import \
-    CharacterCharacteristicDetailed
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicValue import \
-    CharacterCharacteristicValue
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterUsableCharacteristicDetailed import \
-    CharacterUsableCharacteristicDetailed
+from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.UsableStat import UsableStat
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristic import (
+    CharacterCharacteristic,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicDetailed import (
+    CharacterCharacteristicDetailed,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicValue import (
+    CharacterCharacteristicValue,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterUsableCharacteristicDetailed import (
+    CharacterUsableCharacteristicDetailed,
+)
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 
@@ -72,8 +73,9 @@ class StatsManager(metaclass=Singleton):
                 entityStats.setStat(entityStat, False)
 
     def deleteStats(self, entityId: float) -> bool:
-        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-            PlayedCharacterManager
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
+            PlayedCharacterManager,
+        )
 
         with self._lock:
             playersIDs = [float(player.id) for _, player in PlayedCharacterManager.getInstances()]

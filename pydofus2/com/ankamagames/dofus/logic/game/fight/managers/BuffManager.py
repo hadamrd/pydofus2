@@ -3,53 +3,49 @@ from typing import TYPE_CHECKING
 
 import pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff as basicBuff
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
-    SpellWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import \
-    ActionIdProtocol
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellBuff import \
-    SpellBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import \
-    StatBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
-    StateBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.TriggeredBuff import \
-    TriggeredBuff
-from pydofus2.com.ankamagames.dofus.logic.game.misc.StatBuffFactory import \
-    StatBuffFactory
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import \
-    GameDebugManager
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import \
-    AbstractFightDispellableEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import \
-    FightTemporaryBoostEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostStateEffect import \
-    FightTemporaryBoostStateEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostWeaponDamagesEffect import \
-    FightTemporaryBoostWeaponDamagesEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporarySpellBoostEffect import \
-    FightTemporarySpellBoostEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporarySpellImmunityEffect import \
-    FightTemporarySpellImmunityEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTriggeredEffect import \
-    FightTriggeredEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import ActionIdProtocol
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellBuff import SpellBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import StatBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.TriggeredBuff import TriggeredBuff
+from pydofus2.com.ankamagames.dofus.logic.game.misc.StatBuffFactory import StatBuffFactory
+from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import GameDebugManager
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import (
+    AbstractFightDispellableEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import (
+    FightTemporaryBoostEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostStateEffect import (
+    FightTemporaryBoostStateEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostWeaponDamagesEffect import (
+    FightTemporaryBoostWeaponDamagesEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporarySpellBoostEffect import (
+    FightTemporarySpellBoostEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporarySpellImmunityEffect import (
+    FightTemporarySpellImmunityEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTriggeredEffect import FightTriggeredEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-
 
 
 class BuffManager(metaclass=Singleton):
@@ -186,9 +182,7 @@ class BuffManager(metaclass=Singleton):
                     ):
                         skipBuffUpdate = False
                         for spell in self.spellBuffsToIgnore:
-                            if (
-                                spell.id == buffItem.castingSpell.id and spell.casterId == targetId
-                            ):
+                            if spell.id == buffItem.castingSpell.id and spell.casterId == targetId:
                                 skipBuffUpdate = True
                         if buffItem.sourceJustReaffected:
                             skipBuffUpdate = True

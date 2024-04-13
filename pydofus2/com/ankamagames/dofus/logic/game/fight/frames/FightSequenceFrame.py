@@ -433,12 +433,12 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
                     destinationCellId_=gafccmsg.destinationCellId,
                     critical_=gafccmsg.critical,
                     silentCast_=gafccmsg.silentCast,
-                    verboseCast_=gafccmsg.verboseCast,                    
+                    verboseCast_=gafccmsg.verboseCast,
                     actionId_=gafccmsg.actionId,
                     sourceId_=gafccmsg.sourceId,
                     spellId_=0,
                     spellLevel_=0,
-                    portalsIds_=[]
+                    portalsIds_=[],
                 )
                 if forceDetailedLogs:
                     gafscmsg.verboseCast = True

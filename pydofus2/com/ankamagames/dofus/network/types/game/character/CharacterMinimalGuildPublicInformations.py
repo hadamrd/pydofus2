@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import \
-    CharacterMinimalInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.character.CharacterMinimalInformations import (
+    CharacterMinimalInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildRankPublicInformation import \
-        GuildRankPublicInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildRankPublicInformation import (
+        GuildRankPublicInformation,
+    )
 
 
 class CharacterMinimalGuildPublicInformations(CharacterMinimalInformations):

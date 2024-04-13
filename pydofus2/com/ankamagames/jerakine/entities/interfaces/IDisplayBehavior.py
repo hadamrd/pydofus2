@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IDisplayable import \
-    IDisplayable
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IDisplayable import IDisplayable
 from pydofus2.com.ankamagames.jerakine.interfaces.IRectangle import IRectangle
 
 

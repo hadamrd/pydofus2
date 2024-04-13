@@ -4,13 +4,10 @@ from hashlib import md5, sha256
 
 from flash.Capabilities import Capabilities
 
-from pydofus2.com.ankamagames.dofus.logic.shield.ShieldSecureLevel import \
-    ShieldSecureLevel
-from pydofus2.com.ankamagames.dofus.network.types.secure.TrustCertificate import \
-    TrustCertificate
+from pydofus2.com.ankamagames.dofus.logic.shield.ShieldSecureLevel import ShieldSecureLevel
+from pydofus2.com.ankamagames.dofus.network.types.secure.TrustCertificate import TrustCertificate
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.hurlan.crypto.symmetric.AESKey import AESKey
 from pydofus2.com.hurlan.crypto.symmetric.ECBMode import ECBMode
 

@@ -1,7 +1,6 @@
 from random import Random
 
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.hurlan.crypto.symmetric.IPad import IPad
 from pydofus2.com.hurlan.crypto.symmetric.ISymetricKey import ISymmetricKey
 from pydofus2.com.hurlan.crypto.symmetric.PKCS5 import PKCS5

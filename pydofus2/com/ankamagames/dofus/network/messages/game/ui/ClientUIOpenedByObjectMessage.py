@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.ui.ClientUIOpenedMessage import \
-    ClientUIOpenedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.ui.ClientUIOpenedMessage import ClientUIOpenedMessage
 
 
 class ClientUIOpenedByObjectMessage(ClientUIOpenedMessage):

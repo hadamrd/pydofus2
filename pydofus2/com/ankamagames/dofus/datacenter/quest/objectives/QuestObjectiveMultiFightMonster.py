@@ -1,10 +1,7 @@
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
-from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import \
-    QuestObjective
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
-from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import \
-    PatternDecoder
+from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import QuestObjective
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import PatternDecoder
 
 
 class QuestObjectiveMultiFightMonster(QuestObjective, IDataCenter):

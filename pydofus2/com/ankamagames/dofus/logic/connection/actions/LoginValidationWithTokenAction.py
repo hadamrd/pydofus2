@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import \
-    LoginValidationAction
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import LoginValidationAction
 
 
 class LoginValidationWithTokenAction(LoginValidationAction):

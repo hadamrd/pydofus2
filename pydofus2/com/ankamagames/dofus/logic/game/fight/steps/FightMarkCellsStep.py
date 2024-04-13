@@ -1,12 +1,9 @@
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import \
-    MarkedCellsManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import \
-    GameActionMarkedCell
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import MarkedCellsManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import GameActionMarkedCell
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+
 
 class FightMarkCellsStep(AbstractSequencable, IFightStep):
 

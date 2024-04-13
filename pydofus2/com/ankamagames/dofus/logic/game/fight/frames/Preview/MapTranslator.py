@@ -9,14 +9,14 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import MarkInstance
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
-from pydofus2.damageCalculation.IMapInfo import IMapInfo
 from pydofus2.damageCalculation.fighterManagement.HaxeFighter import HaxeFighter
+from pydofus2.damageCalculation.IMapInfo import IMapInfo
 from pydofus2.damageCalculation.spellManagement.Mark import Mark
 from pydofus2.mapTools import MapTools
 
 
 class MapTranslator(IMapInfo):
-    def __init__(self, context:FightEntitiesFrame):
+    def __init__(self, context: FightEntitiesFrame):
         self._context = context
 
     @staticmethod

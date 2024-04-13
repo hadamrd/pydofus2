@@ -1,28 +1,24 @@
 from typing import Any
 
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
-    EffectInstance
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import \
-    EffectInstanceDice
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import \
-    EffectInstanceInteger
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import EffectInstanceDice
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import EffectInstanceInteger
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import \
-    GameDebugManager
-from pydofus2.com.ankamagames.dofus.network.enums.FightDispellableEnum import \
-    FightDispellableEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import \
-    AbstractFightDispellableEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
+from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import GameDebugManager
+from pydofus2.com.ankamagames.dofus.network.enums.FightDispellableEnum import FightDispellableEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import (
+    AbstractFightDispellableEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
@@ -299,8 +295,7 @@ class BasicBuff:
         self._removed = False
 
     def __eq__(self, other: "BasicBuff", ignoreSpell: bool = False) -> bool:
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
-            StateBuff
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
 
         if (
             self.targetId != other.targetId
@@ -414,8 +409,7 @@ class BasicBuff:
             ActionIds.ACTION_FIGHT_UNSET_STATE,
             ActionIds.ACTION_FIGHT_DISABLE_STATE,
         ]:
-            from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
-                StateBuff
+            from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
 
             if type(self) == StateBuff and type(buff) == StateBuff:
                 additionDetails += f"\rdelta : {self.delta} à {self.delta + buff}"

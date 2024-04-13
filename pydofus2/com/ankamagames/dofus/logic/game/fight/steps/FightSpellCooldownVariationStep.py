@@ -1,14 +1,11 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
-    SpellWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
 
 
 class FightSpellCooldownVariationStep(AbstractSequencable, IFightStep):

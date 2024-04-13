@@ -1,45 +1,40 @@
 from types import FunctionType
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.datacenter.servers.Server import Server
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
-    DisconnectionReasonEnum
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
-    LoginValidationWithTokenAction
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.ServerSelectionAction import \
-    ServerSelectionAction
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
-    AuthentificationManager
-from pydofus2.com.ankamagames.dofus.network.enums.ServerConnectionErrorEnum import \
-    ServerConnectionErrorEnum
-from pydofus2.com.ankamagames.dofus.network.enums.ServerStatusEnum import \
-    ServerStatusEnum
-from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataExtendedMessage import \
-    SelectedServerDataExtendedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataMessage import \
-    SelectedServerDataMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerRefusedMessage import \
-    SelectedServerRefusedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.ServerSelectionMessage import \
-    ServerSelectionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.ServersListMessage import \
-    ServersListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.ServerStatusUpdateMessage import \
-    ServerStatusUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import \
-    GameServerInformations
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import (
+    LoginValidationWithTokenAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.ServerSelectionAction import ServerSelectionAction
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.network.enums.ServerConnectionErrorEnum import ServerConnectionErrorEnum
+from pydofus2.com.ankamagames.dofus.network.enums.ServerStatusEnum import ServerStatusEnum
+from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataExtendedMessage import (
+    SelectedServerDataExtendedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataMessage import (
+    SelectedServerDataMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerRefusedMessage import (
+    SelectedServerRefusedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.ServerSelectionMessage import ServerSelectionMessage
+from pydofus2.com.ankamagames.dofus.network.messages.connection.ServersListMessage import ServersListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.connection.ServerStatusUpdateMessage import (
+    ServerStatusUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.connection.GameServerInformations import GameServerInformations
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.network.messages.ExpectedSocketClosureMessage import \
-    ExpectedSocketClosureMessage
+from pydofus2.com.ankamagames.jerakine.network.messages.ExpectedSocketClosureMessage import (
+    ExpectedSocketClosureMessage,
+)
 from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
@@ -122,8 +117,9 @@ class ServerSelectionFrame(Frame):
             self.broadcastServersListUpdate(True)
 
         elif isinstance(msg, ExpectedSocketClosureMessage):
-            from pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame import \
-                GameServerApproachFrame
+            from pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame import (
+                GameServerApproachFrame,
+            )
 
             if msg.reason == DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER:
                 Kernel().worker.addFrame(GameServerApproachFrame())
@@ -132,10 +128,10 @@ class ServerSelectionFrame(Frame):
                 if not AuthentificationManager()._lva or AuthentificationManager()._lva.serverId is None:
                     Logger().error(f"Closed connection to change server but no serverId is specified in Auth Manager")
                 else:
-                    from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import \
-                        QueueFrame
-                    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import \
-                        AuthentificationFrame
+                    from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
+                    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import (
+                        AuthentificationFrame,
+                    )
 
                     Logger().info(
                         f"Connection closed to change server to {AuthentificationManager()._lva.serverId}, will reconnect"
@@ -267,7 +263,7 @@ class ServerSelectionFrame(Frame):
         if self._alreadyConnectedToServerId and self._alreadyConnectedToServerId == serverId:
             Logger().warning(f"Already connected to server {self._alreadyConnectedToServerId}.")
             return
-    
+
         if self._alreadyConnectedToServerId > 0 and serverId != self._alreadyConnectedToServerId:
             self._serverSelectionAction = ServerSelectionAction.create(serverId)
             self.serverAlreadyInName = Server.getServerById(self._alreadyConnectedToServerId).name

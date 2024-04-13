@@ -1,13 +1,10 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInstanceInformations import \
-    HouseInstanceInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.house.HouseInstanceInformations import HouseInstanceInformations
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
-        AccountTagInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
-        GuildInformations
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
 
 
 class HouseGuildedInformations(HouseInstanceInformations):

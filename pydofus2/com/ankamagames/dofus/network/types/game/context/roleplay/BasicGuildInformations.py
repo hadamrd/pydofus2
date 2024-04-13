@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.social.AbstractSocialGroupInfos import \
-    AbstractSocialGroupInfos
+from pydofus2.com.ankamagames.dofus.network.types.game.social.AbstractSocialGroupInfos import AbstractSocialGroupInfos
 
 
 class BasicGuildInformations(AbstractSocialGroupInfos):

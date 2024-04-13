@@ -1,6 +1,5 @@
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
 from pydofus2.com.ankamagames.jerakine.map.ILosDetector import ILosDetector
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.mapTools import MapTools
@@ -35,8 +34,7 @@ class LosDetector(ILosDetector):
 
     @classmethod
     def getCells(cls, spellrange: list[int], refCellId: int) -> set[int]:
-        from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-            DataMapProvider
+        from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 
         refMp = MapPoint.fromCellId(refCellId)
         result = set[int]()

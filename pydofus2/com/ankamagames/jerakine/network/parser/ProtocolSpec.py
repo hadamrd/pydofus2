@@ -3,8 +3,7 @@ import json
 import os
 
 import pydofus2.com.ankamagames.dofus.Constants as Constants
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-    INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 ROOTDIR = os.path.dirname(__file__)

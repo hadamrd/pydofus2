@@ -1,10 +1,8 @@
 import collections
 
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
-    StoreDataManager
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
 _optionsManager = {}
 

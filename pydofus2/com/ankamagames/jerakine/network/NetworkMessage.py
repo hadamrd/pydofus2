@@ -4,17 +4,15 @@ from typing import TYPE_CHECKING
 
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageClassDefinition as nmcd
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageEncoder as nmencoder
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-    INetworkMessage
-from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
-    ClassSpec, ProtocolSpec)
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import ClassSpec, ProtocolSpec
 from pydofus2.com.ankamagames.jerakine.network.utils.FuncTree import FuncTree
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
-        NetworkDataContainerMessage
+    from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import (
+        NetworkDataContainerMessage,
+    )
 
 
 class NetworkMessage(INetworkMessage):
@@ -93,8 +91,9 @@ class NetworkMessage(INetworkMessage):
         return nmcd.NetworkMessageClassDefinition(cls.__name__, data.read(length)).deserialize()
 
     def deserializeAs_NetworkDataContainerMessage(input: ByteArray) -> "NetworkDataContainerMessage":
-        from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
-            NetworkDataContainerMessage
+        from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import (
+            NetworkDataContainerMessage,
+        )
 
         msg = NetworkDataContainerMessage()
         _contentLen = input.readVarInt()

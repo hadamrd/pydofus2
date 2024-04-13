@@ -1,13 +1,11 @@
 import math
 
+import pydofus2.mapTools.MapTools as MapTools
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
+from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
 from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import SpellShapeEnum
-import pydofus2.mapTools.MapTools as MapTools
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
-    DirectionsEnum
-from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
 class Cone(DisplayZone):

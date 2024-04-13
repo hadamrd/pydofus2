@@ -9,8 +9,7 @@ import pyshark
 from pyshark.tshark.tshark import get_process_path, get_tshark_interfaces
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 from .DofusConnection import LOCAL_IP, ConnEvent, DofusConnection
 from .Packet import TCPPacket

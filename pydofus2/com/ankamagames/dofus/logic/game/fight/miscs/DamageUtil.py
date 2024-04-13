@@ -4,9 +4,12 @@ from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.FighterTranslator import FighterTranslator
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.MapTranslator import MapTranslator
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.SpellEffectTranslator import SpellEffectTranslator
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import CurrentPlayedFighterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import SpellManager
 from pydofus2.damageCalculation.FightContext import FightContext
+
 
 class DamageUtil:
     HEALING_EFFECTS_IDS = [81, 108, 1109, 90]

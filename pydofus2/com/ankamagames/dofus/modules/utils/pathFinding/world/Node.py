@@ -1,13 +1,10 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import \
-    Vertex
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.astar.AStar import \
-        AStar
+    from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.astar.AStar import AStar
 
 
 class Node:

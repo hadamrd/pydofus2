@@ -6,17 +6,12 @@ from pydofus2.com.ankamagames.dofus.datacenter.items.Item import Item
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Recipe import Recipe
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.jobs.KnownJobWrapper import \
-    KnownJobWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.jobs.KnownJobWrapper import KnownJobWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-    InventoryManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import \
-    ProtocolConstantsEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobDescription import \
-    JobDescription
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.job.JobDescription import JobDescription
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

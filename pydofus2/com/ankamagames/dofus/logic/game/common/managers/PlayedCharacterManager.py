@@ -2,16 +2,11 @@ import threading
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
-from pydofus2.com.ankamagames.dofus.internalDatacenter.mount.MountData import \
-    MountData
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.misc.utils.CharacterIdConverter import \
-    CharacterIdConverter
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import \
-    Vertex
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.internalDatacenter.mount.MountData import MountData
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.misc.utils.CharacterIdConverter import CharacterIdConverter
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterBaseInformations import (
@@ -40,16 +35,11 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import \
-    CharacterInventoryPositionEnum
-from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import \
-    PlayerLifeStatusEnum
-from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import \
-    ProtocolConstantsEnum
-from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import \
-    IDestroyable
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
+from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import PlayerLifeStatusEnum
+from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
+from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.Callback import Callback
@@ -140,8 +130,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
 
     @property
     def currVertex(self) -> Vertex:
-        from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
-            WorldGraph
+        from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 
         if self.currentZoneRp is None or self.currentMap is None:
             return None
@@ -304,8 +293,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
 
     @property
     def isMutated(self) -> bool:
-        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-            InventoryManager
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
 
         rpBuffs = InventoryManager().inventory.getView("roleplayBuff").content
         if rpBuffs:
@@ -406,8 +394,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
 
     @property
     def currentCell(self) -> "Cell":
-        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-            MapDisplayManager
+        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
         if self.currentCellId is None:
             return None
@@ -481,8 +468,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
                 return spellw
 
     def inSameRpZone(self, cellId: int) -> bool:
-        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-            MapDisplayManager
+        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
         tgtRpZone = MapDisplayManager().dataMap.cells[cellId].linkedZoneRP
         return tgtRpZone == self.currentZoneRp

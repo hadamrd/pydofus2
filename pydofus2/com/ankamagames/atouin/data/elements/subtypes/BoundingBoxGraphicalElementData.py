@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import \
-    NormalGraphicalElementData
+from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import (
+    NormalGraphicalElementData,
+)
 
 
 class BoundingBoxGraphicalElementData(NormalGraphicalElementData):

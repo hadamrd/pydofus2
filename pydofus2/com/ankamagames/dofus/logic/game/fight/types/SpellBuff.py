@@ -1,8 +1,8 @@
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import \
-    BasicBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporarySpellBoostEffect import \
-    FightTemporarySpellBoostEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporarySpellBoostEffect import (
+    FightTemporarySpellBoostEffect,
+)
 
 
 class SpellBuff(BasicBuff):

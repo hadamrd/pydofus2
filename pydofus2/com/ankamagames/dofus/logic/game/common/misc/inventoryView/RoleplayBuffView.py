@@ -1,9 +1,6 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import \
-    IInventoryView
-from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import \
-    CharacterInventoryPositionEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import IInventoryView
+from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

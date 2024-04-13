@@ -1,13 +1,11 @@
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import \
-    BuffManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import \
-    GameContextRefreshEntityLookMessage
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import BuffManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import (
+    GameContextRefreshEntityLookMessage,
+)
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
 
 
 class FightDispellSpellStep(AbstractSequencable, IFightStep):

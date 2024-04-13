@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMovePricedMessage import \
-    ExchangeObjectMovePricedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMovePricedMessage import (
+    ExchangeObjectMovePricedMessage,
+)
 
 
 class ExchangeObjectModifyPricedMessage(ExchangeObjectMovePricedMessage):

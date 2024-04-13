@@ -8,12 +8,10 @@ import psutil
 import pytz
 import yaml
 
-from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import \
-    InternalStatisticTypeEnum
+from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import InternalStatisticTypeEnum
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
 from pydofus2.Zaap.helpers.CryptoHelper import CryptoHelper
 from pydofus2.Zaap.helpers.Device import Device
 from pydofus2.Zaap.Zaapi import Zaapi

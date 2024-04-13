@@ -1,16 +1,12 @@
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellState import \
-    SpellState
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
-    SpellWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import \
-    FightersStateManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import \
-    ActionIdHelper
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import \
-    BasicBuff
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellState import SpellState
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import FightersStateManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostStateEffect import \
-    FightTemporaryBoostStateEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostStateEffect import (
+    FightTemporaryBoostStateEffect,
+)
 
 
 class StateBuff(BasicBuff):

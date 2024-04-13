@@ -1,28 +1,27 @@
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager as pcm
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.EntityDispositionInformations import \
-    EntityDispositionInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import \
-    GameFightMonsterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
-    GameContextActorInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import \
-    GameRolePlayHumanoidInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
-    InteractiveElement
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-    AnimatedCharacter
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.EntityDispositionInformations import (
+    EntityDispositionInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import (
+    GameFightMonsterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import (
+    GameContextActorInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import (
+    GameRolePlayHumanoidInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

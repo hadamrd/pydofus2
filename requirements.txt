@@ -13,3 +13,7 @@ wmi
 cryptography
 pytz
 dataclasses-json
+black
+isort
+poetry
+pre-commit

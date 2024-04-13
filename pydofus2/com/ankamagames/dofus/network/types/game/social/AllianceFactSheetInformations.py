@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformations import \
-    AllianceInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformations import (
+    AllianceInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildEmblem import \
-        GuildEmblem
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.GuildEmblem import GuildEmblem
 
 
 class AllianceFactSheetInformations(AllianceInformations):

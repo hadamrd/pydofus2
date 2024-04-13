@@ -1,24 +1,17 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-        AnimatedCharacter
-    from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
-        MovementPath
+    from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
+    from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
 
 
 class FightEntityMovementStep(AbstractSequencable, IFightStep):

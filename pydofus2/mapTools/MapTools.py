@@ -4,14 +4,10 @@ from functools import lru_cache
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
-    DirectionsEnum
-from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import (
-    MapPoint, Point)
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
+from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint, Point
 from pydofus2.mapTools.MapDirection import MapDirection
 
 if TYPE_CHECKING:
@@ -265,10 +261,8 @@ def allowsMapChange(currentMap: "Map", cellId, direction: int):
 
 
 def iterMapChangeCells(direction):
-    from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-        MapDisplayManager
-    from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-        PlayedCharacterManager
+    from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
+    from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 
     currentMap = MapDisplayManager().dataMap
     playedEntity = DofusEntities().getEntity(PlayedCharacterManager().id)
@@ -306,6 +300,7 @@ def distL2Maps(mapIdA, mapIdB):
     mpB = MapPosition.getMapPositionById(mapIdB)
     return math.sqrt((mpA.posX - mpB.posX) ** 2 + (mpA.posY - mpB.posY) ** 2)
 
+
 def getNextCellByDirection(param1: int, param2: int) -> int:
     _loc3_ = math.floor(param1 / MAP_GRID_WIDTH)
     _loc4_ = math.floor((_loc3_ + 1) / 2)
@@ -315,6 +310,7 @@ def getNextCellByDirection(param1: int, param2: int) -> int:
     _loc8_ = _loc6_ - _loc7_
     _loc9_ = param1 - _loc6_ * MAP_GRID_WIDTH
     return getNextCellByDirectionAndCoord(_loc4_ + _loc5_, _loc9_ - _loc8_, param2)
+
 
 def getNextCellByDirectionAndCoord(param1: int, param2: int, param3: int) -> int:
     if not isValidCoord(param1, param2) or not MapDirection.isValidDirection(param3):

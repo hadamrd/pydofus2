@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestObjectiveInformations import \
-    QuestObjectiveInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestObjectiveInformations import (
+    QuestObjectiveInformations,
+)
 
 
 class QuestObjectiveInformationsWithCompletion(QuestObjectiveInformations):

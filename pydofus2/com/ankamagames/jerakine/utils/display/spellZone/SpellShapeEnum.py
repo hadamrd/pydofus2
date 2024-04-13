@@ -49,9 +49,9 @@ class SpellShapeEnum:
     empty: int = 32
 
     l: int = 108
-    
+
     R = 82
-    
+
     F = 70
-    
+
     UNKNOWN = 0

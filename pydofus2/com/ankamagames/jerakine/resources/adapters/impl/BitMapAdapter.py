@@ -1,9 +1,6 @@
-from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import \
-    IAdapter
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.ResourceType import \
-    ResourceType
+from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import IAdapter
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.ResourceType import ResourceType
 
 
 class BitmapAdapter(IAdapter):

@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.social.SocialNoticeMessage import \
-    SocialNoticeMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.social.SocialNoticeMessage import SocialNoticeMessage
 
 
 class AllianceMotdMessage(SocialNoticeMessage):

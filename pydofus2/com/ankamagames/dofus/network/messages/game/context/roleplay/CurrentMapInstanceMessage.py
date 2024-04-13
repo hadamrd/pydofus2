@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.CurrentMapMessage import \
-    CurrentMapMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.CurrentMapMessage import CurrentMapMessage
 
 
 class CurrentMapInstanceMessage(CurrentMapMessage):

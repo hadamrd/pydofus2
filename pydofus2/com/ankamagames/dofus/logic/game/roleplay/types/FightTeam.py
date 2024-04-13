@@ -5,18 +5,18 @@ from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.Fight import Fight
 
-from pydofus2.com.ankamagames.dofus.network.enums.FightOptionsEnum import \
-    FightOptionsEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightOptionsInformations import \
-    FightOptionsInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamInformations import \
-    FightTeamInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberCharacterInformations import \
-    FightTeamMemberCharacterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
-    GameContextActorInformations
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
-    IEntity
+from pydofus2.com.ankamagames.dofus.network.enums.FightOptionsEnum import FightOptionsEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightOptionsInformations import (
+    FightOptionsInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamInformations import FightTeamInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberCharacterInformations import (
+    FightTeamMemberCharacterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import (
+    GameContextActorInformations,
+)
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
 
 
 class FightTeam(GameContextActorInformations):

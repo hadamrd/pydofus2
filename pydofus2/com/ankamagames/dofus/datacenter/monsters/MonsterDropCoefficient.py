@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
-    GroupItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 
 

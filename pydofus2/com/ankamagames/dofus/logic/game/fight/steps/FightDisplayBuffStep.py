@@ -1,23 +1,17 @@
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import \
-    BuffManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import \
-    ActionIdProtocol
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightActionPointsVariationStep import \
-    FightActionPointsVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMovementPointsVariationStep import \
-    FightMovementPointsVariationStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import \
-    BasicBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import \
-    StatBuff
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
-    ISequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import \
-    ISequencableListener
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import BuffManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import ActionIdProtocol
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightActionPointsVariationStep import (
+    FightActionPointsVariationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightMovementPointsVariationStep import (
+    FightMovementPointsVariationStep,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import StatBuff
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import ISequencableListener
 
 
 class FightDisplayBuffStep(AbstractSequencable, IFightStep, ISequencableListener):

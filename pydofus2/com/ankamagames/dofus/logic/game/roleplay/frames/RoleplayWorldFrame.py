@@ -1,11 +1,11 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightStartPositionsUpdateMessage import \
-    MapFightStartPositionsUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightStartingPositions import \
-    FightStartingPositions
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-    AnimatedCharacter
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightStartPositionsUpdateMessage import (
+    MapFightStartPositionsUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightStartingPositions import (
+    FightStartingPositions,
+)
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority

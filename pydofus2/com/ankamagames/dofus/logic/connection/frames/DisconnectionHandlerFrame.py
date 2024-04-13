@@ -2,32 +2,25 @@ from time import perf_counter
 
 import pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame as gsaF
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
-    DisconnectionReasonEnum
-from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import \
-    QueueFrame
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
-    LoginValidationWithTokenAction as LVA_WithToken
-from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import \
-    AuthentificationFrame
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
-    AuthentificationManager
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import (
+    LoginValidationWithTokenAction as LVA_WithToken,
+)
+from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import \
-    ConnectionProcessCrashedMessage
+from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import ConnectionProcessCrashedMessage
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.messages.WrongSocketClosureReasonMessage import \
-    WrongSocketClosureReasonMessage
-from pydofus2.com.ankamagames.jerakine.network.messages.UnexpectedSocketClosureMessage import \
-    UnexpectedSocketClosureMessage
-from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import \
-    ServerConnectionClosedMessage
+from pydofus2.com.ankamagames.jerakine.messages.WrongSocketClosureReasonMessage import WrongSocketClosureReasonMessage
+from pydofus2.com.ankamagames.jerakine.network.messages.UnexpectedSocketClosureMessage import (
+    UnexpectedSocketClosureMessage,
+)
+from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import ServerConnectionClosedMessage
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 

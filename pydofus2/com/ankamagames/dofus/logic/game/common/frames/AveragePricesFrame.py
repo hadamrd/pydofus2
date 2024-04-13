@@ -1,8 +1,11 @@
 import json
 import os
+from dataclasses import dataclass, field
 from datetime import datetime
-from dataclasses_json import dataclass_json, LetterCase, config
 from threading import Lock
+from typing import Dict
+
+from dataclasses_json import LetterCase, config, dataclass_json
 
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
@@ -24,12 +27,6 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
-
-
-from dataclasses import dataclass, field
-from datetime import datetime
-import json
-from typing import Dict
 
 pricesDataLock = Lock()
 
@@ -117,7 +114,11 @@ class AveragePricesFrame(Frame):
         Logger().debug("Average prices data updated and saved.")
 
     def updateAllowed(self) -> bool:
-        if self._pricesData is not None and self._server_name in self._pricesData and datetime.now().date() == self._pricesData[self._server_name].last_update.date():
+        if (
+            self._pricesData is not None
+            and self._server_name in self._pricesData
+            and datetime.now().date() == self._pricesData[self._server_name].last_update.date()
+        ):
             Logger().debug("Average prices data already up to date")
             return False
         return True

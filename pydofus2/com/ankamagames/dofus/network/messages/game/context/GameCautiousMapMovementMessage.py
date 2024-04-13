@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import \
-    GameMapMovementMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import GameMapMovementMessage
 
 
 class GameCautiousMapMovementMessage(GameMapMovementMessage):

@@ -1,45 +1,39 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
-    DisconnectionReasonEnum
-from pydofus2.com.ankamagames.dofus.logic.common.frames.CharacterFrame import \
-    CharacterFrame
-from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
-    InterClientManager
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import \
-    LoginValidationAction
-from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import \
-    ServerSelectionFrame
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
-    AuthentificationManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
-    TimeManager
-from pydofus2.com.ankamagames.dofus.network.enums.IdentificationFailureReasonsEnum import \
-    IdentificationFailureReasonEnum
-from pydofus2.com.ankamagames.dofus.network.messages.connection.HelloConnectMessage import \
-    HelloConnectMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationAccountForceMessage import \
-    IdentificationAccountForceMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationFailedMessage import \
-    IdentificationFailedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessMessage import \
-    IdentificationSuccessMessage
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessWithLoginTokenMessage import \
-    IdentificationSuccessWithLoginTokenMessage
-from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import \
-    ClientKeyMessage
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.common.frames.CharacterFrame import CharacterFrame
+from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import InterClientManager
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import LoginValidationAction
+from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import ServerSelectionFrame
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.network.enums.IdentificationFailureReasonsEnum import (
+    IdentificationFailureReasonEnum,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.HelloConnectMessage import HelloConnectMessage
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationAccountForceMessage import (
+    IdentificationAccountForceMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationFailedMessage import (
+    IdentificationFailedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessMessage import (
+    IdentificationSuccessMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessWithLoginTokenMessage import (
+    IdentificationSuccessWithLoginTokenMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import ClientKeyMessage
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMessage import \
-    ServerConnectionFailedMessage
+from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMessage import (
+    ServerConnectionFailedMessage,
+)
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 

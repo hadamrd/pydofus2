@@ -1,36 +1,33 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
 from pydofus2.com.ankamagames.dofus import Constants
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import \
-    EntityStats
+from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import EntityStats
 from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.Stat import Stat
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
 
 if TYPE_CHECKING:
     pass
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import \
-    FightersStateManager
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import \
-    GameActionFightInvisibilityStateEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import \
-    GameFightMonsterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.FightEntityDispositionInformations import \
-    FightEntityDispositionInformations
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-    AnimatedCharacter
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
-    IEntity
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import FightersStateManager
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import (
+    GameActionFightInvisibilityStateEnum,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import (
+    GameFightMonsterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.FightEntityDispositionInformations import (
+    FightEntityDispositionInformations,
+)
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
-    MovementPath
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 from pydofus2.mapTools import MapTools
 

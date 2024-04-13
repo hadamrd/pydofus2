@@ -1,11 +1,7 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager import \
-    StorageOptionManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageGenericView import \
-    StorageGenericView
-from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import \
-    ItemCategoryEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager import StorageOptionManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageGenericView import StorageGenericView
+from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import ItemCategoryEnum
 
 
 class BankQuestView(StorageGenericView):

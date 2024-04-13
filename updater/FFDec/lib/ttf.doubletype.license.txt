@@ -17,8 +17,8 @@ link the code of this program with any Java Platform that is available
 to public with free of charge, including but not limited to
 Sun Microsystem's JAVA(TM) 2 RUNTIME ENVIRONMENT (J2RE),
 and distribute linked combinations including the two.
-You must obey the GNU General Public License in all respects for all 
-of the code used other than Java Platform. If you modify this file, 
+You must obey the GNU General Public License in all respects for all
+of the code used other than Java Platform. If you modify this file,
 you may extend this exception to your version of the file, but you are not
 obligated to do so. If you do not wish to do so, delete this exception
 statement from your version.

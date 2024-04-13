@@ -7,7 +7,7 @@ class Custom(DisplayZone):
 
     _cells: list[int]
 
-    def __init__(self, cells: list[int], dataMapProvider:IDataMapProvider=None):
+    def __init__(self, cells: list[int], dataMapProvider: IDataMapProvider = None):
         super().__init__(SpellShapeEnum.UNKNOWN, 0, 0, dataMapProvider)
         self._cells = cells
 

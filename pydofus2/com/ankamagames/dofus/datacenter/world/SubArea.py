@@ -1,13 +1,11 @@
 from pydofus2.com.ankamagames.dofus.datacenter.world.Area import Area
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
 from pydofus2.com.ankamagames.dofus.datacenter.world.WorldMap import WorldMap
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.data.IPostInit import IPostInit
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.flash.geom.Point import Point
 
 

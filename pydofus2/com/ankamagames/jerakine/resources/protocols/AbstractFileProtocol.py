@@ -1,14 +1,10 @@
 from typing import Any, Dict
 
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import \
-    IAdapter
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractProtocol import \
-    AbstractProtocol
-from pydofus2.com.ankamagames.jerakine.resources.protocols.IProtocol import \
-    IProtocol
+from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import IAdapter
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractProtocol import AbstractProtocol
+from pydofus2.com.ankamagames.jerakine.resources.protocols.IProtocol import IProtocol
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 

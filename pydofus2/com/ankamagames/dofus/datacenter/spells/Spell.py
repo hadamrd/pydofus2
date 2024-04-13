@@ -3,20 +3,16 @@ from typing import TYPE_CHECKING, Any
 
 from pydofus2.com.ankamagames.dofus.datacenter.spells.BoundScriptUsageData import BoundScriptUsageData
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellScript import SpellScript
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellType import \
-    SpellType
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import \
-    SpellVariant
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellType import SpellType
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import SpellVariant
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
     from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone
-
+    from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 
 
 class Spell(IDataCenter):
@@ -44,9 +40,9 @@ class Spell(IDataCenter):
         self._spellVariant: SpellVariant = None
         self.boundScriptUsageData: BoundScriptUsageData = None
         self.criticalHitBoundScriptUsageData: BoundScriptUsageData = None
-        self.defaultPreviewZone:str = ""
+        self.defaultPreviewZone: str = ""
         self._effectZone: "EffectZone" = None
-    
+
     @classmethod
     def getSpellById(cls, id: int) -> "Spell":
         return GameData().getObject(cls.MODULE, id)
@@ -63,7 +59,7 @@ class Spell(IDataCenter):
             self._effectZone = EffectZone()
             self._effectZone.rawActivationZone = self.defaultPreviewZone
         return self._effectZone
-    
+
     idAccessors: IdAccessors = IdAccessors(getSpellById, getSpells)
 
     @property
@@ -103,8 +99,7 @@ class Spell(IDataCenter):
 
     @property
     def spellLevelsInfo(self) -> list:
-        from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-            SpellLevel
+        from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 
         if self._spellLevels is None or len(self._spellLevels) != len(self.spellLevels):
             self._spellLevels = [SpellLevel.getLevelById(spellLvl) for spellLvl in self.spellLevels]
@@ -112,7 +107,7 @@ class Spell(IDataCenter):
 
     def __str__(self):
         return f"{self.name} ({self.id})"
-    
+
     def getScriptConditions(self, index: int, isCritical: bool):
         resolvedConditions = self.criticalHitBoundScriptUsageData if isCritical else self.boundScriptUsageData
         if index >= len(resolvedConditions):

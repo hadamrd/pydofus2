@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.social.GuildVersatileInformations import \
-    GuildVersatileInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.social.GuildVersatileInformations import (
+    GuildVersatileInformations,
+)
 
 
 class GuildInAllianceVersatileInformations(GuildVersatileInformations):

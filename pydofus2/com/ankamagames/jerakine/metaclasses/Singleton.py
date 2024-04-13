@@ -3,8 +3,7 @@ import threading
 from enum import Enum
 from typing import Any, Generator, List, Tuple, Type, TypeVar
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (
-    Event, EventsHandler)
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import Event, EventsHandler
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 LOCK = threading.Lock()

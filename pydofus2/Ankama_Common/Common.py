@@ -1,5 +1,4 @@
-from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import \
-    RecipesFilterWrapper
+from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import RecipesFilterWrapper
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 
 

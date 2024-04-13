@@ -4,13 +4,10 @@ from typing import Any
 
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
-from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import \
-    CustomSharedObject
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
 
 class IExternalizable:

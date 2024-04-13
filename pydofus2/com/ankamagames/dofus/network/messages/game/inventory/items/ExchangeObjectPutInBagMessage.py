@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMessage import \
-    ExchangeObjectMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMessage import (
+    ExchangeObjectMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
-        ObjectItem
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
 
 
 class ExchangeObjectPutInBagMessage(ExchangeObjectMessage):

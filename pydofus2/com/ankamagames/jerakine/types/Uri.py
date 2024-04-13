@@ -119,8 +119,7 @@ class Uri:
         if tmp.is_absolute():
             return tmp
         if self._protocol == "mod":
-            from pydofus2.com.ankamagames.jerakine.managers.LangManager import \
-                LangManager
+            from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 
             uiRoot = Path(LangManager().getEntry("config.mod.path"))
             if not uiRoot.is_absolute():

@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestStepInfoRequestMessage import \
-    QuestStepInfoRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.quest.QuestStepInfoRequestMessage import (
+    QuestStepInfoRequestMessage,
+)
 
 
 class WatchQuestStepInfoRequestMessage(QuestStepInfoRequestMessage):

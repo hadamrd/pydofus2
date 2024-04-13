@@ -1,11 +1,8 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import \
-    ElementsAdapter
-from pydofus2.com.ankamagames.atouin.resources.adapters.MapsAdapter import \
-    MapsAdapter
+from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import ElementsAdapter
+from pydofus2.com.ankamagames.atouin.resources.adapters.MapsAdapter import MapsAdapter
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
-    AdapterFactory
+from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
 
 
 class Atouin(metaclass=Singleton):

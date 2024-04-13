@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeCraftResultMessage import \
-    ExchangeCraftResultMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeCraftResultMessage import (
+    ExchangeCraftResultMessage,
+)
 
 
 class ExchangeCraftResultWithObjectIdMessage(ExchangeCraftResultMessage):

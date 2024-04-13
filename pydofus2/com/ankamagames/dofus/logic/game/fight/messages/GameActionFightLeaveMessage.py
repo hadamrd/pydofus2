@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDeathMessage import \
-    GameActionFightDeathMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDeathMessage import (
+    GameActionFightDeathMessage,
+)
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 
 

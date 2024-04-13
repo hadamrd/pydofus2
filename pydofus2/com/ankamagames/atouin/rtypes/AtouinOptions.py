@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.managers.OptionManager import \
-    OptionManager
+from pydofus2.com.ankamagames.jerakine.managers.OptionManager import OptionManager
 
 
 class AtouinOptions(OptionManager):

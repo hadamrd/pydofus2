@@ -27,7 +27,7 @@ venv:
 	@source $(VENV_DIR)/Scripts/activate & spinner "Activating dev env"
 	@pip install --upgrade pip --quiet\
 	&& pip install --upgrade setuptools --quiet & spinner "Upgrading pip and setuptools"
-	
+
 sniff:
 	@source $(VENVACTIVATE)
 	@python $(SNIFFER_APP_DIR)/app.py
@@ -90,7 +90,7 @@ unpack-maps:
 build-venv:
 	@python -m venv .buildEnv & spinner "Creating virtual environment"
 	@source .buildEnv/Scripts/activate
-	@python -m pip install --upgrade pip --quiet & spinner "Upgrading pip" 
+	@python -m pip install --upgrade pip --quiet & spinner "Upgrading pip"
 	@pip install wheel --quiet & spinner "Installing wheel"
 
 lint:
@@ -108,7 +108,7 @@ lint:
 	@black $(PYD2BOT_DIR)/**/*/*.py & spinner "formating pyd2bot with black"
 	@isort $(PYDOFUS_DIR)/**/*/*.py & spinner "Sorting imports in pydofus2"
 	@isort $(PYD2BOT_DIR)/**/*/*.py & spinner "Sorting imports in pyd2bot"
-	
+
 bdist:
 	@bstart_time=$SECONDS
 	@tput civis
@@ -116,13 +116,13 @@ bdist:
 	@cd $(PYD2BOT_BUILD_DIR)
 	@python -m venv .buildEnv & spinner "Creating virtual environment"
 	@source .buildEnv/Scripts/activate
-	@python -m pip install --upgrade pip --quiet & spinner "Upgrading pip" 
+	@python -m pip install --upgrade pip --quiet & spinner "Upgrading pip"
 	@pip install wheel --quiet & spinner "Installing wheel"
 	@pip install $(PYDOFUS_DIR)
 	@pip install $(PYD2BOT_DIR)
 	@pip install cx_Freeze
 	@python build.py build
-	@rm -r $(PYD2BOT_DIST_DIR)* & spinner "Create and clean dist directory" 
+	@rm -r $(PYD2BOT_DIST_DIR)* & spinner "Create and clean dist directory"
 	@cp -a build/exe.win-amd64-3.9/* $(PYD2BOT_DIST_DIR) & spinner "Copying pyd2bot to dist"
 	@tput cnorm
 	@echo "Build completed in $$((SECONDS - bstart_time)) seconds"

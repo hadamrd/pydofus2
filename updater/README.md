@@ -3,13 +3,13 @@
 ## To update protocol from dofus sources
 
 ```bash
-make update 
+make update
 ```
 
 ## To decompile all dofus sources
 
 ```bash
-make decompile-all 
+make decompile-all
 ```
 
 If you want to know more about exiting rules take a look at the Makefile.

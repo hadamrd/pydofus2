@@ -1,22 +1,13 @@
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import \
-    BuffManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEnteringStateStep import \
-    FightEnteringStateStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightLeavingStateStep import \
-    FightLeavingStateStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import \
-    IFightStep
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import \
-    BasicBuff
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import \
-    StateBuff
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
-    ISequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import \
-    ISequencableListener
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import BuffManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightEnteringStateStep import FightEnteringStateStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightLeavingStateStep import FightLeavingStateStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StateBuff import StateBuff
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import ISequencableListener
 
 
 class FightDispellEffectStep(AbstractSequencable, IFightStep, ISequencableListener):

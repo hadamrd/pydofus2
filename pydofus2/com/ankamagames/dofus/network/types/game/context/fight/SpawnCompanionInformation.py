@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnInformation import \
-    SpawnInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.SpawnInformation import SpawnInformation
 
 
 class SpawnCompanionInformation(SpawnInformation):

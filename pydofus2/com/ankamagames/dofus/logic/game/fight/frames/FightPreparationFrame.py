@@ -1,27 +1,25 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-    DataMapProvider
+from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameContextKickAction import \
-    GameContextKickAction
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementPositionRequestAction import \
-    GameFightPlacementPositionRequestAction
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementSwapPositionsAcceptAction import \
-    GameFightPlacementSwapPositionsAcceptAction
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementSwapPositionsCancelAction import \
-    GameFightPlacementSwapPositionsCancelAction
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementSwapPositionsRequestAction import \
-    GameFightPlacementSwapPositionsRequestAction
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.RemoveEntityAction import \
-    RemoveEntityAction
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameContextKickAction import GameContextKickAction
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementPositionRequestAction import (
+    GameFightPlacementPositionRequestAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementSwapPositionsAcceptAction import (
+    GameFightPlacementSwapPositionsAcceptAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementSwapPositionsCancelAction import (
+    GameFightPlacementSwapPositionsCancelAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.GameFightPlacementSwapPositionsRequestAction import (
+    GameFightPlacementSwapPositionsRequestAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.RemoveEntityAction import RemoveEntityAction
 
 if TYPE_CHECKING:
     pass
@@ -30,45 +28,58 @@ if TYPE_CHECKING:
         FightContextFrame,
     )
 
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SwapPositionRequest import \
-    SwapPositionRequest
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SwapPositionRequest import SwapPositionRequest
 from pydofus2.com.ankamagames.dofus.network.enums.TeamEnum import TeamEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightEndMessage import \
-    GameFightEndMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightLeaveMessage import \
-    GameFightLeaveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementPositionRequestMessage import \
-    GameFightPlacementPositionRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementPossiblePositionsMessage import \
-    GameFightPlacementPossiblePositionsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsAcceptMessage import \
-    GameFightPlacementSwapPositionsAcceptMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsCancelledMessage import \
-    GameFightPlacementSwapPositionsCancelledMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsCancelMessage import \
-    GameFightPlacementSwapPositionsCancelMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsErrorMessage import \
-    GameFightPlacementSwapPositionsErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsMessage import \
-    GameFightPlacementSwapPositionsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsOfferMessage import \
-    GameFightPlacementSwapPositionsOfferMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsRequestMessage import \
-    GameFightPlacementSwapPositionsRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightRemoveTeamMemberMessage import \
-    GameFightRemoveTeamMemberMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import \
-    GameFightUpdateTeamMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import \
-    GameContextDestroyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextKickMessage import \
-    GameContextKickMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntitiesDispositionMessage import \
-    GameEntitiesDispositionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntityDispositionErrorMessage import \
-    GameEntityDispositionErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.idol.IdolFightPreparationUpdateMessage import \
-    IdolFightPreparationUpdateMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightEndMessage import GameFightEndMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightLeaveMessage import (
+    GameFightLeaveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementPositionRequestMessage import (
+    GameFightPlacementPositionRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementPossiblePositionsMessage import (
+    GameFightPlacementPossiblePositionsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsAcceptMessage import (
+    GameFightPlacementSwapPositionsAcceptMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsCancelledMessage import (
+    GameFightPlacementSwapPositionsCancelledMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsCancelMessage import (
+    GameFightPlacementSwapPositionsCancelMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsErrorMessage import (
+    GameFightPlacementSwapPositionsErrorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsMessage import (
+    GameFightPlacementSwapPositionsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsOfferMessage import (
+    GameFightPlacementSwapPositionsOfferMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsRequestMessage import (
+    GameFightPlacementSwapPositionsRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightRemoveTeamMemberMessage import (
+    GameFightRemoveTeamMemberMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import (
+    GameFightUpdateTeamMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import (
+    GameContextDestroyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextKickMessage import GameContextKickMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntitiesDispositionMessage import (
+    GameEntitiesDispositionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntityDispositionErrorMessage import (
+    GameEntityDispositionErrorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.idol.IdolFightPreparationUpdateMessage import (
+    IdolFightPreparationUpdateMessage,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

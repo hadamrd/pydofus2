@@ -1,19 +1,13 @@
 from time import perf_counter
 
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import \
-    Edge
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import \
-    TransitionTypeEnum
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import \
-    Vertex
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import TransitionTypeEnum
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
-    DirectionsEnum
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 
 WORLDGRAPH_PATH = XmlConfig().getEntry("config.data.pathFinding")
 
@@ -117,8 +111,9 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
         return False
 
     def currMapActionCells(self):
-        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-            PlayedCharacterManager
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
+            PlayedCharacterManager,
+        )
 
         res = []
         currVertex = PlayedCharacterManager().currVertex

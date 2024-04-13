@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.rank.RankMinimalInformation import \
-    RankMinimalInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.rank.RankMinimalInformation import RankMinimalInformation
 
 
 class RankPublicInformation(RankMinimalInformation):

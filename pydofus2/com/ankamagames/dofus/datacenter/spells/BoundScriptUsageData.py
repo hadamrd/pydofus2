@@ -1,7 +1,8 @@
 from typing import List, Optional
 
+
 class BoundScriptUsageData:
-    
+
     def __init__(self):
         self.id: int = 0
         self.scriptId: int = 0
@@ -14,6 +15,6 @@ class BoundScriptUsageData:
         self.activationZone: Optional[str] = None
         self.random: int = 0
         self.randomGroup: int = 0
-    
+
     def toString(self) -> str:
         return f"BoundScriptUsageData id: {self.id}, scriptId: {self.scriptId}"

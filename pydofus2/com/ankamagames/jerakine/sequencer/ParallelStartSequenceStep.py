@@ -1,10 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
 from pydofus2.com.ankamagames.jerakine.sequencer.ISequencer import ISequencer
-from pydofus2.com.ankamagames.jerakine.sequencer.ISubSequenceSequencable import \
-    ISubSequenceSequencable
-from pydofus2.com.ankamagames.jerakine.types.events.SequencerEvent import \
-    SequencerEvent
+from pydofus2.com.ankamagames.jerakine.sequencer.ISubSequenceSequencable import ISubSequenceSequencable
+from pydofus2.com.ankamagames.jerakine.types.events.SequencerEvent import SequencerEvent
 
 
 class ParallelStartSequenceStep(AbstractSequencable, ISubSequenceSequencable):

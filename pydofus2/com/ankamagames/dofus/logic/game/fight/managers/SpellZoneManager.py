@@ -1,5 +1,6 @@
 import math
 from typing import List
+
 from pydofus2.com.ankamagames.atouin.enums.PlacementStrataEnums import PlacementStrataEnums
 from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
@@ -291,7 +292,7 @@ class SpellZoneManager(metaclass=Singleton):
         else:
             return pEntityInfos.disposition.cellId in pCells
 
-    def getEffectZone(self, rawZone:str) -> EffectZone:
+    def getEffectZone(self, rawZone: str) -> EffectZone:
         effectZone = EffectZone()
         effectZone.rawActivationZone = rawZone
         return effectZone

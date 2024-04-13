@@ -1,11 +1,9 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.presets.Preset import \
-    Preset
+from pydofus2.com.ankamagames.dofus.network.types.game.presets.Preset import Preset
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.presets.SpellForPreset import \
-        SpellForPreset
+    from pydofus2.com.ankamagames.dofus.network.types.game.presets.SpellForPreset import SpellForPreset
 
 
 class SpellsPreset(Preset):

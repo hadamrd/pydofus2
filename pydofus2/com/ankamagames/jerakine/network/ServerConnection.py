@@ -9,23 +9,18 @@ import traceback
 from time import perf_counter
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.MessageReceiver import \
-    MessageReceiver
-from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
-    NetworkDataContainerMessage
+from pydofus2.com.ankamagames.dofus.network.MessageReceiver import MessageReceiver
+from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import (
+    NetworkDataContainerMessage,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.messages.ConnectedMessage import \
-    ConnectedMessage
-from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import \
-    ConnectionProcessCrashedMessage
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.messages.ConnectedMessage import ConnectedMessage
+from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import ConnectionProcessCrashedMessage
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-        INetworkMessage
+    from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 
 LOCK = mp.Lock()
 
@@ -247,8 +242,9 @@ class ServerConnection(mp.Thread):
         self.stopConnectionTimeout()
         Logger().debug(f"[{self.id}] Connection closed. {err}")
         self.connected.clear()
-        from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import \
-            ServerConnectionClosedMessage
+        from pydofus2.com.ankamagames.jerakine.network.ServerConnectionClosedMessage import (
+            ServerConnectionClosedMessage,
+        )
 
         self.receptionQueue.put(ServerConnectionClosedMessage(self.id))
         self.finished.set()
@@ -261,8 +257,9 @@ class ServerConnection(mp.Thread):
         return self._closing.is_set()
 
     def onConnectionTimeout(self) -> None:
-        from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMessage import \
-            ServerConnectionFailedMessage
+        from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMessage import (
+            ServerConnectionFailedMessage,
+        )
 
         self.stopConnectionTimeout()
         if self.connected.is_set() or self.finished.is_set() or self._closing.is_set():

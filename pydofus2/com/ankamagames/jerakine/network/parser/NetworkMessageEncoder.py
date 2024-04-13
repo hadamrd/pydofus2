@@ -2,10 +2,13 @@ from functools import reduce
 
 import pydofus2.com.ankamagames.jerakine.network.NetworkMessage as bnm
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
-    D2PROTOCOL, ClassSpec, FieldSpec, ProtocolSpec)
+    D2PROTOCOL,
+    ClassSpec,
+    FieldSpec,
+    ProtocolSpec,
+)
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 dataWrite = {

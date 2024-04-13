@@ -6,15 +6,11 @@ from typing import Any
 from pydofus2.com.ankamagames.dofus.misc.lists.GameDataList import GameDataList
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.GameDataField import GameDataField
-from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import \
-    I18nFileAccessor
-from pydofus2.com.ankamagames.jerakine.enum.GameDataTypeEnum import \
-    GameDataTypeEnum
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import I18nFileAccessor
+from pydofus2.com.ankamagames.jerakine.enum.GameDataTypeEnum import GameDataTypeEnum
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import \
-    StringUtils
+from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import StringUtils
 
 
 class GameDataQuery:

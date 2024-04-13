@@ -1,9 +1,6 @@
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
-    EventsHandler
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
-    ISequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import \
-    ISequencableListener
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import ISequencableListener
 
 
 class ISequencer(ISequencableListener, EventsHandler):

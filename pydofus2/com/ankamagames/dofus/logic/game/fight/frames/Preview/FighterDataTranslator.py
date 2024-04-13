@@ -5,7 +5,9 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.UsableStat import U
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifierValueTypeEnum import SpellModifierValueTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifierValueTypeEnum import (
+    SpellModifierValueTypeEnum,
+)
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import SpellModifiersManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import (
@@ -21,8 +23,8 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFi
 from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import (
     GameFightMonsterInformations,
 )
-from pydofus2.damageCalculation.fighterManagement.IFighterData import IFighterData
 from pydofus2.damageCalculation.fighterManagement.fighterStats.HaxeStat import HaxeStat
+from pydofus2.damageCalculation.fighterManagement.IFighterData import IFighterData
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 from pydofus2.mapTools import MapTools
 
@@ -125,28 +127,66 @@ class FighterDataTranslator(IFighterData):
         if stats is not None:
             for stat in stats.stats:
                 if isinstance(stat, UsableStat):
-                    self._stats[stat.id] = HaxeUsableStat(stat.id, stat.baseValue, stat.additionalValue, stat.objectsAndMountBonusValue, stat.alignGiftBonusValue, stat.contextModifValue, stat.usedValue)
+                    self._stats[stat.id] = HaxeUsableStat(
+                        stat.id,
+                        stat.baseValue,
+                        stat.additionalValue,
+                        stat.objectsAndMountBonusValue,
+                        stat.alignGiftBonusValue,
+                        stat.contextModifValue,
+                        stat.usedValue,
+                    )
                 elif isinstance(stat, DetailedStat):
-                    self._stats[stat.id] = HaxeDetailedStat(stat.id, stat.baseValue, stat.additionalValue, stat.objectsAndMountBonusValue, stat.alignGiftBonusValue, stat.contextModifValue)
+                    self._stats[stat.id] = HaxeDetailedStat(
+                        stat.id,
+                        stat.baseValue,
+                        stat.additionalValue,
+                        stat.objectsAndMountBonusValue,
+                        stat.alignGiftBonusValue,
+                        stat.contextModifValue,
+                    )
                 elif isinstance(stat, EntityStat):
                     self._stats[stat.id] = HaxeSimpleStat(stat.id, stat.totalValue)
 
     def getHealthPoints(self):
-        return self.getMaxHealthPoints() + self.getCharacteristicValue(StatIds.CUR_LIFE) + self.getCharacteristicValue(StatIds.CUR_PERMANENT_DAMAGE)
+        return (
+            self.getMaxHealthPoints()
+            + self.getCharacteristicValue(StatIds.CUR_LIFE)
+            + self.getCharacteristicValue(StatIds.CUR_PERMANENT_DAMAGE)
+        )
 
     def getMaxHealthPoints(self):
         vitalityStat = self._stats.get(StatIds.VITALITY)
         effectiveVitality = 0
         if isinstance(vitalityStat, HaxeDetailedStat):
-            effectiveVitality = max(0, vitalityStat.base + vitalityStat.objectsAndMountBonus + vitalityStat.additional + vitalityStat.alignGiftBonus) + vitalityStat.contextModif
+            effectiveVitality = (
+                max(
+                    0,
+                    vitalityStat.base
+                    + vitalityStat.objectsAndMountBonus
+                    + vitalityStat.additional
+                    + vitalityStat.alignGiftBonus,
+                )
+                + vitalityStat.contextModif
+            )
         elif isinstance(vitalityStat, HaxeStat):
             effectiveVitality = vitalityStat.total
-        return self.getCharacteristicValue(StatIds.LIFE_POINTS) + effectiveVitality - self.getCharacteristicValue(StatIds.CUR_PERMANENT_DAMAGE)
+        return (
+            self.getCharacteristicValue(StatIds.LIFE_POINTS)
+            + effectiveVitality
+            - self.getCharacteristicValue(StatIds.CUR_PERMANENT_DAMAGE)
+        )
 
     def getBaseDamageHealEquipmentSpellMod(self, spellId):
-        return SpellModifiersManager().getSpecificModifiedInt(self._id, spellId, SpellModifierTypeEnum.BASE_DAMAGE, SpellModifierValueTypeEnum.EQUIPMENT)
+        return SpellModifiersManager().getSpecificModifiedInt(
+            self._id, spellId, SpellModifierTypeEnum.BASE_DAMAGE, SpellModifierValueTypeEnum.EQUIPMENT
+        )
 
     def getDamageHealEquipmentSpellMod(self, spellId, actionId):
         if ActionIdHelper.isHeal(actionId):
-            return SpellModifiersManager().getSpecificModifiedInt(self._id, spellId, SpellModifierTypeEnum.HEAL_BONUS, SpellModifierValueTypeEnum.EQUIPMENT)
-        return SpellModifiersManager().getSpecificModifiedInt(self._id, spellId, SpellModifierTypeEnum.DAMAGE, SpellModifierValueTypeEnum.EQUIPMENT)
+            return SpellModifiersManager().getSpecificModifiedInt(
+                self._id, spellId, SpellModifierTypeEnum.HEAL_BONUS, SpellModifierValueTypeEnum.EQUIPMENT
+            )
+        return SpellModifiersManager().getSpecificModifiedInt(
+            self._id, spellId, SpellModifierTypeEnum.DAMAGE, SpellModifierValueTypeEnum.EQUIPMENT
+        )

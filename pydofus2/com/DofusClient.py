@@ -9,46 +9,34 @@ from time import perf_counter
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
-from pydofus2.com.ankamagames.atouin.HaapiEventsManager import \
-    HaapiEventsManager
-from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import \
-    ElementsAdapter
+from pydofus2.com.ankamagames.atouin.HaapiEventsManager import HaapiEventsManager
+from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import ElementsAdapter
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.berilia.managers.Listener import Listener
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
-    DisconnectionReasonEnum
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
-    LoginValidationWithTokenAction as LVA_WithToken
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
-    AuthentificationManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import (
+    LoginValidationWithTokenAction as LVA_WithToken,
+)
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
-from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
-    HaapiKeyManager
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
-    ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
-    TerminateWorkerMessage
-from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
-    AdapterFactory
+from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import TerminateWorkerMessage
+from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
 from pydofus2.Zaap.ZaapDecoy import ZaapDecoy
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
-    from pydofus2.com.ankamagames.jerakine.network.ServerConnection import \
-        ServerConnection
+    from pydofus2.com.ankamagames.jerakine.network.ServerConnection import ServerConnection
 
 # Set the locale to the locale identifier associated with the current language
 # The '.UTF-8' suffix specifies the character encoding
@@ -108,7 +96,7 @@ class DofusClient(threading.Thread):
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
                 (KernelEvent.FightStarted, self.onFight),
                 (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),
-                (KernelEvent.TextInformation, self.onChannelTextInformation)
+                (KernelEvent.TextInformation, self.onChannelTextInformation),
             ],
             originator=self,
         )
@@ -121,7 +109,7 @@ class DofusClient(threading.Thread):
 
     def addEventListener(self, event, callback, **kwargs):
         self._customEventListeners.append((event, callback, kwargs))
-        
+
     def init(self):
         Logger().info("Initializing ...")
         ZaapDecoy.SESSIONS_LAUNCH += 1
@@ -188,12 +176,11 @@ class DofusClient(threading.Thread):
         listener.armTimer()
         self.lastLoginTime = perf_counter()
 
-    def onFight(self, event):
-        ...
+    def onFight(self, event): ...
 
     def onHaapiApiKeyReady(self, event, apikey):
         pass
-    
+
     def onServersList(self, event, serversList, serversUsedList, serversTypeAvailableSlots):
         pass
 

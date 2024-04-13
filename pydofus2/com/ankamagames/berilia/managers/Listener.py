@@ -1,13 +1,11 @@
 import threading
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-    BenchmarkTimer
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
-        EventsHandler
+    from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
 
 
 class Listener:

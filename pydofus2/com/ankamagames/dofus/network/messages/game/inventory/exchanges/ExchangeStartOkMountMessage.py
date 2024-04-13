@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkMountWithOutPaddockMessage import \
-    ExchangeStartOkMountWithOutPaddockMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkMountWithOutPaddockMessage import (
+    ExchangeStartOkMountWithOutPaddockMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.mount.MountClientData import \
-        MountClientData
+    from pydofus2.com.ankamagames.dofus.network.types.game.mount.MountClientData import MountClientData
 
 
 class ExchangeStartOkMountMessage(ExchangeStartOkMountWithOutPaddockMessage):

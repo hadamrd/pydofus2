@@ -3,8 +3,7 @@ from typing import TYPE_CHECKING
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.quest.Quest import Quest

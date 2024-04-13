@@ -1,45 +1,45 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.internalDatacenter.people.SocialCharacterWrapper import \
-    SocialCharacterWrapper
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.internalDatacenter.people.SocialCharacterWrapper import SocialCharacterWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import \
-    GuildDialogFrame
-from pydofus2.com.ankamagames.dofus.network.enums.GuildInformationsTypeEnum import \
-    GuildInformationsTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.PlayerStatusEnum import \
-    PlayerStatusEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.AllianceRanksRequestMessage import \
-    AllianceRanksRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.application.AllianceGetPlayerApplicationMessage import \
-    AllianceGetPlayerApplicationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateMessage import \
-    PlayerStatusUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateRequestMessage import \
-    PlayerStatusUpdateRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.AcquaintancesGetListMessage import \
-    AcquaintancesGetListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.FriendsGetListMessage import \
-    FriendsGetListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.IgnoredGetListMessage import \
-    IgnoredGetListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.friend.SpouseGetInformationsMessage import \
-    SpouseGetInformationsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.GuildGetPlayerApplicationMessage import \
-    GuildGetPlayerApplicationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildGetInformationsMessage import \
-    GuildGetInformationsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildInvitedMessage import \
-    GuildInvitedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildRanksRequestMessage import \
-    GuildRanksRequestMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
-    PlayerStatus
-from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatusExtended import \
-    PlayerStatusExtended
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import GuildDialogFrame
+from pydofus2.com.ankamagames.dofus.network.enums.GuildInformationsTypeEnum import GuildInformationsTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.PlayerStatusEnum import PlayerStatusEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.AllianceRanksRequestMessage import (
+    AllianceRanksRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.application.AllianceGetPlayerApplicationMessage import (
+    AllianceGetPlayerApplicationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateMessage import (
+    PlayerStatusUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateRequestMessage import (
+    PlayerStatusUpdateRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.AcquaintancesGetListMessage import (
+    AcquaintancesGetListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.FriendsGetListMessage import FriendsGetListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.IgnoredGetListMessage import IgnoredGetListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.friend.SpouseGetInformationsMessage import (
+    SpouseGetInformationsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.GuildGetPlayerApplicationMessage import (
+    GuildGetPlayerApplicationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildGetInformationsMessage import (
+    GuildGetInformationsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildInvitedMessage import GuildInvitedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildRanksRequestMessage import (
+    GuildRanksRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import PlayerStatus
+from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatusExtended import (
+    PlayerStatusExtended,
+)
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority

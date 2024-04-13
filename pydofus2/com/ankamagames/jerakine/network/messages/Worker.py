@@ -3,21 +3,17 @@ import threading
 import time
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.messages.DiscardableMessage import \
-    DiscardableMessage
+from pydofus2.com.ankamagames.jerakine.messages.DiscardableMessage import DiscardableMessage
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.messages.MessageHandler import \
-    MessageHandler
-from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
-    TerminateWorkerMessage
+from pydofus2.com.ankamagames.jerakine.messages.MessageHandler import MessageHandler
+from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import TerminateWorkerMessage
 
 """
 This Class for handling messages and frames in a Dofus 2 game application. The worker class is a subclass of MessageHandler and
-provides methods for processing messages, adding and removing frames, checking if a frame is present, getting a frame, and terminating the worker. 
+provides methods for processing messages, adding and removing frames, checking if a frame is present, getting a frame, and terminating the worker.
 The class uses the threading module for handling concurrency, and also uses several classes from the pydofus2 package, such as KernelEventsManager,
 Logger, Frame, and Message. There are also several class-level variables for enabling debug logging for frames, messages, and frame processing.
 """

@@ -1,7 +1,6 @@
 from Cryptodome.PublicKey import RSA
 
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 
 
 class SignatureKey(RSA.RsaKey):

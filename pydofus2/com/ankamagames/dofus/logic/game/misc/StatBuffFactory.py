@@ -1,11 +1,10 @@
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BlockEvadeBuff import \
-    BlockEvadeBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BlockEvadeBuff import BlockEvadeBuff
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import \
-    StatBuff
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import \
-    FightTemporaryBoostEffect
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import StatBuff
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import (
+    FightTemporaryBoostEffect,
+)
 
 
 class StatBuffFactory:

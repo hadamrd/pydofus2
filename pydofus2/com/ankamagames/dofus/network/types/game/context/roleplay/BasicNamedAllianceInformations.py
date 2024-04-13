@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicAllianceInformations import \
-    BasicAllianceInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicAllianceInformations import (
+    BasicAllianceInformations,
+)
 
 
 class BasicNamedAllianceInformations(BasicAllianceInformations):

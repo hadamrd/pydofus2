@@ -57,10 +57,24 @@ class DamagePreview:
             needFreeCell = spell.needFreeCell
             needTakenCell = spell.needTakenCell
             needVisibleEntity = spell.needVisibleEntity
-        return HaxeSpell(spellId if not isWeapon else 0, translatedEffects, translatedCriticalEffects, spellLevel, canAlwaysTriggerSpells, isWeapon, spell.minRange, spell.range, spellWrapper.criticalHitProbability if spellWrapper is not None else spell.criticalHitProbability, needFreeCell, needTakenCell, needVisibleEntity, spell.maxStack if isinstance(spell, SpellLevel) else -1)
+        return HaxeSpell(
+            spellId if not isWeapon else 0,
+            translatedEffects,
+            translatedCriticalEffects,
+            spellLevel,
+            canAlwaysTriggerSpells,
+            isWeapon,
+            spell.minRange,
+            spell.range,
+            spellWrapper.criticalHitProbability if spellWrapper is not None else spell.criticalHitProbability,
+            needFreeCell,
+            needTakenCell,
+            needVisibleEntity,
+            spell.maxStack if isinstance(spell, SpellLevel) else -1,
+        )
 
     @classmethod
-    def createHaxeBuff(cls, buff:BasicBuff) -> HaxeBuff:
+    def createHaxeBuff(cls, buff: BasicBuff) -> HaxeBuff:
         casterId = buff.castingSpell.casterId
         grade = buff.castingSpell.spellLevelData.grade if buff.castingSpell.spellLevelData else 1
         spellLevel = Spell.getSpellById(buff.castingSpell.spellData.id).getSpellLevel(grade)

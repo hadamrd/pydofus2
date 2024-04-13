@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveInformations import \
-    QuestActiveInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestActiveInformations import (
+    QuestActiveInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestObjectiveInformations import \
-        QuestObjectiveInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.quest.QuestObjectiveInformations import (
+        QuestObjectiveInformations,
+    )
 
 
 class QuestActiveDetailedInformations(QuestActiveInformations):

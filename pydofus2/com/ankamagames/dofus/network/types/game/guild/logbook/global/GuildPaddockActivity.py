@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.guild.logbook.GuildLogbookEntryBasicInformation import \
-    GuildLogbookEntryBasicInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.guild.logbook.GuildLogbookEntryBasicInformation import (
+    GuildLogbookEntryBasicInformation,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinatesExtended import \
-        MapCoordinatesExtended
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.MapCoordinatesExtended import MapCoordinatesExtended
 
 
 class GuildPaddockActivity(GuildLogbookEntryBasicInformation):

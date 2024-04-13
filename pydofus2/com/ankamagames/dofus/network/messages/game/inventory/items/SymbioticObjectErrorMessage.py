@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectErrorMessage import \
-    ObjectErrorMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectErrorMessage import ObjectErrorMessage
 
 
 class SymbioticObjectErrorMessage(ObjectErrorMessage):

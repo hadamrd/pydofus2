@@ -3,14 +3,10 @@ import json
 from datetime import datetime
 from time import perf_counter
 
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
-    AuthentificationManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
-    TimeManager
-from pydofus2.com.ankamagames.dofus.misc.stats.StatisticsManager import \
-    StatisticsManager
-from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
-    HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.misc.stats.StatisticsManager import StatisticsManager
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

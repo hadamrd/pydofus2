@@ -1,13 +1,12 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementObjective import \
-        AchievementObjective
-    from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementStartedObjective import \
-        AchievementStartedObjective
+    from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementObjective import AchievementObjective
+    from pydofus2.com.ankamagames.dofus.network.types.game.achievement.AchievementStartedObjective import (
+        AchievementStartedObjective,
+    )
 
 
 class Achievement(NetworkMessage):

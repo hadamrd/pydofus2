@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.character.AbstractCharacterInformation import \
-    AbstractCharacterInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.character.AbstractCharacterInformation import (
+    AbstractCharacterInformation,
+)
 
 
 class CharacterRemodelingInformation(AbstractCharacterInformation):

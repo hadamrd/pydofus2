@@ -3,11 +3,9 @@ from typing import TYPE_CHECKING
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
@@ -111,8 +109,7 @@ class MapPosition(IDataCenter):
 
     @staticmethod
     def getMapIdByCoord(x: int, y: int, woldId=None) -> list[float]:
-        from pydofus2.com.ankamagames.dofus.datacenter.world.MapCoordinates import \
-            MapCoordinates
+        from pydofus2.com.ankamagames.dofus.datacenter.world.MapCoordinates import MapCoordinates
 
         mc: MapCoordinates = MapCoordinates.getMapCoordinatesByCoords(x, y)
         if mc:
@@ -136,8 +133,7 @@ class MapPosition(IDataCenter):
 
     @property
     def subArea(self) -> "SubArea":
-        from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import \
-            SubArea
+        from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
 
         if not self._subArea:
             self._subArea = SubArea.getSubAreaById(self.subAreaId)

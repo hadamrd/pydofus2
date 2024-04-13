@@ -1,23 +1,16 @@
 import heapq
 from typing import List, Union
 
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
 from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import \
-    GameDataQuery
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import \
-    Edge
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Node import \
-    Node
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import \
-    Vertex
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
-    WorldGraph
+from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import GameDataQuery
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Node import Node
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.pathfinding.Pathfinding import \
-    Pathfinding
+from pydofus2.com.ankamagames.jerakine.pathfinding.Pathfinding import Pathfinding
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
@@ -127,8 +120,7 @@ class AStar(metaclass=Singleton):
 
     @classmethod
     def hasValidTransition(cls, edge: Edge) -> bool:
-        from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
-            GroupItemCriterion
+        from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
 
         valid = False
         for transition in edge.transitions:

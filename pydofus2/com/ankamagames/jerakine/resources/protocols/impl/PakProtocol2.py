@@ -7,10 +7,8 @@ from typing import Dict
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractProtocol import \
-    AbstractProtocol
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractProtocol import AbstractProtocol
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 

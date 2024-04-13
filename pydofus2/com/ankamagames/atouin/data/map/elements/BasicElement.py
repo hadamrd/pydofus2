@@ -1,8 +1,6 @@
 from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
-from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import \
-    ElementTypesEnum
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import ElementTypesEnum
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 
 
 class BasicElement:
@@ -14,10 +12,8 @@ class BasicElement:
 
     @classmethod
     def getElementFromType(cls, type: int, cell: Cell) -> "BasicElement":
-        from pydofus2.com.ankamagames.atouin.data.map.elements.GraphicalElement import \
-            GraphicalElement
-        from pydofus2.com.ankamagames.atouin.data.map.elements.SoundElement import \
-            SoundElement
+        from pydofus2.com.ankamagames.atouin.data.map.elements.GraphicalElement import GraphicalElement
+        from pydofus2.com.ankamagames.atouin.data.map.elements.SoundElement import SoundElement
 
         if type == ElementTypesEnum.GRAPHICAL:
             return GraphicalElement(cell)

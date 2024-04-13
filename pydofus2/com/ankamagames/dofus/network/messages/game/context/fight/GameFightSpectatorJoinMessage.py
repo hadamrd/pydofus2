@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightJoinMessage import \
-    GameFightJoinMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightJoinMessage import (
+    GameFightJoinMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeam import \
-        NamedPartyTeam
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.NamedPartyTeam import NamedPartyTeam
 
 
 class GameFightSpectatorJoinMessage(GameFightJoinMessage):

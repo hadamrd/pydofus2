@@ -12,29 +12,29 @@
 				text-align: center;
 				font-family: Verdana;
 			}
-			
+
 			h2, h3, h4, h5{
 				padding: 5px;
 				margin: 5px;
 				font-family: Verdana;
 			}
-			
+
 			h5 a{
 				color: #888888;
 			}
-			
+
 			span{
 				font-weight: bold;
 				margin-right: 5px;
 			}
-			
+
 			pre{
 				border: #666666 1px solid;
 				overflow:scroll;
 				padding: 5px;
 				background-color : #eeeeee;
 			}
-			
+
 			#sos ul{
 				border: #666666 1px solid;
 				padding: 0;
@@ -60,7 +60,7 @@
 				font-size: 10pt;
 				list-style-type : none;
 			}
-			
+
 			#screenshot{
 				margin: 5px;
 				padding: 5px;
@@ -69,7 +69,7 @@
 				-webkit-box-shadow: 0 0 5px#555;
 				box-shadow: 0 0 5px #555;
 			}
-			
+
 			div{
 				margin: 5px;
 				padding: 5px;
@@ -77,26 +77,26 @@
 				border-radius: 15px;
 				background-color: #DEDABE;
 			}
-			
+
 			.l_1	{background-color: #c5f4c5} /* Trace */
 			.l_2	{background-color: #aad4ff} /* Debug */
 			.l_4	{background-color: #ffff95} /* Info */
 			.l_8	{background-color: #ff9933} /* Warning */
 			.l_16	{background-color: #ff1313} /* Error */
 			.l_32	{background-color: #d90303} /* Fatal */
-			
+
 			#mouse{
 				position:relative;
 				left:26px;
 				top:-503px;
 			}
-			
+
 			#screen input{
 				border: #555555 1px solid;
 				margin: 5px;
 				margin-left: 220px;
 			}
-			
+
 			#tooltip{
 				position:absolute;
 				background-color: #fff;
@@ -108,7 +108,7 @@
 				border: #AAA 1px solid;
 				display: none;
 			}
-			
+
 			#mapLegend ul{
 				margin: 5px;
 				padding: 0px;
@@ -121,7 +121,7 @@
 				list-style-type: none;
 				clear: left;
 			}
-			
+
 			.square{
 				margin: 3px;
 				padding: 2px;
@@ -131,7 +131,7 @@
 				width: 11px;
 				height: 11px;
 			}
-			
+
 			.circle{
 				margin: 3px;
 				padding: 7px;
@@ -140,7 +140,7 @@
 				float: left;
 			}
 		</style>
-		
+
 		<script type="text/javascript">
 			var initMapData = false;
 		</script>
@@ -153,19 +153,19 @@
 		</script>
 		<script type="text/javascript">
 			document.addEventListener("DOMContentLoaded", initContent, false)
-			
+
 			function initContent()
 			{
 				document.getElementById("mouse").style.left = 26 + parseFloat("{{mouseX}}") * .5;
 				document.getElementById("mouse").style.top = -503 + parseFloat("{{mouseY}}") * .5;
-				
+
 				var patt=new RegExp("\{\{[^\}]*\}\}","g");
 				var body = document.body.innerHTML;
 				var maxIter = 200;
 				var startPos = 0;
 				while(true)
 				{
-				
+
 					result = patt.exec(body)
 					if(!result || !result.length)
 						break;
@@ -182,19 +182,19 @@
 				var detailsList = document.getElementById("detailsList");
 				if(detailsList.children.length == 0 && fightId.children.length == 0)
 					document.getElementById("details").style.display = "none";
-				
+
 				var errorMsgContent = document.getElementById("errorMsgContent").innerHTML;
 				if(errorMsgContent.length <= 1)
 					document.getElementById("errorMsg").style.display = "none";
-				
+
 				var screenshot = document.getElementById("screenshot");
 				if(!screenshot.width || screenshot.width < 100)
 					document.getElementById("screen").style.display = "none";
-				
+
 				var stacktraceContent = document.getElementById("stacktraceContent").innerHTML;
 				if(stacktraceContent.length <= 1)
 					document.getElementById("stacktrace").style.display = "none";
-					
+
 				var logSos = document.getElementById("logSos");
 				if(logSos.children.length == 0)
 					document.getElementById("sos").style.display = "none";
@@ -208,13 +208,13 @@
 				else
 					document.getElementById("map").style.display = "none";
 			}
-			
+
 			function switchMouseVisibility()
 			{
 				document.getElementById("mouse").style.visibility = document.getElementById("mouse").style.visibility == "hidden" ? "visible" : "hidden";
 			}
-		
-			
+
+
 			if(initMapData != undefined)
 			{
 				for(var i in entitiesData)
@@ -229,7 +229,7 @@
 					entities[data.cell].push(data);
 				}
 			}
-			
+
 			tileWidth = 43;
 			tileHeight = 21.5;
 			MAP_WIDTH = 14;
@@ -238,14 +238,14 @@
 			function buildMap()
 			{
 				initCells();
-				
+
 				var c=document.getElementById("mapStatus");
 				var cxt=c.getContext("2d");
 				c.width = tileWidth * (MAP_WIDTH + 1);
 				c.height = tileHeight * (MAP_HEIGHT + 1);
-				
+
 				c.addEventListener("mousemove", onMouseMove, false);
-				
+
 				var legend = document.getElementById("mapLegend");
 				var htmlBuffer = "<ul>";
 				htmlBuffer += getLegend(0xBBBBBB, "Obstacle simple", "square");
@@ -263,20 +263,20 @@
 				}
 				htmlBuffer += "</ul>";
 				legend.innerHTML = htmlBuffer;
-				
+
 				for(var cellId in CELLPOS)
 				{
 					// Affichage de la grille
 					drawTile(cxt, CELLPOS[cellId].pixelX, CELLPOS[cellId].pixelY, 0xFFFFFF, 0xBBBBBB);
-					
+
 					// Obstacle
 					if(obstacles[cellId] == 0)
 						drawTile(cxt, CELLPOS[cellId].pixelX, CELLPOS[cellId].pixelY, 0xBBBBBB);
-						
+
 					// Ligne de vue
 					if(los[cellId] == 0)
 						drawTile(cxt, CELLPOS[cellId].pixelX, CELLPOS[cellId].pixelY, 0x777777);
-					
+
 					// Entit�e
                     if(entities[cellId] && entities[cellId].length)
 					{
@@ -287,7 +287,7 @@
 					}
 				}
 			}
-			
+
 			function onMouseMove(e)
 			{
 				for(var i in entitiesData)
@@ -297,19 +297,19 @@
 					cellPosY = CELLPOS[data.cell].pixelY + tileHeight / 2;
 					if(Math.sqrt(Math.pow(e.layerX - e.target.offsetLeft - cellPosX,2) + Math.pow(e.layerY - e.target.offsetTop- cellPosY,2)) < tileHeight / 2)
 					{
-						
+
 						showCellInfo(data.cell, e.layerX, e.layerY);
 						return
 					}
 				}
 				hideCellInfo();
 			}
-			
+
 			function showCellInfo(cell, x, y)
 			{
 				var tooltip = document.getElementById("tooltip");
 				tooltip.style.display = "block";
-				
+
 				var htmlBuffer = "";
 				for(var i in entitiesData)
 				{
@@ -327,18 +327,18 @@
 						htmlBuffer += "</ul>";
 					}
 				}
-				
+
 				tooltip.innerHTML = htmlBuffer;
 				tooltip.style.left = (x + 10) + "px";
 				tooltip.style.top = (y + 10) + "px";
 			}
-			
+
 			function hideCellInfo()
 			{
 				var tooltip = document.getElementById("tooltip");
 				tooltip.style.display = "none";
 			}
-			
+
 			function getColorFromString(str)
 			{
 				var i = 0;
@@ -371,65 +371,65 @@
                                 b = 0xEE - b % 150;
                                 return ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | (b & 0xFF);
 			}
-			
+
 			function drawTile(target, x, y, color, borderColor)
 			{
 				if(color != undefined)
 					target.fillStyle= "#" + color.toString(16);
-				
+
 				if(borderColor != undefined)
 				{
 					target.strokeStyle = "#" + borderColor.toString(16);
 					target.lineWidth = .5;
 				}
-				
+
 				target.beginPath();
 				target.moveTo(x + tileWidth / 2,	y + 0);
 				target.lineTo(x + tileWidth, 		y + tileHeight / 2);
 				target.lineTo(x + tileWidth / 2,	y + tileHeight);
 				target.lineTo(x + 0,			y + tileHeight / 2);
 				target.lineTo(x + tileWidth / 2,	y + 0);
-				
+
 				if(color != undefined)
 					target.fill();
-					
+
 				if(borderColor != undefined)
 					target.stroke();
 			}
-			
+
 			function drawCircle(target, x, y, color)
 			{
 				if(color != undefined)
 					target.fillStyle= "#" + color.toString(16);
-				
+
 				target.beginPath();
 				target.arc(x + tileWidth / 2,	y + tileHeight / 2, tileHeight / 3, 0, Math.PI * 2, false);
 				target.closePath();
-				
+
 				if(color != undefined)
 					target.fill();
 			}
-			
+
 			function drawSquare(target, x, y, color)
 			{
 				if(color != undefined)
 					target.fillStyle= "#" + color.toString(16);
-					
+
 				target.beginPath();
 				target.fillRect (x + tileHeight * .7, y + tileHeight * .2, tileHeight * .6, tileHeight * .6);
 				target.closePath();
-				
+
 				if(color != undefined)
 					target.fill();
 			}
-			
+
 			function initCells()
 			{
 				var startX = 0;
 				var startY = 0;
 				var cell = 0;
 				var b;
-				for (a = 0; a < MAP_HEIGHT; a++) 
+				for (a = 0; a < MAP_HEIGHT; a++)
 				{
 					for (b = 0; b < MAP_WIDTH; b++) {
 						p = cellCoords(cell);
@@ -453,15 +453,15 @@
 					startY--;
 				}
 			}
-			
-			function cellCoords(cellId ) 
+
+			function cellCoords(cellId )
 			{
 				return {
 					x:cellId % MAP_WIDTH,			// X
 					y:Math.floor(cellId / MAP_WIDTH)	// Y
 					}
 			}
-			
+
 			function getLegend(color, text, css)
 			{
 				return '<li><span class="' +  css + '" style="background-color:#' + color.toString(16) + '" ></span>' + text + '</li>';

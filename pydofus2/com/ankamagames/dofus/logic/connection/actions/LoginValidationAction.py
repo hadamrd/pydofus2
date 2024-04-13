@@ -1,8 +1,6 @@
-from pydofus2.com.ankamagames.dofus.misc.utils.AbstractAction import \
-    AbstractAction
+from pydofus2.com.ankamagames.dofus.misc.utils.AbstractAction import AbstractAction
 from pydofus2.com.ankamagames.jerakine.handlers.messages.Action import Action
-from pydofus2.com.ankamagames.jerakine.messages.IDontLogThisMessage import \
-    IDontLogThisMessage
+from pydofus2.com.ankamagames.jerakine.messages.IDontLogThisMessage import IDontLogThisMessage
 
 
 class LoginValidationAction(AbstractAction, Action, IDontLogThisMessage):

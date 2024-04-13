@@ -1,7 +1,5 @@
-from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import \
-    GraphicalElementData
-from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementFactory import \
-    GraphicalElementFactory
+from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import GraphicalElementData
+from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementFactory import GraphicalElementFactory
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton

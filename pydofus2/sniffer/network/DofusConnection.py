@@ -3,15 +3,11 @@ import os
 import socket
 from types import FunctionType
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (
-    Event, EventsHandler)
-from pydofus2.com.ankamagames.dofus.network.MessageReceiver import \
-    MessageReceiver
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import Event, EventsHandler
+from pydofus2.com.ankamagames.dofus.network.MessageReceiver import MessageReceiver
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 from .Packet import TCPPacket
 from .SnifferBuffer import SnifferBuffer

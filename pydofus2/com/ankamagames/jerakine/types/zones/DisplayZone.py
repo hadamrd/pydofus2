@@ -3,11 +3,11 @@ from pydofus2.mapTools import MapTools
 
 
 class DisplayZone:
-    def __init__(self, shape: int, other_size: int, size: int, dataMapProvider:IDataMapProvider=None):
+    def __init__(self, shape: int, other_size: int, size: int, dataMapProvider: IDataMapProvider = None):
         self._shape = shape
         self._otherSize = other_size
         self._size = size
-        self._dataMapProvider:IDataMapProvider = dataMapProvider
+        self._dataMapProvider: IDataMapProvider = dataMapProvider
 
     @property
     def otherSize(self) -> int:
@@ -42,4 +42,4 @@ class DisplayZone:
 
     def tryAddCell(self, x: int, y: int, cell_map: list) -> None:
         if self._dataMapProvider is None or self._dataMapProvider.pointMov(x, y):
-            cell_map.append(MapTools.getCellIdByCoord(x,y))
+            cell_map.append(MapTools.getCellIdByCoord(x, y))

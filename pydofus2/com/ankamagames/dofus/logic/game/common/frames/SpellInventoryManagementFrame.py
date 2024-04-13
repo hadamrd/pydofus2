@@ -1,53 +1,52 @@
 from functools import cmp_to_key
 
 from pydofus2.com.ankamagames.dofus.datacenter.breeds.Breed import Breed
-from pydofus2.com.ankamagames.dofus.datacenter.optionalFeatures.CustomModeBreedSpell import \
-    CustomModeBreedSpell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.FinishMove import \
-    FinishMove
+from pydofus2.com.ankamagames.dofus.datacenter.optionalFeatures.CustomModeBreedSpell import CustomModeBreedSpell
+from pydofus2.com.ankamagames.dofus.datacenter.spells.FinishMove import FinishMove
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import \
-    SpellVariant
-from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import \
-    SpellWrapper
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import \
-    FeatureManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
-    SpellModifiersManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import \
-    SpellManager
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.FinishMoveListRequestAction import \
-    FinishMoveListRequestAction
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.FinishMoveSetRequestAction import \
-    FinishMoveSetRequestAction
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.SpellVariantActivationRequestAction import \
-    SpellVariantActivationRequestAction
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.SlaveSwitchContextMessage import \
-    SlaveSwitchContextMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.spell.SpellVariantActivationMessage import \
-    SpellVariantActivationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.spell.SpellVariantActivationRequestMessage import \
-    SpellVariantActivationRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.finishmoves.FinishMoveListMessage import \
-    FinishMoveListMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.finishmoves.FinishMoveListRequestMessage import \
-    FinishMoveListRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.finishmoves.FinishMoveSetRequestMessage import \
-    FinishMoveSetRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.spells.SpellListMessage import \
-    SpellListMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import \
-    GameFightSpellCooldown
-from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import \
-    PlayedCharacterApi
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellVariant import SpellVariant
+from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import FeatureManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import SpellModifiersManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import SpellManager
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.FinishMoveListRequestAction import (
+    FinishMoveListRequestAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.FinishMoveSetRequestAction import (
+    FinishMoveSetRequestAction,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.SpellVariantActivationRequestAction import (
+    SpellVariantActivationRequestAction,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.SlaveSwitchContextMessage import (
+    SlaveSwitchContextMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.spell.SpellVariantActivationMessage import (
+    SpellVariantActivationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.spell.SpellVariantActivationRequestMessage import (
+    SpellVariantActivationRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.finishmoves.FinishMoveListMessage import (
+    FinishMoveListMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.finishmoves.FinishMoveListRequestMessage import (
+    FinishMoveListRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.finishmoves.FinishMoveSetRequestMessage import (
+    FinishMoveSetRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.spells.SpellListMessage import SpellListMessage
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightSpellCooldown import (
+    GameFightSpellCooldown,
+)
+from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharacterApi
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.enums.BuildTypeEnum import \
-    BuildTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.BuildTypeEnum import BuildTypeEnum
 
 
 class BuildTypeParser:

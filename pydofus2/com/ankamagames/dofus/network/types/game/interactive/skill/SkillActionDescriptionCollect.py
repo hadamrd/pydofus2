@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.skill.SkillActionDescriptionTimed import \
-    SkillActionDescriptionTimed
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.skill.SkillActionDescriptionTimed import (
+    SkillActionDescriptionTimed,
+)
 
 
 class SkillActionDescriptionCollect(SkillActionDescriptionTimed):

@@ -10,8 +10,7 @@ if TYPE_CHECKING:
 import threading
 
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
 
 lock = threading.Lock()
 

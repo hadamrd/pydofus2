@@ -1,7 +1,5 @@
-from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import \
-    IAdapter
-from pydofus2.com.ankamagames.jerakine.resources.adapters.impl.BitMapAdapter import \
-    BitmapAdapter
+from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import IAdapter
+from pydofus2.com.ankamagames.jerakine.resources.adapters.impl.BitMapAdapter import BitmapAdapter
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
 

@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import JerakineError
 from pydofus2.flash.geom.Point import Point
 

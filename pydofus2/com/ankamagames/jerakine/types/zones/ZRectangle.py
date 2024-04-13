@@ -1,11 +1,10 @@
 import math
 
+import pydofus2.mapTools.MapTools as MapTools
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
 from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import SpellShapeEnum
-import pydofus2.mapTools.MapTools as MapTools
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
-from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
 class ZRectangle(DisplayZone):
@@ -16,8 +15,7 @@ class ZRectangle(DisplayZone):
     _diagonalFree: bool = False
 
     def __init__(
-        self,
-        minRadius:int, alternativeSize:int, size:int, isDiagonalFree:bool, dataMapProvider:IDataMapProvider
+        self, minRadius: int, alternativeSize: int, size: int, isDiagonalFree: bool, dataMapProvider: IDataMapProvider
     ):
         super().__init__(SpellShapeEnum.UNKNOWN, alternativeSize, size, dataMapProvider)
         self._diagonalFree = isDiagonalFree

@@ -1,13 +1,13 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import \
-    DialogTypeEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeLeaveMessage import \
-    ExchangeLeaveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountStableErrorMessage import \
-    ExchangeMountStableErrorMessage
+from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import DialogTypeEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeLeaveMessage import (
+    ExchangeLeaveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountStableErrorMessage import (
+    ExchangeMountStableErrorMessage,
+)
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 
 

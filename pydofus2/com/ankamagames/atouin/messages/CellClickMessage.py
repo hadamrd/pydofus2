@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.atouin.messages.CellInteractionMessage import \
-    CellInteractionMessage
+from pydofus2.com.ankamagames.atouin.messages.CellInteractionMessage import CellInteractionMessage
 
 
 class CellClickMessage(CellInteractionMessage):

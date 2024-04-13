@@ -28,4 +28,3 @@ class {{cls.name}}({% if parent != None %}{{parent.name}}{% else %}NetworkMessag
         {%- else -%}
         super().init({%for arg in super_args%}{{arg.name}}_{% if not loop.last %}, {% endif %}{% endfor %})
         {%- endif %}
-    

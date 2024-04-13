@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.PaginationAnswerAbstractMessage import \
-    PaginationAnswerAbstractMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.PaginationAnswerAbstractMessage import (
+    PaginationAnswerAbstractMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.AllianceFactSheetInformation import \
-        AllianceFactSheetInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.AllianceFactSheetInformation import (
+        AllianceFactSheetInformation,
+    )
 
 
 class AllianceSummaryMessage(PaginationAnswerAbstractMessage):

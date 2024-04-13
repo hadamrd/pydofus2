@@ -1,8 +1,7 @@
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
@@ -28,8 +27,7 @@ class SpellVariant(IDataCenter):
 
     @property
     def spells(self) -> list["Spell"]:
-        from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import \
-            Spell
+        from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 
         if not self._spells:
             for spellId in self.spellIds:

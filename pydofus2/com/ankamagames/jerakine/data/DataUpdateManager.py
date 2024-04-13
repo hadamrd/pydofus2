@@ -1,16 +1,12 @@
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (
-    Event, EventsHandler)
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import Event, EventsHandler
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
-    StoreDataManager
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import \
-    ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import \
-    ResourceLoaderFactory
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import \
-    ResourceLoaderType
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
+from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
+from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import ResourceLoaderFactory
+from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import ResourceLoaderType
+
 # from pydofus2.com.ankamagames.jerakine.types.events.FileEvent import FileEvent
 from pydofus2.com.ankamagames.jerakine.types.LangMetaData import LangMetaData
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri

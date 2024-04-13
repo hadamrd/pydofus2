@@ -5,12 +5,13 @@ from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
+
 class SpellCastSequenceContext:
     """
     Translated class from ActionScript to Python, maintaining original naming conventions
     for properties and methods as much as possible.
     """
-    
+
     NO_ID = 0xFFFFFFFF
     idCounter = {}
 
@@ -26,8 +27,8 @@ class SpellCastSequenceContext:
         self.casterId: float = 0.0
         self.targetedCellId: int = -1
         self.weaponId: int = -1
-        self.spellData: Optional['Spell'] = None
-        self.spellLevelData: Optional['SpellLevel'] = None
+        self.spellData: Optional["Spell"] = None
+        self.spellLevelData: Optional["SpellLevel"] = None
         self.direction: int = -1
         self.markId: int = 0
         self.markType: int = 0
@@ -35,7 +36,7 @@ class SpellCastSequenceContext:
         self.isCriticalHit: bool = False
         self.isCriticalFail: bool = False
         self.portalIds: List[int] = []
-        self.portalMapPoints: List['MapPoint'] = []
+        self.portalMapPoints: List["MapPoint"] = []
         self.defaultTargetGfxId: int = 0
 
     def reset():

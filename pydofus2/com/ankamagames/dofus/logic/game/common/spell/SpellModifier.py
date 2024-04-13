@@ -1,9 +1,8 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifierValueTypeEnum import \
-    SpellModifierValueTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierActionTypeEnum import \
-    SpellModifierActionTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
-    SpellModifierTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifierValueTypeEnum import (
+    SpellModifierValueTypeEnum,
+)
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierActionTypeEnum import SpellModifierActionTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import SpellModifierTypeEnum
 
 
 class SpellModifier:

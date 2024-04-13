@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import \
-    IZoneShape
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import IZoneShape
 
 
 class ZoneEffect(IZoneShape):
