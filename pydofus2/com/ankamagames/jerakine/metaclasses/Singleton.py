@@ -1,4 +1,3 @@
-import stat
 import threading
 from enum import Enum
 from typing import Any, Generator, List, Tuple, Type, TypeVar

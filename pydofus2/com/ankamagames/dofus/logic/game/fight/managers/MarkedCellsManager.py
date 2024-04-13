@@ -10,7 +10,6 @@ from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkCellsTypeEnum im
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.network.enums.TeamEnum import TeamEnum
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import GameActionMarkedCell
-from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.dofus.types.entities.Glyph import Glyph
 from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger

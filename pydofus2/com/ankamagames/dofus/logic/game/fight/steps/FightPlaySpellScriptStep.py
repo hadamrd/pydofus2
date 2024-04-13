@@ -7,7 +7,6 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFi
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.types.Callback import Callback
 
 
 class FightPlaySpellScriptStep(AbstractSequencable, IFightStep):

@@ -83,7 +83,6 @@ from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilitySta
     GameActionFightInvisibilityStateEnum,
 )
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
-from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptManager import SpellScriptManager
 from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import IMovable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -97,7 +96,6 @@ if TYPE_CHECKING:
     )
 
 from pydofus2.com.ankamagames.dofus.datacenter.effects.Effect import Effect
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import EffectInstanceDice
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
@@ -109,7 +107,6 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.BuffManager import
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
     CurrentPlayedFighterManager,
 )
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.misc.utils.GameDebugManager import GameDebugManager
 from pydofus2.com.ankamagames.dofus.network.enums.FightSpellCastCriticalEnum import FightSpellCastCriticalEnum
@@ -253,9 +250,6 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.RefreshC
     RefreshCharacterStatsMessage,
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import GameMapMovementMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.AbstractFightDispellableEffect import (
-    AbstractFightDispellableEffect,
-)
 from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import (
     FightTemporaryBoostEffect,
 )

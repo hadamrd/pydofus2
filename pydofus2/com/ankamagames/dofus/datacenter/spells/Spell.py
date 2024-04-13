@@ -1,5 +1,4 @@
-import re
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.dofus.datacenter.spells.BoundScriptUsageData import BoundScriptUsageData
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellScript import SpellScript
@@ -12,7 +11,7 @@ from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone
-    from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
+    from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel  # noqa
 
 
 class Spell(IDataCenter):

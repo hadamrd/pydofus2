@@ -9,7 +9,7 @@ from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.internalDatacenter.connection.BasicCharacterWrapper import (
         BasicCharacterWrapper,
-    )
+    )  # noqa
 
 from pydofus2.com.ankamagames.dofus.network.types.game.havenbag.HavenBagRoomPreviewInformation import (
     HavenBagRoomPreviewInformation,

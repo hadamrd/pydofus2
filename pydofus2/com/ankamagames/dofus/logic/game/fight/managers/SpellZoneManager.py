@@ -16,7 +16,6 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFi
     GameFightFighterInformations,
 )
 from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharacterApi
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.Cone import Cone

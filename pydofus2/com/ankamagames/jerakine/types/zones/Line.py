@@ -1,4 +1,3 @@
-import pydofus2.mapTools.MapTools as MapTools
 from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
 from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint

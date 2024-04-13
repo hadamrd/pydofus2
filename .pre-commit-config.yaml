@@ -1,4 +1,10 @@
 repos:
+  - repo: https://github.com/myint/autoflake
+    rev: v1.4  # Use the latest revision
+    hooks:
+      - id: autoflake
+        args: ["--in-place", "--remove-all-unused-imports", "--remove-unused-variables", "--recursive"]
+        additional_dependencies: [black==21.12b0]  # Ensure compatible black version is installed if not globally available
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
@@ -10,7 +16,8 @@ repos:
         name: isort (Python imports)
         args: ['--profile', 'black', '--line-length', '119']
   - repo: https://github.com/psf/black
-    rev: 24.4.0
+    rev: 21.12b0  # Use the latest stable version
     hooks:
       - id: black
+        additional_dependencies: ['click==8.0.1']  # specify a compatible version of click
         args: ['--line-length', '119']

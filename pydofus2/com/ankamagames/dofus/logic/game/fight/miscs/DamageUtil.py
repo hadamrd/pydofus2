@@ -1,5 +1,3 @@
-import logging
-
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.FighterTranslator import FighterTranslator
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.MapTranslator import MapTranslator

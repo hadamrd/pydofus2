@@ -1,5 +1,4 @@
 import math
-from enum import Enum, auto
 from typing import List
 
 from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper

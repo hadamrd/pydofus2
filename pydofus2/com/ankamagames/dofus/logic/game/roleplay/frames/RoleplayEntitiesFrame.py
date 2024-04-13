@@ -20,6 +20,9 @@ from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.Fight import Fight
 from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.FightTeam import FightTeam
 from pydofus2.com.ankamagames.dofus.network.enums.MapObstacleStateEnum import MapObstacleStateEnum
 from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import BasicPingMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightOptionStateUpdateMessage import (
+    GameFightOptionStateUpdateMessage,
+)
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import (
     GameFightUpdateTeamMessage,
 )
@@ -143,6 +146,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         super().__init__()
 
     def pulled(self) -> bool:
+        Logger().debug("pulled")
         self._fights.clear()
         self._objects.clear()
         self._npcList.clear()
@@ -151,6 +155,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         return super().pulled()
 
     def pushed(self) -> bool:
+        Logger().debug("pushed")
         self.nbrFails = 0
         self.initNewMap()
         self.mcidm_processed = False
@@ -360,6 +365,24 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             self.updateFight(gfutmsg.fightId, gfutmsg.team)
             return True
 
+        elif isinstance(msg, GameFightOptionStateUpdateMessage):
+            gfosumsg = msg
+            self.updateSwordOptions(gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state)
+            KernelEventsManager().send(
+                KernelEvent.FightOptionStateUpdate, gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state
+            )
+
+            return True
+
+        elif isinstance(msg, GameFightOptionStateUpdateMessage):
+            gfosumsg = msg
+            self.updateSwordOptions(gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state)
+            KernelEventsManager().send(
+                KernelEvent.FightOptionStateUpdate, gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state
+            )
+
+            return True
+
         elif isinstance(msg, GameRolePlayShowChallengeMessage):
             grpsclmsg = msg
             self.addFight(grpsclmsg.commonsInfos)
@@ -429,6 +452,17 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             self.unregisterActor(team.teamEntity.id)
             del team.teamEntity
         del self._fights[fightId]
+
+    def updateSwordOptions(self, fightId: int, teamId: int, option: int = -1, state: bool = False):
+        fight: Fight = self._fights.get(fightId, None)
+        if not fight:
+            return
+        fightTeam: FightTeam = fight.getTeamById(teamId)
+
+        if not fightTeam:
+            return
+        if option != -1:
+            fightTeam.teamOptions[option] = state
 
     def updateFight(self, fightId: int, team: FightTeamInformations) -> None:
         present: bool = False
