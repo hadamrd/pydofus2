@@ -60,7 +60,6 @@ class Device:
                 Logger().error(f"Error while getting wmi : {e}", exc_info=True)
             cpu_info = w.Win32_Processor()[0]
             cpu_model = cpu_info.Name
-            # Logger().debug(f"cpu_model : {cpu_model}")
 
         # For Unix/Linux
         elif psutil.LINUX or psutil.MACOS or psutil.UNIX:
@@ -74,7 +73,7 @@ class Device:
 
     @staticmethod
     def get_computer_ram():
-        ram_mb = int(psutil.virtual_memory().total / (1024**2))
+        ram_mb = int(psutil.virtual_memory().total / (1024 ** 2))
         return int(2 ** round(math.log(ram_mb, 2)))
 
     @staticmethod

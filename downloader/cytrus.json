@@ -1,0 +1,173 @@
+{
+    "version": 5,
+    "name": "production",
+    "games": {
+        "dofus": {
+            "name": "Dofus",
+            "order": 1,
+            "gameId": 1,
+            "assets": {
+                "meta": {
+                    "beta": "1180f13293d5450096a0b379fc12f8537f795390",
+                    "main": "70e144bdad23ad5d3540c44ddb2c70a56f77d2a0"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "beta": "5.0_2.65.7.11-beta",
+                    "main": "5.0_2.65.5.22"
+                },
+                "linux": {
+                    "beta": "5.0_2.65.7.11-beta",
+                    "main": "5.0_2.65.5.22"
+                },
+                "windows": {
+                    "beta": "5.0_2.65.7.11-beta",
+                    "main": "5.0_2.65.5.22"
+                }
+            }
+        },
+        "flyn": {
+            "name": "flyn",
+            "order": 22,
+            "gameId": 12,
+            "assets": {
+                "meta": {
+                    "main": "7a6b731b3420c7731d41b6340825589777774b2b"
+                }
+            },
+            "platforms": {
+                "windows": {
+                    "main": "5.0_1.0.1"
+                }
+            }
+        },
+        "krosmaga": {
+            "name": "Krosmaga",
+            "order": 4,
+            "gameId": 17,
+            "assets": {
+                "meta": {
+                    "beta": "a34471961e4f7521c2753dec3e15f686204070b7",
+                    "main": "9a986026666912c8f55db5869c7f649597b381df"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "beta": "5.0_1.16.0.10359",
+                    "main": "5.0_1.16.2.10384"
+                },
+                "windows": {
+                    "beta": "5.0_1.16.0.10359",
+                    "main": "5.0_1.16.2.10384"
+                }
+            }
+        },
+        "onemoregate": {
+            "name": "onemoregate",
+            "order": 6,
+            "gameId": 24,
+            "assets": {
+                "meta": {
+                    "main": "4ddab60728c3cdc08a0702d6aa05a63b78473d16"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "main": "5.0_0.4.398"
+                },
+                "windows": {
+                    "main": "5.0_0.3.398"
+                }
+            }
+        },
+        "retro": {
+            "name": "Retro",
+            "order": 2,
+            "gameId": 1,
+            "assets": {
+                "meta": {
+                    "1.29": "8d89e0a69121addc9b46f13351495b65ac280213",
+                    "beta": "e9c499237f1072945e52f1d9cf968ebbbf7c751d",
+                    "main": "4161be6fc5afb57b2ede1355818033f37e5e9dae"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "main": "5.0_1.38.8.1825.150-6cfa3c9"
+                },
+                "linux": {
+                    "main": "5.0_1.38.8.1811.152-6cfa3c9"
+                },
+                "windows": {
+                    "main": "5.0_1.38.8.1815.148-6cfa3c9"
+                }
+            }
+        },
+        "supernanoblaster": {
+            "name": "supernanoblaster",
+            "order": 23,
+            "gameId": 23,
+            "assets": {
+                "meta": {
+                    "main": "53ed9765cc29660e728a20a7a266f6a8b6780c47"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "main": "5.0_1.1.1"
+                },
+                "windows": {
+                    "main": "5.0_1.1.1"
+                }
+            }
+        },
+        "wakfu": {
+            "name": "Wakfu",
+            "order": 3,
+            "gameId": 3,
+            "assets": {
+                "meta": {
+                    "beta": "36130572756912a1fd2a80ae67a0d564b6d778d4",
+                    "main": "174efd5f31d8a6609d68e897c5a42b5a47af9742"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "beta": "5.0_1.81.1.2581.49",
+                    "experimental": "5.0_1.78.1.1937.9",
+                    "main": "5.0_1.82.1.2701.149"
+                },
+                "linux": {
+                    "beta": "5.0_1.81.1.2581.49",
+                    "experimental": "5.0_1.78.1.1937.9",
+                    "main": "5.0_1.82.1.2701.149"
+                },
+                "windows": {
+                    "beta": "5.0_1.81.1.2581.49",
+                    "experimental": "5.0_1.78.1.1937.9",
+                    "main": "5.0_1.82.1.2701.149"
+                }
+            }
+        },
+        "waven": {
+            "name": "Waven",
+            "order": 7,
+            "gameId": 22,
+            "assets": {
+                "meta": {
+                    "beta": "b532fc554848fab9b410b81882e090f986a40480",
+                    "main": "ce84ccffb878fda03d2d6cc51a817ed84c73c873"
+                }
+            },
+            "platforms": {
+                "darwin": {
+                    "main": "5.0_0.11.0.34387"
+                },
+                "windows": {
+                    "main": "5.0_0.11.0.34376"
+                }
+            }
+        }
+    }
+}

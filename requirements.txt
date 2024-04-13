@@ -18,3 +18,4 @@ isort
 autoflake
 poetry
 pre-commit
+pytest
