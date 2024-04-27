@@ -1,2 +1,33 @@
 [tool.black]
 line-length = 119
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | \.venv
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 119
+skip = [
+  ".git",
+  ".hg",
+  ".mypy_cache",
+  ".tox",
+  ".venv",
+  "_build",
+  "buck-out",
+  "build",
+  "dist"
+]
+skip_glob = ["*.pyi"]

@@ -1,62 +1,51 @@
 import atexit
 import locale
-from re import T
 import sys
 import threading
 import time
 import traceback
 from datetime import datetime
+from re import T
 from time import perf_counter
 from typing import TYPE_CHECKING, Type, TypeVar
 
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
-from pydofus2.com.ankamagames.atouin.HaapiEventsManager import \
-    HaapiEventsManager
-from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import \
-    ElementsAdapter
+from pydofus2.com.ankamagames.atouin.HaapiEventsManager import HaapiEventsManager
+from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import ElementsAdapter
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.berilia.managers.Listener import Listener
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
-    DisconnectionReasonEnum
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import \
-    LoginValidationWithTokenAction as LVA_WithToken
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import \
-    AuthentificationManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import (
+    LoginValidationWithTokenAction as LVA_WithToken,
+)
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
-from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
-    HaapiKeyManager
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
-    ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import \
-    TerminateWorkerMessage
-from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import \
-    AdapterFactory
+from pydofus2.com.ankamagames.jerakine.network.messages.TerminateWorkerMessage import TerminateWorkerMessage
+from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 from pydofus2.Zaap.ZaapDecoy import ZaapDecoy
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
-    from pydofus2.com.ankamagames.jerakine.network.ServerConnection import \
-        ServerConnection
+    from pydofus2.com.ankamagames.jerakine.network.ServerConnection import ServerConnection
 
 # Set the locale to the locale identifier associated with the current language
 # The '.UTF-8' suffix specifies the character encoding
 locale.setlocale(locale.LC_ALL, Kernel().getLocaleLang() + ".UTF-8")
 global_data_lock = threading.Lock()
 T = TypeVar("T")
+
 
 class DofusClient(threading.Thread):
     lastLoginTime = None
@@ -68,7 +57,7 @@ class DofusClient(threading.Thread):
     def __init__(self, name="DofusClient"):
         super().__init__(name=name)
         self._registredInitFrames = []
-        self._registredGameStartFrames = []        
+        self._registredGameStartFrames = []
         self._customEventListeners = []
         self._shutdownListeners = []
         self._statusChangedListeners = []
@@ -127,7 +116,7 @@ class DofusClient(threading.Thread):
 
     def addEventListener(self, event, callback, **kwargs):
         self._customEventListeners.append((event, callback, kwargs))
-    
+
     def onStatusUpdate(self, event, status: ClientStatusEnum, data=None):
         if data is None:
             data = {}
@@ -188,7 +177,9 @@ class DofusClient(threading.Thread):
         Logger().info("Character entered game server successfully")
 
     def crash(self, event, message, reason=DisconnectionReasonEnum.EXCEPTION_THROWN):
-        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CRASHED, {"reason": reason, "message": message})
+        KernelEventsManager().send(
+            KernelEvent.ClientStatusUpdate, ClientStatusEnum.CRASHED, {"reason": reason, "message": message}
+        )
         self._crashed = True
         self._shutdownReason = reason
         self.shutdown(message, reason)
@@ -208,7 +199,7 @@ class DofusClient(threading.Thread):
 
     def onHaapiApiKeyReady(self, event, apikey):
         pass
-    
+
     def onServersList(self, event, serversList, serversUsedList, serversTypeAvailableSlots):
         pass
 
@@ -222,7 +213,9 @@ class DofusClient(threading.Thread):
     def onGameSessionReady(self, event, gameSessionId):
         Haapi().game_sessionId = gameSessionId
         HaapiEventsManager().sendStartEvent(gameSessionId)
-        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SESSION_STARTED, {"gameSessionId": gameSessionId})
+        KernelEventsManager().send(
+            KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SESSION_STARTED, {"gameSessionId": gameSessionId}
+        )
         Haapi().getCmsFeeds(site="DOFUS", page=0, lang="en", count=20, apikey=self._apikey)
         HaapiKeyManager().callWithApiKey(
             lambda apikey: Haapi().pollInGameGet(count=20, site="DOFUS", lang="en", page=1, apikey=apikey)
@@ -240,7 +233,9 @@ class DofusClient(threading.Thread):
         self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 
     def onConnectionClosed(self, event, connId):
-        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTION_CLOSED, {"connId": connId})
+        KernelEventsManager().send(
+            KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTION_CLOSED, {"connId": connId}
+        )
 
     def at_extit(self):
         if not self._ended_correctly:
@@ -316,7 +311,9 @@ class DofusClient(threading.Thread):
         self._shutdownMessage = message if message else "Wanted shutdown for unknwon reason"
         if self.kernel:
             Logger().info(f"Shutting down client {self.name} for reason : {self._shutdownReason}")
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.STOPPING, {"reason": self._shutdownReason})
+            KernelEventsManager().send(
+                KernelEvent.ClientStatusUpdate, ClientStatusEnum.STOPPING, {"reason": self._shutdownReason}
+            )
             self.kernel.worker.process(TerminateWorkerMessage())
         else:
             Logger().warning("Kernel is not running, kernel running instances : " + str(Kernel._instances))
@@ -343,7 +340,7 @@ class DofusClient(threading.Thread):
             if client.name == str(name):
                 return client
         return None
-    
+
     @classmethod
     def get_clients(cls: Type[T]) -> list[T]:
         return cls._running_clients
@@ -351,7 +348,8 @@ class DofusClient(threading.Thread):
     def run(self):
         try:
             self._startTime = time.time()
-            self._running_clients.append(self)
+            with global_data_lock:
+                self._running_clients.append(self)
             self.init()
             self.prepareLogin()
             self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
@@ -392,4 +390,3 @@ class DofusClient(threading.Thread):
         self._ended_correctly = True
         with global_data_lock:
             self._running_clients.remove(self)
-        

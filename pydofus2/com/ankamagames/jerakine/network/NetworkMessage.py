@@ -1,20 +1,19 @@
-from threading import Thread
+import threading
 import zlib
+from threading import Thread
 from types import FunctionType
 from typing import TYPE_CHECKING
 
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageClassDefinition as nmcd
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageEncoder as nmencoder
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-    INetworkMessage
-from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
-    ClassSpec, ProtocolSpec)
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import ClassSpec, ProtocolSpec
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
-        NetworkDataContainerMessage
+    from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import (
+        NetworkDataContainerMessage,
+    )
 
 
 class NetworkMessage(INetworkMessage):
@@ -68,8 +67,9 @@ class NetworkMessage(INetworkMessage):
         return nmcd.NetworkMessageClassDefinition(cls.__name__, data.read(length)).deserialize()
 
     def deserializeAs_NetworkDataContainerMessage(input: ByteArray) -> "NetworkDataContainerMessage":
-        from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import \
-            NetworkDataContainerMessage
+        from pydofus2.com.ankamagames.dofus.network.messages.common.NetworkDataContainerMessage import (
+            NetworkDataContainerMessage,
+        )
 
         msg = NetworkDataContainerMessage()
         _contentLen = input.readVarInt()
@@ -118,7 +118,7 @@ class NetworkMessage(INetworkMessage):
 
     @classmethod
     def getGlobalInstanceId(cls) -> int:
-        threadName = Thread.currentThread().getName()
+        threadName = threading.currentThread().getName()
         if threadName not in NetworkMessage.GLOBAL_INSTANCE_ID:
             NetworkMessage.GLOBAL_INSTANCE_ID[threadName] = 0
         NetworkMessage.GLOBAL_INSTANCE_ID[threadName] += 1
