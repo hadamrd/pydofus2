@@ -5,8 +5,7 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 from pathlib import Path
 
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 lock = threading.Lock()
 KEY_LANG_INDEX = "langIndex"

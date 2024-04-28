@@ -1,10 +1,8 @@
-import stat
 import threading
 from enum import Enum
 from typing import Any, Generator, List, Tuple, Type, TypeVar
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (
-    Event, EventsHandler)
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import Event, EventsHandler
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 LOCK = threading.Lock()
@@ -26,27 +24,27 @@ class Singleton(type):
 
     @property
     def lightInfo(cls):
-        return {thrid: [c.__qualname__ for c in cls._instances[thrid]] for thrid in cls._instances}
+        return {thread_name: [c.__qualname__ for c in cls._instances[thread_name]] for thread_name in cls._instances}
 
     def __call__(cls: Type[T], *args, **kwargs) -> T:
-        thrid = Singleton.threadName()
-        if thrid not in Singleton._instances:
-            Singleton._instances[thrid] = dict()
-        if cls not in cls._instances[thrid]:
-            Singleton._instances[thrid][cls] = super(Singleton, cls).__call__(*args, **kwargs)
-            Singleton.eventsHandler.send(SingletonEvent.THREAD_REGISTER, thrid, cls)
-        return Singleton._instances[thrid][cls]
+        thread_name = Singleton.threadName()
+        if thread_name not in Singleton._instances:
+            Singleton._instances[thread_name] = dict()
+        if cls not in cls._instances[thread_name]:
+            Singleton._instances[thread_name][cls] = super(Singleton, cls).__call__(*args, **kwargs)
+            Singleton.eventsHandler.send(SingletonEvent.THREAD_REGISTER, thread_name, cls)
+        return Singleton._instances[thread_name][cls]
 
     @staticmethod
     def clearAll():
-        thrid = threading.current_thread().name
-        Singleton._instances[thrid].clear()
+        thread_name = threading.current_thread().name
+        Singleton._instances[thread_name].clear()
 
     def clear(cls):
         with LOCK:
             if cls in Singleton._instances[cls.threadName()]:
                 del Singleton._instances[cls.threadName()][cls]
-        Logger().debug(f"{cls.__name__} reseted")
+        Logger().debug(f"{cls.__name__} reset")
 
     def getSubs(cls: Type[T], thname=None) -> Generator[T, T, None]:
         thname = thname if thname is not None else Singleton.threadName()
@@ -65,9 +63,9 @@ class Singleton(type):
                 del Singleton._instances[cls.threadName()][clz]
             scheduledForDelete.clear()
 
-    def getInstance(cls: Type[T], thrid: int) -> T:
-        if thrid in Singleton._instances:
-            return Singleton._instances[thrid].get(cls)
+    def getInstance(cls: Type[T], thread_name: int) -> T:
+        if thread_name in Singleton._instances:
+            return Singleton._instances[thread_name].get(cls)
 
     def getInstances(cls: Type[T]) -> List[Tuple[str, T]]:
         return [
@@ -78,8 +76,8 @@ class Singleton(type):
         if thname in Singleton._instances and cls in Singleton._instances[thname]:
             return listener(*args, **kwargs)
 
-        def onThreadRegister(evt: Event, thid, clazz):
-            if thid == thname and clazz.__name__ == cls.__name__:
+        def onThreadRegister(evt: Event, thread_name, cls):
+            if thread_name == thname and cls.__name__ == cls.__name__:
                 evt.listener.delete()
                 listener(*args, **kwargs)
 
@@ -92,7 +90,7 @@ class Singleton(type):
         Singleton._wait_events[thname] = waitEvt
         cls.onceThreadRegister(thname, waitEvt.set)
         if not waitEvt.wait(timeout):
-            raise TimeoutError(f"wait for {cls.__name__} signleton instanciation from thread {thname} timed out!")
+            raise TimeoutError(f"wait for {cls.__name__} singleton instantiation from thread {thname} timed out!")
         return cls.getInstance(thname)
 
     @staticmethod

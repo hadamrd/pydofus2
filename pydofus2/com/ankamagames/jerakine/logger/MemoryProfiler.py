@@ -8,8 +8,7 @@ import tracemalloc
 # import objgraph
 import psutil
 
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 
 class MemoryProfiler(threading.Thread, metaclass=ThreadSharedSingleton):

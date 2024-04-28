@@ -7,15 +7,16 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellZoneManager i
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptUsageUtils import SpellScriptUsageUtils
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class SpellScriptManager(metaclass=Singleton):
-    
     def __init__(self) -> None:
         pass
-    
-    def resolveScriptUsage(self, spell: SpellWrapper, isCritical, casterId, targetedCellId) -> list[SpellScriptContext]:
+
+    def resolveScriptUsage(
+        self, spell: SpellWrapper, isCritical, casterId, targetedCellId
+    ) -> list[SpellScriptContext]:
         if targetedCellId == -1:
             return []
 
@@ -47,9 +48,15 @@ class SpellScriptManager(metaclass=Singleton):
                     if SpellScriptUsageUtils.isCasterMatch(casterId, usageData.casterMask):
                         spellZoneManager = SpellZoneManager()
                         isWeapon = spell.id == 0
-                        activationZone = spellZoneManager.parseZone(usageData.activationZone, casterId, targetedCellId, isWeapon)
-                        targetZone = spellZoneManager.parseZone(usageData.targetZone, casterId, targetedCellId, isWeapon)
-                        scriptZone = SpellScriptUsageUtils.generateScriptZone(targetZone, activationZone, casterId, targetedCellId, usageData.activationMask, entitiesIds)
+                        activationZone = spellZoneManager.parseZone(
+                            usageData.activationZone, casterId, targetedCellId, isWeapon
+                        )
+                        targetZone = spellZoneManager.parseZone(
+                            usageData.targetZone, casterId, targetedCellId, isWeapon
+                        )
+                        scriptZone = SpellScriptUsageUtils.generateScriptZone(
+                            targetZone, activationZone, casterId, targetedCellId, usageData.activationMask, entitiesIds
+                        )
                         if scriptZone.surface != 0:
                             if not usageData.targetMask:
                                 for cellId in scriptZone.getCells():
@@ -71,7 +78,9 @@ class SpellScriptManager(metaclass=Singleton):
                                 for entityId in entitiesIds:
                                     entityInfo = fightEntitiesFrame.getEntityInfos(entityId)
                                     if entityInfo is not None:
-                                        if SpellScriptUsageUtils.isTargetMatch(scriptZone, casterId, entityInfo, targetEffect):
+                                        if SpellScriptUsageUtils.isTargetMatch(
+                                            scriptZone, casterId, entityInfo, targetEffect
+                                        ):
                                             context = SpellScriptContext()
                                             context.scriptId = usageData.scriptId
                                             context.spellId = spell.id
@@ -79,12 +88,19 @@ class SpellScriptManager(metaclass=Singleton):
                                             context.targetedCellId = entityInfo.disposition.cellId
                                             scriptIds.append(context)
         return scriptIds
-    
 
-    def resolveScriptUsageFromCastContext(self, castSequenceContext: SpellCastSequenceContext, specificTargetedCellId=-1):
+    def resolveScriptUsageFromCastContext(
+        self, castSequenceContext: SpellCastSequenceContext, specificTargetedCellId=-1
+    ):
         spell = SpellWrapper.getSpellWrapperById(castSequenceContext.spellData.id, castSequenceContext.casterId)
         if spell is None:
-            spell = SpellWrapper.create(castSequenceContext.spellData.id, castSequenceContext.spellLevelData.grade, True, castSequenceContext.casterId)
+            spell = SpellWrapper.create(
+                castSequenceContext.spellData.id,
+                castSequenceContext.spellLevelData.grade,
+                True,
+                castSequenceContext.casterId,
+            )
         targetedCellId = specificTargetedCellId if specificTargetedCellId != -1 else castSequenceContext.targetedCellId
-        return self.resolveScriptUsage(spell, castSequenceContext.isCriticalHit, castSequenceContext.casterId, targetedCellId)
-
+        return self.resolveScriptUsage(
+            spell, castSequenceContext.isCriticalHit, castSequenceContext.casterId, targetedCellId
+        )

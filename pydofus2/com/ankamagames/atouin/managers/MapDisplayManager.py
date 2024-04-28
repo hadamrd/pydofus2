@@ -1,22 +1,18 @@
 from time import perf_counter
 
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 import pydofus2.com.ankamagames.atouin.utils.DataMapProvider as dmpm
 from pydofus2.com.ankamagames.atouin.data.map.Layer import Layer
 from pydofus2.com.ankamagames.atouin.data.map.Map import Map
-from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import \
-    ElementTypesEnum
-from pydofus2.com.ankamagames.atouin.messages.MapLoadedMessage import \
-    MapLoadedMessage
+from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import ElementTypesEnum
+from pydofus2.com.ankamagames.atouin.messages.MapLoadedMessage import MapLoadedMessage
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.resources.loaders.MapLoader import \
-    MapLoader
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.resources.loaders.MapLoader import MapLoader
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-from pydofus2.com.ankamagames.jerakine.types.positions.WorldPoint import \
-    WorldPoint
+from pydofus2.com.ankamagames.jerakine.types.positions.WorldPoint import WorldPoint
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class MapDisplayManager(metaclass=Singleton):
@@ -76,6 +72,7 @@ class MapDisplayManager(metaclass=Singleton):
 
     def loadMap(self, mapId: int, forceReloadWithoutCache: bool = False, decryptionKey=None) -> None:
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+
         KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOADING_MAP)
         self.currentDataMap = None
         self._forceReloadWithoutCache = forceReloadWithoutCache
@@ -83,7 +80,9 @@ class MapDisplayManager(metaclass=Singleton):
         self._nMapLoadStart = perf_counter()
         self.currentDataMap = MapLoader.load(mapId, key=decryptionKey)
         if self.currentDataMap is None:
-            raise KernelEventsManager().send(KernelEvent.ClientCrashed, f"Unable to load map {mapId} with key {decryptionKey}")
+            raise KernelEventsManager().send(
+                KernelEvent.ClientCrashed, f"Unable to load map {mapId} with key {decryptionKey}"
+            )
         self._currentMapRendered = True
         self._nMapLoadEnd = perf_counter()
         Logger().separator(f"Map {self.currentDataMap.id} loaded", "#")
@@ -98,4 +97,6 @@ class MapDisplayManager(metaclass=Singleton):
         elif Kernel().fightContextFrame:
             Kernel().fightContextFrame.process(msg)
         else:
-            KernelEventsManager().send(KernelEvent.ClientCrashed, "No context frame found to process map loaded message")
+            KernelEventsManager().send(
+                KernelEvent.ClientCrashed, "No context frame found to process map loaded message"
+            )

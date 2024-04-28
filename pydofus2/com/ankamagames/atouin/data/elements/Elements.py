@@ -1,10 +1,8 @@
-from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import \
-    GraphicalElementData
-from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementFactory import \
-    GraphicalElementFactory
+from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import GraphicalElementData
+from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementFactory import GraphicalElementFactory
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class DataFormatError(Exception):
@@ -12,7 +10,6 @@ class DataFormatError(Exception):
 
 
 class Elements(metaclass=Singleton):
-
     def __init__(self):
         super().__init__()
         self.fileVersion = 0

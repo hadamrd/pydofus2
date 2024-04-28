@@ -1,87 +1,66 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-    DataMapProvider
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import \
-    DisconnectionReasonEnum
+from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.network.Metadata import Metadata
-from pydofus2.com.ankamagames.dofus.types.enums.LanguageEnum import \
-    LanguageEnum
+from pydofus2.com.ankamagames.dofus.types.enums.LanguageEnum import LanguageEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.logic.common.frames.AlignmentFrame import \
-        AlignmentFrame
-    from pydofus2.com.ankamagames.dofus.logic.common.frames.BidHouseManagementFrame import \
-        BidHouseManagementFrame
-    from pydofus2.com.ankamagames.dofus.logic.common.frames.CharacterFrame import \
-        CharacterFrame
-    from pydofus2.com.ankamagames.dofus.logic.common.frames.ChatFrame import \
-        ChatFrame
-    from pydofus2.com.ankamagames.dofus.logic.common.frames.MountDialogFrame import \
-        MountDialogFrame
-    from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import \
-        QuestFrame
-    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import \
-        AuthentificationFrame
-    from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import \
-        ServerSelectionFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame import \
-        GameServerApproachFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AveragePricesFrame import \
-        AveragePricesFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.CommonExchangeManagementFrame import \
-        CommonExchangeManagementFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.ExchangeManagementFrame import \
-        ExchangeManagementFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import \
-        GuildDialogFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.InventoryManagementFrame import \
-        InventoryManagementFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.MountFrame import \
-        MountFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame import \
-        PlayedCharacterUpdatesFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.SocialFrame import \
-        SocialFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.SpellInventoryManagementFrame import \
-        SpellInventoryManagementFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightBattleFrame import \
-        FightBattleFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightContextFrame import \
-        FightContextFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightEntitiesFrame import \
-        FightEntitiesFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightTurnFrame import \
-        FightTurnFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.PartyFrame import \
-        PartyFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayContextFrame import \
-        RoleplayContextFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayEntitiesFrame import \
-        RoleplayEntitiesFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayInteractivesFrame import \
-        RoleplayInteractivesFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayMovementFrame import \
-        RoleplayMovementFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayWorldFrame import \
-        RoleplayWorldFrame
-    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.ZaapFrame import \
-        ZaapFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.AlignmentFrame import AlignmentFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.BidHouseManagementFrame import BidHouseManagementFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.CharacterFrame import CharacterFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.ChatFrame import ChatFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.MountDialogFrame import MountDialogFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
+    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+    from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import ServerSelectionFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame import (
+        GameServerApproachFrame,
+    )
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AveragePricesFrame import AveragePricesFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.CommonExchangeManagementFrame import (
+        CommonExchangeManagementFrame,
+    )
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.ExchangeManagementFrame import ExchangeManagementFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import GuildDialogFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.InventoryManagementFrame import (
+        InventoryManagementFrame,
+    )
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.MountFrame import MountFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame import (
+        PlayedCharacterUpdatesFrame,
+    )
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.SocialFrame import SocialFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.common.frames.SpellInventoryManagementFrame import (
+        SpellInventoryManagementFrame,
+    )
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightBattleFrame import FightBattleFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightContextFrame import FightContextFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightEntitiesFrame import FightEntitiesFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightTurnFrame import FightTurnFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.PartyFrame import PartyFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayContextFrame import RoleplayContextFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayEntitiesFrame import RoleplayEntitiesFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayInteractivesFrame import (
+        RoleplayInteractivesFrame,
+    )
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayMovementFrame import RoleplayMovementFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayWorldFrame import RoleplayWorldFrame
+    from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.ZaapFrame import ZaapFrame
 
 
 class Kernel(metaclass=Singleton):
     def __init__(self) -> None:
         self._worker: Worker = Worker()
-        self.beingInReconection: bool = False
-        self._reseted = True
+        self.beingInReconnection: bool = False
+        self._reset = True
         self.isMule = False
 
     @property
@@ -89,48 +68,41 @@ class Kernel(metaclass=Singleton):
         return self._worker
 
     @property
-    def reseted(self) -> bool:
-        return self._reseted
+    def reset(self) -> bool:
+        return self._reset
 
     def init(self) -> None:
-        if self._reseted:
+        if self._reset:
             Logger().info("Initializing ...")
             self._worker.reset()
             self.addInitialFrames()
-            self._reseted = False
-            Logger().info(f"Using protocole #{Metadata.PROTOCOL_BUILD}, built on {Metadata.PROTOCOL_DATE}")
+            self._reset = False
+            Logger().info(f"Using protocol #{Metadata.PROTOCOL_BUILD}, built on {Metadata.PROTOCOL_DATE}")
             Logger().info("Initialized")
 
     def reset(
         self,
         reloadData: bool = False,
     ) -> None:
-        from pydofus2.com.ankamagames.atouin.HaapiEventsManager import \
-            HaapiEventsManager
-        from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-            KernelEventsManager
-        from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-            ConnectionsHandler
-        from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import \
-            InterClientManager
-        from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-            PlayerManager
-        from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-            StatsManager
-        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import \
-            InactivityManager
-        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-            PlayedCharacterManager
-        from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-            DofusEntities
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-            CurrentPlayedFighterManager
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import \
-            FightersStateManager
-        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
-            SpellModifiersManager
-        from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-            BenchmarkTimer
+        from pydofus2.com.ankamagames.atouin.HaapiEventsManager import HaapiEventsManager
+        from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+        from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+        from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager import InterClientManager
+        from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+        from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import InactivityManager
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
+            PlayedCharacterManager,
+        )
+        from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+            CurrentPlayedFighterManager,
+        )
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import FightersStateManager
+        from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import (
+            SpellModifiersManager,
+        )
+        from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 
         Logger().debug("Resetting ...")
         BenchmarkTimer.reset()
@@ -158,14 +130,14 @@ class Kernel(metaclass=Singleton):
             self._worker.addFrame(disconnectionHandlerFrame)
         if ConnectionsHandler().conn and not ConnectionsHandler().conn.closed:
             ConnectionsHandler().closeConnection(DisconnectionReasonEnum.DISCONNECTED_BY_USER)
-        self.beingInReconection = False
+        self.beingInReconnection = False
         if reloadData:
-            self.beingInReconection = True
+            self.beingInReconnection = True
             self.addInitialFrames()
         else:
             Singleton.clearAll()
-            self._reseted = True
-        Logger().debug("Reseted")
+            self._reset = True
+        Logger().debug("Reset")
 
     def getLocaleLang(self):
         current_lang = XmlConfig().getEntry("config.lang.current")
@@ -184,20 +156,16 @@ class Kernel(metaclass=Singleton):
         return switcher.get(current_lang, "fr_FR")
 
     def addInitialFrames(self) -> None:
-        from pydofus2.com.ankamagames.dofus.logic.common.frames.ChatFrame import \
-            ChatFrame
-        from pydofus2.com.ankamagames.dofus.logic.common.frames.CleanupCrewFrame import \
-            CleanupCrewFrame
-        from pydofus2.com.ankamagames.dofus.logic.common.frames.LatencyFrame import \
-            LatencyFrame
-        from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import \
-            QueueFrame
-        from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import \
-            AuthentificationFrame
-        from pydofus2.com.ankamagames.dofus.logic.connection.frames.DisconnectionHandlerFrame import \
-            DisconnectionHandlerFrame
+        from pydofus2.com.ankamagames.dofus.logic.common.frames.ChatFrame import ChatFrame
+        from pydofus2.com.ankamagames.dofus.logic.common.frames.CleanupCrewFrame import CleanupCrewFrame
         from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
-        
+        from pydofus2.com.ankamagames.dofus.logic.common.frames.LatencyFrame import LatencyFrame
+        from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
+        from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+        from pydofus2.com.ankamagames.dofus.logic.connection.frames.DisconnectionHandlerFrame import (
+            DisconnectionHandlerFrame,
+        )
+
         Logger().info("Adding initial frames ...")
         self._worker.addFrame(LatencyFrame())
         self._worker.addFrame(AuthentificationFrame())

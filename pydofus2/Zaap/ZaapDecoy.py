@@ -1,24 +1,21 @@
 import atexit
 import json
 import os
-from datetime import datetime
 import threading
-from urllib import request
+from datetime import datetime
 
 import psutil
 import pytz
 import requests
 import yaml
 
-from pydofus2.Zaap.models import StoredApikey, StoredCertificate
-from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import \
-    InternalStatisticTypeEnum
+from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import InternalStatisticTypeEnum
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 from pydofus2.Zaap.helpers.CryptoHelper import CryptoHelper
 from pydofus2.Zaap.helpers.Device import Device
+from pydofus2.Zaap.models import StoredApikey, StoredCertificate
 from pydofus2.Zaap.Zaapi import Zaapi
 
 
@@ -93,7 +90,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             raise ZaapError(f"Settings file not found at path {settings_file_path}")
         with open(settings_file_path, "r") as file:
             cls.SETTINGS = json.load(fp=file)
-        
+
     def kill_dofus_processes(self):
         for process in psutil.process_iter(["name"]):
             if "Dofus" in process.info["name"]:
@@ -368,7 +365,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     def get_username_hash(cls, username, length=32) -> str:
         hash = CryptoHelper.string_hash(username, algo="sha256")
         return hash[:length]
-    
+
     @classmethod
     def get_certficate_filepath(cls, username) -> str:
         if not username:
@@ -379,7 +376,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         if not os.path.exists(cert_path):
             raise ZaapError(f"Certificate file for user {username} not found")
         return cert_path
-    
+
     @classmethod
     def get_apikey_filepath(cls, username) -> str:
         if not username:
@@ -390,7 +387,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         if not os.path.exists(apikey_file_path):
             raise ZaapError(f"Apikey file for user {username} not found")
         return apikey_file_path
-        
+
     @classmethod
     def get_stored_certificate(cls, username) -> StoredCertificate:
         cert_path = cls.get_certficate_filepath(username)
@@ -406,7 +403,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         apikey_dict = CryptoHelper.decrypt_from_file(str(apikey_file_path))
         apikey_data = StoredApikey(**apikey_dict)
         return apikey_data
-    
+
     @classmethod
     def get_api_cert(cls, apikey: StoredApikey) -> StoredCertificate:
         for cert in cls._certs:
@@ -417,11 +414,13 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     @classmethod
     def get_dofus_location(cls):
         zaap_path = cls.getZaapPath()
-        dofus_release_config_path = os.path.join(zaap_path, "repositories", "production", "dofus", "main", "release.json")
+        dofus_release_config_path = os.path.join(
+            zaap_path, "repositories", "production", "dofus", "main", "release.json"
+        )
         with open(dofus_release_config_path, "r") as file:
             dofus_release_config = json.load(file)
         return dofus_release_config["location"]
-        
+
 
 if __name__ == "__main__":
     print(ZaapDecoy.get_certificates())

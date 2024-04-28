@@ -1,27 +1,19 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
-from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-    DataMapProvider
+from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellScript import SpellScript
 from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import \
-    MarkInstance
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkCellsTypeEnum import \
-    GameActionMarkCellsTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import \
-    GameActionMarkTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import MarkInstance
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkCellsTypeEnum import GameActionMarkCellsTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.network.enums.TeamEnum import TeamEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import \
-    GameActionMarkedCell
-from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionMarkedCell import GameActionMarkedCell
 from pydofus2.com.ankamagames.dofus.types.entities.Glyph import Glyph
-from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import \
-    IDestroyable
+from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.Cross import Cross
 from pydofus2.com.ankamagames.jerakine.types.zones.Custom import Custom
@@ -265,9 +257,9 @@ class MarkedCellsManager(IDestroyable, metaclass=Singleton):
         spell = SpellWrapper.create(spellId, spellRank, True, casterId)
         return self.getResolvedMarkGlyphIdFromSpell(spell, casterId, markCellId)
 
-    def getResolvedMarkGlyphIdFromSpell(self, spell:SpellWrapper, casterId:float, markCellId:int):
-        contexts = SpellScriptManager().resolveScriptUsage(spell, False, casterId, markCellId);
+    def getResolvedMarkGlyphIdFromSpell(self, spell: SpellWrapper, casterId: float, markCellId: int):
+        contexts = SpellScriptManager().resolveScriptUsage(spell, False, casterId, markCellId)
         if not contexts:
             return 0
-        spellScriptData = SpellScript.getSpellScriptById(contexts[0].scriptId);
-        return spellScriptData.getNumberParam("glyphGfxId");
+        spellScriptData = SpellScript.getSpellScriptById(contexts[0].scriptId)
+        return spellScriptData.getNumberParam("glyphGfxId")

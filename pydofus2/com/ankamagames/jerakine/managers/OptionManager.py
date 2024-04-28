@@ -1,15 +1,13 @@
 import collections
 
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
-    StoreDataManager
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
-
-_optionsManager = {}
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
 
-class OptionManager:
+class OptionManager(EventsHandler):
+    _optionsManager = dict[str, "OptionManager"]()
 
     def __init__(self, customName=None):
         super().__init__()
@@ -18,37 +16,33 @@ class OptionManager:
         self._properties = collections.defaultdict()
         self._useCache = collections.defaultdict()
         self._allOptions = []
-
         self._customName = customName if customName else self.__class__.__name__
 
         if self._customName in _optionsManager:
             raise ValueError(f"{self._customName} is already used by another option manager.")
 
-        _optionsManager[self._customName] = self
+        self._optionsManager[self._customName] = self
         self._dataStore = DataStoreType(
             self._customName, True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_ACCOUNT
         )
 
-    @staticmethod
-    def getOptionManager(name):
-        return _optionsManager.get(name)
+    @classmethod
+    def getOptionManager(cls, name) -> "OptionManager":
+        return cls._optionsManager.get(name)
 
-    @staticmethod
-    def getOptionManagers():
-        return list(_optionsManager.keys())
+    @classmethod
+    def getOptionManagers(cls):
+        return list(cls._optionsManager.keys())
 
-    @staticmethod
-    def reset():
-        global _optionsManager
-        _optionsManager = {}
+    @classmethod
+    def reset(cls):
+        cls._optionsManager.clear()
 
     def add(self, name, value=None, useCache=True):
         if name not in self._allOptions:
             self._allOptions.append(name)
-
         self._useCache[name] = useCache
         self._defaultValue[name] = value
-
         if useCache and StoreDataManager().getData(self._dataStore, name) is not None:
             self._properties[name] = StoreDataManager().getData(self._dataStore, name)
         else:
@@ -69,7 +63,6 @@ class OptionManager:
 
     def setOption(self, name, value):
         if name in self._useCache:
-            self._properties[name]
             self._properties[name] = value
             if self._useCache[name] and not isinstance(value, QObject):
                 StoreDataManager().setData(self._dataStore, name, value)

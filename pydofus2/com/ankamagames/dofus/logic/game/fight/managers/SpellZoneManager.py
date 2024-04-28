@@ -1,5 +1,6 @@
 import math
 from typing import List
+
 from pydofus2.com.ankamagames.atouin.enums.PlacementStrataEnums import PlacementStrataEnums
 from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
@@ -15,8 +16,7 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFi
     GameFightFighterInformations,
 )
 from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharacterApi
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.Cone import Cone
 from pydofus2.com.ankamagames.jerakine.types.zones.Cross import Cross
@@ -291,7 +291,7 @@ class SpellZoneManager(metaclass=Singleton):
         else:
             return pEntityInfos.disposition.cellId in pCells
 
-    def getEffectZone(self, rawZone:str) -> EffectZone:
+    def getEffectZone(self, rawZone: str) -> EffectZone:
         effectZone = EffectZone()
         effectZone.rawActivationZone = rawZone
         return effectZone

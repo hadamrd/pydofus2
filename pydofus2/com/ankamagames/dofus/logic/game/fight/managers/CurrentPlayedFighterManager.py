@@ -1,16 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
-    GroupItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import \
-    ItemCriterionOperator
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.StateCriterion import \
-    StateCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionOperator import ItemCriterionOperator
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.StateCriterion import StateCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.items.Item import Item
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
-    SpellModifiersManager
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
-    SpellModifierTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import SpellModifiersManager
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import SpellModifierTypeEnum
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 
 if TYPE_CHECKING:
@@ -22,28 +17,22 @@ if TYPE_CHECKING:
 
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager as pcm
 import pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastInFightManager as scifm
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellState import \
-    SpellState
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellState import SpellState
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import \
-    EntityStats
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import \
-    FightersStateManager
-from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import \
-    CharacterCharacteristicsInformations
+from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import EntityStats
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.FightersStateManager import FightersStateManager
+from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.CharacterCharacteristicsInformations import (
+    CharacterCharacteristicsInformations,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 
 
 class CurrentPlayedFighterManager(metaclass=Singleton):
-
     def __init__(self):
         self._characteristicsInformationsList = dict()
         self._spellCastInFightManagerList = dict()
@@ -158,8 +147,7 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
         lvl: int,
         pTargetId: float = 0,
     ) -> bool:
-        from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import \
-            Spell
+        from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 
         spellName = None
         spell = Spell.getSpellById(spellId)

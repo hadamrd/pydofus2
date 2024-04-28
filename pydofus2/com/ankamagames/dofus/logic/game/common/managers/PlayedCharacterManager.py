@@ -41,7 +41,7 @@ from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import Pl
 from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
 from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.Callback import Callback
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 from pydofus2.flash.geom.Point import Point

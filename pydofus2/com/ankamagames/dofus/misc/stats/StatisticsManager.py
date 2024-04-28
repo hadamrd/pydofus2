@@ -2,35 +2,26 @@ import datetime
 import math
 import platform
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
-    EventsHandler
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.misc.DeviceUtils import DeviceUtils
-from pydofus2.com.ankamagames.dofus.misc.stats.custom.SessionEndStats import \
-    SessionEndStats
-from pydofus2.com.ankamagames.dofus.misc.stats.custom.SessionStartStats import \
-    SessionStartStats
+from pydofus2.com.ankamagames.dofus.misc.stats.custom.SessionEndStats import SessionEndStats
+from pydofus2.com.ankamagames.dofus.misc.stats.custom.SessionStartStats import SessionStartStats
 from pydofus2.com.ankamagames.dofus.misc.stats.IHookStats import IHookStats
-from pydofus2.com.ankamagames.dofus.misc.stats.StatisticsEvent import \
-    StatisticsEvent
+from pydofus2.com.ankamagames.dofus.misc.stats.StatisticsEvent import StatisticsEvent
 from pydofus2.com.ankamagames.dofus.misc.stats.StatsAction import StatsAction
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
-from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
-    HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
 from pydofus2.com.ankamagames.haapi.client.GameApi import GameApi
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
-    StoreDataManager
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
 
 class StatisticsManager(EventsHandler, metaclass=Singleton):
@@ -73,7 +64,6 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
         self.sendPendingEvents()
 
     def onAccountSessionReady(self, event):
-
         def callback(apiKey):
             self._apiCredentials.apiToken = apiKey
             self._accountApi = AccountApi(self._apiCredentials)

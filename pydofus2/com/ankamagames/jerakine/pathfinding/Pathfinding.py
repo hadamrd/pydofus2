@@ -1,20 +1,14 @@
 import heapq
 
 import pydofus2.mapTools.MapTools as MapTools
-from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-    DataMapProvider
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import \
-    TransitionTypeEnum
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
-    WorldGraph
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import TransitionTypeEnum
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
-from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
-    MovementPath
-from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import \
-    PathElement
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
+from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import PathElement
 
 
 class Pathfinding(metaclass=Singleton):

@@ -1,22 +1,18 @@
-from datetime import datetime
 import random
+from datetime import datetime
 
 import pytz
 
 from pydofus2.com.ankamagames.atouin.Haapi import Haapi
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import \
-    InternalStatisticTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import InternalStatisticTypeEnum
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
-from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import \
-    HaapiKeyManager
+from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
 from pydofus2.com.ankamagames.jerakine.logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class HaapiEventsManager(metaclass=Singleton):
@@ -164,7 +160,7 @@ class HaapiEventsManager(metaclass=Singleton):
             Kernel().worker.terminated.wait(2)
         elif random.random() < 0.1:
             if random.random() < 0.5:
-                self.registerShortcutUse('openInventory')
+                self.registerShortcutUse("openInventory")
                 Kernel().worker.terminated.wait(0.2)
             else:
                 self.sendInventoryOpenEvent()
@@ -176,5 +172,5 @@ class HaapiEventsManager(metaclass=Singleton):
             self.sendQuestsOpenEvent()
             Kernel().worker.terminated.wait(2)
         elif random.random() < 0.1:
-            self.registerShortcutUse('openCharacterSheet')
+            self.registerShortcutUse("openCharacterSheet")
             Kernel().worker.terminated.wait(2)

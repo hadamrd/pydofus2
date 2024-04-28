@@ -8,10 +8,8 @@ from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
-    StoreDataManager
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 
 class I18nFileAccessor(metaclass=ThreadSharedSingleton):

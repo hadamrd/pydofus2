@@ -8,12 +8,11 @@ import pytz
 import requests
 from urllib3.exceptions import InsecureRequestWarning
 
-from pydofus2.com.ankamagames.atouin.HappiConfig import (AUTH_STATES,
-                                                         ZAAP_CONFIG)
+from pydofus2.com.ankamagames.atouin.HappiConfig import AUTH_STATES, ZAAP_CONFIG
 from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class HaapiException(Exception):
@@ -287,11 +286,10 @@ class Zaapi(metaclass=Singleton):
                     elif response.json().get("reason") == "Certificate control failed.":
                         Logger().error("Invalid certificate, please check your certificate")
                         return None
-                    elif (
-                        response.json().get("reason")
-                        == f"Invalid security parameters."
-                    ):
-                        raise HaapiException(f"Invalid security parameters, please check your certificate (certificate_id : {certId}, certificate_hash: {certHash})")
+                    elif response.json().get("reason") == f"Invalid security parameters.":
+                        raise HaapiException(
+                            f"Invalid security parameters, please check your certificate (certificate_id : {certId}, certificate_hash: {certHash})"
+                        )
                     else:
                         raise HaapiException("Error while calling HAAPI to get Login Token : %s" % response.json())
                 else:

@@ -1,10 +1,8 @@
-from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import \
-    RecipesFilterWrapper
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import RecipesFilterWrapper
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class Common(metaclass=Singleton):
-
     def __init__(self) -> None:
         self._jobSearchOptions = dict[int, RecipesFilterWrapper]()
 

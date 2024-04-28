@@ -3,10 +3,8 @@ from typing import Any
 
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import \
-    StoreDataManager
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import \
-    ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 
 class LangManager(metaclass=ThreadSharedSingleton):
@@ -76,8 +74,11 @@ class LangManager(metaclass=ThreadSharedSingleton):
             sEntry = self.replaceKey(sEntry, True)
         return sEntry
 
-    def getEntry(self, skey):
-        return self.getUntypedEntry(skey)
+    def getEntry(self, key):
+        return self.getUntypedEntry(key)
+
+    def getIntEntry(self, key: str) -> int:
+        return int(self.getUntypedEntry(key))
 
     def getCategory(self, sCategory, matchSubCategories=True):
         aResult = {}

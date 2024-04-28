@@ -1,9 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.managers.OptionManager import \
-    OptionManager
+from pydofus2.com.ankamagames.jerakine.managers.OptionManager import OptionManager
 
 
 class AtouinOptions(OptionManager):
-
     def __init__(self, docContainer, mhHandler):
         super().__init__("atouin")
         self._container = docContainer
@@ -37,3 +35,11 @@ class AtouinOptions(OptionManager):
         self.add("hideBlackBorder", True)
         self.add("tacticalModeTemplatesPath")
         self.add("useWorldEntityPool", False)
+
+    @property
+    def container(self):
+        return self._container
+
+    @property
+    def handler(self):
+        return self._handler

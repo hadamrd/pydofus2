@@ -1,15 +1,14 @@
-from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifier import \
-    SpellModifier
-from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifiers import \
-    SpellModifiers
-from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifierValueTypeEnum import \
-    SpellModifierValueTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierActionTypeEnum import \
-    SpellModifierActionTypeEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.character.spellmodifier.SpellModifierMessage import \
-    SpellModifierMessage
+from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifier import SpellModifier
+from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifiers import SpellModifiers
+from pydofus2.com.ankamagames.dofus.logic.game.common.spell.SpellModifierValueTypeEnum import (
+    SpellModifierValueTypeEnum,
+)
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierActionTypeEnum import SpellModifierActionTypeEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.character.spellmodifier.SpellModifierMessage import (
+    SpellModifierMessage,
+)
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class SpellModifiersManager(metaclass=Singleton):

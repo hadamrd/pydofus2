@@ -1,19 +1,15 @@
 import threading
 
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
-from pydofus2.com.ankamagames.dofus.logic.game.misc.IEntityLocalizer import \
-    IEntityLocalizer
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
-    IEntity
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
+from pydofus2.com.ankamagames.dofus.logic.game.misc.IEntityLocalizer import IEntityLocalizer
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 lock = threading.Lock()
 
 
 class DofusEntities(metaclass=Singleton):
-
     def __init__(self) -> None:
         self._localizers = list[IEntityLocalizer]()
 

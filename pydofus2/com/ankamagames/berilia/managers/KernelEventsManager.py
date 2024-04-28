@@ -1,21 +1,21 @@
 from time import perf_counter
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import (
-    Event, EventsHandler, Listener)
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import Event, EventsHandler, Listener
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightCommonInformations import \
-    FightCommonInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import \
-    GameRolePlayHumanoidInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyMemberInformations import \
-    PartyMemberInformations
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import \
-    MovementPath
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightCommonInformations import (
+    FightCommonInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import (
+    GameRolePlayHumanoidInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyMemberInformations import (
+    PartyMemberInformations,
+)
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
 
 
 class KernelEventsManager(EventsHandler, metaclass=Singleton):
-
     def __init__(self):
         super().__init__()
 
