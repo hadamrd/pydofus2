@@ -25,6 +25,10 @@ class DataMapContainer:
         # Connect to the custom signal for property changes if needed
         self.propertyChanged.connect(self.onOptionChange)
 
+    @property
+    def dataMap(self):
+        return self._map
+
     def addLayer(self, layer):
         """Add a layer to the scene."""
         self._layers.append(layer)

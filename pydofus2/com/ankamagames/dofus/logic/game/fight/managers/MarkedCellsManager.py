@@ -1,5 +1,5 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
+from pydofus2.com.ankamagames.atouin.types.Selection import Selection
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
@@ -208,7 +208,7 @@ class MarkedCellsManager(IDestroyable, metaclass=Singleton):
             self.removeGlyph(bufferId[i])
         self = None
 
-    def onPropertyChanged(self, pEvent) -> None:
+    def onPropertyChanged(self, pEvent, name, value, oldValue) -> None:
         pass
 
     def getSelectionUid(self) -> str:

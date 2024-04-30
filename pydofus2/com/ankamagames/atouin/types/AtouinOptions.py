@@ -1,8 +1,11 @@
-from pydofus2.com.ankamagames.jerakine.managers.OptionManager import OptionManager
+from PyQt5.QtWidgets import QGraphicsItemGroup
+
+from pydofus2.com.ankamagames.atouin.Frustum import Frustum
+from pydofus2.DofusUI.OptionManager import OptionManager
 
 
 class AtouinOptions(OptionManager):
-    def __init__(self, docContainer, mhHandler):
+    def __init__(self, docContainer: QGraphicsItemGroup, mhHandler):
         super().__init__("atouin")
         self._container = docContainer
         self._handler = mhHandler
@@ -12,7 +15,7 @@ class AtouinOptions(OptionManager):
         self.add("useInsideAutoZoom", False)
         self.add("useCacheAsBitmap", False)
         self.add("useSmooth", True)
-        # self.add("frustum", Frustum())
+        self.add("frustum", Frustum())
         self.add("alwaysShowGrid", False)
         self.add("showCellIdOnOver", False)
         self.add("showEveryCellId", False)

@@ -16,7 +16,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
 
         self._parseReference = dict()
         self._aLang: dict[str, Any] = StoreDataManager().getSetData(
-            JerakineConstants.DATASTORE_LANG, self.KEY_LANG_INDEX, list()
+            JerakineConstants.DATASTORE_LANG, self.KEY_LANG_INDEX, {}
         )
         self._aCategory = StoreDataManager().getSetData(
             JerakineConstants.DATASTORE_LANG, self.KEY_LANG_CATEGORY, list()
@@ -26,6 +26,7 @@ class LangManager(metaclass=ThreadSharedSingleton):
         self._aVersion = StoreDataManager().getSetData(
             JerakineConstants.DATASTORE_LANG_VERSIONS, self.KEY_LANG_VERSION, list()
         )
+        Logger().debug(f"Lang version {self._aVersion}, Categories {self._aCategory}")
 
     def replaceKey(self, sTxt: str, bReplaceDynamicReference=False):
         from pydofus2.com.ankamagames.jerakine.data.I18n import I18n

@@ -52,6 +52,7 @@ class StageShareManager(QObject):
         self._startWidth = 1280
         self._startHeight = 1024
         self.stageLogicalBounds = QRect(0, 0, self._startWidth, self._startHeight)
+        self.stage.setSceneRect(*self.stageLogicalBounds.getRect())
 
     @property
     def rootContainer(self) -> QMainWindow:
@@ -62,37 +63,34 @@ class StageShareManager(QObject):
         self._rootContainer = value
 
     @property
-    def chromeX(self):
-        if self.mainWindow:
-            return self.mainWindow.frameGeometry().width() - self.mainWindow.geometry().width()
-        else:
-            print("no main window found")
-        return 0
-
-    @property
     def mainWindow(self):
         return Stage().nativeWindow
 
     @property
-    def chromeY(self):
+    def chromeWidth(self):
         if self.mainWindow:
-            return self.mainWindow.frameGeometry().height() - self.mainWindow.geometry().height()
-        return 0
+            return self.mainWindow.frameSize().width() - self.mainWindow.width()
+        return None
+
+    @property
+    def chromeHeight(self):
+        if self.mainWindow:
+            return self.mainWindow.frameSize().height() - self.mainWindow.height()
+        return None
 
     @property
     def windowScale(self):
         if self.mainWindow:
-            stageWidth = (self.mainWindow.width() - self.chromeX) / self._startWidth
-            stageHeight = (self.mainWindow.height() - self.chromeY) / self._startHeight
+            stageWidth = self.mainWindow.width() / self._startWidth
+            stageHeight = self.mainWindow.height() / self._startHeight
             return min(stageWidth, stageHeight)
         return 1
 
     @property
     def stageVisibleBounds(self):
         if self.mainWindow:
-            fullscreen = self.mainWindow.isFullScreen()
-            windowWidth = self.mainWindow.width() - (0 if fullscreen else self.chromeX)
-            windowHeight = self.mainWindow.height() - (0 if fullscreen else self.chromeY)
+            windowWidth = self.mainWindow.width()
+            windowHeight = self.mainWindow.height()
             stageWidthScale = windowWidth / self._startWidth
             stageHeightScale = windowHeight / self._startHeight
             if stageWidthScale > stageHeightScale:

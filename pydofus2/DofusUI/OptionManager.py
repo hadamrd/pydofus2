@@ -1,9 +1,12 @@
 import collections
 
+from PyQt5.QtCore import QObject
+
 from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.events.PropertyChangeEvent import PropertyChangeEvent
 
 
 class OptionManager(EventsHandler):
@@ -18,7 +21,7 @@ class OptionManager(EventsHandler):
         self._allOptions = []
         self._customName = customName if customName else self.__class__.__name__
 
-        if self._customName in _optionsManager:
+        if self._customName in self._optionsManager:
             raise ValueError(f"{self._customName} is already used by another option manager.")
 
         self._optionsManager[self._customName] = self
@@ -56,6 +59,8 @@ class OptionManager(EventsHandler):
             self.setOption(name, self._defaultValue[name])
 
     def getOption(self, name):
+        if name not in self._properties:
+            print(self._properties)
         return self._properties.get(name)
 
     def allOptions(self):
@@ -63,6 +68,8 @@ class OptionManager(EventsHandler):
 
     def setOption(self, name, value):
         if name in self._useCache:
+            oldValue = self._properties[name]
             self._properties[name] = value
             if self._useCache[name] and not isinstance(value, QObject):
                 StoreDataManager().setData(self._dataStore, name, value)
+            self.send(PropertyChangeEvent.PROPERTY_CHANGED, name, value, oldValue)

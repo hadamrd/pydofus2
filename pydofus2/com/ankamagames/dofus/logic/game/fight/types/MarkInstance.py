@@ -1,7 +1,6 @@
-from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
+from pydofus2.com.ankamagames.atouin.types.Selection import Selection
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 
 
 class MarkInstance:

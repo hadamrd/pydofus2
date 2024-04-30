@@ -1,4 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.managers.OptionManager import OptionManager
+from pydofus2.DofusUI.OptionManager import OptionManager
 from pydofus2.flash.geom.Point import Point
 
 

@@ -2,7 +2,7 @@ import math
 from typing import List
 
 from pydofus2.com.ankamagames.atouin.enums.PlacementStrataEnums import PlacementStrataEnums
-from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
+from pydofus2.com.ankamagames.atouin.types.Selection import Selection
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
 from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone

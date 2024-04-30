@@ -3,18 +3,12 @@ from typing import Any, Dict, List, Union
 
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import \
-    ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.loaders.AbstractResourceLoader import \
-    AbstractResourceLoader
-from pydofus2.com.ankamagames.jerakine.resources.loaders.IResourceLoader import \
-    IResourceLoader
-from pydofus2.com.ankamagames.jerakine.resources.protocols.IProtocol import \
-    IProtocol
-from pydofus2.com.ankamagames.jerakine.resources.protocols.ProtocolFactory import \
-    ProtocolFactory
+from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.loaders.AbstractResourceLoader import AbstractResourceLoader
+from pydofus2.com.ankamagames.jerakine.resources.loaders.IResourceLoader import IResourceLoader
+from pydofus2.com.ankamagames.jerakine.resources.protocols.IProtocol import IProtocol
+from pydofus2.com.ankamagames.jerakine.resources.protocols.ProtocolFactory import ProtocolFactory
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
@@ -73,7 +67,7 @@ class ParallelResourceLoader(AbstractResourceLoader, IResourceLoader, IResourceO
             self._currentlyLoading = min(self._maxParallel, len(self._uris))
             starterLoop = self._currentlyLoading
 
-            for i in range(starterLoop):
+            for _ in range(starterLoop):
                 loadData = self._uris.pop(0)
                 if not self.checkCache(loadData["uri"]):
                     p = ProtocolFactory.getProtocol(loadData["uri"])

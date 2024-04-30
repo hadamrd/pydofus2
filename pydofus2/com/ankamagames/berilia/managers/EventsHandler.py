@@ -19,12 +19,13 @@ class Event(object):
 
 
 class EventsHandler:
-    def __init__(self):
+    def __init__(self, name="Unknown"):
         super().__init__()
         self._listeners = dict[str, dict[int, list[Listener]]]()
         self._sorted = {}
         self.__waiting_events = list[threading.Event]()
         self._crashMessage = None
+        self.name = name
 
     def hasListener(self, event_id):
         return event_id in self._listeners
@@ -162,7 +163,7 @@ class EventsHandler:
             listener.delete()
         self._listeners.clear()
         self._sorted.clear()
-        Logger().debug("Events manager reset")
+        Logger().debug(f"Events manager {self.name} reset")
 
     def iterListeners(self):
         for listenersByPriority in self._listeners.values():

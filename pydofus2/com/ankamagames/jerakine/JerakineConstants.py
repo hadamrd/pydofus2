@@ -1,6 +1,5 @@
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
 LOADERS_POOL_INITIAL_SIZE: int = 5
 
@@ -46,36 +45,32 @@ MOBILES_CACHE_SIZE: int = 10
 
 MAX_PARALLEL_LOADINGS: int = 6
 
-DATASTORE_CLASS_ALIAS: DataStoreType = DataStoreType(
+DATASTORE_CLASS_ALIAS = DataStoreType(
     "Jerakine_classAlias",
     True,
     DataStoreEnum.LOCATION_LOCAL,
     DataStoreEnum.BIND_COMPUTER,
 )
 
-DATASTORE_LANG: DataStoreType = DataStoreType(
-    "Jerakine_lang", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_COMPUTER
-)
+DATASTORE_LANG = DataStoreType("Jerakine_lang", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_COMPUTER)
 
-DATASTORE_LANG_VERSIONS: DataStoreType = DataStoreType(
-    "Jerakine_lang_vesrion",
+DATASTORE_LANG_VERSIONS = DataStoreType(
+    "Jerakine_lang_version",
     True,
     DataStoreEnum.LOCATION_LOCAL,
     DataStoreEnum.BIND_COMPUTER,
 )
 
-DATASTORE_FILES_INFO: DataStoreType = DataStoreType(
+DATASTORE_FILES_INFO = DataStoreType(
     "Jerakine_file_version",
     True,
     DataStoreEnum.LOCATION_LOCAL,
     DataStoreEnum.BIND_COMPUTER,
 )
 
-DATASTORE_MD5: DataStoreType = DataStoreType(
-    "Jerakine_md5", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_COMPUTER
-)
+DATASTORE_MD5 = DataStoreType("Jerakine_md5", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_COMPUTER)
 
-DATASTORE_GAME_DATA: DataStoreType = DataStoreType(
+DATASTORE_GAME_DATA = DataStoreType(
     "Jerakine_gameData", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_COMPUTER
 )
 
