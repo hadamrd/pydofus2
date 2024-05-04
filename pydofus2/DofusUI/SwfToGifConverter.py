@@ -1,16 +1,13 @@
 import io
+import os
 import subprocess
 import tempfile
 
-from PyQt5.QtGui import QMovie
-
-from pydofus2.com.ankamagames.atouin.Atouin import Atouin
 from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import ResourceLoaderFactory
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import ResourceLoaderType
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
+from pydofus2.DofusUI.AnimatedGifItem import AnimatedGifItem
+from pydofus2.DofusUI.GfxParallelLoader import GfxParallelLoader
 
 
 class SwfConverter:
@@ -20,39 +17,36 @@ class SwfConverter:
         super().__init__()
         self.callback = callback
         self._swfGfx = {}
-        self._gfxPath = Atouin().options.getOption("elementsPath")
-        self._gfxPathSwf = Atouin().options.getOption("swfPath")
         self.initSwfLoader()
 
     def initSwfLoader(self):
-        self._swfLoader = ResourceLoaderFactory.getLoader(ResourceLoaderType.PARALLEL_LOADER)
-        self._swfLoader.on(ResourceEvent.ERROR, self.onLoadError)
-        self._swfLoader.on(ResourceEvent.LOADED, self.onSwfLoaded)
-        self._swfLoader.on(ResourceEvent.LOADER_COMPLETE, self.onAllSwfLoaded)
-        self._swfLoader.on(ResourceEvent.LOADER_PROGRESS, self.onLoadingProgress)
+        self._swfLoader = GfxParallelLoader(maxThreads=6)
+        self._swfLoader.progress.connect(self.onSwfLoaded)
+        self._swfLoader.error.connect(self.onLoadError)
+        self._swfLoader.finished.connect(self.onAllSwfLoaded)
 
     def loadSwfList(self, uris: list[Uri]):
-        self._swfLoader.load(uris)
+        self._swfLoader.loadItems(uris)
 
-    def onloadError(self, event, uri, errorMsg, errorCode):
-        Logger().error(f"Load of resource at uri: {uri} failed with err[{errorCode}] {errorMsg}")
+    def onLoadError(self, gfxId, exc: Exception):
+        Logger().error(f"Load of resource {gfxId} failed with {exc}")
 
-    def onSwfLoaded(self, event, uri, resourceType, swf_stream: io.BytesIO):
-        output_path = self.convertSwfToGif(swf_stream, uri.tag)
-        movie = QMovie(output_path)
-        self._swfGfx[uri.tag] = movie
+    def onSwfLoaded(self, resourceId, resourceData: io.BytesIO):
+        output_path = self.convertSwfToGif(resourceData, resourceId)
+        self._swfGfx[resourceId] = AnimatedGifItem(output_path)
 
-    def onAllSwfLoaded(self, event):
+    def onAllSwfLoaded(self):
         print("All SWF files have been processed.")
         self.callback(self._swfGfx)
 
-    def onLoadingProgress(self, event):
-        pass
-
-    def convertSwfToGif(self, swf_stream, gfx_id):
+    def convertSwfToGif(self, resourceData: io.BytesIO, resourceId):
+        if not os.path.exists(self.GIF_FOLDER):
+            os.makedirs(self.GIF_FOLDER)
+        output_path = self.GIF_FOLDER / f"{resourceId}.gif"
+        if os.path.exists(output_path):
+            return output_path
         with tempfile.NamedTemporaryFile(delete=False, suffix=".swf") as tmp:
-            tmp.write(swf_stream.read())
+            tmp.write(resourceData.read())
             tmp.flush()
-            output_path = self.GIF_FOLDER / f"{gfx_id}.gif"
             subprocess.run(["ffmpeg", "-i", tmp.name, output_path], stdout=subprocess.PIPE)
             return output_path

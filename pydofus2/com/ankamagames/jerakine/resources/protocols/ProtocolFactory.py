@@ -1,19 +1,12 @@
 from typing import Dict, Type
 
-from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.FileProtocol import \
-    FileProtocol
-from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.HttpProtocol import \
-    HttpProtocol
-from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.PakProtocol import \
-    PakProtocol
-from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.PakProtocol2 import \
-    PakProtocol2
-from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.ZipProtocol import \
-    ZipProtocol
-from pydofus2.com.ankamagames.jerakine.resources.protocols.IProtocol import \
-    IProtocol
-from pydofus2.com.ankamagames.jerakine.resources.ResourceError import \
-    ResourceError
+from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.FileProtocol import FileProtocol
+from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.HttpProtocol import HttpProtocol
+from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.PakProtocol import PakProtocol
+from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.PakProtocol2 import PakProtocol2
+from pydofus2.com.ankamagames.jerakine.resources.protocols.impl.ZipProtocol import ZipProtocol
+from pydofus2.com.ankamagames.jerakine.resources.protocols.IProtocol import IProtocol
+from pydofus2.com.ankamagames.jerakine.resources.ResourceError import ResourceError
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
@@ -41,6 +34,14 @@ class ProtocolFactory:
         elif uri.protocol == "d2pOld":
             return PakProtocol()
         else:
+            customProtocol = ProtocolFactory._customProtocols[uri.protocol]
+            if customProtocol:
+                cp = customProtocol()
+                if not isinstance(cp, IProtocol):
+                    raise ResourceError(
+                        f"Registered custom protocol for extension {uri.protocol} isn't an IProtocol subclass."
+                    )
+                return cp
             raise ValueError(f"Unknown protocol '{uri.protocol}' in the URI '{uri}'.")
 
     @staticmethod

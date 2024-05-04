@@ -8,6 +8,7 @@ from pydofus2.com.ankamagames.dofus import settings
 
 class Uri:
     subPathDelimiter = "|"
+    supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
 
     def __init__(self, uri=None, tag=None):
         self._protocol = None
@@ -38,7 +39,6 @@ class Uri:
             raise ValueError(f"'{uri}' is an insecure URI.")
 
     def isSecure(self):
-        # This needs to be implemented according to your requirements
         return True
 
     def toString(self):
@@ -113,14 +113,13 @@ class Uri:
 
     def toFile(self) -> Path:
         if not self._path:
-            tmp = Path("null")
+            tmp = Path()
         else:
             tmp = Path(self._path)
         if tmp.is_absolute():
             return tmp
         if self._protocol == "mod":
-            from pydofus2.com.ankamagames.jerakine.managers.LangManager import \
-                LangManager
+            from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 
             uiRoot = Path(LangManager().getEntry("config.mod.path"))
             if not uiRoot.is_absolute():
@@ -138,15 +137,13 @@ class Uri:
         return self._fileType
 
     def normalizedUri(self) -> str:
-        supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
-        if self._protocol in supported_protocols:
+        if self._protocol in self.supported_protocols:
             return self._uri.replace("/\\/g", "/")
         else:
             raise ValueError(f"Unsupported protocol {self._protocol} for normalization.")
 
     def normalizedUriWithoutSubPath(self) -> str:
-        supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
-        if self._protocol in supported_protocols:
+        if self._protocol in self.supported_protocols:
             return self.toString().replace("/\\/g", "/")
         else:
             raise ValueError(f"Unsupported protocol {self._protocol} for normalization.")

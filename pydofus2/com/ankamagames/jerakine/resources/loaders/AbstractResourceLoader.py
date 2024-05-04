@@ -67,9 +67,7 @@ class AbstractResourceLoader(IResourceObserver, EventsHandler):
         if self.hasListener(ResourceEvent.ERROR):
             self.send(ResourceEvent.ERROR, uri, errorMsg, errorCode)
         else:
-            Logger().error(
-                "[Error code " + str(hex(errorCode)) + "] Unable to load resource " + str(uri) + ": " + errorMsg
-            )
+            Logger().error(f"[Error {hex(errorCode)}] Unable to load resource ({uri}) : {errorMsg}")
         if self._filesLoaded == self._filesTotal:
             self.dispatchComplete()
 

@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QRect, QRectF
 from PyQt5.QtGui import QBrush, QColor
-from PyQt5.QtWidgets import QGraphicsItem, QGraphicsItemGroup, QGraphicsRectItem
+from PyQt5.QtWidgets import QGraphicsItem, QGraphicsRectItem
 
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
 from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
@@ -9,6 +9,7 @@ from pydofus2.com.ankamagames.atouin.FrustumManager import FrustumManager
 from pydofus2.com.ankamagames.atouin.resources.adapters.ElementsAdapter import ElementsAdapter
 from pydofus2.com.ankamagames.atouin.resources.adapters.MapsAdapter import MapsAdapter
 from pydofus2.com.ankamagames.atouin.types.AtouinOptions import AtouinOptions
+from pydofus2.com.ankamagames.atouin.types.SimpleGraphicsContainer import SimpleGraphicsContainer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
@@ -36,8 +37,7 @@ class Atouin(metaclass=Singleton):
         self._movementListeners = []
         self._aSprites = []
         self._worldVisible = True
-        self._aoOptions: AtouinOptions = None
-
+        self._aoOptions = None
         AdapterFactory.addAdapter("ele", ElementsAdapter)
         AdapterFactory.addAdapter("dlm", MapsAdapter)
 
@@ -49,19 +49,6 @@ class Atouin(metaclass=Singleton):
     def options(self, val):
         self._aoOptions = val
 
-    def _setMouseInteraction(self, container: QGraphicsItemGroup, enabled, disable_children=False):
-        container.setAcceptHoverEvents(enabled)
-        container.setFlag(QGraphicsItem.ItemIsSelectable, enabled)
-        container.setFlag(QGraphicsItem.ItemIsMovable, enabled)
-        if not enabled:
-            container.setFlag(QGraphicsItem.ItemSendsGeometryChanges, enabled)
-        if disable_children:
-            for item in container.childItems():
-                item.setAcceptHoverEvents(enabled)
-                item.setFlag(QGraphicsItem.ItemIsSelectable, enabled)
-                item.setFlag(QGraphicsItem.ItemIsMovable, enabled)
-                item.setFlag(QGraphicsItem.ItemSendsGeometryChanges, enabled)
-
     def setDisplayOptions(self, ao: AtouinOptions):
         self._aoOptions = ao
         self._worldContainer = ao.container
@@ -70,40 +57,35 @@ class Atouin(metaclass=Singleton):
 
         # Remove all children from _worldContainer
         for item in self._worldContainer.childItems():
-            self._worldContainer.removeFromGroup(item)
+            item.setParentItem(None)
+            del item
 
-        self._overlayContainer = QGraphicsItemGroup()
-        self._spMapContainer = QGraphicsItemGroup()
-        self._spChgMapContainer = QGraphicsItemGroup()
-        self._spGfxContainer = QGraphicsItemGroup()
-        self._worldMask = QGraphicsItemGroup()
+        self._overlayContainer = SimpleGraphicsContainer()
+        self._spMapContainer = SimpleGraphicsContainer()
+        self._spChgMapContainer = SimpleGraphicsContainer()
+        self._spGfxContainer = SimpleGraphicsContainer()
+        self._worldMask = SimpleGraphicsContainer()
 
-        self._setMouseInteraction(self._worldContainer, False)
-        self._setMouseInteraction(self._spMapContainer, False)
-        self._setMouseInteraction(self._spChgMapContainer, False)
-        self._setMouseInteraction(self._spGfxContainer, False, disable_children=True)
-        self._setMouseInteraction(self._overlayContainer, False)
-        self._setMouseInteraction(self._worldMask, False)
-
-        self._worldContainer.addToGroup(self._spMapContainer)
-        self._worldContainer.addToGroup(self._spChgMapContainer)
-        # self._worldContainer.addToGroup(self._worldMask)
-        self._worldContainer.addToGroup(self._spGfxContainer)
-        self._worldContainer.addToGroup(self._overlayContainer)
+        self._worldContainer.addChild(self._spMapContainer)
+        self._worldContainer.addChild(self._spChgMapContainer)
+        self._worldContainer.addChild(self._spGfxContainer)
+        self._worldContainer.addChild(self._overlayContainer)
 
         FrustumManager().init(self._spChgMapContainer)
         self.computeWideScreenBitmapWidth(ao.getOption("frustum"))
-        # self.setWorldMaskDimensions(AtouinConstants.WIDESCREEN_BITMAP_WIDTH)
-        # hideBlackBorderValue = self._aoOptions.getOption("hideBlackBorder")
-        # if not hideBlackBorderValue:
-        #     self.setWorldMaskDimensions(StageShareManager().startWidth, 0, 0, 1, "blackBorder")
-        #     # self.getWorldMask("blackBorder", False).mouseEnabled = True TODO
-        # else:
-        #     m = self.getWorldMask("blackBorder", False)
-        #     if m:
-        #         self._worldMask.removeFromGroup(m)
         self.setFrustum(ao.getOption("frustum"))
         self.init()
+
+    def setWorldMask(self):
+        self._worldContainer.addToGroup(self._worldMask)
+        self.setWorldMaskDimensions(AtouinConstants.WIDESCREEN_BITMAP_WIDTH)
+        hideBlackBorderValue = self._aoOptions.getOption("hideBlackBorder")
+        if not hideBlackBorderValue:
+            self.setWorldMaskDimensions(StageShareManager().startWidth, 0, 0, 1, "blackBorder")
+        else:
+            m = self.getWorldMask("blackBorder", False)
+            if m:
+                m.setParentItem(self._worldMask)
 
     def init(self):
         self._aSprites = []
@@ -158,8 +140,8 @@ class Atouin(metaclass=Singleton):
             small_rect = QGraphicsRectItem(QRectF(x, 0, w, h))
             large_rect.setBrush(bruch)
             small_rect.setBrush(bruch)
-            m.addToGroup(large_rect)
-            m.addToGroup(small_rect)
+            large_rect.setParentItem(m)
+            small_rect.setParentItem(m)
 
     def getWorldMask(self, name, createIfNeeded=True):
         for item in self._worldMask.childItems():
@@ -167,26 +149,27 @@ class Atouin(metaclass=Singleton):
                 return item
 
         if createIfNeeded:
-            m = QGraphicsItemGroup()
-            self._worldMask.addToGroup(m)
-            m.name = name  # Assign the name
-            # Here find some way to disable mouse from this element or maybe its disabled by default
+            m = QGraphicsItem()
+            m.setParentItem(self._worldMask)
+            m.name = name
             return m
 
         return None
 
     def cancelZoom(self):
-        Logger().warning("Atouin cancel zoom function not implemented")
+        Logger().warning("Atouin cancelZoom function not implemented")
+
+    def applyMapZoomScale(self, gameMap):
+        Logger().warning("Atouin applyMapZoomScale function not implemented")
 
     def onPropertyChange(self, e: PropertyChangeEvent, propertyName, propertyValue, oldPropertyValue):
         if propertyName == "hideBlackBorder":
             if not propertyValue:
                 self.setWorldMaskDimensions(StageShareManager().startWidth, 0, 0, 1, "blackBorder")
-                self.getWorldMask("blackBorder", False).mouseEnabled = True
             else:
                 m = self.getWorldMask("blackBorder", False)
                 if m:
-                    self._worldContainer.removeFromGroup(m)
+                    m.setParentItem(None)
 
     def computeWideScreenBitmapWidth(self, frustum):
         RIGHT_GAME_MARGIN = int((AtouinConstants.ADJACENT_CELL_LEFT_MARGIN - 1) * AtouinConstants.CELL_WIDTH)
@@ -201,19 +184,19 @@ class Atouin(metaclass=Singleton):
         )
 
     @property
-    def chgMapContainer(self):
+    def chgMapContainer(self) -> SimpleGraphicsContainer:
         return self._spChgMapContainer
 
     @property
-    def gfxContainer(self):
+    def gfxContainer(self) -> SimpleGraphicsContainer:
         return self._spGfxContainer
 
     @property
-    def overlayContainer(self):
+    def overlayContainer(self) -> SimpleGraphicsContainer:
         return self._overlayContainer
 
     @property
-    def worldMask(self):
+    def worldMask(self) -> SimpleGraphicsContainer:
         return self._worldMask
 
     @property

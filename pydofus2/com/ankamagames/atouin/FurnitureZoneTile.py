@@ -141,5 +141,5 @@ class FurnitureZoneTile(QGraphicsItem):
     def boundingRect(self):
         return QRectF(0, 0, 100, 100)  # Example dimensions
 
-    def paint(self, painter, option, widget):
+    def paint(self, painter, option, widget=None):
         self.draw(True, True, True, True, 20)  # Example usage within paint, assuming conditions are met

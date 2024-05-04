@@ -1,8 +1,10 @@
 import io
+import os
+import threading
 
 from PyQt5.QtCore import QPoint, QSize, Qt
-from PyQt5.QtGui import QColor, QImage, QMovie, QPainter, QPixmap, QTransform
-from PyQt5.QtWidgets import QApplication, QGraphicsItemGroup, QGraphicsPixmapItem
+from PyQt5.QtGui import QColor, QImage, QPainter, QPixmap, QTransform
+from PyQt5.QtWidgets import QGraphicsPixmapItem
 
 from pydofus2.com.ankamagames.atouin.Atouin import Atouin
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
@@ -10,23 +12,41 @@ from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
 from pydofus2.com.ankamagames.atouin.data.elements.subtypes.AnimatedGraphicalElementData import (
     AnimatedGraphicalElementData,
 )
+from pydofus2.com.ankamagames.atouin.data.elements.subtypes.BoundingBoxGraphicalElementData import (
+    BoundingBoxGraphicalElementData,
+)
+from pydofus2.com.ankamagames.atouin.data.elements.subtypes.EntityGraphicalElementData import (
+    EntityGraphicalElementData,
+)
+from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import (
+    NormalGraphicalElementData,
+)
 from pydofus2.com.ankamagames.atouin.data.map.Cell import Cell
+from pydofus2.com.ankamagames.atouin.data.map.elements.GraphicalElement import GraphicalElement
 from pydofus2.com.ankamagames.atouin.data.map.Fixture import Fixture
-from pydofus2.com.ankamagames.atouin.data.map.Layer import Layer
+from pydofus2.com.ankamagames.atouin.data.map.Layer import Layer, LayerCell
+from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import ElementTypesEnum
 from pydofus2.com.ankamagames.atouin.FrustumManager import FrustumManager
+from pydofus2.com.ankamagames.atouin.managers.InteractiveCellManager import InteractiveCellManager
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 from pydofus2.com.ankamagames.atouin.types.BitmapCellContainer import BitmapCellContainer
 from pydofus2.com.ankamagames.atouin.types.CellContainer import CellContainer
 from pydofus2.com.ankamagames.atouin.types.DataMapContainer import DataMapContainer
+from pydofus2.com.ankamagames.atouin.types.InteractiveCell import InteractiveCell
+from pydofus2.com.ankamagames.atouin.types.SimpleGraphicsContainer import SimpleGraphicsContainer
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import ResourceLoaderFactory
-from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import ResourceLoaderType
+from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
+from pydofus2.com.ankamagames.tiphon.types.look.TiphonEntityLook import TiphonEntityLook
+from pydofus2.DofusUI.AnimatedGifItem import AnimatedGifItem
+from pydofus2.DofusUI.GfxParallelLoader import GfxParallelLoader
 from pydofus2.DofusUI.OptionManager import OptionManager
 from pydofus2.DofusUI.StageShareManager import StageShareManager
 from pydofus2.DofusUI.SwfToGifConverter import SwfConverter
+from pydofus2.flash.geom.ColorTransform import ColorTransform
+
+os.environ["QT_API"] = "pyqt5"
 
 
 class MapRenderer:
@@ -36,10 +56,12 @@ class MapRenderer:
     _renderBackgroundColor = True
     _hasGroundJPG = False
     _renderFixture = True
+    _tacticModeActivated = False
+    _foregroundBitmap = None
 
-    def __init__(self, container: QGraphicsItemGroup, elements: Elements) -> None:
-        self._bitmapsGfx = dict[str, QPixmap]()
-        self._swfGfx = dict[str, QMovie]()
+    def __init__(self, container: SimpleGraphicsContainer, elements: Elements) -> None:
+        self._bitmapsGfx = dict[str, QImage]()
+        self._swfGfx = dict[str, AnimatedGifItem]()
         self._hideForeground = Atouin().options.getOption("hideForeground")
         self._container = container
         if self._groundGlobalScaleRatio is None:
@@ -50,42 +72,18 @@ class MapRenderer:
         self.swfTopGif = SwfConverter(self.onAllGfxLoaded)
         self._gfxPath = Atouin().options.getOption("elementsPath")
         self._gfxPathSwf = Atouin().options.getOption("swfPath")
-        self.mousePressEvent = self.onSceneMousePress
         self._map = MapDisplayManager().dataMap
         self._elements = elements
         self.elemCount = 0
         self._cancelRender = False
         self._loadedGfxListCount = 0
         self._extension = Atouin.DEFAULT_MAP_EXTENSION
-
-    def initGfxLoader(self):
-        if self._gfxLoader:
-            self._gfxLoader.reset()
-            self._gfxLoader.cancel()
-        self._gfxLoader = ResourceLoaderFactory.getLoader(ResourceLoaderType.PARALLEL_LOADER)
-        self.addGfxLoaderListeners()
-
-    def addGfxLoaderListeners(self):
-        self._gfxLoader.on(ResourceEvent.ERROR, self.onloadError)
-        self._gfxLoader.on(ResourceEvent.LOADED, self.onBitmapGfxLoaded)
-        self._gfxLoader.on(ResourceEvent.LOADER_COMPLETE, self.onAllGfxLoaded)
-        self._gfxLoader.on(ResourceEvent.LOADER_PROGRESS, self.onMapLoadingProgress)
-
-    def initSwfLoader(self):
-        pass
-
-    def onSceneMousePress(self, event):
-        item = self.itemAt(event.scenePos(), self.parent().stage.transform())
-        if isinstance(item, QGraphicsPixmapItem):
-            if event.button() == Qt.LeftButton:
-                gfxId = item.toolTip()
-                clipboard = QApplication.clipboard()
-                clipboard.setText(gfxId)
-            elif event.button() == Qt.RightButton:
-                item.setVisible(False)
-
-    def onMapLoadingProgress(self, event, uri, total, loadedCount):
-        pass
+        self._groundBitmap: QPixmap = None
+        self._mapLoaded = False
+        self._mapIsReady = False
+        self._groundIsLoaded = False
+        self._icm = InteractiveCellManager()
+        self.initGfxLoader()
 
     @property
     def renderScale(self):
@@ -108,23 +106,8 @@ class MapRenderer:
         )
         return Uri(path_str, gfxId)
 
-    def onBitmapGfxLoaded(self, event, uri: Uri, resourceType, image_bytes: io.BytesIO):
-        if self._cancelRender:
-            return
-        QImage.fromData(image_bytes)
-        self._bitmapsGfx[uri.tag.gfxId] = pixmap
-
-    def onAllGfxLoaded(self, event, total, completed):
-        if self._cancelRender or self._mapIsReady:
-            return
-        self._loadedGfxListCount += 1
-        if self._hasBitmapGfx and self.hasSwfGfx and self._loadedGfxListCount != 2:
-            return
-        self._mapLoaded = True
-        self.makeMap()
-
-    def onloadError(self, event, uri, errorMsg, errorCode):
-        Logger().error(f"Load of resource at uri: {uri} failed with err[{errorCode}] {errorMsg}")
+    def getSwfUri(self, gfxId):
+        return Uri(f"{self._gfxPath}/swf/{gfxId}.swf", gfxId)
 
     def render(
         self,
@@ -134,10 +117,12 @@ class MapRenderer:
         renderFixture=True,
         displayWorld=True,
     ):
+        self._thread_name = threading.current_thread().name
         self._renderFixture = renderFixture
         self._renderBackgroundColor = renderFixture
         self._frustumX = FrustumManager().frustum.x
         self._renderId = renderId
+        self._displayWorld = displayWorld
         Atouin().cancelZoom()
         self._allowAnimatedGfx = Atouin().options.getOption("allowAnimatedGfx")
         self._allowParticlesFx = Atouin().options.getOption("allowParticlesFx")
@@ -148,7 +133,7 @@ class MapRenderer:
         self._map = dataContainer.dataMap
         self._forceReloadWithoutCache = forceReloadWithoutCache
         self.handleGroundCaching()
-        bitmapsGfx = []
+        bitmapsGfx = dict[int, QImage]()
         self._useSmooth = Atouin().options.getOption("useSmooth")
         self._dataMapContainer = dataContainer
         self._identifiedElements = dict()
@@ -159,43 +144,35 @@ class MapRenderer:
         gfxList = self._map.getGfxList(self._hasGroundJPG)
         for nged in gfxList:
             if isinstance(nged, AnimatedGraphicalElementData):
-                uri = Uri(self._gfxPath + "/swf/" + nged.gfxId + ".swf")
-                uri.tag = nged.gfxId
+                uri = self.getSwfUri(nged)
                 swfUri.append(uri)
                 self._hasSwfGfx = True
             elif nged.gfxId in self._bitmapsGfx:
                 bitmapsGfx[nged.gfxId] = self._bitmapsGfx[nged.gfxId]
             else:
                 uri = self.getGfxUri(nged.gfxId)
+                gfxUri.append(uri)
                 self._hasBitmapGfx = True
         if renderFixture:
             if not self._hasGroundJPG:
-                self.preprocessFixtureLayer(self._map.backgroundFixtures)
-            self.preprocessFixtureLayer(self._map.foregroundFixtures)
+                self.preprocessFixtureLayer(self._map.backgroundFixtures, gfxUri, bitmapsGfx)
+            self.preprocessFixtureLayer(self._map.foregroundFixtures, gfxUri, bitmapsGfx)
         self._bitmapsGfx = bitmapsGfx
         self._swfGfx = []
         if newLoader:
             self.initGfxLoader()
-            self.initSwfLoader()
         self._filesToLoad = len(gfxUri) + len(swfUri)
         if self._renderScale == 1:
-            self._gfxLoader.load(gfxUri)
-        self.swfTopGif.loadSwfList(swfUri)
-        if len(gfxUri) == 0 or len(swfUri) == 0:
-            self.onAllGfxLoaded(None)
-
-    def hasSwfLoaderListeners(self):
-        pass
-
-    def hasGfxLoaderListeners(self):
-        pass
-
-    def initSwfLoader(self):
-        pass
+            Logger().debug("Starting to load gfx elements")
+            self._gfxLoader.loadItems(gfxUri)
+        if swfUri:
+            self.swfTopGif.loadSwfList(swfUri)
+        if not gfxUri and not swfUri:
+            self.onAllGfxLoaded()
 
     def preprocessFixtureLayer(self, layer: list[Fixture], gfxUri: list, bitmapsGfx: dict):
         for fixture in layer:
-            if self._bitmapsGfx[fixture.fixtureId]:
+            if fixture.fixtureId in self._bitmapsGfx:
                 bitmapsGfx[fixture.fixtureId] = self._bitmapsGfx[fixture.fixtureId]
             else:
                 uri = self.getGfxUri(fixture.fixtureId)
@@ -211,7 +188,8 @@ class MapRenderer:
         cellDisabled = False
         hideFg = False
         groundOnly = False
-        aInteractiveCell = []
+        aInteractiveCell = {}
+        finalGroundBitmap = None
         self._screenResolutionOffset = QPoint()
         self._screenResolutionOffset.setX((self.bitmapSize.width() - StageShareManager().startWidth) / 2)
         self._screenResolutionOffset.setY((self.bitmapSize.height() - StageShareManager().startHeight) / 2)
@@ -224,8 +202,7 @@ class MapRenderer:
         for layer in self._map.layers:
             if layer.cellsCount != 0:
                 layerId = layer.layerId
-                layerCtr = None
-                currentLayerIsGround = layer.layerId == Layer.LAYER_GROUND
+                currentLayerIsGround = layerId == Layer.LAYER_GROUND
                 if not currentLayerIsGround:
                     layerCtr = self._dataMapContainer.getLayer(layerId)
                 hideFg = layerId and self._hideForeground
@@ -248,172 +225,270 @@ class MapRenderer:
                     else:
                         cellCtr = CellContainer(currentCellId)
                     cellCtr.layerId = layerId
-                    cellCtr.mouseEnabled = False
                     if cell:
                         cellPnt = cell.pixelCoords
                         scaleRatio = self._groundGlobalScaleRatio if isinstance(cellCtr, CellContainer) else 1
                         cellCtr.startX = int(round(cellPnt.x)) * scaleRatio
                         cellCtr.startY = int(round(cellPnt.y)) * scaleRatio
+                        cellCtr.setPos(cellCtr.startX, cellCtr.startY)
                         if not skipLayer:
                             if not self._hasGroundJPG or not currentLayerIsGround:
                                 cellDisabled = self.addCellBitmapsElements(cell, cellCtr, hideFg, currentLayerIsGround)
                     else:
                         cellDisabled = False
                         cellPnt = Cell.cellPixelCoords(currentCellId)
-                        cellCtr.x = cellCtr.startX = cellPnt.x
-                        cellCtr.y = cellCtr.startY = cellPnt.y
+                        cellCtr.startX = cellPnt.x
+                        cellCtr.startY = cellPnt.y
+                        cellCtr.setPos(cellCtr.startX, cellCtr.startY)
                     if not currentLayerIsGround:
-                        layerCtr.addChild(cellCtr)
+                        layerCtr.addCell(cellCtr)
                     elif not self._hasGroundJPG:
                         self.drawCellOnGroundBitmap(self._groundBitmap, cellCtr)
                     cellRef = self._dataMapContainer.getCellReference(currentCellId)
                     cellRef.addSprite(cellCtr)
-                    cellRef.x = cellCtr.x
-                    cellRef.y = cellCtr.y
+                    cellRef.x = cellCtr.x()
+                    cellRef.y = cellCtr.y()
                     cellRef.isDisabled = cellDisabled
-                    if layerId != Layer.LAYER_ADDITIONAL_DECOR and not aInteractiveCell[currentCellId]:
+                    if layerId != Layer.LAYER_ADDITIONAL_DECOR and currentCellId not in aInteractiveCell:
                         aInteractiveCell[currentCellId] = True
                         cellInteractionCtr = self._icm.getCell(currentCellId)
                         cellData = self._map.cells[currentCellId]
                         cellElevation = 0 if self._tacticModeActivated else cellData.floor
-                        cellInteractionCtr.x = cellCtr.x
-                        cellInteractionCtr.y = cellCtr.y - cellElevation
+                        cellInteractionCtr.setPos(cellCtr.x(), cellCtr.y() - cellElevation)
                         if not self._dataMapContainer.getChildByName(str(currentCellId)):
                             DataMapContainer.interactiveCell[currentCellId] = InteractiveCell(
-                                currentCellId, cellInteractionCtr, cellInteractionCtr.x, cellInteractionCtr.y
+                                currentCellId, cellInteractionCtr, cellInteractionCtr.x(), cellInteractionCtr.y()
                             )
-                        cellRef.elevation = cellInteractionCtr.y
+                        cellRef.elevation = cellInteractionCtr.y()
                         cellRef.mov = cellData.mov
                     lastCellId = int(currentCellId)
                 if not currentLayerIsGround:
-                    layerCtr.mouseEnabled = False
-                    layerCtr.scaleX = layerCtr.scaleY = 1 / self._groundGlobalScaleRatio
+                    layerCtr.setScale(1 / self._groundGlobalScaleRatio)
+                    layerCtr.setParentItem(self._container)
                     self._container.addChild(layerCtr)
                 elif not self._hasGroundJPG:
-                    finalGroundBitmapData = BitmapData(
-                        AtouinConstants.RESOLUTION_HIGH_QUALITY.x * self._renderScale,
-                        AtouinConstants.RESOLUTION_HIGH_QUALITY.y * self._renderScale,
-                        not self._renderBackgroundColor,
-                        self._map.backgroundColor if self._renderBackgroundColor else 0,
-                    )
-                    self._m.identity()
-                    self._m.scale(1 / self._groundGlobalScaleRatio, 1 / self._groundGlobalScaleRatio)
-                    finalGroundBitmapData.lock()
-                    finalGroundBitmapData.draw(self._groundBitmap.bitmapData, self._m, None, None, None, True)
-                    finalGroundBitmapData.unlock()
-                    finalGroundBitmap = Bitmap(finalGroundBitmapData, PixelSnapping.AUTO, True)
-                    finalGroundBitmap.name = "finalGroundBitmap"
-                    self._container.addChild(finalGroundBitmap)
-
+                    finalGroundBitmap = self.createFinalGroundPixmap()
         if self.hasToRenderForegroundFixtures:
             self.createForegroundBitmap()
-            self._foregroundBitmap.visible = not self._tacticModeActivated
-            self._container.addChild(self._foregroundBitmap)
+            # self._foregroundBitmap.setVisible(not self._tacticModeActivated)
+            # self._container.addChild(self._foregroundBitmap) FIXME
         if finalGroundBitmap:
-            if self._groundBitmap and self._groundBitmap.bitmapData:
-                self._groundBitmap.bitmapData.dispose()
+            if self._groundBitmap:
+                self._groundBitmap = None
             self._groundBitmap = finalGroundBitmap
         if self._groundBitmap:
-            self._groundBitmap.x = -self._frustumX - self._screenResolutionOffset.x
-            self._groundBitmap.y = -self._screenResolutionOffset.y
-            self._groundBitmap.scaleX = self._groundBitmap.scaleY = self._groundBitmap.scaleY / self._renderScale
-        selectionContainer = Sprite()
+            self._groundBitmap.setX(-self._frustumX - self._screenResolutionOffset.x())
+            self._groundBitmap.setY(-self._screenResolutionOffset.y())
+            self._groundBitmap.setScale(1 / self._renderScale)
+
+        selectionContainer = SimpleGraphicsContainer()
         selectionContainer.name = "selectionCtr"
         self._container.addChild(selectionContainer)
-        selectionContainer.mouseEnabled = False
-        selectionContainer.mouseChildren = False
         if not self._hasGroundJPG or self._groundIsLoaded:
             if self._displayWorld:
-                Atouin().worldContainer.visible = True
+                Atouin().worldContainer.setVisible(True)
         Atouin().applyMapZoomScale(self._map)
         self._mapIsReady = True
+
+    def createFinalGroundPixmap(self):
+        width = int(AtouinConstants.RESOLUTION_HIGH_QUALITY[0] * self._renderScale)
+        height = int(AtouinConstants.RESOLUTION_HIGH_QUALITY[1] * self._renderScale)
+        pixmap = QPixmap(width, height)
+        if self._renderBackgroundColor:
+            pixmap.fill(QColor(self._map.backgroundColor))
+        else:
+            pixmap.fill(Qt.transparent)
+        painter = QPainter(pixmap)
+        transform = QTransform()
+        transform.scale(1 / self._groundGlobalScaleRatio, 1 / self._groundGlobalScaleRatio)
+        painter.setTransform(transform)
+        if isinstance(self._groundBitmap, QGraphicsPixmapItem):
+            groundBitMap = self._groundBitmap.pixmap()
+        elif isinstance(self._groundBitmap, QPixmap):
+            groundBitMap = self._groundBitmap
+        else:
+            raise ValueError(f"self._groundBitmap has unexpected type {type(self._groundBitmap)}")
+        painter.drawPixmap(int(-self._frustumX * self._renderScale), 0, groundBitMap)  # Draw the prepared pixmap
+        painter.end()
+        pixmap_item = QGraphicsPixmapItem(pixmap)
+        pixmap_item.setTransformationMode(Qt.SmoothTransformation)
+        self._container.addChild(pixmap_item)
+        return pixmap_item
+
+    def createForegroundBitmap(self):
+        Logger().warning("MapRenderer createForegroundBitmap not implemented yet")
+        self._foregroundBitmap = None
 
     def createGroundBitmap(self):
         finalScale = self._groundGlobalScaleRatio * self._renderScale
         bitmapFinalWidth = int(self.bitmapSize.width() * finalScale)
         bitmapFinalHeight = int(self.bitmapSize.height() * finalScale)
-
-        # Initialize the QPixmap
-        groundPixmap = QPixmap(bitmapFinalWidth, bitmapFinalHeight)
-        groundPixmap.fill(Qt.transparent)  # Set the initial fill to transparent
-
-        # Start painting on QPixmap
-        painter = QPainter(groundPixmap)
-
+        self._groundBitmap = QPixmap(bitmapFinalWidth, bitmapFinalHeight)  # Keep as QPixmap
+        self._groundBitmap.fill(Qt.transparent)
+        painter = QPainter(self._groundBitmap)
         if self._renderBackgroundColor:
-            # Convert the integer RGB color to QColor. Assuming the color is stored as an RGB integer
             rgb_color = QColor(self._map.backgroundColor)
             painter.fillRect(0, 0, bitmapFinalWidth, bitmapFinalHeight, rgb_color)
-
-        self._groundBitmap = QGraphicsPixmapItem(groundPixmap)
-        self._groundBitmap.setData(0, "ground")  # Set a name equivalent in Qt
-        self._groundBitmap.setPos(-self._frustumX * finalScale, 0)  # Setting x position
-        self.renderFixture(self._map.backgroundFixtures, self._groundBitmap)
         painter.end()
+        self.renderFixture(self._map.backgroundFixtures, self._groundBitmap)
 
-    def renderFixture(self, fixtures: list[Fixture], container: QGraphicsPixmapItem):
+    def renderFixture(self, fixtures: list[Fixture], groundPixmap: QPixmap):
         if not fixtures or not self._renderFixture:
             return
         smoothing = OptionManager.getOptionManager("atouin").getOption("useSmooth")
+        painter = QPainter(groundPixmap)
         for fixture in fixtures:
-            bmpdt = self._bitmapsGfx.get(fixture.fixtureId)
-            if bmpdt is None:
+            fixtureQImage = self._bitmapsGfx.get(fixture.fixtureId)
+            if fixtureQImage is None:
                 print(f"Fixture {fixture.fixtureId} file is missing")
-            else:
-                painter = QPainter(container)
-                m = QTransform()
-                halfWidth = bmpdt.width() * 0.5
-                halfHeight = bmpdt.height() * 0.5
-                # Setup transformations
-                m.translate(-halfWidth, -halfHeight)
-                m.scale(fixture.xScale / 1000, fixture.yScale / 1000)
-                m.rotate(fixture.rotation / 100)
-                m.translate(
-                    (fixture.offsetX + AtouinConstants.CELL_HALF_WIDTH + self._frustumX) * self.renderScale
-                    + halfWidth,
-                    (fixture.offsetY + AtouinConstants.CELL_HEIGHT) * self.renderScale + halfHeight,
+                continue
+            if fixture.redMultiplier or fixture.greenMultiplier or fixture.blueMultiplier or fixture.alpha != 1:
+                cltfm = ColorTransform(
+                    fixture.redMultiplier, fixture.greenMultiplier, fixture.blueMultiplier, fixture.alpha
                 )
-                m.translate(self._screenResolutionOffset.x(), self._screenResolutionOffset.y())
-                if fixture.redMultiplier or fixture.greenMultiplier or fixture.blueMultiplier or fixture.alpha != 1:
-                    self.multiply_fixture_colors(bmpdt, fixture)
-                painter.setTransform(m, combine=False)
-                if smoothing:
-                    painter.setRenderHint(QPainter.Antialiasing, True)
-                painter.drawPixmap(0, 0, bmpdt)
-                painter.end()
+                fixtureQImage = cltfm.apply(fixtureQImage)
+            m = QTransform()
+            halfWidth = fixtureQImage.width() * 0.5
+            halfHeight = fixtureQImage.height() * 0.5
+            m.translate(-halfWidth, -halfHeight)
+            m.scale(fixture.xScale / 1000, fixture.yScale / 1000)
+            m.rotate(fixture.rotation / 100)
+            m.translate(
+                (fixture.offsetX + AtouinConstants.CELL_HALF_WIDTH + self._frustumX) * self.renderScale + halfWidth,
+                (fixture.offsetY + AtouinConstants.CELL_HEIGHT) * self.renderScale + halfHeight,
+            )
+            m.translate(self._screenResolutionOffset.x(), self._screenResolutionOffset.y())
+            painter.setTransform(m, combine=False)
+            if smoothing:
+                painter.setRenderHint(QPainter.Antialiasing, True)
+            fixtureQPixmap = QPixmap.fromImage(fixtureQImage)
+            painter.drawPixmap(0, 0, fixtureQPixmap)
+        painter.end()
 
-    def multiply_fixture_colors(image: QImage, fixture: Fixture) -> QImage:
-        """
-        Applies RGB color multipliers to a QImage.
+    def addCellBitmapsElements(self, cell: LayerCell, cellCtr: CellContainer, transparent=False, ground=False):
+        colors = None
+        Atouin().options.getOption("useWorldEntityPool")
+        lsElements = cell.elements
+        boundingBoxElements = set()
+        elementDo = None
+        disabled = False
+        for element in lsElements:
+            if element.elementType == ElementTypesEnum.GRAPHICAL:
+                ge: GraphicalElement = element
+                ed = self._elements.getElementData(ge.elementId)
+                if ed:
+                    if isinstance(ed, NormalGraphicalElementData):
+                        if isinstance(ed, AnimatedGraphicalElementData):
+                            elementDo = self._swfGfx.get(ed.gfxId)
+                            if not elementDo:
+                                Logger().error(f"Unable to find swf of the element {ed.gfxId}")
+                                continue
+                        else:
+                            elementPixmap = QPixmap.fromImage(self._bitmapsGfx[ed.gfxId])
+                            elementDo = QGraphicsPixmapItem(elementPixmap)
+                            elementDo.name = f"mapGfx::{ge.elementId}::{ed.gfxId}"
+                        if self._renderScale != 1:
+                            elementDo.setScale(self._renderScale)
+                        elementDo.setPos(elementDo.pos().x() - ed.origin.x, elementDo.pos().y() - ed.origin.y)
+                        if ed.horizontalSymmetry:
+                            self.applyHorizontalSymmetry(elementDo)
+                        if self._renderScale != 1:
+                            if not (
+                                isinstance(ed, AnimatedGraphicalElementData) and self._map.getGfxCount(ed.gfxId) == 1
+                            ):
+                                elementDo.setScale(1 / self._renderScale)
+                        if isinstance(ed, BoundingBoxGraphicalElementData):
+                            elementDo.setVisible(False)
+                            boundingBoxElements.add(ge.identifier)
+                        elementDo.setAcceptHoverEvents(False)
+                        elementDo.setAcceptedMouseButtons(Qt.NoButton)
+                        # if isinstance(ed, BlendedGraphicalElementData) and hasattr(elementDo, "blendMode"):
+                        #     elementDo.blendMode = ed.blendMode FIXME there is no blending in pyqt5
+                    elif isinstance(ed, EntityGraphicalElementData):
+                        TiphonEntityLook.fromString(ed.entityLook)
+                        # TODO: complete handling of EntityGraphicalElementData here
+                    if not elementDo:
+                        Logger().warn(
+                            "A graphical element was missed (Element ID "
+                            + str(ge.elementId)
+                            + "; Cell "
+                            + str(ge.cell.cellId)
+                            + ")."
+                        )
+                        continue
+                    if not ge.colorMultiplicator.isOne():
+                        colors = {
+                            "red": ge.colorMultiplicator.red / 255,
+                            "green": ge.colorMultiplicator.green / 255,
+                            "blue": ge.colorMultiplicator.blue / 255,
+                            "alpha": 1,
+                        }
+                    0.5 if transparent else 1
+                    if ge.identifier > 0:
+                        if ground:
+                            Logger().warning(
+                                f"Will not render elementId {ed.id} since it's an interactive one (identifier: {ge.identifier}), on the ground layer!"
+                            )
+                            continue
+                        ie = {"sprite": elementDo, "position": MapPoint.fromCellId(cell.cellId)}
+                        self._identifiedElements[ge.identifier] = ie
+                    elementDo.setPos(
+                        elementDo.pos().x() + round(AtouinConstants.CELL_HALF_WIDTH + ge.pixelOffset.x),
+                        elementDo.pos().y()
+                        + round(AtouinConstants.CELL_HALF_WIDTH - ge.altitude * 10 + ge.pixelOffset.y),
+                    )
+            if elementDo:
+                cellCtr.addFakeChild(elementDo, colors=colors)
+            elif element.elementType != ElementTypesEnum.SOUND:
+                if not self._cellBitmapData:
+                    cell_width = AtouinConstants.CELL_WIDTH
+                    cell_height = AtouinConstants.CELL_HEIGHT
+                    color = QColor(13369548)
+                    self._cellBitmapData = QPixmap(cell_width, cell_height)
+                    self._cellBitmapData.fill(color)
+                elementDo = QGraphicsPixmapItem(self._cellBitmapData)
+                cellCtr.addFakeChild(elementDo)
+            else:
+                print("not rendering this shit : ", ed.gfxId)
+        return disabled
 
-        Args:
-            image: The QImage to be modified.
-            multipliers: A QVector3D containing multipliers for each channel (R, G, B).
+    def applyHorizontalSymmetry(self, item: QGraphicsPixmapItem):
+        current_transform = item.transform()
+        flipped_transform = current_transform.scale(-1, 1)
+        item.setTransform(flipped_transform)
+        item.setPos(item.pos().x() + item.boundingRect().width(), item.pos().y())
 
-        Returns:
-            A new QImage with the applied color multipliers.
-        """
+    def onBitmapGfxLoaded(self, gfxId, image_bytes: io.BytesIO):
+        if self._cancelRender:
+            return
+        self._bitmapsGfx[gfxId] = QImage.fromData(image_bytes)
 
-        if image.format() != QImage.Format_RGB888:
-            raise ValueError("Unsupported image format. Only RGB888 is supported.")
-        redm = fixture.redMultiplier / 127 + 1
-        greenm = fixture.greenMultiplier / 127 + 1
-        bluem = fixture.blueMultiplier / 127 + 1
-        alpham = fixture.alpha / 255
-        width, height = image.width(), image.height()
+    def onAllGfxLoaded(self):
+        Logger().debug("All gfx elements loaded")
+        if self._cancelRender or self._mapIsReady:
+            return
+        self._loadedGfxListCount += 1
+        if self._hasBitmapGfx and self.hasSwfGfx and self._loadedGfxListCount != 2:
+            return
+        self._mapLoaded = True
+        self.makeMap()
 
-        # Efficient access to pixel data using scan lines
-        for y in range(height):
-            scan_line = image.scanLine(y)
-            result_scan_line = image.scanLine(y)
+    def onloadError(self, gfxId, exc: Exception):
+        Logger().error(f"Load of gfx {gfxId} failed with err {exc}")
 
-            # Process pixels within the scan line efficiently
-            for i in range(0, width * 4, 4):
-                r, g, b, a = scan_line[i : i + 4]
-                r = Qt.qMin(255, int(Qt.qRound(r * redm)))
-                g = Qt.qMin(255, int(Qt.qRound(g * greenm)))
-                b = Qt.qMin(255, int(Qt.qRound(b * bluem)))
-                a = Qt.qMin(255, int(Qt.qRound(a * alpham)))
-                result_scan_line[i : i + 4] = bytes([r, g, b, a])
+    def initGfxLoader(self):
+        self._gfxLoader = GfxParallelLoader(maxThreads=6)
+        self._gfxLoader.progress.connect(self.onBitmapGfxLoaded)
+        self._gfxLoader.error.connect(self.onloadError)
+        self._gfxLoader.finished.connect(self.onAllGfxLoaded)
 
-        return image
+    def onMapLoadingProgress(self, event, uri, total, loadedCount):
+        pass
+
+    def drawCellOnGroundBitmap(self, groundBitmap, cellCtr):
+        # Logger().warning("MapRendered method drawCellOnGroundBitmap not implemented yet")FIXME
+        pass
+
+    @property
+    def hasSwfGfx(self):
+        return self._hasSwfGfx

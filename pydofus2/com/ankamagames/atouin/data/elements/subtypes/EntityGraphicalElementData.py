@@ -1,12 +1,10 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import \
-    GraphicalElementData
+from pydofus2.com.ankamagames.atouin.data.elements.GraphicalElementData import GraphicalElementData
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class EntityGraphicalElementData(GraphicalElementData):
-
     def __init__(self, elementId: int, elementType: int):
         super().__init__(elementId, elementType)
         self.entityLook = ""
@@ -17,8 +15,7 @@ class EntityGraphicalElementData(GraphicalElementData):
         self.maxDelay = 0
 
     def fromRaw(self, raw: BinaryStream, version: int) -> None:
-        entityLookLength = raw.readInt()
-        self.entityLook = raw.readUTFBytes(entityLookLength)
+        self.entityLook = raw.readUTF()
         if AtouinConstants.DEBUG_FILES_PARSING_ELEMENTS:
             Logger().debug(f"  (EntityGraphicalElementData) Entity look : {self.entityLook}")
         self.horizontalSymmetry = raw.readbool()

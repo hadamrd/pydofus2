@@ -1,33 +1,31 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QGraphicsItemGroup, QGraphicsPixmapItem
+from PyQt5.QtCore import QPoint, QRect, QRectF
+from PyQt5.QtWidgets import QGraphicsItem
 
 
-class BitmapCellContainer(QGraphicsItemGroup):
-    def __init__(self, id: int, parent=None):
-        super().__init__(parent)
-        self._cellId = id
-        self._layerId = 0
+class BitmapCellContainer(QGraphicsItem):
+    _destPoint: QPoint
+    _srcRect: QRect
+    _cellId: int = 0
+    _layerId: int = 0
+    _depth: int = 0
+    datas: list
+    bitmaps: list
+    colorTransforms: list
+    _numChildren: int = 0
+
+    def __init__(self, cellId: int, parent=None):
+        self.datas = []
+        self.colorTransforms = []
         self._startX = 0
         self._startY = 0
-        self._x = 0.0
-        self._y = 0.0
-        self._depth = 0
-        self.layers = list[QGraphicsPixmapItem]()
-        self._mouseEnabled = True
+        self._cellId = cellId
+        super().__init__(parent)
 
-    def addLayer(self, image_bytes):
-        pixmap = QPixmap()
-        if pixmap.loadFromData(image_bytes):
-            item = QGraphicsPixmapItem(pixmap, self)
-            self.layers.append(item)
-            return item
-        else:
-            print("Failed to load image data")
-            return None
-
-    def setPosition(self, x, y):
-        self.setPos(x, y)
+    def boundingRect(self):
+        rect = QRectF()
+        for child in self.childItems():
+            rect = rect.united(child.boundingRect().translated(child.pos()))
+        return rect
 
     @property
     def cellId(self):
@@ -38,15 +36,32 @@ class BitmapCellContainer(QGraphicsItemGroup):
         self._cellId = value
 
     @property
-    def mouseEnabled(self):
-        return self._mouseEnabled
+    def layerId(self):
+        return self._layerId
 
-    @mouseEnabled.setter
-    def mouseEnabled(self, value):
-        self._mouseEnabled = value
-        for layer in self.layers:
-            layer.setAcceptHoverEvents(value)
-            if value:
-                layer.setAcceptedMouseButtons(Qt.LeftButton)  # Assuming you want left clicks
-            else:
-                layer.setAcceptedMouseButtons(Qt.NoButton)
+    @layerId.setter
+    def layerId(self, value):
+        self._layerId = value
+
+    def addFakeChild(self, child: QGraphicsItem, data=None, colors=None):
+        if colors:
+            self.colorTransforms.append(colors)
+        if data:
+            self.datas.append(data)
+        child.setParentItem(self)
+
+    @property
+    def startX(self) -> int:
+        return self._startX
+
+    @startX.setter
+    def startX(self, val: int):
+        self._startX = val
+
+    @property
+    def startY(self) -> int:
+        return self._startY
+
+    @startY.setter
+    def startY(self, val: int):
+        self._startY = val

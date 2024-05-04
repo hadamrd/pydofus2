@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
 
 
-class IAdapter(ABC):
+class AdapterLoadError(Exception):
+    ...
 
+
+class IAdapter(ABC):
     @abstractmethod
     def loadDirectly(self, uri, path, observer, dispatchProgress):
         pass

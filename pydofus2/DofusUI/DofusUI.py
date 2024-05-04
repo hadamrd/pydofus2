@@ -3,14 +3,17 @@ import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QScreen
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QGraphicsView, QMainWindow
-from Sprite import Sprite
 from Stage import Stage
 from StageShareManager import StageShareManager
 
 from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 from pydofus2.com.ankamagames.atouin.types.AtouinOptions import AtouinOptions
+from pydofus2.com.ankamagames.atouin.types.DataMapContainer import DataMapContainer
+from pydofus2.com.ankamagames.atouin.types.SimpleGraphicsContainer import SimpleGraphicsContainer
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.types.DofusOptions import DofusOptions
+from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
@@ -37,10 +40,11 @@ class DofusUI(QMainWindow):
         self.view = QGraphicsView(self.stage)
         self.view.setObjectName("stage main view")
         self.setCentralWidget(self.view)
-        self._worldContainer = None
         self._windowInitialized = False
-        self.initWorld()
-        self.initStageManager()
+        self._worldContainer = SimpleGraphicsContainer()
+        self.stage.addItem(self._worldContainer)
+        StageShareManager().stage = self.stage
+        StageShareManager().qMainWindow = self
         self.initOptions()
 
     def initWindow(self, isFullScreen):
@@ -79,17 +83,9 @@ class DofusUI(QMainWindow):
         self._doOptions.setOption("fullScreen", self._doOptions.getOption("fullScreen"))
 
     def onOptionChange(self, e, name, value, oldValue):
-        Logger().info(f"DofusUI property {name} changed from {value} to {oldValue}")
+        Logger().info(f"DofusUI property {name} changed from {oldValue} to {value}")
 
-    def initStageManager(self):
-        StageShareManager().stage = self.stage
-        StageShareManager().rootContainer = self
-
-    def initWorld(self):
-        self._worldContainer = Sprite()
-        self.stage.addItem(self._worldContainer)
-
-    def getWorldContainer(self) -> Sprite:
+    def getWorldContainer(self):
         return self._worldContainer
 
     def initOptions(self):
@@ -110,7 +106,7 @@ class DofusUI(QMainWindow):
         ao.setOption("mapsPath", LangManager().getEntry("config.atouin.path.maps"))
         ao.setOption("elementsIndexPath", LangManager().getEntry("config.atouin.path.elements"))
         ao.setOption("elementsPath", LangManager().getEntry("config.gfx.path.cellElement"))
-        ao.setOption("swfPath", LangManager().getEntry("config.gfx.path.world.swf"))
+        ao.setOption("swfPath", XmlConfig().getEntry("config.gfx.path.world.swf"))
         ao.setOption("tacticalModeTemplatesPath", LangManager().getEntry("config.atouin.path.tacticalModeTemplates"))
         Atouin().setDisplayOptions(ao)
         self.setDisplayOptions(DofusOptions())
@@ -146,5 +142,8 @@ if __name__ == "__main__":
     from pydofus2.DofusUI.MapRenderer import MapRenderer
 
     mapRenderer = MapRenderer(Atouin().worldContainer, Elements())
-
+    mapId = 191104002.0
+    MapDisplayManager().loadMap(mapId)
+    dataMap = DataMapContainer(MapDisplayManager().dataMap)
+    mapRenderer.render(dataMap)
     sys.exit(app.exec_())

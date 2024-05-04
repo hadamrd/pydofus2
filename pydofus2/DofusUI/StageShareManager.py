@@ -40,7 +40,7 @@ class StageShareManager(QObject):
         QApplication.instance().aboutToQuit.connect(self.onApplicationQuit)
 
     def onApplicationQuit(self):
-        print("Application is quitting. Clean up if necessary.")
+        pass
 
     @property
     def stage(self) -> Stage:
@@ -55,11 +55,11 @@ class StageShareManager(QObject):
         self.stage.setSceneRect(*self.stageLogicalBounds.getRect())
 
     @property
-    def rootContainer(self) -> QMainWindow:
+    def qMainWindow(self) -> QMainWindow:
         return self._rootContainer
 
-    @rootContainer.setter
-    def rootContainer(self, value: QMainWindow):
+    @qMainWindow.setter
+    def qMainWindow(self, value: QMainWindow):
         self._rootContainer = value
 
     @property

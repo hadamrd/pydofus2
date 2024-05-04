@@ -1,9 +1,10 @@
 from types import FunctionType
 
-from pydofus2.com.ankamagames.jerakine.interfaces.ICustomUnicNameGetter import ICustomUnicNameGetter
+from pydofus2.com.ankamagames.jerakine.interfaces.ICustomUniqueNameGetter import ICustomUniqueNameGetter
+from pydofus2.DofusUI.Sprite import Sprite
 
 
-class GraphicCell(ICustomUnicNameGetter):
+class GraphicCell(Sprite, ICustomUniqueNameGetter):
 
     _dropValidator: FunctionType
 
@@ -23,8 +24,10 @@ class GraphicCell(ICustomUnicNameGetter):
         self._processDrop = self.returnTrueFunctionType
         super().__init__()
         self.cellId = cellId
-        str(cellId)
-        self._name = "cell::" + cellId
+        self.name = str(cellId)
+        self._name = "cell::" + str(cellId)
+        self.mouseChildren = False
+        self.buttonMode = True
 
     @property
     def dropValidator(self) -> FunctionType:
@@ -35,7 +38,7 @@ class GraphicCell(ICustomUnicNameGetter):
         self._dropValidator = dv
 
     @property
-    def customUnicName(self) -> str:
+    def customUniqueName(self) -> str:
         return self._name
 
     @property

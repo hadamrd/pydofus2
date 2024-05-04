@@ -22,10 +22,6 @@ class LangManager(metaclass=ThreadSharedSingleton):
             JerakineConstants.DATASTORE_LANG, self.KEY_LANG_CATEGORY, list()
         )
         self._aVersion = StoreDataManager().getData(JerakineConstants.DATASTORE_LANG_VERSIONS, self.KEY_LANG_VERSION)
-        self._aCategory = list()
-        self._aVersion = StoreDataManager().getSetData(
-            JerakineConstants.DATASTORE_LANG_VERSIONS, self.KEY_LANG_VERSION, list()
-        )
         Logger().debug(f"Lang version {self._aVersion}, Categories {self._aCategory}")
 
     def replaceKey(self, sTxt: str, bReplaceDynamicReference=False):
