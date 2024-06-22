@@ -21,12 +21,17 @@ class StageShareManager(QObject):
         if self._initialized:
             return
         super().__init__()
-        self._rootContainer = None
+        self._rootContainer: QMainWindow = None
         self._isActive = False
         self._initialized = True
         self._stage = None
         self._stageVisibleBoundCache = QRect()
+        self.stageLogicalBounds = None
         self.setupConnections()
+
+    @property
+    def rootContainer(self):
+        return self._rootContainer
 
     @property
     def startWidth(self):
@@ -51,7 +56,8 @@ class StageShareManager(QObject):
         self._stage = value
         self._startWidth = 1280
         self._startHeight = 1024
-        self.stageLogicalBounds = QRect(0, 0, self._startWidth, self._startHeight)
+        if not self.stageLogicalBounds:
+            self.stageLogicalBounds = QRect(0, 0, self._startWidth, self._startHeight)
         self.stage.setSceneRect(*self.stageLogicalBounds.getRect())
 
     @property

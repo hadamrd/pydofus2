@@ -1,15 +1,17 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayActorInformations import \
-    GameRolePlayActorInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayActorInformations import (
+    GameRolePlayActorInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
-        EntityDispositionInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.TaxCollectorStaticInformations import \
-        TaxCollectorStaticInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
-        EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import (
+        EntityDispositionInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.TaxCollectorStaticInformations import (
+        TaxCollectorStaticInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
 
 
 class GameRolePlayTaxCollectorInformations(GameRolePlayActorInformations):

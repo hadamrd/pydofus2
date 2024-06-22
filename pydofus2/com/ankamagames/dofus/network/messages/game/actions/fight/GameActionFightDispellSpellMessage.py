@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellMessage import \
-    GameActionFightDispellMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDispellMessage import (
+    GameActionFightDispellMessage,
+)
 
 
 class GameActionFightDispellSpellMessage(GameActionFightDispellMessage):

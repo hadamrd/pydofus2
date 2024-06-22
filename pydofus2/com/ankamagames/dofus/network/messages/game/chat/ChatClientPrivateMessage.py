@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatAbstractClientMessage import \
-    ChatAbstractClientMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatAbstractClientMessage import (
+    ChatAbstractClientMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AbstractPlayerSearchInformation import \
-        AbstractPlayerSearchInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AbstractPlayerSearchInformation import (
+        AbstractPlayerSearchInformation,
+    )
 
 
 class ChatClientPrivateMessage(ChatAbstractClientMessage):

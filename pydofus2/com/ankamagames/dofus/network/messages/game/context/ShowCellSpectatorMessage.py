@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.ShowCellMessage import \
-    ShowCellMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.ShowCellMessage import ShowCellMessage
 
 
 class ShowCellSpectatorMessage(ShowCellMessage):

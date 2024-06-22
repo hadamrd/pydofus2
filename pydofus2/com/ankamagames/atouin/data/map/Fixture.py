@@ -2,6 +2,18 @@ from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 
 
 class Fixture:
+    fixtureId: int
+    offsetX: int
+    offsetY: int
+    rotation: float
+    xScale: float
+    yScale: float
+    redMultiplier: int
+    greenMultiplier: int
+    blueMultiplier: int
+    hue: int
+    alpha: float
+
     def __init__(self, raw):
         self.read(raw)
 

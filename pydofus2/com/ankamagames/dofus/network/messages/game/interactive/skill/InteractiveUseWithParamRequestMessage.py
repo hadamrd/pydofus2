@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseRequestMessage import \
-    InteractiveUseRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseRequestMessage import (
+    InteractiveUseRequestMessage,
+)
 
 
 class InteractiveUseWithParamRequestMessage(InteractiveUseRequestMessage):

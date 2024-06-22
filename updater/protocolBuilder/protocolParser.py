@@ -128,7 +128,7 @@ class ProtocolParser:
         var_type = None
         dynamicType = False
         if "." in typename and "Vector" not in typename:
-            print(f"'{name}' found with vector type complete path '{typename}'")
+            # print(f"'{name}' found with vector type complete path '{typename}'")
             typename = typename.split(".")[-1]
         if typename in self.json["type"]:
             var_type = typename

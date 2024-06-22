@@ -1,11 +1,9 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOption import \
-    HumanOption
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOption import HumanOption
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.IndexedEntityLook import \
-        IndexedEntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.IndexedEntityLook import IndexedEntityLook
 
 
 class HumanOptionFollowers(HumanOption):

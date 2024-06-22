@@ -8,7 +8,6 @@ from pydofus2.com.ankamagames.atouin.types.LayerContainer import LayerContainer
 from pydofus2.com.ankamagames.atouin.types.SimpleGraphicsContainer import SimpleGraphicsContainer
 from pydofus2.com.ankamagames.atouin.utils.VisibleCellDetection import VisibleCellDetection
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.types.events.PropertyChangeEvent import PropertyChangeEvent
 from pydofus2.com.ankamagames.jerakine.types.positions.WorldPoint import WorldPoint
 
 
@@ -25,13 +24,13 @@ class DataMapContainer:
             self._aLayers = {}
         self._aCell = dict[int, CellReference]()
         self._animatedElements = []
-        self._alwaysAnimatedElements = {}
+        self._alwaysAnimatedElement = {}
         self._allowAnimatedGfx = Atouin().options.getOption("allowAnimatedGfx")
         self._useWorldEntityPool = Atouin().options.getOption("useWorldEntityPool")
         self.layerDepth = []
         self.id = mapData.id
         self.rendered = False
-        Atouin().options.on(PropertyChangeEvent.PROPERTY_CHANGED, self.onOptionChange)
+        Atouin().options.propertyChanged.connect(self.onOptionChange)
 
     @property
     def dataMap(self):
@@ -78,13 +77,13 @@ class DataMapContainer:
         for k in provider:
             cellReference = self._aCell.get(k)
             if cellReference:
-                sprites_to_remove = []
+                spritesToRemove = []
                 for sprite in cellReference.listSprites:
                     if sprite:
                         parentSprite = sprite.parentItem()
                         if not isinstance(parentSprite, QGraphicsItemGroup):
                             raise Exception("parent sprite must graphics item group!")
-                        sprites_to_remove.append(sprite)
+                        spritesToRemove.append(sprite)
                         if not parentSprite.childItems():
                             if not parentSprite.parentItem():
                                 raise Exception(
@@ -94,7 +93,7 @@ class DataMapContainer:
                             if not isinstance(grandParent, QGraphicsItemGroup):
                                 raise Exception("Cell reference sprite parent of parent is not a QGraphicsItemGroup")
                             grandParent.removeFromGroup(parentSprite)
-                for sprite in sprites_to_remove:
+                for sprite in spritesToRemove:
                     parentSprite.removeFromGroup(sprite)
                     cellReference.listSprites.remove(sprite)
                 del self._aCell[k]

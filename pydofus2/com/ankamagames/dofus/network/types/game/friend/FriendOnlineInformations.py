@@ -1,15 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.friend.FriendInformations import \
-    FriendInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.friend.FriendInformations import FriendInformations
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
-        AccountTagInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import \
-        PlayerStatus
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
-        GuildInformations
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatus import PlayerStatus
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
 
 
 class FriendOnlineInformations(FriendInformations):

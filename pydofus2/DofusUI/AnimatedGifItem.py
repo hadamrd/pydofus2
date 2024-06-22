@@ -11,7 +11,7 @@ class AnimatedGifItem(QGraphicsPixmapItem):
 
     def setGifPath(self, path):
         self.movie.setFileName(path)
-        self.movie.start()  # Start the movie as soon as the path is set
+        self.movie.start()
 
     def updatePixmap(self, frame_number):
         self.setPixmap(self.movie.currentPixmap())

@@ -1,13 +1,12 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
-    GuildInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.guild.recruitment.GuildRecruitmentInformation import \
-        GuildRecruitmentInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import \
-        SocialEmblem
+    from pydofus2.com.ankamagames.dofus.network.types.game.guild.recruitment.GuildRecruitmentInformation import (
+        GuildRecruitmentInformation,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import SocialEmblem
 
 
 class GuildFactSheetInformations(GuildInformations):

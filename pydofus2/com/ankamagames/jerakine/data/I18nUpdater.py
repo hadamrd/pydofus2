@@ -16,10 +16,10 @@ class I18nUpdater(DataUpdateManager, metaclass=Singleton):
         self._language = None
         self._overrideProvider = None
 
-    def initI18n(self, language: str, metaFileListe: Uri, clearAll=False, overrideProvider=None):
+    def initI18n(self, language: str, metaFileList: Uri, clearAll=False, overrideProvider=None):
         self._language = language
         self._overrideProvider = overrideProvider
-        super().init(metaFileListe, clearAll)
+        super().init(metaFileList, clearAll)
 
     def checkFileVersion(self, sFileName, sVersion):
         return False

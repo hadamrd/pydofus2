@@ -5,10 +5,8 @@ from typing import Any, Dict, List, Optional
 from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
-from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractFileProtocol import \
-    AbstractFileProtocol
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractFileProtocol import AbstractFileProtocol
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
@@ -24,34 +22,31 @@ class FileProtocol(AbstractFileProtocol):
         self,
         uri: Uri,
         observer: IResourceObserver,
-        dispatchProgress: bool,
         cache: ICache,
         forcedAdapter: Optional[type] = None,
         singleFile: bool = False,
     ) -> None:
         url = ""
-        if singleFile and (uri.fileType != "swf" or not uri.subPath or len(uri.subPath) == 0):
+        if singleFile and (uri.fileType != "swf" or not uri.subPath):
             self.singleFileObserver = observer
-            self.loadDirectly(uri, self, dispatchProgress, forcedAdapter)
+            self.loadDirectly(uri, self, forcedAdapter)
         else:
             url = self.getUrl(uri)
             if url in self.loadingFile:
                 self.loadingFile[url].append(observer)
             else:
                 self.loadingFile[url] = [observer]
-                self.loadDirectly(uri, self, dispatchProgress, forcedAdapter)
+                self.loadDirectly(uri, self, forcedAdapter)
 
-    def loadDirectly(
-        self, uri: Uri, observer: IResourceObserver, dispatchProgress: bool, forcedAdapter: Optional[type]
-    ) -> None:
+    def loadDirectly(self, uri: Uri, observer: IResourceObserver, forcedAdapter: Optional[type]) -> None:
         self.getAdapter(uri, forcedAdapter)
-        self.adapter.loadDirectly(uri, self.extractPath(uri.path), observer, dispatchProgress)
+        self.adapter.loadDirectly(uri, self.extractPath(uri.path), observer)
 
     def extractPath(self, path_str: str) -> str:
         absoluteFile = Path(path_str)
         if not absoluteFile.is_absolute():
             path = settings.DOFUS_HOME / absoluteFile
-        absoluteFile = path.resolve()
+            absoluteFile = path.resolve()
         path_str = str(absoluteFile).replace("file:///", "")
 
         if "\\\\" in path_str:

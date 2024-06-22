@@ -13,10 +13,8 @@ from pydofus2.com.ankamagames.atouin.types.SimpleGraphicsContainer import Simple
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.resources.adapters.AdapterFactory import AdapterFactory
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
 from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderFactory import ResourceLoaderFactory
 from pydofus2.com.ankamagames.jerakine.resources.loaders.ResourceLoaderType import ResourceLoaderType
-from pydofus2.com.ankamagames.jerakine.types.events.PropertyChangeEvent import PropertyChangeEvent
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 from pydofus2.DofusUI.StageShareManager import StageShareManager
 
@@ -53,9 +51,8 @@ class Atouin(metaclass=Singleton):
         self._aoOptions = ao
         self._worldContainer = ao.container
         self._handler = ao.handler
-        self._aoOptions.on(PropertyChangeEvent.PROPERTY_CHANGED, self.onPropertyChange)
+        self._aoOptions.propertyChanged.connect(self.onPropertyChange)
 
-        # Remove all children from _worldContainer
         for item in self._worldContainer.childItems():
             item.setParentItem(None)
             del item
@@ -70,14 +67,14 @@ class Atouin(metaclass=Singleton):
         self._worldContainer.addChild(self._spChgMapContainer)
         self._worldContainer.addChild(self._spGfxContainer)
         self._worldContainer.addChild(self._overlayContainer)
-
+        frustum = ao.getOption("frustum")
         FrustumManager().init(self._spChgMapContainer)
-        self.computeWideScreenBitmapWidth(ao.getOption("frustum"))
-        self.setFrustum(ao.getOption("frustum"))
+        self.computeWideScreenBitmapWidth(frustum)
+        self.setFrustum(frustum)
         self.init()
 
     def setWorldMask(self):
-        self._worldContainer.addToGroup(self._worldMask)
+        self._worldContainer.addChild(self._worldMask)
         self.setWorldMaskDimensions(AtouinConstants.WIDESCREEN_BITMAP_WIDTH)
         hideBlackBorderValue = self._aoOptions.getOption("hideBlackBorder")
         if not hideBlackBorderValue:
@@ -85,7 +82,7 @@ class Atouin(metaclass=Singleton):
         else:
             m = self.getWorldMask("blackBorder", False)
             if m:
-                m.setParentItem(self._worldMask)
+                self._worldMask.addChild(m)
 
     def init(self):
         self._aSprites = []
@@ -94,14 +91,15 @@ class Atouin(metaclass=Singleton):
 
     def loadElementsFile(self):
         elementsLoader = ResourceLoaderFactory.getLoader(ResourceLoaderType.SINGLE_LOADER)
-        elementsLoader.on(ResourceEvent.ERROR, self.onElementsError, False, 0, True)
-        elementsLoader.on(ResourceEvent.LOADED, self.onElementsLoaded)
-        elementsLoader.load(Uri(self.options.getOption("elementsIndexPath")))
+        elementsLoader.loadFailed.connect(self.onElementsError)
+        elementsLoader.resourceLoaded.connect(self.onElementsLoaded)
+        elementsIndexPath = self.options.getOption("elementsIndexPath")
+        elementsLoader.load(Uri(elementsIndexPath))
 
-    def onElementsLoaded(self, event, uri: Uri, resourceType, elements: Elements):
+    def onElementsLoaded(self, uri: Uri, resourceType, elements: Elements):
         Logger().debug("Elements data loaded")
 
-    def onElementsError(self, e, uri, errorMsg, errorCode):
+    def onElementsError(self, uri, errorMsg, errorCode):
         Logger().error("Atouin was unable to retrieve the elements directory (" + errorMsg + ")")
 
     def setFrustum(self, f: Frustum):
@@ -162,7 +160,7 @@ class Atouin(metaclass=Singleton):
     def applyMapZoomScale(self, gameMap):
         Logger().warning("Atouin applyMapZoomScale function not implemented")
 
-    def onPropertyChange(self, e: PropertyChangeEvent, propertyName, propertyValue, oldPropertyValue):
+    def onPropertyChange(self, propertyName, propertyValue, oldPropertyValue):
         if propertyName == "hideBlackBorder":
             if not propertyValue:
                 self.setWorldMaskDimensions(StageShareManager().startWidth, 0, 0, 1, "blackBorder")
@@ -182,6 +180,7 @@ class Atouin(metaclass=Singleton):
             AtouinConstants.WIDESCREEN_BITMAP_WIDTH,
             StageShareManager().startHeight,
         )
+        # StageShareManager().stage.setSceneRect(*StageShareManager().stageLogicalBounds.getRect())
 
     @property
     def chgMapContainer(self) -> SimpleGraphicsContainer:

@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMessage import \
-    ExchangeObjectMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMessage import (
+    ExchangeObjectMessage,
+)
 
 
 class ExchangeObjectsRemovedMessage(ExchangeObjectMessage):

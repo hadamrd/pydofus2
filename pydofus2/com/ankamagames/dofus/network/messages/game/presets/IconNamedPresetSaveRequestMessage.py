@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.presets.IconPresetSaveRequestMessage import \
-    IconPresetSaveRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.presets.IconPresetSaveRequestMessage import (
+    IconPresetSaveRequestMessage,
+)
 
 
 class IconNamedPresetSaveRequestMessage(IconPresetSaveRequestMessage):

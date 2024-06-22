@@ -128,6 +128,16 @@ class Uri:
         return settings.DOFUS_HOME / tmp
 
     @property
+    def fileName(self):
+        if self._fileNameChanged:
+            if not self._subPath or len(self._subPath) == 0:
+                self._fileName = self._path[self._path.rfind("/") + 1 :]
+            else:
+                self._fileName = self._subPath[self._subPath.rfind("/") + 1 :]
+            self._fileNameChanged = False
+        return self._fileName
+
+    @property
     def fileType(self):
         if self._fileTypeChanged:
             path_obj = Path(self._subPath) if self._subPath and "." in self._subPath else Path(self._path)

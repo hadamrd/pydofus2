@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorComplementaryInformations import \
-    TaxCollectorComplementaryInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.collector.tax.TaxCollectorComplementaryInformations import (
+    TaxCollectorComplementaryInformations,
+)
 
 
 class TaxCollectorLootInformations(TaxCollectorComplementaryInformations):

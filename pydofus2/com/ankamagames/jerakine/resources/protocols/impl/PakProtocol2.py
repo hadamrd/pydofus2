@@ -55,7 +55,6 @@ class PakProtocol2(AbstractProtocol):
         self,
         uri: Uri,
         observer: "IResourceObserver",
-        dispatchProgress: bool,
         cache: "ICache",
         forcedAdapter: "IAdapter",
         uniqueFile: bool,
@@ -72,7 +71,7 @@ class PakProtocol2(AbstractProtocol):
         data = fileStream.readBytes(index["length"])
         self.getAdapter(uri, forcedAdapter)
         try:
-            self._adapter.loadFromData(uri, data, observer, dispatchProgress)
+            self._adapter.loadFromData(uri, data, observer)
         except AdapterLoadError as e:
             error_message = str(e)
             stack_trace = traceback.format_exc()

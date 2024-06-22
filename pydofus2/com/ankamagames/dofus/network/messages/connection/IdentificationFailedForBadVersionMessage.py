@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationFailedMessage import \
-    IdentificationFailedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationFailedMessage import (
+    IdentificationFailedMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.version.Version import \
-        Version
+    from pydofus2.com.ankamagames.dofus.network.types.version.Version import Version
 
 
 class IdentificationFailedForBadVersionMessage(IdentificationFailedMessage):

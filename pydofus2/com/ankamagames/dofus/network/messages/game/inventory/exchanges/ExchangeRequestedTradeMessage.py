@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestedMessage import \
-    ExchangeRequestedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestedMessage import (
+    ExchangeRequestedMessage,
+)
 
 
 class ExchangeRequestedTradeMessage(ExchangeRequestedMessage):

@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.social.recruitment.SocialRecruitmentInformation import \
-    SocialRecruitmentInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.social.recruitment.SocialRecruitmentInformation import (
+    SocialRecruitmentInformation,
+)
 
 
 class GuildRecruitmentInformation(SocialRecruitmentInformation):

@@ -33,7 +33,7 @@ class FrustumManager(metaclass=Singleton):
 
     def setBorderInteraction(self, enable):
         # Logic to enable or disable interaction at the border
-        pass
+        ...
 
     def click(self, event: Frustum, shape: FrustumShape):
         ...
@@ -45,7 +45,6 @@ class FrustumManager(metaclass=Singleton):
         ...
 
     def getShape(self, direction):
-        direction = DirectionsEnum(direction)
         if direction == DirectionsEnum.UP:
             return self._shapeTop
         elif direction == DirectionsEnum.LEFT:
@@ -57,27 +56,28 @@ class FrustumManager(metaclass=Singleton):
         return None
 
     @property
-    def frustum(self):
-        return self._frustrum
+    def frustum(self) -> Frustum:
+        return self._frustum
 
     @frustum.setter
     def frustum(self, rFrustum: Frustum):
-        self._frustrum = rFrustum
-        self._draw_shapes()
+        self._frustum = rFrustum
+        self._drawShapes()
 
-    def _draw_shapes(self):
+    def _drawShapes(self):
         color = QColor("blue")
-        color.setAlphaF(1)
+        color.setAlphaF(0)
+        # Drawing for shapeLeft
         new_rect_left = QRectF(self.SHAPE_INSIDE_PADDING, 0, -512, StageShareManager().startHeight)
         self._shapeLeft.updateGeometry(new_rect_left)
         self._shapeLeft.updateColor(color)
-        # Update properties for _shapeRight
+        # Drawing for shapeRight
         new_rect_right = QRectF(
             StageShareManager().startWidth - self.SHAPE_INSIDE_PADDING, 0, 512, StageShareManager().startHeight
         )
         self._shapeRight.updateGeometry(new_rect_right)
         self._shapeRight.updateColor(color)
-        # Drawing for _shapeTop
+        # Drawing for shapeTop
         new_rect_top = QRectF(
             self.SHAPE_INSIDE_PADDING,
             self.SHAPE_INSIDE_PADDING - 13,
@@ -86,12 +86,12 @@ class FrustumManager(metaclass=Singleton):
         )
         self._shapeTop.updateColor(color)
         self._shapeTop.updateGeometry(new_rect_top)
-        # Drawing for _shapeBottom
+        # Drawing for shapeBottom
         new_rect_bot = QRectF(
             self.SHAPE_INSIDE_PADDING,
-            int(self._frustrum.bottom - self.SHAPE_INSIDE_PADDING / 2 - 5),
-            int(StageShareManager().startWidth - self.SHAPE_INSIDE_PADDING * 2),
-            int(self._frustrum.marginBottom + self.SHAPE_INSIDE_PADDING * 2),
+            self.frustum.bottom - self.SHAPE_INSIDE_PADDING / 2 - 5,
+            StageShareManager().startWidth - self.SHAPE_INSIDE_PADDING * 2,
+            self.frustum.marginBottom + self.SHAPE_INSIDE_PADDING * 2,
         )
         self._shapeBottom.updateColor(color)
         self._shapeBottom.updateGeometry(new_rect_bot)

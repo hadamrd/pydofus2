@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectUseMessage import \
-    ObjectUseMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectUseMessage import ObjectUseMessage
 
 
 class ObjectUseOnCellMessage(ObjectUseMessage):

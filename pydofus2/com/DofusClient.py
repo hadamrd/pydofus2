@@ -98,7 +98,7 @@ class DofusClient(threading.Thread):
                 (KernelEvent.ClientRestart, self.onRestart),
                 (KernelEvent.ClientReconnect, self.onReconnect),
                 (KernelEvent.ClientClosed, self.onConnectionClosed),
-                (KernelEvent.PlayerLoginSuccess, self.onloginSuccess),
+                (KernelEvent.PlayerLoginSuccess, self.onLoginSuccess),
                 (KernelEvent.CharacterImpossibleSelection, self.onCharacterImpossibleSelection),
                 (KernelEvent.FightStarted, self.onFight),
                 (KernelEvent.HaapiApiKeyReady, self.onHaapiApiKeyReady),
@@ -203,7 +203,7 @@ class DofusClient(threading.Thread):
     def onServersList(self, event, serversList, serversUsedList, serversTypeAvailableSlots):
         pass
 
-    def onloginSuccess(self, event, ismsg):
+    def onLoginSuccess(self, event, ismsg):
         ZaapDecoy.CONNECTED_ACCOUNTS += 1
         HaapiKeyManager().on(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
         Haapi().getLoadingScreen(page=1, accountId=PlayerManager().accountId, lang="en", count=20)

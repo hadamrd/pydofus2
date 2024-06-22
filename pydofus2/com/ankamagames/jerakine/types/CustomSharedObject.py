@@ -97,7 +97,7 @@ class CustomSharedObject:
     def getDataFromFile(self) -> None:
         if not self._file:
             self._file = os.path.join(self.COMMON_FOLDER, self._name + "." + self.DATAFILE_EXTENSION)
-        Logger().debug("Loading file : " + self._file)
+        Logger().debug("Loading shared data file : " + self._file)
         if os.path.exists(self._file):
             try:
                 self._getDataFromFile(encoding=0)
@@ -107,7 +107,7 @@ class CustomSharedObject:
                 except Exception as e:
                     if self._fileStream:
                         self._fileStream.close()
-                    Logger().warning(str(e))
+                    Logger().error(e, exc_info=True)
                     if self.throwException:
                         raise CustomSharedObjectFileFormatError("Malformed file : " + self._file)
         if not self.data:

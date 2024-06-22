@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.social.ContactLookRequestMessage import \
-    ContactLookRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.social.ContactLookRequestMessage import (
+    ContactLookRequestMessage,
+)
 
 
 class ContactLookRequestByIdMessage(ContactLookRequestMessage):

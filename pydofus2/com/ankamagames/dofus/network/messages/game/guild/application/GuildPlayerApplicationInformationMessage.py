@@ -1,13 +1,14 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.GuildPlayerApplicationAbstractMessage import \
-    GuildPlayerApplicationAbstractMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.application.GuildPlayerApplicationAbstractMessage import (
+    GuildPlayerApplicationAbstractMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
-        GuildInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.application.SocialApplicationInformation import \
-        SocialApplicationInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.application.SocialApplicationInformation import (
+        SocialApplicationInformation,
+    )
 
 
 class GuildPlayerApplicationInformationMessage(GuildPlayerApplicationAbstractMessage):

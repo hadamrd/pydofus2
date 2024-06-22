@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party.AbstractPartyMemberInFightMessage import \
-    AbstractPartyMemberInFightMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.party.AbstractPartyMemberInFightMessage import (
+    AbstractPartyMemberInFightMessage,
+)
 
 
 class PartyMemberInBreachFightMessage(AbstractPartyMemberInFightMessage):

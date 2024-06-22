@@ -1,4 +1,5 @@
 from PyQt5.QtCore import QRectF
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QGraphicsItem, QGraphicsPixmapItem
 
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
@@ -74,7 +75,8 @@ class CellContainer(QGraphicsItem):
 
         if colors is not None:
             cltr = ColorTransform(colors["red"], colors["green"], colors["blue"], colors["alpha"])
-            cltr.apply(pChild.pixmap().toImage())
+            transformedImage = cltr.apply(pChild.pixmap().toImage())
+            pChild.setPixmap(QPixmap.fromImage(transformedImage))
 
         pChild.setParentItem(self)
 

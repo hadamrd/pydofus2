@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.surrender.SurrenderRefused import \
-    SurrenderRefused
+from pydofus2.com.ankamagames.dofus.network.types.game.surrender.SurrenderRefused import SurrenderRefused
 
 
 class SurrenderRefusedBeforeTurn(SurrenderRefused):

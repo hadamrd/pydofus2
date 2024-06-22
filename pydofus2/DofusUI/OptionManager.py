@@ -1,15 +1,14 @@
 import collections
 
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, pyqtSignal
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
-from pydofus2.com.ankamagames.jerakine.types.events.PropertyChangeEvent import PropertyChangeEvent
 
 
-class OptionManager(EventsHandler):
+class OptionManager(QObject):
+    propertyChanged = pyqtSignal(str, object, object)
     _optionsManager = dict[str, "OptionManager"]()
 
     def __init__(self, customName=None):
@@ -72,4 +71,4 @@ class OptionManager(EventsHandler):
             self._properties[name] = value
             if self._useCache[name] and not isinstance(value, QObject):
                 StoreDataManager().setData(self._dataStore, name, value)
-            self.send(PropertyChangeEvent.PROPERTY_CHANGED, name, value, oldValue)
+            self.propertyChanged.emit(name, value, oldValue)

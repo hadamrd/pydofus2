@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpMessage import \
-    CharacterLevelUpMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.CharacterLevelUpMessage import (
+    CharacterLevelUpMessage,
+)
 
 
 class CharacterLevelUpInformationMessage(CharacterLevelUpMessage):

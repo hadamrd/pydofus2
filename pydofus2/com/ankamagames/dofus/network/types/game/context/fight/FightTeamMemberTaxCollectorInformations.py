@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberInformations import \
-    FightTeamMemberInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberInformations import (
+    FightTeamMemberInformations,
+)
 
 
 class FightTeamMemberTaxCollectorInformations(FightTeamMemberInformations):

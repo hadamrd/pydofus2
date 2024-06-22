@@ -1,13 +1,16 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.choice.CharactersListMessage import \
-    CharactersListMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.choice.CharactersListMessage import (
+    CharactersListMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterBaseInformations import \
-        CharacterBaseInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterToRemodelInformations import \
-        CharacterToRemodelInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterBaseInformations import (
+        CharacterBaseInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterToRemodelInformations import (
+        CharacterToRemodelInformations,
+    )
 
 
 class CharactersListWithRemodelingMessage(CharactersListMessage):

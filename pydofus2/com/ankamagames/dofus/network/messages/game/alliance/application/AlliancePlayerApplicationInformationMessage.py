@@ -1,13 +1,16 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.application.AlliancePlayerApplicationAbstractMessage import \
-    AlliancePlayerApplicationAbstractMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.application.AlliancePlayerApplicationAbstractMessage import (
+    AlliancePlayerApplicationAbstractMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
-        AllianceInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.application.SocialApplicationInformation import \
-        SocialApplicationInformation
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import (
+        AllianceInformation,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.application.SocialApplicationInformation import (
+        SocialApplicationInformation,
+    )
 
 
 class AlliancePlayerApplicationInformationMessage(AlliancePlayerApplicationAbstractMessage):

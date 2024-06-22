@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterBaseInformations import \
-    CharacterBaseInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.character.choice.CharacterBaseInformations import (
+    CharacterBaseInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
-        EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
 
 
 class CharacterHardcoreOrEpicInformations(CharacterBaseInformations):

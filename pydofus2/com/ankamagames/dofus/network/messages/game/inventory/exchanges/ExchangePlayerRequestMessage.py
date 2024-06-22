@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestMessage import \
-    ExchangeRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestMessage import (
+    ExchangeRequestMessage,
+)
 
 
 class ExchangePlayerRequestMessage(ExchangeRequestMessage):

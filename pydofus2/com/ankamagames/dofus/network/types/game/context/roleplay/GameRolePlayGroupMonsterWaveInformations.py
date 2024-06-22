@@ -1,15 +1,17 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayGroupMonsterInformations import \
-    GameRolePlayGroupMonsterInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayGroupMonsterInformations import (
+    GameRolePlayGroupMonsterInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
-        EntityDispositionInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GroupMonsterStaticInformations import \
-        GroupMonsterStaticInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
-        EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import (
+        EntityDispositionInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GroupMonsterStaticInformations import (
+        GroupMonsterStaticInformations,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
 
 
 class GameRolePlayGroupMonsterWaveInformations(GameRolePlayGroupMonsterInformations):

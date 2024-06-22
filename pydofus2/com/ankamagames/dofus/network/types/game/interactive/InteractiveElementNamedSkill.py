@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElementSkill import \
-    InteractiveElementSkill
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElementSkill import (
+    InteractiveElementSkill,
+)
 
 
 class InteractiveElementNamedSkill(InteractiveElementSkill):

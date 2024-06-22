@@ -1,10 +1,8 @@
 from abc import ABC, abstractmethod
 
-from pydofus2.com.ankamagames.atouin.resources.ResourceErrorCode import \
-    ResourceErrorCode
+from pydofus2.com.ankamagames.atouin.resources.ResourceErrorCode import ResourceErrorCode
 from pydofus2.com.ankamagames.jerakine.pools.PoolsManager import PoolsManager
-from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import \
-    IResourceObserver
+from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
@@ -20,21 +18,19 @@ class AbstractLoaderAdapter(ABC):
         self._dispatchProgress = False
         AbstractLoaderAdapter.MEMORY_LOG[self] = 1
 
-    def loadDirectly(self, uri, path, observer, dispatchProgress):
+    def loadDirectly(self, uri, path, observer):
         if self._ldr:
             raise Exception("A single adapter can't handle two simultaneous loadings.")
         self._observer = observer
         self._uri = uri
-        self._dispatchProgress = dispatchProgress
         self.prepareLoader()
         self._ldr.load((path if path[0:2] != "//" else "file://") + path, uri.loaderContext)
 
-    def loadFromData(self, uri, data, observer, dispatchProgress):
+    def loadFromData(self, uri, data, observer):
         if self._ldr:
             raise Exception("A single adapter can't handle two simultaneous loadings.")
         self._observer = observer
         self._uri = uri
-        self._dispatchProgress = dispatchProgress
         # self.prepareLoader()
         # self._ldr.loadBytes(data, self._uri.loaderContext)
 

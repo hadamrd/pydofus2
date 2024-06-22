@@ -40,39 +40,39 @@ class Frustum:
         self.width = self.MAX_WIDTH * self.scale
         self.height = self.MAX_HEIGHT * self.scale
 
-        current_ratio = self.width / self.height
-        if current_ratio < self.RATIO:
+        currentRatio = self.width / self.height
+        if currentRatio < self.RATIO:
             self.height = self.width / self.RATIO
-        elif current_ratio > self.RATIO:
+        elif currentRatio > self.RATIO:
             self.width = self.height * self.RATIO
 
-        x_space = StageShareManager().startWidth - self.MAX_WIDTH * self.scale + self._marginLeft - self._marginRight
-        y_space = StageShareManager().startHeight - self.MAX_HEIGHT * self.scale + self._marginTop - self._marginBottom
+        xSpace = StageShareManager().startWidth - self.MAX_WIDTH * self.scale + self._marginLeft - self._marginRight
+        ySpace = StageShareManager().startHeight - self.MAX_HEIGHT * self.scale + self._marginTop - self._marginBottom
 
-        if self._marginLeft and self._marginRight:
+        if (self._marginLeft is not None and self._marginLeft != 0) and self._marginRight is not None:
             divX = (self._marginLeft + self._marginRight) / self._marginLeft
         elif self._marginLeft:
-            divX = 2 + x_space / self._marginLeft
-        elif self._marginRight:
-            divX = 2 - x_space / self._marginRight
+            divX = 2 + xSpace / self._marginLeft
+        elif self._marginRight is not None and self._marginRight != 0:
+            divX = 2 - xSpace / self._marginRight
         else:
             divX = 2
 
-        if self._marginTop and self._marginBottom:
+        if (self._marginTop is not None and self._marginTop != 0) and self._marginBottom is not None:
             divY = (self._marginTop + self._marginBottom) / self._marginTop
         elif self._marginTop:
-            divY = 2 + y_space / self._marginTop
+            divY = 2 + ySpace / self._marginTop
         elif self._marginBottom:
-            divY = y_space / self._marginBottom - 2
+            divY = ySpace / self._marginBottom - 2
         else:
             divY = 2
 
-        self.x = x_space / divX
-        self.y = y_space / divY
+        self.x = xSpace / divX
+        self.y = ySpace / divY
 
     @property
     def bottom(self):
-        return self.y + self.height
+        return self.y + self.height + self._marginRight + self._marginLeft
 
     @property
     def top(self):
@@ -84,7 +84,7 @@ class Frustum:
 
     @property
     def right(self):
-        return self.x + self.width
+        return self.x + self.width + self._marginLeft + self._marginRight
 
     def __str__(self):
         return f"Frustum: x={self.x}, y={self.y}, width={self.width}, height={self.height}, scale={self.scale}"

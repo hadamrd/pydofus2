@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.AbstractFightTeamInformations import \
-    AbstractFightTeamInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.AbstractFightTeamInformations import (
+    AbstractFightTeamInformations,
+)
 
 
 class FightTeamLightInformations(AbstractFightTeamInformations):

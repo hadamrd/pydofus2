@@ -1,11 +1,9 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import \
-        AccountTagInformation
+    from pydofus2.com.ankamagames.dofus.network.types.common.AccountTagInformation import AccountTagInformation
 
 
 class IdentificationSuccessMessage(NetworkMessage):
@@ -21,6 +19,7 @@ class IdentificationSuccessMessage(NetworkMessage):
     hasForceRight: bool
     wasAlreadyConnected: bool
     hasRights: bool
+    hasReportRight: bool
     hasForceRight: bool
     wasAlreadyConnected: bool
 

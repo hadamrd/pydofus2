@@ -3,7 +3,6 @@ import threading
 from typing import Any, List, Union
 
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
 from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
 from pydofus2.com.ankamagames.jerakine.resources.loaders.AbstractResourceLoader import AbstractResourceLoader
 from pydofus2.com.ankamagames.jerakine.resources.loaders.IResourceLoader import IResourceLoader
@@ -37,7 +36,7 @@ class ParallelResourceLoader(AbstractResourceLoader, IResourceLoader, IResourceO
     def loadUriWorker(self, uri: Uri, forcedAdapter: Any, singleFile: bool) -> None:
         try:
             protocol = ProtocolFactory.getProtocol(uri)
-            protocol.load(uri, self, self.hasListener(ResourceEvent.PROGRESS), self._cache, forcedAdapter, singleFile)
+            protocol.load(uri, self, self._cache, forcedAdapter, singleFile)
         except Exception as e:
             self.onFailed(uri, str(e), e.__class__.__name__)
 

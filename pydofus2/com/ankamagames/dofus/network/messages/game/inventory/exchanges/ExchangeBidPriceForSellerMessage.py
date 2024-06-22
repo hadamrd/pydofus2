@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeBidPriceMessage import \
-    ExchangeBidPriceMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeBidPriceMessage import (
+    ExchangeBidPriceMessage,
+)
 
 
 class ExchangeBidPriceForSellerMessage(ExchangeBidPriceMessage):

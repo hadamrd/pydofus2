@@ -1,13 +1,12 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
-    AllianceInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import AllianceInformation
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.alliance.recruitment.AllianceRecruitmentInformation import \
-        AllianceRecruitmentInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import \
-        SocialEmblem
+    from pydofus2.com.ankamagames.dofus.network.types.game.alliance.recruitment.AllianceRecruitmentInformation import (
+        AllianceRecruitmentInformation,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.social.SocialEmblem import SocialEmblem
 
 
 class AllianceFactSheetInformation(AllianceInformation):

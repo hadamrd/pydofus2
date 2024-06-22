@@ -1,11 +1,9 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatClientMultiMessage import \
-    ChatClientMultiMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatClientMultiMessage import ChatClientMultiMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
-        ObjectItem
+    from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
 
 
 class ChatClientMultiWithObjectMessage(ChatClientMultiMessage):

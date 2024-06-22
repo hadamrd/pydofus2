@@ -12,7 +12,7 @@ class FrustumShape(QGraphicsObject):
     def __init__(self, direction, x=0, y=0, width=100, height=100, color=None):
         super().__init__()
         if not color:
-            color = QColor(0, 0, 0, 0)
+            color = QColor(0)
         self._direction = direction
         self._rect = QRectF(x, y, width, height)  # Storing geometry
         self._color = color  # Storing the color

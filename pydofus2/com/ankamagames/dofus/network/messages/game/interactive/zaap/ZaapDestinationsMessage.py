@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.zaap.TeleportDestinationsMessage import \
-    TeleportDestinationsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.zaap.TeleportDestinationsMessage import (
+    TeleportDestinationsMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.zaap.TeleportDestination import \
-        TeleportDestination
+    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.zaap.TeleportDestination import (
+        TeleportDestination,
+    )
 
 
 class ZaapDestinationsMessage(TeleportDestinationsMessage):

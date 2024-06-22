@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationFailedMessage import \
-    IdentificationFailedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationFailedMessage import (
+    IdentificationFailedMessage,
+)
 
 
 class IdentificationFailedBannedMessage(IdentificationFailedMessage):

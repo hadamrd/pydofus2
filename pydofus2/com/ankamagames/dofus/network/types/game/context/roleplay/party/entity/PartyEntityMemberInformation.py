@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.entity.PartyEntityBaseInformation import \
-    PartyEntityBaseInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.entity.PartyEntityBaseInformation import (
+    PartyEntityBaseInformation,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
-        EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
 
 
 class PartyEntityMemberInformation(PartyEntityBaseInformation):

@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.HouseSellRequestMessage import \
-    HouseSellRequestMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.HouseSellRequestMessage import (
+    HouseSellRequestMessage,
+)
 
 
 class HouseSellFromInsideRequestMessage(HouseSellRequestMessage):

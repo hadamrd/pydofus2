@@ -50,7 +50,6 @@ class I18nFileAccessor(metaclass=ThreadSharedSingleton):
         if lastLang:
             file_name = f"i18n_{lastLang}.d2i"
         else:
-            # Get any file but in preference current if exists
             file_name = XmlConfig().getEntry("config.lang.current")
             if not file_name in files_dict:
                 file_name = list(files_dict.keys())[0]

@@ -1,13 +1,10 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import \
-    NetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import \
-        GuildInformations
-    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
-        EntityLook
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GuildInformations import GuildInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
 
 
 class FriendSpouseInformations(NetworkMessage):

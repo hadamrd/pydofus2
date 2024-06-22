@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberCharacterInformations import \
-    FightTeamMemberCharacterInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamMemberCharacterInformations import (
+    FightTeamMemberCharacterInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicAllianceInformations import \
-        BasicAllianceInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.BasicAllianceInformations import (
+        BasicAllianceInformations,
+    )
 
 
 class FightTeamMemberWithAllianceCharacterInformations(FightTeamMemberCharacterInformations):

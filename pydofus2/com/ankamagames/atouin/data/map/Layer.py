@@ -21,10 +21,15 @@ class Layer:
         self.version = mapVersion
         self.read(raw)
 
+    def isGround(self):
+        return self.layerId == self.LAYER_GROUND
+
+    def isDecor(self):
+        return self.layerId == self.LAYER_DECOR
+
     def read(self, raw: BinaryStream):
         if self.version >= 9:
             self.layerId = raw.readByte()
-
         else:
             self.layerId = raw.readInt()
         self.cellsCount = raw.readShort()

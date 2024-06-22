@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QDesktopWidget, QGraphicsView, QMainWi
 from Stage import Stage
 from StageShareManager import StageShareManager
 
+from pydofus2.com.ankamagames.atouin.Atouin import Atouin
 from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 from pydofus2.com.ankamagames.atouin.types.AtouinOptions import AtouinOptions
@@ -13,11 +14,10 @@ from pydofus2.com.ankamagames.atouin.types.DataMapContainer import DataMapContai
 from pydofus2.com.ankamagames.atouin.types.SimpleGraphicsContainer import SimpleGraphicsContainer
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.types.DofusOptions import DofusOptions
-from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
-from pydofus2.com.ankamagames.jerakine.types.events.PropertyChangeEvent import PropertyChangeEvent
+from pydofus2.DofusUI.MapRenderer import MapRenderer
 from pydofus2.DofusUI.OptionManager import OptionManager
 
 
@@ -50,39 +50,32 @@ class DofusUI(QMainWindow):
     def initWindow(self, isFullScreen):
         if self._windowInitialized:
             return
-
         self._windowInitialized = True
-
         clientDimensionSo = CustomSharedObject.getLocal("clientData")
-
-        mainScreen = QScreen.availableGeometry(QApplication.primaryScreen())
-
         if clientDimensionSo.data.get("width") > 0 and clientDimensionSo.data.get("height") > 0:
             self.resize(clientDimensionSo.data["width"], clientDimensionSo.data["height"])
             if not isFullScreen and clientDimensionSo.data.get("displayState") == "maximized":
                 self.setWindowState(Qt.WindowMaximized)
-
         else:
+            mainScreen = QScreen.availableGeometry(QApplication.primaryScreen())
             self.resize(mainScreen.width() * 0.8, mainScreen.height() * 0.8)
             self.setWindowState(Qt.WindowMaximized)
-
         self.centerOnScreen()
         self.show()
 
     def centerOnScreen(self):
         qr = self.frameGeometry()
-        cp = QDesktopWidget().availableGeometry().center()
+        desktop_geom = QDesktopWidget().availableGeometry()
+        cp = desktop_geom.center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
     def setDisplayOptions(self, opt: DofusOptions):
         self.initWindow(opt.getOption("fullScreen"))
         self._doOptions = opt
-        self._doOptions.on(PropertyChangeEvent.PROPERTY_CHANGED, self.onOptionChange)
-        self._doOptions.setOption("flashQuality", self._doOptions.getOption("flashQuality"))
-        self._doOptions.setOption("fullScreen", self._doOptions.getOption("fullScreen"))
+        self._doOptions.propertyChanged.connect(self.onOptionChange)
 
-    def onOptionChange(self, e, name, value, oldValue):
+    def onOptionChange(self, name, value, oldValue):
         Logger().info(f"DofusUI property {name} changed from {oldValue} to {value}")
 
     def getWorldContainer(self):
@@ -106,7 +99,7 @@ class DofusUI(QMainWindow):
         ao.setOption("mapsPath", LangManager().getEntry("config.atouin.path.maps"))
         ao.setOption("elementsIndexPath", LangManager().getEntry("config.atouin.path.elements"))
         ao.setOption("elementsPath", LangManager().getEntry("config.gfx.path.cellElement"))
-        ao.setOption("swfPath", XmlConfig().getEntry("config.gfx.path.world.swf"))
+        ao.setOption("swfPath", LangManager().getEntry("config.gfx.path.world.swf"))
         ao.setOption("tacticalModeTemplatesPath", LangManager().getEntry("config.atouin.path.tacticalModeTemplates"))
         Atouin().setDisplayOptions(ao)
         self.setDisplayOptions(DofusOptions())
@@ -133,17 +126,11 @@ class DofusUI(QMainWindow):
 
 
 if __name__ == "__main__":
-    import sys
-
     Logger.logToConsole = True
     app = QApplication(sys.argv)
     main_window = DofusUI()
-    from pydofus2.com.ankamagames.atouin.Atouin import Atouin
-    from pydofus2.DofusUI.MapRenderer import MapRenderer
-
     mapRenderer = MapRenderer(Atouin().worldContainer, Elements())
-    mapId = 191104002.0
-    MapDisplayManager().loadMap(mapId)
+    MapDisplayManager().loadMap(191104002.0)
     dataMap = DataMapContainer(MapDisplayManager().dataMap)
     mapRenderer.render(dataMap)
     sys.exit(app.exec_())

@@ -1,13 +1,12 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.BreachBranch import \
-    BreachBranch
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.BreachBranch import BreachBranch
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.BreachReward import \
-        BreachReward
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import \
-        MonsterInGroupLightInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.breach.BreachReward import BreachReward
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import (
+        MonsterInGroupLightInformations,
+    )
 
 
 class ExtendedBreachBranch(BreachBranch):

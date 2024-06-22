@@ -1,5 +1,6 @@
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.UpdateLifePointsMessage import \
-    UpdateLifePointsMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.stats.UpdateLifePointsMessage import (
+    UpdateLifePointsMessage,
+)
 
 
 class LifePointsRegenEndMessage(UpdateLifePointsMessage):

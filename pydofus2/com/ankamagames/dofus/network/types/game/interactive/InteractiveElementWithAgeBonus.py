@@ -1,11 +1,11 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
-    InteractiveElement
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElementSkill import \
-        InteractiveElementSkill
+    from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElementSkill import (
+        InteractiveElementSkill,
+    )
 
 
 class InteractiveElementWithAgeBonus(InteractiveElement):
