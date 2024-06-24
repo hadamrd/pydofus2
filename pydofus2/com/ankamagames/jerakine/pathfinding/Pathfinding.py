@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import Movem
 from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import PathElement
 
 
-class Pathfinding(metaclass=Singleton):
+class PathFinding(metaclass=Singleton):
     VERBOSE = False
     HV_COST: int = 10
     DIAG_COST: int = 15

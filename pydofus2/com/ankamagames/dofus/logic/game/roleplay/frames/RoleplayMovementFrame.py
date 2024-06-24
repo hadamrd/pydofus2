@@ -1,4 +1,3 @@
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
@@ -45,6 +44,8 @@ from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
+from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class RoleplayMovementFrame(Frame):
@@ -78,7 +79,7 @@ class RoleplayMovementFrame(Frame):
 
     @property
     def interactivesFrame(self):
-        return Kernel().interactivesFrame
+        return Kernel().interactiveFrame
 
     def pushed(self) -> bool:
         self.isMoving = False
@@ -121,7 +122,11 @@ class RoleplayMovementFrame(Frame):
                 Logger().warning(f"Actor '{msg.actorId}' moved before it was added to the scene.")
             if msg.actorId == PlayedCharacterManager().id:
                 PlayedCharacterManager().entity.move(clientMovePath, self.onPlayerMovementEnded)
-                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MOVEMENT_IN_PROGRESS, {"path_cells": [cell.cellId for cell in clientMovePath]})
+                KernelEventsManager().send(
+                    KernelEvent.ClientStatusUpdate,
+                    ClientStatusEnum.MOVEMENT_IN_PROGRESS,
+                    {"path_cells": [cell.cellId for cell in clientMovePath]},
+                )
             KernelEventsManager().send(KernelEvent.EntityMoving, msg.actorId, clientMovePath)
             return True
 
@@ -160,21 +165,21 @@ class RoleplayMovementFrame(Frame):
             Logger().debug("Player didnt complete movement")
         KernelEventsManager().send(KernelEvent.PlayerMovementCompleted, success)
 
-    def sendMovementRequest(self):
+    def sendMovementRequest(self, movePath: MovementPath, destCell: MapPoint):
         gmmrmsg = GameMapMovementRequestMessage()
-        gmmrmsg.init(self.movePath.keyMoves(), MapDisplayManager().currentMapPoint.mapId)
+        gmmrmsg.init(movePath.keyMoves(), MapDisplayManager().currentMapPoint.mapId)
         ConnectionsHandler().send(gmmrmsg)
         KernelEventsManager().send(
             KernelEvent.ClientStatusUpdate,
             ClientStatusEnum.REQUESTING_MAP_MOVEMENT,
             {
                 "startCell": PlayedCharacterManager().currentCellId,
-                "endCell": self.dstCell.cellId,
-                "path": self.movePath,
-                "keyMoves": self.movePath.keyMoves(),
+                "endCell": destCell.cellId,
+                "pathCells": movePath.getCells(),
+                "keyMoves": movePath.keyMoves(),
             },
         )
-        Logger().info(f"Requested move from {PlayedCharacterManager().currentCellId} to {self.dstCell.cellId}")
+        Logger().info(f"Requested move from {PlayedCharacterManager().currentCellId} to {destCell.cellId}")
         InactivityManager().activity()
 
     def pulled(self) -> bool:

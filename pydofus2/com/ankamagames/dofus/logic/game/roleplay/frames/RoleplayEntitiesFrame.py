@@ -1,117 +1,125 @@
 import threading
 
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-    MapDisplayManager
-from pydofus2.com.ankamagames.atouin.messages.MapLoadedMessage import \
-    MapLoadedMessage
-from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-    DataMapProvider
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
+from pydofus2.com.ankamagames.atouin.messages.MapLoadedMessage import MapLoadedMessage
+from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
-from pydofus2.com.ankamagames.dofus.internalDatacenter.world.WorldPointWrapper import \
-    WorldPointWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.world.WorldPointWrapper import WorldPointWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AbstractEntitiesFrame import \
-    AbstractEntitiesFrame
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
-    TimeManager
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.messages.DelayedActionMessage import \
-    DelayedActionMessage
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.Fight import \
-    Fight
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.FightTeam import \
-    FightTeam
-from pydofus2.com.ankamagames.dofus.network.enums.MapObstacleStateEnum import \
-    MapObstacleStateEnum
-from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import \
-    BasicPingMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import \
-    GameFightUpdateTeamMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import \
-    GameContextRefreshEntityLookMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveElementMessage import \
-    GameContextRemoveElementMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveMultipleElementsMessage import \
-    GameContextRemoveMultipleElementsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapChangeOrientationMessage import \
-    GameMapChangeOrientationMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.MapComplementaryInformationsAnomalyMessage import \
-    MapComplementaryInformationsAnomalyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayRemoveChallengeMessage import \
-    GameRolePlayRemoveChallengeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayShowChallengeMessage import \
-    GameRolePlayShowChallengeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameRolePlayShowActorMessage import \
-    GameRolePlayShowActorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameRolePlayShowMultipleActorsMessage import \
-    GameRolePlayShowMultipleActorsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.HousePropertiesMessage import \
-    HousePropertiesMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHavenBagMessage import \
-    MapComplementaryInformationsDataInHavenBagMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHouseMessage import \
-    MapComplementaryInformationsDataInHouseMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import \
-    MapComplementaryInformationsDataMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsWithCoordsMessage import \
-    MapComplementaryInformationsWithCoordsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightCountMessage import \
-    MapFightCountMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import \
-    MapInformationsRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.ListMapNpcsQuestStatusUpdateMessage import \
-    ListMapNpcsQuestStatusUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveMapUpdateMessage import \
-    InteractiveMapUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import \
-    InteractiveUsedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.StatedMapUpdateMessage import \
-    StatedMapUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightCommonInformations import \
-    FightCommonInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamInformations import \
-    FightTeamInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
-    GameContextActorInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayCharacterInformations import \
-    GameRolePlayCharacterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayGroupMonsterInformations import \
-    GameRolePlayGroupMonsterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import \
-    GameRolePlayHumanoidInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMerchantInformations import \
-    GameRolePlayMerchantInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayTreasureHintInformations import \
-    GameRolePlayTreasureHintInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanInformations import \
-    HumanInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionObjectUse import \
-    HumanOptionObjectUse
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionSkillUse import \
-    HumanOptionSkillUse
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import \
-    MonsterInGroupLightInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
-    InteractiveElement
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-    AnimatedCharacter
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-    BenchmarkTimer
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AbstractEntitiesFrame import AbstractEntitiesFrame
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.messages.DelayedActionMessage import DelayedActionMessage
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.Fight import Fight
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.FightTeam import FightTeam
+from pydofus2.com.ankamagames.dofus.network.enums.MapObstacleStateEnum import MapObstacleStateEnum
+from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import BasicPingMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import (
+    GameFightUpdateTeamMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import (
+    GameContextRefreshEntityLookMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveElementMessage import (
+    GameContextRemoveElementMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRemoveMultipleElementsMessage import (
+    GameContextRemoveMultipleElementsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapChangeOrientationMessage import (
+    GameMapChangeOrientationMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.MapComplementaryInformationsAnomalyMessage import (
+    MapComplementaryInformationsAnomalyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayRemoveChallengeMessage import (
+    GameRolePlayRemoveChallengeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.GameRolePlayShowChallengeMessage import (
+    GameRolePlayShowChallengeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameRolePlayShowActorMessage import (
+    GameRolePlayShowActorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.GameRolePlayShowMultipleActorsMessage import (
+    GameRolePlayShowMultipleActorsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.houses.HousePropertiesMessage import (
+    HousePropertiesMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHavenBagMessage import (
+    MapComplementaryInformationsDataInHavenBagMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHouseMessage import (
+    MapComplementaryInformationsDataInHouseMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import (
+    MapComplementaryInformationsDataMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsWithCoordsMessage import (
+    MapComplementaryInformationsWithCoordsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFightCountMessage import (
+    MapFightCountMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import (
+    MapInformationsRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.ListMapNpcsQuestStatusUpdateMessage import (
+    ListMapNpcsQuestStatusUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveMapUpdateMessage import (
+    InteractiveMapUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import (
+    InteractiveUsedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.StatedMapUpdateMessage import (
+    StatedMapUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightCommonInformations import (
+    FightCommonInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamInformations import FightTeamInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import (
+    GameContextActorInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayCharacterInformations import (
+    GameRolePlayCharacterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayGroupMonsterInformations import (
+    GameRolePlayGroupMonsterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayHumanoidInformations import (
+    GameRolePlayHumanoidInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMerchantInformations import (
+    GameRolePlayMerchantInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayTreasureHintInformations import (
+    GameRolePlayTreasureHintInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanInformations import HumanInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionObjectUse import (
+    HumanOptionObjectUse,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionSkillUse import HumanOptionSkillUse
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.MonsterInGroupLightInformations import (
+    MonsterInGroupLightInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
@@ -304,13 +312,13 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                         mo.obstacleCellId,
                         mo.state == MapObstacleStateEnum.OBSTACLE_OPENED,
                     )
-            if Kernel().interactivesFrame:
+            if Kernel().interactiveFrame:
                 imumsg = InteractiveMapUpdateMessage()
                 imumsg.init(msg.interactiveElements)
-                Kernel().interactivesFrame.process(imumsg)
+                Kernel().interactiveFrame.process(imumsg)
                 smumsg = StatedMapUpdateMessage()
                 smumsg.init(msg.statedElements)
-                Kernel().interactivesFrame.process(smumsg)
+                Kernel().interactiveFrame.process(smumsg)
 
             if isinstance(msg, MapComplementaryInformationsAnomalyMessage):
                 PlayedCharacterManager().isInAnomaly = True

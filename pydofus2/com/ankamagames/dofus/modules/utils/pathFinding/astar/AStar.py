@@ -10,7 +10,7 @@ from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex impor
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.pathfinding.Pathfinding import Pathfinding
+from pydofus2.com.ankamagames.jerakine.pathfinding.Pathfinding import PathFinding
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
@@ -113,7 +113,7 @@ class AStar(metaclass=Singleton):
                 for tr in reverse_edge.transitions:
                     if tr.cell:
                         candidate = MapPoint.fromCellId(tr.cell)
-                        movePath = Pathfinding().findPath(mp, candidate)
+                        movePath = PathFinding().findPath(mp, candidate)
                         if movePath.end.distanceTo(candidate) <= 2:
                             return candidate
         return None

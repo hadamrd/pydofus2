@@ -1,93 +1,108 @@
 import pydofus2.com.ankamagames.dofus.kernel.Kernel as krnl
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager as pcm
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-    MapDisplayManager
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.internalDatacenter.world.WorldPointWrapper import \
-    WorldPointWrapper
-from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import \
-    PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AbstractEntitiesFrame import \
-    AbstractEntitiesFrame
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.RemoveEntityAction import \
-    RemoveEntityAction
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import \
-    CurrentPlayedFighterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.FightEntitiesHolder import \
-    FightEntitiesHolder
-from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import \
-    GameActionFightInvisibilityStateEnum
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.internalDatacenter.world.WorldPointWrapper import WorldPointWrapper
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.frames.AbstractEntitiesFrame import AbstractEntitiesFrame
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.logic.game.fight.actions.RemoveEntityAction import RemoveEntityAction
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
+    CurrentPlayedFighterManager,
+)
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.FightEntitiesHolder import FightEntitiesHolder
+from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilityStateEnum import (
+    GameActionFightInvisibilityStateEnum,
+)
 from pydofus2.com.ankamagames.dofus.network.enums.TeamEnum import TeamEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightCarryCharacterMessage import \
-    GameActionFightCarryCharacterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDropCharacterMessage import \
-    GameActionFightDropCharacterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightThrowCharacterMessage import \
-    GameActionFightThrowCharacterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateMessage import \
-    PlayerStatusUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightRefreshFighterMessage import \
-    GameFightRefreshFighterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterMessage import \
-    GameFightShowFighterMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterRandomStaticPoseMessage import \
-    GameFightShowFighterRandomStaticPoseMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightHumanReadyStateMessage import \
-    GameFightHumanReadyStateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsMessage import \
-    GameFightPlacementSwapPositionsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import \
-    GameContextRefreshEntityLookMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntitiesDispositionMessage import \
-    GameEntitiesDispositionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntityDispositionMessage import \
-    GameEntityDispositionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.AnomalyStateMessage import \
-    AnomalyStateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.breach.MapComplementaryInformationsBreachMessage import \
-    MapComplementaryInformationsBreachMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHouseMessage import \
-    MapComplementaryInformationsDataInHouseMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import \
-    MapComplementaryInformationsDataMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsWithCoordsMessage import \
-    MapComplementaryInformationsWithCoordsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapRewardRateMessage import \
-    MapRewardRateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.ShowCellMessage import \
-    ShowCellMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.ShowCellSpectatorMessage import \
-    ShowCellSpectatorMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import \
-    EntityDispositionInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacterInformations import \
-    GameFightCharacterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEntityInformation import \
-    GameFightEntityInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterNamedInformations import \
-    GameFightFighterNamedInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import \
-    GameFightMonsterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.FightEntityDispositionInformations import \
-    FightEntityDispositionInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import \
-    GameContextActorInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
-    InteractiveElement
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import \
-    StatedElement
-from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import \
-    EntityLook
-from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import \
-    AnimatedCharacter
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightCarryCharacterMessage import (
+    GameActionFightCarryCharacterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightDropCharacterMessage import (
+    GameActionFightDropCharacterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.actions.fight.GameActionFightThrowCharacterMessage import (
+    GameActionFightThrowCharacterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.status.PlayerStatusUpdateMessage import (
+    PlayerStatusUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightRefreshFighterMessage import (
+    GameFightRefreshFighterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterMessage import (
+    GameFightShowFighterMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.character.GameFightShowFighterRandomStaticPoseMessage import (
+    GameFightShowFighterRandomStaticPoseMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightHumanReadyStateMessage import (
+    GameFightHumanReadyStateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightPlacementSwapPositionsMessage import (
+    GameFightPlacementSwapPositionsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextRefreshEntityLookMessage import (
+    GameContextRefreshEntityLookMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntitiesDispositionMessage import (
+    GameEntitiesDispositionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameEntityDispositionMessage import (
+    GameEntityDispositionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.anomaly.AnomalyStateMessage import (
+    AnomalyStateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.breach.MapComplementaryInformationsBreachMessage import (
+    MapComplementaryInformationsBreachMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataInHouseMessage import (
+    MapComplementaryInformationsDataInHouseMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsDataMessage import (
+    MapComplementaryInformationsDataMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapComplementaryInformationsWithCoordsMessage import (
+    MapComplementaryInformationsWithCoordsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapRewardRateMessage import (
+    MapRewardRateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.ShowCellMessage import ShowCellMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.ShowCellSpectatorMessage import (
+    ShowCellSpectatorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.EntityDispositionInformations import (
+    EntityDispositionInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacterInformations import (
+    GameFightCharacterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEntityInformation import (
+    GameFightEntityInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterNamedInformations import (
+    GameFightFighterNamedInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import (
+    GameFightMonsterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.FightEntityDispositionInformations import (
+    FightEntityDispositionInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import (
+    GameContextActorInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import StatedElement
+from pydofus2.com.ankamagames.dofus.network.types.game.look.EntityLook import EntityLook
+from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
@@ -258,12 +273,11 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
             self._interactiveElements = mcidmsg.interactiveElements
             if isinstance(msg, MapComplementaryInformationsWithCoordsMessage):
                 mciwcmsg = msg
-                if pcm.PlayedCharacterManager().isInHouse:
-                    pass
                 pcm.PlayedCharacterManager().isInHouse = False
                 pcm.PlayedCharacterManager().isInHisHouse = False
                 pcm.PlayedCharacterManager().currentMap.setOutdoorCoords(mciwcmsg.worldX, mciwcmsg.worldY)
                 self._worldPoint = WorldPointWrapper(mciwcmsg.mapId, True, mciwcmsg.worldX, mciwcmsg.worldY)
+                return True
 
             elif isinstance(msg, MapComplementaryInformationsDataInHouseMessage):
                 mcidihmsg = msg
@@ -280,6 +294,7 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
                     mcidihmsg.currentHouse.worldX,
                     mcidihmsg.currentHouse.worldY,
                 )
+                return True
 
             elif isinstance(msg, MapComplementaryInformationsBreachMessage):
                 return True
@@ -472,8 +487,9 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
                 fighterInfos.stats.invisibilityState != GameActionFightInvisibilityStateEnum.VISIBLE
                 and fighterInfos.stats.invisibilityState != lastInvisibilityStat
             ):
-                from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightChangeVisibilityStep import \
-                    FightChangeVisibilityStep
+                from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.FightChangeVisibilityStep import (
+                    FightChangeVisibilityStep,
+                )
 
                 inviStep = FightChangeVisibilityStep(fighterId, fighterInfos.stats.invisibilityState)
                 inviStep.start()

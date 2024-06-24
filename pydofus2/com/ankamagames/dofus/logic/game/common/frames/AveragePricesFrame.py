@@ -1,8 +1,11 @@
 import json
 import os
+from dataclasses import dataclass, field
 from datetime import datetime
-from dataclasses_json import dataclass_json, LetterCase, config
 from threading import Lock
+from typing import Dict
+
+from dataclasses_json import LetterCase, config, dataclass_json
 
 from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
@@ -25,19 +28,13 @@ from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
-
-from dataclasses import dataclass, field
-from datetime import datetime
-import json
-from typing import Dict
-
 pricesDataLock = Lock()
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class PricesData:
-    last_update: datetime = field(metadata=config(encoder=datetime.isoformat, decoder=datetime.fromisoformat))
+    lastUpdate: datetime = field(metadata=config(encoder=datetime.isoformat, decoder=datetime.fromisoformat))
     items: Dict[int, float] = field(default_factory=dict)
 
 
@@ -53,6 +50,7 @@ class AveragePricesFrame(Frame):
                         data: Dict = json.load(file)
                         with pricesDataLock:
                             for server, prices_data in data.items():
+                                prices_data["lastUpdate"] = datetime.fromisoformat(prices_data["lastUpdate"])
                                 AveragePricesFrame._pricesData[server] = PricesData(**prices_data)
                 except json.JSONDecodeError as e:
                     Logger().error(f"Error loading average prices JSON data: {e}")
@@ -97,7 +95,7 @@ class AveragePricesFrame(Frame):
     def updatePricesData(self, pItemsIds: list[int], pItemsAvgPrices: list[float]) -> None:
         with pricesDataLock:
             # Initialize PricesData with current datetime and empty items
-            self._pricesData[self._server_name] = PricesData(last_update=datetime.now(), items={})
+            self._pricesData[self._server_name] = PricesData(lastUpdate=datetime.now(), items={})
 
             # Update the items dictionary with the provided IDs and average prices
             for itemId, averagePrice in zip(pItemsIds, pItemsAvgPrices):
@@ -110,20 +108,24 @@ class AveragePricesFrame(Frame):
             # Serialize the PricesData to JSON and write to the file
             with open(settings.AVERAGE_PRICES_PATH, "w") as file:
                 prices_data_dict = {
-                    server_name: prices_data.model_dump() for server_name, prices_data in self._pricesData.items()
+                    server_name: prices_data.to_dict() for server_name, prices_data in self._pricesData.items()
                 }
                 json.dump(prices_data_dict, file, indent=4)
 
         Logger().debug("Average prices data updated and saved.")
 
     def updateAllowed(self) -> bool:
-        if self._pricesData is not None and self._server_name in self._pricesData and datetime.now().date() == self._pricesData[self._server_name].last_update.date():
+        if (
+            self._pricesData
+            and self._server_name in self._pricesData
+            and datetime.now().date() == self._pricesData[self._server_name].lastUpdate.date()
+        ):
             Logger().debug("Average prices data already up to date")
             return False
         return True
 
     def getItemAveragePrice(self, guid: int):
-        return self._pricesData[self._server_name].items.get(guid)
+        return self._pricesData[self._server_name].items.get(str(guid), 0)
 
     def askPricesData(self) -> None:
         if self._prices_data_asked:

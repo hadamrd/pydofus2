@@ -109,7 +109,7 @@ class KernelEventsManager(EventsHandler, metaclass=Singleton):
     def onceFightSword(self, entityId, entityCell, callback, args=[], originator=None):
         def onFightSword(event: Event, infos: FightCommonInformations):
             for team in infos.fightTeams:
-                if team.leaderId == entityId and infos.fightTeamsPositions[team.teamId] == entityCell:
+                if team.leaderId == entityId:
                     event.listener.delete()
                     callback(*args)
 

@@ -14,7 +14,7 @@ from pydofus2.com.ankamagames.dofus.logic.common.frames.MiscFrame import MiscFra
 from pydofus2.com.ankamagames.dofus.logic.common.frames.NpcFrame import NpcFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.dofus.logic.game.approach.actions.CharacterSelectionAction import (
     CharacterSelectionAction,
 )
@@ -163,7 +163,7 @@ class GameServerApproachFrame(Frame):
 
     def sendAuthTicket(self):
         atmsg = AuthenticationTicketMessage()
-        atmsg.init(LangManager().getEntry("config.lang.current"), AuthentificationManager().gameServerTicket)
+        atmsg.init(LangManager().getEntry("config.lang.current"), AuthenticationManager().gameServerTicket)
         ConnectionsHandler().send(atmsg)
 
     def process(self, msg: Message) -> bool:

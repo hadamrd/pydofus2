@@ -197,7 +197,7 @@ class Kernel(metaclass=Singleton):
         return self._worker.getFrameByName("PartyFrame")
 
     @property
-    def interactivesFrame(self) -> "RoleplayInteractivesFrame":
+    def interactiveFrame(self) -> "RoleplayInteractivesFrame":
         return self._worker.getFrameByName("RoleplayInteractivesFrame")
 
     @property

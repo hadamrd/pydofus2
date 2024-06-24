@@ -1,23 +1,17 @@
 import pydofus2.com.ankamagames.dofus.datacenter.spells.Spell as spellmod
 import pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel as spellLevelmod
-from pydofus2.com.ankamagames.dofus.datacenter.alignments.AlignmentSide import \
-    AlignmentSide
+from pydofus2.com.ankamagames.dofus.datacenter.alignments.AlignmentSide import AlignmentSide
 from pydofus2.com.ankamagames.dofus.datacenter.effects.Effect import Effect
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemType import ItemType
-from pydofus2.com.ankamagames.dofus.datacenter.items.LegendaryPowerCategory import \
-    LegendaryPowerCategory
+from pydofus2.com.ankamagames.dofus.datacenter.items.LegendaryPowerCategory import LegendaryPowerCategory
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
-from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterRace import \
-    MonsterRace
-from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterSuperRace import \
-    MonsterSuperRace
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterRace import MonsterRace
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterSuperRace import MonsterSuperRace
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import \
-    SpellShapeEnum
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import SpellShapeEnum
 from pydofus2.mapTools.SpellZone import SpellZone
 
 
@@ -50,9 +44,9 @@ class EffectInstance(IDataCenter):
 
         self.targetMask: str = None
 
-        self.duration: int = None
+        self.duration: int = 0
 
-        self.delay: int = None
+        self.delay: int = 0
 
         self.random: float = None
 

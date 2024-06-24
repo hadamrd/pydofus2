@@ -1,22 +1,26 @@
+from typing import TYPE_CHECKING
+
 from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightEntitiesFrame import FightEntitiesFrame
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.DamagePreview import DamagePreview
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.FighterTranslator import FighterTranslator
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.MarkedCellsManager import MarkedCellsManager
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.MarkInstance import MarkInstance
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
 from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
-from pydofus2.damageCalculation.IMapInfo import IMapInfo
 from pydofus2.damageCalculation.fighterManagement.HaxeFighter import HaxeFighter
+from pydofus2.damageCalculation.IMapInfo import IMapInfo
 from pydofus2.damageCalculation.spellManagement.Mark import Mark
 from pydofus2.mapTools import MapTools
 
+if TYPE_CHECKING:
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightContextFrame import FightContextFrame
+
 
 class MapTranslator(IMapInfo):
-    def __init__(self, context:FightEntitiesFrame):
+    def __init__(self, context: "FightContextFrame"):
         self._context = context
 
     @staticmethod
@@ -58,7 +62,7 @@ class MapTranslator(IMapInfo):
         return array
 
     def getEveryFighterId(self):
-        fightEntities = self._context.getEntitiesIdsList()
+        fightEntities = self._context.entitiesFrame.getEntitiesIdsList()
         fighters = []
         for entityId in fightEntities:
             stats = StatsManager().getStats(entityId)
@@ -67,7 +71,7 @@ class MapTranslator(IMapInfo):
         return fighters
 
     def getFightersInitialPositions(self):
-        fightEntities = self._context.entities
+        fightEntities = self._context.entitiesFrame.entities
         positions = list()
         for infos in fightEntities.values():
             stats = StatsManager().getStats(infos.contextualId)
@@ -76,7 +80,9 @@ class MapTranslator(IMapInfo):
         return positions
 
     def getCarriedFighterIdBy(self, carrier: HaxeFighter):
-        entities = EntitiesManager().getEntitiesOnCell(carrier.getCurrentPositionCell(), AnimatedCharacter)
+        entities: list[AnimatedCharacter] = EntitiesManager().getEntitiesOnCell(
+            carrier.getCurrentPositionCell(), AnimatedCharacter
+        )
         for entity in entities:
             if entity.id == carrier.id and entity.carriedEntity is not None:
                 carriedEntity = entity.carriedEntity

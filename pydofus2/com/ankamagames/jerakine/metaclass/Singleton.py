@@ -52,7 +52,7 @@ class Singleton(type):
             if issubclass(clz, cls):
                 yield Singleton._instances[thname][clz]
 
-    def clearAllChilds(cls):
+    def clearAllChildren(cls):
         with LOCK:
             scheduledForDelete = []
             for clz in Singleton._instances[cls.threadName()]:
@@ -64,8 +64,8 @@ class Singleton(type):
             scheduledForDelete.clear()
 
     def getInstance(cls: Type[T], thread_name: int) -> T:
-        if thread_name in Singleton._instances:
-            return Singleton._instances[thread_name].get(cls)
+        if str(thread_name) in Singleton._instances:
+            return Singleton._instances[str(thread_name)].get(cls)
 
     def getInstances(cls: Type[T]) -> List[Tuple[str, T]]:
         return [

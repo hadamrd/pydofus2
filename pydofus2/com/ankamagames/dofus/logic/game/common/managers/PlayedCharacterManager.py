@@ -430,7 +430,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     def distanceFromCell(self, mp) -> int:
         return self.entity.position.distanceToCell(mp)
 
-    def joblevel(self, jobId) -> int:
+    def getJobLevel(self, jobId) -> int:
         if jobId not in self.jobs:
             if jobId != 1:  # base
                 job = Job.getJobById(jobId)

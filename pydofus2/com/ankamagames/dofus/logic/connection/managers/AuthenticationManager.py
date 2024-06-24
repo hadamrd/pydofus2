@@ -21,7 +21,7 @@ from pydofus2.com.hurlan.crypto.symmetric.PSAKey import RSACipher
 from pydofus2.com.hurlan.crypto.symmetric.SimpleIVMode import SimpleIVMode
 
 
-class AuthentificationManager(metaclass=Singleton):
+class AuthenticationManager(metaclass=Singleton):
     _verifyKey = AuthentificationManager__verifyKey.create()
     AES_KEY_LENGTH = 32
 
@@ -47,16 +47,16 @@ class AuthentificationManager(metaclass=Singleton):
 
     def setSalt(self, salt: str) -> None:
         if len(salt) < 32:
-            Logger().warn("Authentification salt size is lower than 32 ")
+            Logger().warn("Authentication salt size is lower than 32 ")
         while len(salt) < 32:
             salt += " "
         self._salt = salt
 
     def setPublicKey(self, enc_publicKey: list[int]):
         baSignedKey = ByteArray.from_int8Arr(enc_publicKey)
-        rsacipher = RSACipher(self._verifyKey, PKCS1())
+        rsa_cipher = RSACipher(self._verifyKey, PKCS1())
         ba_pubKey = ByteArray()
-        if not rsacipher.verify(baSignedKey, ba_pubKey):
+        if not rsa_cipher.verify(baSignedKey, ba_pubKey):
             raise Exception("Pubkey Sign validation failed!")
         self._publicKey = "-----BEGIN PUBLIC KEY-----\n" + str(ba_pubKey) + "\n-----END PUBLIC KEY-----"
 

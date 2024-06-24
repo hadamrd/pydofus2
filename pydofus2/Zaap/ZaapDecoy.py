@@ -36,7 +36,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     def __init__(self, mainAccountApiKey: str = ""):
         self.kill_ankama_launcher()
         self.zaapi = Zaapi(zaap_version=self.version)
-        self._apikeys = self.get_apikeys()
+        self._api_keys = self.get_apikeys()
         self._certs = self.get_certificates()
         self.load_settings()
         if not mainAccountApiKey:
@@ -142,7 +142,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             if account["isMain"]:
                 Logger().info(f"Main account found: {account['login']}")
                 accountLogin = account["login"]
-                for api in self._apikeys:
+                for api in self._api_keys:
                     if api.login == accountLogin:
                         Logger().info(f"Main account apikey found")
                         return api.key
@@ -199,7 +199,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
 
         return version
 
-    def get_dofus_laucnh_event(self, accountId):
+    def get_dofus_launch_event(self, accountId):
         return {
             "event_id": 662,
             "date": self.get_date(),
@@ -281,7 +281,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     def getCloseEvents(self, accountId):
         return [
             self.get_krozmos_launch_event(accountId),
-            self.get_dofus_laucnh_event(accountId),
+            self.get_dofus_launch_event(accountId),
             self.get_device_data(accountId),
             self.get_num_connected_event(accountId),
         ]
@@ -294,11 +294,11 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         formatted_date = formatted_date[:-2] + ":" + formatted_date[-2:]
         return formatted_date
 
-    def getLoginToken(self, game, certid=0, certhash="", apikey=None, login=None):
+    def getLoginToken(self, game, certId=0, certHash="", apikey=None, login=None):
         if apikey is None:
             if login is None:
                 raise ZaapError("No apikey or login provided")
-            for api in self._apikeys:
+            for api in self._api_keys:
                 if api.login == login:
                     apikey = api.key
                     break
@@ -306,10 +306,10 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             raise ZaapError(f"No apikey found for login {login}")
         for cert in self._certs:
             if cert.login == login:
-                certid = cert.id
-                certhash = cert.hash
+                certId = cert.id
+                certHash = cert.hash
                 break
-        return self.zaapi.createToken(game, certid, certhash, apikey)
+        return self.zaapi.createToken(game, certId, certHash, apikey)
 
     @classmethod
     def getZaapPath(cls):
@@ -358,7 +358,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             apikey_data: StoredApikey = StoredApikey(**apikey_dict)
             Logger().debug(f"Found Apikey data : {apikey_data.key} for account {apikey_data.accountId}")
             deciphered_apikeys.append(apikey_data)
-        cls._apikeys = deciphered_apikeys
+        cls._api_keys = deciphered_apikeys
         return deciphered_apikeys
 
     @classmethod
@@ -367,7 +367,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
         return hash[:length]
 
     @classmethod
-    def get_certficate_filepath(cls, username) -> str:
+    def get_certificate_filepath(cls, username) -> str:
         if not username:
             raise ZaapError("No username provided")
         certFolder = cls.get_certificate_folder_path()
@@ -390,7 +390,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
 
     @classmethod
     def get_stored_certificate(cls, username) -> StoredCertificate:
-        cert_path = cls.get_certficate_filepath(username)
+        cert_path = cls.get_certificate_filepath(username)
         cert_dict = CryptoHelper.decrypt_from_file(cert_path)
         cert: StoredCertificate = StoredCertificate(**cert_dict)
         encoders = CryptoHelper.create_hm_encoder()

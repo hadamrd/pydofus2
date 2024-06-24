@@ -61,9 +61,9 @@ class SpellEffectTranslator(HaxeSpellEffect):
             level,
             effect.order,
             effect.effectId,
-            int(effect.parameter0),
-            int(effect.parameter1),
-            int(effect.parameter2),
+            effect.parameter0,
+            effect.parameter1,
+            effect.parameter2,
             effect.duration,
             isCritical,
             effect.triggers or "I",
@@ -87,9 +87,9 @@ class SpellEffectTranslator(HaxeSpellEffect):
             level,
             buff.effect.order,
             buff.effect.effectId,
-            int(buff.param1),
-            int(buff.param2),
-            int(buff.param3),
+            buff.param1,
+            buff.param2,
+            buff.param3,
             buff.effect.duration,
             False,
             buff.effect.triggers or "I",
@@ -107,9 +107,9 @@ class SpellEffectTranslator(HaxeSpellEffect):
         from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.DamagePreview import DamagePreview
 
         zone = effect.rawZone
-        param0 = int(effect.parameter0)
-        param1 = int(effect.parameter1)
-        param2 = int(effect.parameter2)
+        param0 = effect.parameter0
+        param1 = effect.parameter1
+        param2 = effect.parameter2
         if param0 > 0 and param1 == 0:
             param1 = param0
         if effect.zoneShape == 0:

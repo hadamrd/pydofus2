@@ -1,4 +1,3 @@
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
@@ -9,7 +8,7 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager imp
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import LoginValidationAction
 from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import ServerSelectionFrame
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.dofus.network.enums.IdentificationFailureReasonsEnum import (
     IdentificationFailureReasonEnum,
@@ -37,6 +36,7 @@ from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMe
 )
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class AuthentificationFrame(Frame):
@@ -72,10 +72,10 @@ class AuthentificationFrame(Frame):
             flashKeyMsg.init(InterClientManager().getFlashKey())
             Logger().info(f"Sending flash key to server: {flashKeyMsg.key}")
             ConnectionsHandler().send(flashKeyMsg)
-            AuthentificationManager().setPublicKey(msg.key)
-            AuthentificationManager().setSalt(msg.salt)
-            AuthentificationManager().initAESKey()
-            iMsg = AuthentificationManager().getIdentificationMessage()
+            AuthenticationManager().setPublicKey(msg.key)
+            AuthenticationManager().setSalt(msg.salt)
+            AuthenticationManager().initAESKey()
+            iMsg = AuthenticationManager().getIdentificationMessage()
             self._currentLogIsForced = isinstance(iMsg, IdentificationAccountForceMessage)
             ConnectionsHandler().send(iMsg)
             KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHENTICATING_TO_LOGIN_SERVER)
@@ -84,9 +84,9 @@ class AuthentificationFrame(Frame):
         elif isinstance(msg, IdentificationSuccessMessage):
             ismsg = msg
             if isinstance(ismsg, IdentificationSuccessWithLoginTokenMessage):
-                AuthentificationManager().nextToken = IdentificationSuccessWithLoginTokenMessage(ismsg).loginToken
+                AuthenticationManager().nextToken = IdentificationSuccessWithLoginTokenMessage(ismsg).loginToken
             if ismsg.login:
-                AuthentificationManager().username = ismsg.login
+                AuthenticationManager().username = ismsg.login
             PlayerManager().accountId = ismsg.accountId
             PlayerManager().communityId = ismsg.communityId
             PlayerManager().hasRights = ismsg.hasRights
@@ -146,10 +146,12 @@ class AuthentificationFrame(Frame):
                         KernelEvent.ClientCrashed, "No selectable host, aborting connection."
                     )
             self.connexionSequence = self.buildConnexionSequence(allHostsInfos, hostChosenByUser)
-            AuthentificationManager().loginValidationAction = msg
+            AuthenticationManager().loginValidationAction = msg
             connInfo = self.connexionSequence.pop(0)
             Logger().info(f"connInfo: {connInfo}")
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTING_TO_LOGIN_SERVER, connInfo)
+            KernelEventsManager().send(
+                KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTING_TO_LOGIN_SERVER, connInfo
+            )
             ConnectionsHandler().connectToLoginServer(connInfo["host"], connInfo["port"])
             return True
 

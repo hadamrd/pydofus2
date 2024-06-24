@@ -9,6 +9,8 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 
 from pydofus2.com.ankamagames.atouin.HappiConfig import AUTH_STATES, ZAAP_CONFIG
+from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -173,7 +175,14 @@ class Zaapi(metaclass=Singleton):
             apikey = self.zaap_apikey
         url = self.getUrl("SIGN_ON_WITH_APIKEY", {"game": game_id})
         response = self.zaap_session.post(url, headers={"apikey": apikey}, verify=self.verify_ssl)
-        body = response.json()
+        try:
+            body = response.json()
+        except Exception as exc:
+            KernelEventsManager().send(
+                KernelEvent.ClientCrashed,
+                f"Failed to json decode the following singOn with api key api call :\n{response.text}",
+            )
+            return
         if "reason" in body:
             if body["reason"] == "BAN":
                 Logger().error("[AUTH] Account banned")
@@ -263,8 +272,8 @@ class Zaapi(metaclass=Singleton):
         }
 
     def createToken(self, game, certId=0, certHash="", apikey=None):
-        nbrtries = 0
-        while nbrtries < 5:
+        nbr_tries = 0
+        while nbr_tries < 5:
             try:
                 if apikey is None:
                     apikey = self.zaap_apikey
@@ -276,12 +285,19 @@ class Zaapi(metaclass=Singleton):
                         "certificate_hash": certHash,
                     },
                 )
+                if not apikey:
+                    Logger().error("Create token requires a apikey but none provided")
+                    return None
+
                 Logger().debug("[HAAPI] Calling HAAPI to get Login Token, url: %s" % url)
+
+                # Merge session headers with the additional headers
                 response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
+
                 if response.headers["content-type"] == "application/json":
                     token = response.json().get("token")
                     if token:
-                        Logger().debug("[HAAPI] Login Token created")
+                        Logger().debug("Login Token created")
                         return token
                     elif response.json().get("reason") == "Certificate control failed.":
                         Logger().error("Invalid certificate, please check your certificate")

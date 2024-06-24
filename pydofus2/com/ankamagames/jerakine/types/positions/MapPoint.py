@@ -1,15 +1,12 @@
 import math
 
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
 from pydofus2.com.ankamagames.jerakine.interfaces.IObstacle import IObstacle
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
 from pydofus2.com.ankamagames.jerakine.map.ILosDetector import ILosDetector
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
-    DirectionsEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 from pydofus2.flash.geom.Point import Point
 
 
@@ -179,8 +176,7 @@ class MapPoint:
         return angle
 
     def doesChangeZone(self, mp: "MapPoint"):
-        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-            MapDisplayManager
+        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
         cellData1 = MapDisplayManager().currentDataMap.cells[self.cellId]
         cellData2 = MapDisplayManager().currentDataMap.cells[mp.cellId]
@@ -319,8 +315,7 @@ class MapPoint:
         return False
 
     def allowsMapChangeToDirection(self, direction: int):
-        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-            MapDisplayManager
+        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
         currentMap = MapDisplayManager().dataMap
         direction = DirectionsEnum(direction)
@@ -359,9 +354,8 @@ class MapPoint:
 
         return False
 
-    def iterChilds(self, changeMap=True, noIdentified=False):
-        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-            MapDisplayManager
+    def iterChildren(self, changeMap=True, noIdentified=False):
+        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
         if noIdentified:
             indentified = [mp.cellId for mp, _ in MapDisplayManager().dataMap.getIdentifiedElements()]
@@ -377,8 +371,7 @@ class MapPoint:
                     yield x, y
 
     def isChild(self, x, y, allowDiag=True, allowTroughEntity=True):
-        from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-            DataMapProvider
+        from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
         from pydofus2.mapTools import MapTools
 
         parentId = self.cellId
@@ -404,8 +397,7 @@ class MapPoint:
         )
 
     def is_walkable(self, base_cell_id):
-        from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-            DataMapProvider
+        from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 
         dmp = DataMapProvider()
         return (
@@ -422,8 +414,7 @@ class MapPoint:
         return False
 
     def hasNoLinkedZoneRP(self):
-        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-            MapDisplayManager
+        from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
         celss = MapDisplayManager().dataMap.cells
         cell_data = celss[self.cellId]

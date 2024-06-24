@@ -22,7 +22,7 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import P
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import (
     LoginValidationWithTokenAction as LVA_WithToken,
 )
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
@@ -56,8 +56,8 @@ class DofusClient(threading.Thread):
 
     def __init__(self, name="DofusClient"):
         super().__init__(name=name)
-        self._registredInitFrames = []
-        self._registredGameStartFrames = []
+        self._registeredInitFrames = []
+        self._registeredGameStartFrames = []
         self._customEventListeners = []
         self._shutdownListeners = []
         self._statusChangedListeners = []
@@ -127,7 +127,7 @@ class DofusClient(threading.Thread):
     def init(self):
         Logger().info("Initializing ...")
         ZaapDecoy.SESSIONS_LAUNCH += 1
-        atexit.register(self.at_extit)
+        atexit.register(self.at_exit)
         self.zaap = ZaapDecoy()
         self.kernel = Kernel()
         self.kernel.init()
@@ -160,17 +160,17 @@ class DofusClient(threading.Thread):
         self._characterId = characterId
 
     def registerInitFrame(self, frame: "Frame"):
-        self._registredInitFrames.append(frame)
+        self._registeredInitFrames.append(frame)
 
     def registerGameStartFrame(self, frame: "Frame"):
-        self._registredGameStartFrames.append(frame)
+        self._registeredGameStartFrames.append(frame)
 
     def onChannelTextInformation(self, event, text, channelId, timestamp):
         Logger().info(f"[{timestamp}][{ChatActivableChannelsEnum.to_name(channelId)}] {text}")
 
     def onCharacterSelectionSuccess(self, event, characterBaseInformations):
         Logger().info("Adding game start frames")
-        for frame in self._registredGameStartFrames:
+        for frame in self._registeredGameStartFrames:
             self.worker.addFrame(frame)
 
     def onInGame(self):
@@ -189,7 +189,7 @@ class DofusClient(threading.Thread):
         self.onReconnect(event, message, afterTime)
 
     def onLoginTimeout(self, listener: Listener):
-        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOGIN_TIMEDOUT)
+        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOGIN_TIMED_OUT)
         self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
         listener.armTimer()
         self.lastLoginTime = perf_counter()
@@ -203,7 +203,7 @@ class DofusClient(threading.Thread):
     def onServersList(self, event, serversList, serversUsedList, serversTypeAvailableSlots):
         pass
 
-    def onLoginSuccess(self, event, ismsg):
+    def onLoginSuccess(self, event, msg):
         ZaapDecoy.CONNECTED_ACCOUNTS += 1
         HaapiKeyManager().on(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
         Haapi().getLoadingScreen(page=1, accountId=PlayerManager().accountId, lang="en", count=20)
@@ -228,7 +228,7 @@ class DofusClient(threading.Thread):
         )
 
     def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):
-        Logger().error(f"Server selection refused for reason : {error_text}")
+        Logger().error(f"Server selection refused for reason : {error_text}, server status {server_status}")
         self._crashed = True
         self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 
@@ -237,7 +237,7 @@ class DofusClient(threading.Thread):
             KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTION_CLOSED, {"connId": connId}
         )
 
-    def at_extit(self):
+    def at_exit(self):
         if not self._ended_correctly:
             Logger().error("Client not ended correctly, sending end event")
             if Haapi().game_sessionId:
@@ -262,7 +262,7 @@ class DofusClient(threading.Thread):
             PlayerManager().autoConnectOfASpecificCharacterId = int(self._characterId)
             Logger().info(f"Auto connect character id set to {self._characterId} for server {self._serverId}")
         Logger().info("Adding game start frames ...")
-        for frame in self._registredInitFrames:
+        for frame in self._registeredInitFrames:
             self.worker.addFrame(frame)
         if not self._loginToken:
             if self._apikey is None:
@@ -277,7 +277,7 @@ class DofusClient(threading.Thread):
                     message=f"Generate login failed with error: {exc}",
                     reason=DisconnectionReasonEnum.EXCEPTION_THROWN,
                 )
-        AuthentificationManager().setToken(self._loginToken)
+        AuthenticationManager().setToken(self._loginToken)
         self.waitNextLogin()
         self._loginToken = None
 
@@ -312,7 +312,7 @@ class DofusClient(threading.Thread):
         if self.kernel:
             Logger().info(f"Shutting down client {self.name} for reason : {self._shutdownReason}")
             KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate, ClientStatusEnum.STOPPING, {"reason": self._shutdownReason}
+                KernelEvent.ClientStatusUpdate, ClientStatusEnum.STOPPING, {"reason": str(self._shutdownReason)}
             )
             self.kernel.worker.process(TerminateWorkerMessage())
         else:
@@ -328,11 +328,11 @@ class DofusClient(threading.Thread):
 
     @property
     def registeredInitFrames(self) -> list:
-        return self._registredInitFrames
+        return self._registeredInitFrames
 
     @property
     def registeredGameStartFrames(self) -> list:
-        return self._registredGameStartFrames
+        return self._registeredGameStartFrames
 
     @classmethod
     def get_client(cls: Type[T], name) -> T:
@@ -377,16 +377,19 @@ class DofusClient(threading.Thread):
 
         if Haapi().game_sessionId:
             Logger().info("Sending end events")
-            HaapiEventsManager().sendEndEvent()
+            try:
+                HaapiEventsManager().sendEndEvent()
+            except Exception as e:
+                Logger().error("Failed to send end events", exc_info=True)
 
         ZaapDecoy.CONNECTED_ACCOUNTS -= 1
 
         Kernel().reset()
-        Logger().info("goodby crual world")
+        Logger().info("goodby cruel world")
         self.terminated.set()
         for callback in self._shutdownListeners:
             Logger().info(f"Calling shutdown listener: {callback.__name__}")
-            callback(self.name, self._shutdownMessage, self._shutdownReason)
+            callback(self._shutdownReason, self._shutdownMessage)
         self._ended_correctly = True
         with global_data_lock:
             self._running_clients.remove(self)

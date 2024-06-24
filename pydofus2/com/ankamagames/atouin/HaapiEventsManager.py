@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.dofus.misc.stats.InternalStatisticEnum import Inte
 from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
-from pydofus2.com.ankamagames.jerakine.logger import Logger
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
