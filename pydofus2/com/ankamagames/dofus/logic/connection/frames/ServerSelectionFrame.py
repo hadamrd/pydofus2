@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWith
     LoginValidationWithTokenAction,
 )
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.ServerSelectionAction import ServerSelectionAction
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.dofus.network.enums.ServerConnectionErrorEnum import ServerConnectionErrorEnum
 from pydofus2.com.ankamagames.dofus.network.enums.ServerStatusEnum import ServerStatusEnum
 from pydofus2.com.ankamagames.dofus.network.messages.connection.SelectedServerDataExtendedMessage import (
@@ -37,6 +37,7 @@ from pydofus2.com.ankamagames.jerakine.network.messages.ExpectedSocketClosureMes
 )
 from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class ServerSelectionFrame(Frame):
@@ -74,13 +75,14 @@ class ServerSelectionFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, ServersListMessage):
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SERVERS_LIST_RECEIVED)
             slmsg = msg
             PlayerManager().server = None
             self._serversList = slmsg.servers
             self._serversList.sort(key=lambda x: x.date)
             self.broadcastServersListUpdate()
-            if AuthentificationManager()._lva and AuthentificationManager()._lva.serverId is not None:
-                self.selectServer(AuthentificationManager()._lva.serverId)
+            if AuthenticationManager()._lva and AuthenticationManager()._lva.serverId is not None:
+                self.selectServer(AuthenticationManager()._lva.serverId)
             else:
                 Logger().warning("No serverId specified in Auth Manager, cannot select any server.")
             return True
@@ -125,7 +127,7 @@ class ServerSelectionFrame(Frame):
                 Kernel().worker.addFrame(GameServerApproachFrame())
                 ConnectionsHandler().connectToGameServer(self.selectedServer.address, self.selectedServer.ports[0])
             elif msg.reason == DisconnectionReasonEnum.CHANGING_SERVER:
-                if not AuthentificationManager()._lva or AuthentificationManager()._lva.serverId is None:
+                if not AuthenticationManager()._lva or AuthenticationManager()._lva.serverId is None:
                     Logger().error(f"Closed connection to change server but no serverId is specified in Auth Manager")
                 else:
                     from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
@@ -134,20 +136,23 @@ class ServerSelectionFrame(Frame):
                     )
 
                     Logger().info(
-                        f"Connection closed to change server to {AuthentificationManager()._lva.serverId}, will reconnect"
+                        f"Connection closed to change server to {AuthenticationManager()._lva.serverId}, will reconnect"
                     )
                     Kernel().worker.addFrame(AuthentificationFrame())
                     Kernel().worker.addFrame(QueueFrame())
                     Kernel().worker.process(
                         LoginValidationWithTokenAction.create(
-                            AuthentificationManager()._lva.serverId != 0, AuthentificationManager()._lva.serverId
+                            AuthenticationManager()._lva.serverId != 0, AuthenticationManager()._lva.serverId
                         )
                     )
             return True
 
         if isinstance(msg, (SelectedServerDataMessage, SelectedServerDataExtendedMessage)):
+            KernelEventsManager().send(
+                KernelEvent.ClientStatusUpdate, ClientStatusEnum.SERVER_SELECT_SUCCESS, {"serverId": msg.to_json()}
+            )
             self.selectedServer = msg
-            AuthentificationManager().gameServerTicket = AuthentificationManager().decodeWithAES(msg.ticket).decode()
+            AuthenticationManager().gameServerTicket = AuthenticationManager().decodeWithAES(msg.ticket).decode()
             PlayerManager().server = Server.getServerById(msg.serverId)
             PlayerManager().kisServerPort = 0
             self._connexionPorts = msg.ports
@@ -160,6 +165,7 @@ class ServerSelectionFrame(Frame):
                 msg.ticket,
             )
             ConnectionsHandler().closeConnection(DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHING_TO_GAME_SERVER)
             return True
 
         if isinstance(msg, SelectedServerRefusedMessage):
@@ -273,17 +279,26 @@ class ServerSelectionFrame(Frame):
             if str(server.id) == str(serverId):
                 if ServerStatusEnum(server.status) == ServerStatusEnum.ONLINE:
                     self.requestServerSelection(server.id)
+                    KernelEventsManager().send(
+                        KernelEvent.ClientStatusUpdate, ClientStatusEnum.SELECTING_SERVER, {"serverId": server.id}
+                    )
                     return
                 elif ServerStatusEnum(server.status) == ServerStatusEnum.SAVING:
                     self._waitingServerOnline = server.id
                     Logger().info(f"Server {server.id} is saving, waiting for it to be online.")
                 else:
                     err_type = ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS
+                    error_text = self.getSelectionErrorText(err_type, server.status)
                     KernelEventsManager().send(
                         KernelEvent.SelectedServerRefused,
                         server.id,
                         err_type,
                         server.status,
-                        self.getSelectionErrorText(err_type, server.status),
+                        error_text,
                         self.getSelectableServers(),
+                    )
+                    KernelEventsManager().send(
+                        KernelEvent.ClientStatusUpdate,
+                        ClientStatusEnum.SERVER_SELECTION_IMPOSSIBLE,
+                        {"serverId": server.id, "error": error_text},
                     )

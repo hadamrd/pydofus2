@@ -20,9 +20,6 @@ from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.Fight import Fight
 from pydofus2.com.ankamagames.dofus.logic.game.roleplay.types.FightTeam import FightTeam
 from pydofus2.com.ankamagames.dofus.network.enums.MapObstacleStateEnum import MapObstacleStateEnum
 from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import BasicPingMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightOptionStateUpdateMessage import (
-    GameFightOptionStateUpdateMessage,
-)
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.fight.GameFightUpdateTeamMessage import (
     GameFightUpdateTeamMessage,
 )
@@ -122,6 +119,7 @@ from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import Benchmark
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
@@ -146,7 +144,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         super().__init__()
 
     def pulled(self) -> bool:
-        Logger().debug("pulled")
         self._fights.clear()
         self._objects.clear()
         self._npcList.clear()
@@ -155,7 +152,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         return super().pulled()
 
     def pushed(self) -> bool:
-        Logger().debug("pushed")
         self.nbrFails = 0
         self.initNewMap()
         self.mcidm_processed = False
@@ -183,6 +179,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         self.treasureHuntNpc = False
 
     def requestMapData(self):
+        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.REQUESTING_MAP_DATA)
         self.mcidm_processed = False
         self._waitForMap = False
         self.sendMapDataRequest()
@@ -217,6 +214,8 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
 
         elif isinstance(msg, MapComplementaryInformationsDataMessage):
             Logger().info("Map data received")
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_RECEIVED)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.PROCESSING_MAP_DATA)
             if self.mapDataRequestTimer:
                 self.mapDataRequestTimer.cancel()
             self.processingMapData.clear()
@@ -313,13 +312,13 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                         mo.obstacleCellId,
                         mo.state == MapObstacleStateEnum.OBSTACLE_OPENED,
                     )
-            if Kernel().interactivesFrame:
+            if Kernel().interactiveFrame:
                 imumsg = InteractiveMapUpdateMessage()
                 imumsg.init(msg.interactiveElements)
-                Kernel().interactivesFrame.process(imumsg)
+                Kernel().interactiveFrame.process(imumsg)
                 smumsg = StatedMapUpdateMessage()
                 smumsg.init(msg.statedElements)
-                Kernel().interactivesFrame.process(smumsg)
+                Kernel().interactiveFrame.process(smumsg)
 
             if isinstance(msg, MapComplementaryInformationsAnomalyMessage):
                 PlayedCharacterManager().isInAnomaly = True
@@ -333,6 +332,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             if type(msg) is MapComplementaryInformationsDataInHavenBagMessage:
                 Logger().debug("Played entered haven bag")
                 KernelEventsManager().send(KernelEvent.InHavenBag)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_PROCESSED)
             return True
 
         if isinstance(msg, GameRolePlayShowActorMessage):
@@ -363,24 +363,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         elif isinstance(msg, GameFightUpdateTeamMessage):
             gfutmsg = msg
             self.updateFight(gfutmsg.fightId, gfutmsg.team)
-            return True
-
-        elif isinstance(msg, GameFightOptionStateUpdateMessage):
-            gfosumsg = msg
-            self.updateSwordOptions(gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state)
-            KernelEventsManager().send(
-                KernelEvent.FightOptionStateUpdate, gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state
-            )
-
-            return True
-
-        elif isinstance(msg, GameFightOptionStateUpdateMessage):
-            gfosumsg = msg
-            self.updateSwordOptions(gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state)
-            KernelEventsManager().send(
-                KernelEvent.FightOptionStateUpdate, gfosumsg.fightId, gfosumsg.teamId, gfosumsg.option, gfosumsg.state
-            )
-
             return True
 
         elif isinstance(msg, GameRolePlayShowChallengeMessage):
@@ -452,17 +434,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             self.unregisterActor(team.teamEntity.id)
             del team.teamEntity
         del self._fights[fightId]
-
-    def updateSwordOptions(self, fightId: int, teamId: int, option: int = -1, state: bool = False):
-        fight: Fight = self._fights.get(fightId, None)
-        if not fight:
-            return
-        fightTeam: FightTeam = fight.getTeamById(teamId)
-
-        if not fightTeam:
-            return
-        if option != -1:
-            fightTeam.teamOptions[option] = state
 
     def updateFight(self, fightId: int, team: FightTeamInformations) -> None:
         present: bool = False

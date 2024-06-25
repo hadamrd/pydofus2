@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 from collections import OrderedDict
 from pathlib import Path
 
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 lock = threading.Lock()
 KEY_LANG_INDEX = "langIndex"
@@ -16,9 +16,9 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
     _aLang = OrderedDict[str, str]()
 
     def __init__(self) -> None:
-        from pydofus2.com.ankamagames.dofus import Constants
+        from pydofus2.com.ankamagames.dofus import settings
 
-        config_file_path = Constants.DOFUS_HOME / "config.xml"
+        config_file_path = settings.DOFUS_HOME / "config.xml"
         pattern = "(\[\S+(?:\.\S+)*\])"
         tree = ET.parse(config_file_path)
         root = tree.getroot()
@@ -35,7 +35,7 @@ class XmlConfig(metaclass=ThreadSharedSingleton):
                 else:
                     v = v.replace(m.group(0), self._constants[var])
             if key == "config.root.path":
-                v = str(Constants.DOFUS_HOME)
+                v = str(settings.DOFUS_HOME)
             self._constants[key] = v
 
     def init(self, constants: dict[str, object]) -> None:

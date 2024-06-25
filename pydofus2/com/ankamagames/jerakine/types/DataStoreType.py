@@ -52,7 +52,7 @@ class DataStoreType:
         return self._sCategory
 
     @property
-    def persistant(self) -> bool:
+    def persistent(self) -> bool:
         return self._bPersistant
 
     @property

@@ -3,11 +3,12 @@ import platform
 from pathlib import Path
 from urllib.parse import urlparse
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 
 
 class Uri:
     subPathDelimiter = "|"
+    supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
 
     def __init__(self, uri=None, tag=None):
         self._protocol = None
@@ -38,7 +39,6 @@ class Uri:
             raise ValueError(f"'{uri}' is an insecure URI.")
 
     def isSecure(self):
-        # This needs to be implemented according to your requirements
         return True
 
     def toString(self):
@@ -113,7 +113,7 @@ class Uri:
 
     def toFile(self) -> Path:
         if not self._path:
-            tmp = Path("null")
+            tmp = Path()
         else:
             tmp = Path(self._path)
         if tmp.is_absolute():
@@ -123,9 +123,19 @@ class Uri:
 
             uiRoot = Path(LangManager().getEntry("config.mod.path"))
             if not uiRoot.is_absolute():
-                return Constants.DOFUS_HOME / uiRoot / tmp
+                return settings.DOFUS_HOME / uiRoot / tmp
             return uiRoot / tmp
-        return Constants.DOFUS_HOME / tmp
+        return settings.DOFUS_HOME / tmp
+
+    @property
+    def fileName(self):
+        if self._fileNameChanged:
+            if not self._subPath or len(self._subPath) == 0:
+                self._fileName = self._path[self._path.rfind("/") + 1 :]
+            else:
+                self._fileName = self._subPath[self._subPath.rfind("/") + 1 :]
+            self._fileNameChanged = False
+        return self._fileName
 
     @property
     def fileType(self):
@@ -137,15 +147,13 @@ class Uri:
         return self._fileType
 
     def normalizedUri(self) -> str:
-        supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
-        if self._protocol in supported_protocols:
+        if self._protocol in self.supported_protocols:
             return self._uri.replace("/\\/g", "/")
         else:
             raise ValueError(f"Unsupported protocol {self._protocol} for normalization.")
 
     def normalizedUriWithoutSubPath(self) -> str:
-        supported_protocols = ["http", "https", "file", "zip", "mod", "theme", "d2p", "d2pOld", "pak", "pak2"]
-        if self._protocol in supported_protocols:
+        if self._protocol in self.supported_protocols:
             return self.toString().replace("/\\/g", "/")
         else:
             raise ValueError(f"Unsupported protocol {self._protocol} for normalization.")

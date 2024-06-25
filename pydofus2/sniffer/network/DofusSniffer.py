@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import asyncio
 import base64
-import json
 import os
 import threading
 
@@ -20,7 +19,6 @@ LOW_LEVEL_DEBUG = bool(os.environ.get("LOW_LEVEL_DEBUG", False))
 
 
 class DofusSniffer(threading.Thread):
-
     def __init__(self, name="DofusSnifferApp", on_message=None, on_crash=None, recordMessages=True):
         super().__init__(name=name)
         self.capture = None
@@ -64,8 +62,8 @@ class DofusSniffer(threading.Thread):
                     msgjson["hash_function"] = base64.b64encode(msgjson["hash_function"]).decode("utf-8")
                 with messages_lock:
                     self.messagesRecord[conn.id].append(msgjson)
-                    with open(conn.messagesRecordFile, "w") as fp:
-                        json.dump(self.messagesRecord[conn.id], fp, indent=2)
+                    # with open(conn.messagesRecordFile, "w") as fp:
+                    #     json.dump(self.messagesRecord[conn.id], fp, indent=2)
             if self.callback:
                 self.callback(conn.id, msg, from_client)
 

@@ -18,15 +18,21 @@ dataWrite = {
 PY_PRIMITIVES = {int, float, str, bool}
 
 
-class NetworkMessageEncoder:
+class EncoderError(Exception):
+    def __init__(self, message: str, field: str, instance: "bnm.NetworkMessage"):
+        self.field = field
+        self.instance = instance
+        super().__init__(message)
 
+
+class NetworkMessageEncoder:
     @classmethod
     def encode(cls, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         spec = inst.getSpec()
         try:
             return cls._encode(spec, inst, data, random_hash)
-        except Exception as e:
-            raise Exception(f"Error while encoding {inst.__class__.__name__} : {inst.__dict__}.\n{e}") from e
+        except Exception as exc:
+            raise EncoderError(f"Error while encoding {inst.__class__.__name__} : {inst.__dict__}.\n{exc}") from exc
 
     @classmethod
     def jsonEncode(cls, inst: "bnm.NetworkMessage", random_hash=False) -> dict:
@@ -48,7 +54,14 @@ class NetworkMessageEncoder:
             data = ByteArray()
         if type(spec) is FieldSpec:
             if spec.isPrimitive():
-                return cls.writePrimitive(spec, inst, data)
+                try:
+                    return cls.writePrimitive(spec, inst, data)
+                except Exception as exc:
+                    raise EncoderError(
+                        f"Error while writing primitive field '{spec}' of instance '{inst.__class__.__name__}'\n{exc}",
+                        spec,
+                        inst.__class__.__name__,
+                    ) from exc
             if spec.dynamicType:
                 spec = inst.getSpec()
                 data.writeUnsignedShort(spec.protocolId)
@@ -67,16 +80,21 @@ class NetworkMessageEncoder:
             if field.isVector():
                 try:
                     cls.writeArray(field, getattr(inst, field.name), data)
-                except Exception as e:
-                    raise Exception(
-                        f"Error while writing vector '{field}' of instance '{inst.__class__.__name__}'\n{e}"
-                    ) from e
+                except Exception as exc:
+                    raise EncoderError(
+                        f"Error while writing vector '{field}' of instance '{inst.__class__.__name__}'\n{exc}",
+                        field,
+                        inst.__class__.__name__,
+                    ) from exc
             else:
                 try:
                     cls._encode(field, getattr(inst, field.name), data)
-                except:
-                    Logger().error(f"Error while writing field '{field}' of instance '{inst.__class__.__name__}'")
-                    raise
+                except Exception as exc:
+                    raise EncoderError(
+                        f"Error while writing field '{field}' of instance '{inst.__class__.__name__}'\n{exc}",
+                        field,
+                        inst.__class__.__name__,
+                    ) from exc
         if hasattr(inst, "hash_function"):
             data.write(getattr(inst, "hash_function"))
         return data
@@ -99,10 +117,14 @@ class NetworkMessageEncoder:
             assert n == var.length, f"Vector length {n} different from spec length {var.length}!"
         if var.lengthTypeId is not None:
             if TypeEnum(var.lengthTypeId) == TypeEnum.OBJECT:
-                raise Exception("Vector length type cant be an OBJECT!")
+                raise EncoderError("Vector length type cant be an OBJECT!", var.name, inst.__class__.__name__)
             type_primite_name = TypeEnum.getPrimitiveName(TypeEnum(var.lengthTypeId))
             if type_primite_name is None:
-                raise Exception(f"Unknown primitive type id {var.lengthTypeId}, {TypeEnum(var.lengthTypeId)}!")
+                raise EncoderError(
+                    f"Unknown primitive type id {var.lengthTypeId}, {TypeEnum(var.lengthTypeId)}!",
+                    var.name,
+                    inst.__class__.__name__,
+                )
             dataWrite[type_primite_name][1](data, n)
         if var.type in D2PROTOCOL["primitives"]:
             for it in inst:

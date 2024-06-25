@@ -90,6 +90,7 @@ class SpellLevel(ICellZoneProvider, IDataCenter):
     previewZones: list["EffectZone"]
 
     def __init__(self):
+        self._spell = None
         super().__init__()
 
     @classmethod

@@ -85,7 +85,7 @@ class ServerConnection(mp.Thread):
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connectionTimeout = None
-        self.nbrSendFails = 0
+        self._countSendFails = 0
         self._asyncNetworkDataContainerMessage: NetworkDataContainerMessage = None
 
     @property
@@ -167,7 +167,7 @@ class ServerConnection(mp.Thread):
                 self.sendingQueue.append(msg)
                 return Logger().warning(f"Message {msg} was queued")
             elif self._closing.is_set() or self.closed:
-                return Logger().warning(f"Discarded Message {msg}")
+                return Logger().warning(f"Message {msg} was discarded!")
         Logger().debug(f"[{self.id}] [SND] > {msg}")
         try:
             data = msg.pack()
@@ -182,11 +182,11 @@ class ServerConnection(mp.Thread):
         except OSError as e:
             Logger().error(f"{e.errno}, {errno.errorcode[e.errno]} OS error received")
             if e.errno == errno.WSAECONNABORTED:
-                self.nbrSendFails += 1
-                if self.nbrSendFails > 3:
+                self._countSendFails += 1
+                if self._countSendFails > 3:
                     return self.close()
                 self.send(msg)
-        self.nbrSendFails = 0
+        self._countSendFails = 0
         self._latestSent = perf_counter()
         self._lastSent = perf_counter()
         self._sendSequenceId += 1

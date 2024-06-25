@@ -8,7 +8,7 @@ from pydofus2.com.ankamagames.dofus.network.Metadata import Metadata
 from pydofus2.com.ankamagames.dofus.types.enums.LanguageEnum import LanguageEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 
 if TYPE_CHECKING:
@@ -59,8 +59,8 @@ if TYPE_CHECKING:
 class Kernel(metaclass=Singleton):
     def __init__(self) -> None:
         self._worker: Worker = Worker()
-        self.beingInReconection: bool = False
-        self._reseted = True
+        self.beingInReconnection: bool = False
+        self._reset = True
         self.isMule = False
 
     @property
@@ -68,16 +68,16 @@ class Kernel(metaclass=Singleton):
         return self._worker
 
     @property
-    def reseted(self) -> bool:
-        return self._reseted
+    def reset(self) -> bool:
+        return self._reset
 
     def init(self) -> None:
-        if self._reseted:
+        if self._reset:
             Logger().info("Initializing ...")
             self._worker.reset()
             self.addInitialFrames()
-            self._reseted = False
-            Logger().info(f"Using protocole #{Metadata.PROTOCOL_BUILD}, built on {Metadata.PROTOCOL_DATE}")
+            self._reset = False
+            Logger().info(f"Using protocol #{Metadata.PROTOCOL_BUILD}, built on {Metadata.PROTOCOL_DATE}")
             Logger().info("Initialized")
 
     def reset(
@@ -130,14 +130,14 @@ class Kernel(metaclass=Singleton):
             self._worker.addFrame(disconnectionHandlerFrame)
         if ConnectionsHandler().conn and not ConnectionsHandler().conn.closed:
             ConnectionsHandler().closeConnection(DisconnectionReasonEnum.DISCONNECTED_BY_USER)
-        self.beingInReconection = False
+        self.beingInReconnection = False
         if reloadData:
-            self.beingInReconection = True
+            self.beingInReconnection = True
             self.addInitialFrames()
         else:
             Singleton.clearAll()
-            self._reseted = True
-        Logger().debug("Reseted")
+            self._reset = True
+        Logger().debug("Reset")
 
     def getLocaleLang(self):
         current_lang = XmlConfig().getEntry("config.lang.current")
@@ -197,7 +197,7 @@ class Kernel(metaclass=Singleton):
         return self._worker.getFrameByName("PartyFrame")
 
     @property
-    def interactivesFrame(self) -> "RoleplayInteractivesFrame":
+    def interactiveFrame(self) -> "RoleplayInteractivesFrame":
         return self._worker.getFrameByName("RoleplayInteractivesFrame")
 
     @property

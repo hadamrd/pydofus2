@@ -4,6 +4,7 @@ from pydofus2.com.ankamagames.berilia.interfaces.IApi import IApi
 from pydofus2.com.ankamagames.dofus.datacenter.breeds.Breed import Breed
 from pydofus2.com.ankamagames.dofus.datacenter.optionalFeatures.CustomModeBreedSpell import CustomModeBreedSpell
 from pydofus2.com.ankamagames.dofus.datacenter.optionalFeatures.ForgettableSpell import ForgettableSpell
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
 from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
@@ -11,6 +12,7 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper impor
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.network.enums.AlignmentSideEnum import AlignmentSideEnum
 from pydofus2.com.ankamagames.dofus.types.data.PlayerSetInfo import PlayerSetInfo
+from pydofus2.com.ankamagames.jerakine.logger import Logger
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import (
@@ -74,6 +76,11 @@ class PlayedCharacterApi(IApi):
 
     @classmethod
     def canRideMount(cls) -> bool:
+        mapId = PlayedCharacterManager().currentMap.mapId
+        mapPosition = MapPosition.getMapPositionById(mapId)
+        if not mapPosition.allowMount:
+            Logger().warning("Can't ride mount on the player current map")
+            return False
         return (
             not PlayerManager().isBasicAccount()
             and PlayedCharacterApi.getMount()

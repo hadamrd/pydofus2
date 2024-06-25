@@ -1,7 +1,6 @@
 from typing import Any
 
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
 from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
 from pydofus2.com.ankamagames.jerakine.resources.loaders.AbstractResourceLoader import AbstractResourceLoader
 from pydofus2.com.ankamagames.jerakine.resources.loaders.IResourceLoader import IResourceLoader
@@ -10,7 +9,7 @@ from pydofus2.com.ankamagames.jerakine.resources.protocols.ProtocolFactory impor
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
-class SingleRessourceLoader(AbstractResourceLoader, IResourceLoader, IResourceObserver):
+class SingleResourceLoader(AbstractResourceLoader, IResourceLoader, IResourceObserver):
     def __init__(self):
         super().__init__()
         self._uri: Uri = None
@@ -29,9 +28,7 @@ class SingleRessourceLoader(AbstractResourceLoader, IResourceLoader, IResourceOb
         self._filesTotal = 1
         if not self.checkCache(self._uri):
             self._protocol = ProtocolFactory.getProtocol(self._uri)
-            self._protocol.load(
-                self._uri, self, self.hasListener(ResourceEvent.PROGRESS), self._cache, forcedAdapter, singleFile
-            )
+            self._protocol.load(self._uri, self, self._cache, forcedAdapter, singleFile)
 
     def cancel(self) -> None:
         super().cancel()

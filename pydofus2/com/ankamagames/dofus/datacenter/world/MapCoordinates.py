@@ -20,6 +20,7 @@ class MapCoordinates(IDataCenter):
     _maps: list[MapPosition]
 
     def __init__(self):
+        self._maps = list[MapPosition]()
         super().__init__()
 
     @classmethod
@@ -27,7 +28,7 @@ class MapCoordinates(IDataCenter):
         return GameData().getObject(cls.MODULE, compressedCoords)
 
     @classmethod
-    def getMapCoordinatesByCoords(cls, x, y):
+    def getMapCoordinatesByCoords(cls, x, y) -> "MapCoordinates":
         xCompressed = cls.getCompressedValue(x)
         yCompressed = cls.getCompressedValue(y)
         compressedCoords = (xCompressed << 16) | yCompressed
@@ -49,7 +50,7 @@ class MapCoordinates(IDataCenter):
     def x(self) -> int:
         if self._x == self.UNDEFINED_COORD:
             maskedCompressedCoords = (
-                (self.compressedCoords + 2**32) if self.compressedCoords < 0 else self.compressedCoords
+                (self.compressedCoords + 2 ** 32) if self.compressedCoords < 0 else self.compressedCoords
             )
             self._x = MapCoordinates.getSignedValue((maskedCompressedCoords & 0xFFFF0000) >> 16)
         return self._x
@@ -62,9 +63,6 @@ class MapCoordinates(IDataCenter):
 
     @property
     def maps(self) -> list[MapPosition]:
-        i: int = 0
         if not self._maps:
-            self._maps = len(list[MapPosition](self.mapIds), True)
-            for i in range(len(self.mapIds)):
-                self._maps[i] = MapPosition.getMapPositionById(self.mapIds[i])
+            self._maps = [MapPosition.getMapPositionById(mapId) for mapId in self.mapIds]
         return self._maps

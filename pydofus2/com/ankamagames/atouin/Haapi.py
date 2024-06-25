@@ -15,12 +15,12 @@ from urllib3.util.retry import Retry
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.dofus.BuildInfos import BuildInfos
 from pydofus2.com.ankamagames.dofus.kernel.net.DisconnectionReasonEnum import DisconnectionReasonEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class HaapiException(Exception):
@@ -82,26 +82,23 @@ class Haapi(metaclass=Singleton):
         self.dofus_session.mount("http://", adapter)
         self.dofus_session.mount("https://", adapter)
         self.dofus_session.headers.update(self.dofus_headers)
-        if "haapi_proxies" in Constants.USER_SETTINGS and Constants.USER_SETTINGS.get("use_proxy", False):
-            self.dofus_session.proxies.update(Constants.USER_SETTINGS["haapi_proxies"])
+        if "haapi_proxies" in settings.USER_SETTINGS and settings.USER_SETTINGS.get("use_proxy", False):
+            self.dofus_session.proxies.update(settings.USER_SETTINGS["haapi_proxies"])
         self.verify_ssl = False
 
     @sendTrace
     def getUrl(self, request, params={}):
-        result = (
-            self.BASE_URL
-            + {
-                "CREATE_API_KEY": "/Ankama/v4/Api/CreateApiKey",
-                "CREATE_TOKEN": "/Ankama/v4/Account/CreateToken",
-                "GET_ACCESS_TOKEN": "/Ankama/v4/Account/GetAccessToken",
-                "SEND_EVENTS": "/Ankama/v4/Game/SendEvents",
-                "SEND_EVENT": "/Ankama/v4/Game/SendEvent",
-                "GET_ALMANAX_EVENT": "/Ankama/v4/Almanax/GetEvent",
-                "GET_LOADING_SCREEN": "/Ankama/v4/Cms/Items/Loadingscreen/Get",
-                "GET_CMS_FEEDS": "/Ankama/v4/Cms/Items/GetFeeds",
-                "POLLIN_GAME_GET": "/Ankama/v4/Cms/PollInGame/Get",
-            }[request]
-        )
+        result = self.BASE_URL + {
+            "CREATE_API_KEY": "/Ankama/v4/Api/CreateApiKey",
+            "CREATE_TOKEN": "/Ankama/v4/Account/CreateToken",
+            "GET_ACCESS_TOKEN": "/Ankama/v4/Account/GetAccessToken",
+            "SEND_EVENTS": "/Ankama/v4/Game/SendEvents",
+            "SEND_EVENT": "/Ankama/v4/Game/SendEvent",
+            "GET_ALMANAX_EVENT": "/Ankama/v4/Almanax/GetEvent",
+            "GET_LOADING_SCREEN": "/Ankama/v4/Cms/Items/Loadingscreen/Get",
+            "GET_CMS_FEEDS": "/Ankama/v4/Cms/Items/GetFeeds",
+            "POLLIN_GAME_GET": "/Ankama/v4/Cms/PollInGame/Get",
+        }[request]
         if params:
             result += "?" + urlencode(params)
         return result

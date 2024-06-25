@@ -8,7 +8,7 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.InterClientManager imp
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationAction import LoginValidationAction
 from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import ServerSelectionFrame
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.dofus.network.enums.IdentificationFailureReasonsEnum import (
     IdentificationFailureReasonEnum,
@@ -36,6 +36,7 @@ from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMe
 )
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class AuthentificationFrame(Frame):
@@ -71,20 +72,21 @@ class AuthentificationFrame(Frame):
             flashKeyMsg.init(InterClientManager().getFlashKey())
             Logger().info(f"Sending flash key to server: {flashKeyMsg.key}")
             ConnectionsHandler().send(flashKeyMsg)
-            AuthentificationManager().setPublicKey(msg.key)
-            AuthentificationManager().setSalt(msg.salt)
-            AuthentificationManager().initAESKey()
-            iMsg = AuthentificationManager().getIdentificationMessage()
+            AuthenticationManager().setPublicKey(msg.key)
+            AuthenticationManager().setSalt(msg.salt)
+            AuthenticationManager().initAESKey()
+            iMsg = AuthenticationManager().getIdentificationMessage()
             self._currentLogIsForced = isinstance(iMsg, IdentificationAccountForceMessage)
             ConnectionsHandler().send(iMsg)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHENTICATING_TO_LOGIN_SERVER)
             return True
 
         elif isinstance(msg, IdentificationSuccessMessage):
             ismsg = msg
             if isinstance(ismsg, IdentificationSuccessWithLoginTokenMessage):
-                AuthentificationManager().nextToken = IdentificationSuccessWithLoginTokenMessage(ismsg).loginToken
+                AuthenticationManager().nextToken = IdentificationSuccessWithLoginTokenMessage(ismsg).loginToken
             if ismsg.login:
-                AuthentificationManager().username = ismsg.login
+                AuthenticationManager().username = ismsg.login
             PlayerManager().accountId = ismsg.accountId
             PlayerManager().communityId = ismsg.communityId
             PlayerManager().hasRights = ismsg.hasRights
@@ -94,11 +96,9 @@ class AuthentificationFrame(Frame):
             PlayerManager().subscriptionEndDate = ismsg.subscriptionEndDate
             if PlayerManager().isBasicAccount():
                 Logger().info("Player has basic account")
+                formatted = "N/A"
             else:
-                subscriptionEndDate = TimeManager().getDateFromTime(
-                    ismsg.subscriptionEndDate
-                )  # [nminute, nhour, nday, nmonth, nyear]
-                formatted = f"{subscriptionEndDate[2]}/{subscriptionEndDate[3]}/{subscriptionEndDate[4]} {subscriptionEndDate[1]}:{subscriptionEndDate[0]}"
+                formatted = TimeManager().getFormatterDateFromTime(ismsg.subscriptionEndDate)
                 Logger().info(f"Player subscription end date: {formatted}")
             PlayerManager().accountCreation = ismsg.accountCreation
             PlayerManager().wasAlreadyConnected = ismsg.wasAlreadyConnected
@@ -107,16 +107,27 @@ class AuthentificationFrame(Frame):
             Kernel().worker.addFrame(CharacterFrame())
             Kernel().worker.addFrame(ServerSelectionFrame())
             KernelEventsManager().send(KernelEvent.PlayerLoginSuccess, ismsg)
+            KernelEventsManager().send(
+                KernelEvent.ClientStatusUpdate,
+                ClientStatusEnum.AUTHENTICATED_TO_LOGIN_SERVER,
+                {"subscribed": not PlayerManager().isBasicAccount(), "subscriptionEndDate": formatted},
+            )
             return True
 
         elif isinstance(msg, IdentificationFailedMessage):
             reason = IdentificationFailureReasonEnum(msg.reason)
             PlayerManager().destroy()
             if reason == IdentificationFailureReasonEnum.BANNED:
+                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.BANNED)
                 ConnectionsHandler().closeConnection(
                     DisconnectionReasonEnum.BANNED, f"Identification failed for reason : {reason.name}"
                 )
             else:
+                KernelEventsManager().send(
+                    KernelEvent.ClientStatusUpdate,
+                    ClientStatusEnum.FAILED_TO_IDENTIFY,
+                    {"identificationFailureReason": reason.name},
+                )
                 ConnectionsHandler().closeConnection(
                     DisconnectionReasonEnum.EXCEPTION_THROWN, f"Identification failed for reason : {reason.name}"
                 )
@@ -135,9 +146,12 @@ class AuthentificationFrame(Frame):
                         KernelEvent.ClientCrashed, "No selectable host, aborting connection."
                     )
             self.connexionSequence = self.buildConnexionSequence(allHostsInfos, hostChosenByUser)
-            AuthentificationManager().loginValidationAction = msg
+            AuthenticationManager().loginValidationAction = msg
             connInfo = self.connexionSequence.pop(0)
             Logger().info(f"connInfo: {connInfo}")
+            KernelEventsManager().send(
+                KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTING_TO_LOGIN_SERVER, connInfo
+            )
             ConnectionsHandler().connectToLoginServer(connInfo["host"], connInfo["port"])
             return True
 

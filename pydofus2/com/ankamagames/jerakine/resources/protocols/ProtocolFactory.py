@@ -34,6 +34,14 @@ class ProtocolFactory:
         elif uri.protocol == "d2pOld":
             return PakProtocol()
         else:
+            customProtocol = ProtocolFactory._customProtocols[uri.protocol]
+            if customProtocol:
+                cp = customProtocol()
+                if not isinstance(cp, IProtocol):
+                    raise ResourceError(
+                        f"Registered custom protocol for extension {uri.protocol} isn't an IProtocol subclass."
+                    )
+                return cp
             raise ValueError(f"Unknown protocol '{uri.protocol}' in the URI '{uri}'.")
 
     @staticmethod

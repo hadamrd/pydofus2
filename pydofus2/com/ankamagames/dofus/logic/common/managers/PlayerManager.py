@@ -4,12 +4,10 @@ from typing import TYPE_CHECKING
 from pydofus2.com.ankamagames.dofus.datacenter.houses.HavenbagTheme import HavenbagTheme
 from pydofus2.com.ankamagames.dofus.datacenter.servers.Server import Server
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.internalDatacenter.connection.BasicCharacterWrapper import (
-        BasicCharacterWrapper,
-    )  # noqa
+    pass
 
 from pydofus2.com.ankamagames.dofus.network.types.game.havenbag.HavenBagRoomPreviewInformation import (
     HavenBagRoomPreviewInformation,

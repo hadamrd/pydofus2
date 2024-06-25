@@ -2,7 +2,7 @@ import json
 import re
 import sys
 
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 
 IMPORT_REGX = "^\s*import (?P<module_prefix>\S+(?:\.\S+)*)\.(?P<cls_name>\S+);"
 SHUFFLE_MAPPING_REGX = "^\s*_messagesTypes\[(?P<msgId>\d+)\] = (?P<cls_name>\S+);"
@@ -34,5 +34,5 @@ def main(msgReceiverAs):
 if __name__ == "__main__":
     msgReceiverAs = sys.argv[1]
     msgShuffle = main(msgReceiverAs)
-    with open(Constants.PROTOCOL_MSG_SHUFFLE_PATH, "w") as fp:
+    with open(settings.PROTOCOL_MSG_SHUFFLE_PATH, "w") as fp:
         json.dump(msgShuffle, fp, indent=4, separators=(", ", ": "), sort_keys=True)

@@ -50,12 +50,11 @@ from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharac
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class SpellInventoryManagementFrame(Frame, metaclass=Singleton):
-
     def __init__(self):
         self._fullSpellList = dict[int, list[SpellWrapper]]()
         self._spellsGlobalCooldowns = dict[int, list[GameFightSpellCooldown]]()

@@ -84,7 +84,7 @@ class Map:
         self.backgroundFixtures = [Fixture(raw) for _ in range(self.backgroundsCount)]
 
         self.foregroundsCount = raw.readByte()
-        self.foregroundsFixtures = [Fixture(raw) for _ in range(self.foregroundsCount)]
+        self.foregroundFixtures = [Fixture(raw) for _ in range(self.foregroundsCount)]
 
         raw.readInt()
         self.groundCRC = raw.readInt()

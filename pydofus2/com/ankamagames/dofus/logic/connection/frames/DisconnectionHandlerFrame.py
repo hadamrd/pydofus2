@@ -11,7 +11,7 @@ from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWith
     LoginValidationWithTokenAction as LVA_WithToken,
 )
 from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import ConnectionProcessCrashedMessage
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
@@ -84,7 +84,7 @@ class DisconnectionHandlerFrame(Frame):
                                 Kernel().serverSelectionFrame.selectedServer.ports[0],
                             )
                         elif reason.type == DisconnectionReasonEnum.CHANGING_SERVER:
-                            lva = AuthentificationManager()._lva
+                            lva = AuthenticationManager()._lva
                             targetServerId = lva.serverId if lva else None
                             if targetServerId is None:
                                 Logger().error(

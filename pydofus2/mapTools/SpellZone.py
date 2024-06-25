@@ -1,5 +1,4 @@
 class SpellZone:
-
     @classmethod
     def fromRawZone(cls, param1: str) -> "SpellZone":
         if param1 is None:
@@ -34,6 +33,7 @@ class SpellZone:
 
         if len(params) > 3:
             spellZone.maxDegressionTicks = int(params[3])
+
         if len(params) > 4:
             _loc4_ = int(params[4]) != 0
 

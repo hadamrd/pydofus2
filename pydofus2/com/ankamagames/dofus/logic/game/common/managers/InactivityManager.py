@@ -5,7 +5,7 @@ from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import Connect
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.FeatureManager import FeatureManager
 from pydofus2.com.ankamagames.dofus.network.messages.common.basic.BasicPingMessage import BasicPingMessage
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton  # Assuming a logger module exists
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton  # Assuming a logger module exists
 
 
 class InactivityManager(metaclass=Singleton):

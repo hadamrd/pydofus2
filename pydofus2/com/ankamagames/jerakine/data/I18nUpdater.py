@@ -3,7 +3,7 @@ from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.data.DataUpdateManager import DataUpdateManager
 from pydofus2.com.ankamagames.jerakine.data.I18nFileAccessor import I18nFileAccessor
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.events.LangFileEvent import LangFileEvent
 from pydofus2.com.ankamagames.jerakine.types.LangMetaData import LangMetaData
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
@@ -11,16 +11,15 @@ from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
 
 
 class I18nUpdater(DataUpdateManager, metaclass=Singleton):
-
     def __init__(self):
         super().__init__()
         self._language = None
         self._overrideProvider = None
 
-    def initI18n(self, language: str, metaFileListe: Uri, clearAll=False, overrideProvider=None):
+    def initI18n(self, language: str, metaFileList: Uri, clearAll=False, overrideProvider=None):
         self._language = language
         self._overrideProvider = overrideProvider
-        super().init(metaFileListe, clearAll)
+        super().init(metaFileList, clearAll)
 
     def checkFileVersion(self, sFileName, sVersion):
         return False

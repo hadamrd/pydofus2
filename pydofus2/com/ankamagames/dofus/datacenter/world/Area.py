@@ -52,11 +52,11 @@ class Area(IDataCenter):
         return area
 
     @classmethod
-    def getAllArea(cls) -> list:
+    def getAllArea(cls) -> list["Area"]:
         if cls._allAreas:
             return cls._allAreas
-        _allAreas = GameData().getObjects(cls.MODULE)
-        return _allAreas
+        cls._allAreas = GameData().getObjects(cls.MODULE)
+        return cls._allAreas
 
     idAccessors: IdAccessors = IdAccessors(getAreaById, getAllArea)
 

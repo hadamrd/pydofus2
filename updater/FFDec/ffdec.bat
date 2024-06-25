@@ -12,7 +12,7 @@ rem set STACK_SIZE=32m
 rem Hide VLC error output
 set VLC_VERBOSE=-1
 
-if not "%STACK_SiZE%"=="" set STACK_SIZE_PARAM= -Xss%STACK_SiZE%
+if not "%STACK_SIZE%"=="" set STACK_SIZE_PARAM=-Xss%STACK_SIZE%
 if not "%MEMORY%"=="" set MEMORY_PARAM=-Xmx%MEMORY%
 
-java %MEMORY_PARAM%%STACK_SIZE_PARAM%-Djna.nosys=true -jar "%~dp0\ffdec.jar" %*
+java %MEMORY_PARAM% %STACK_SIZE_PARAM% -Djna.nosys=true -jar "%~dp0ffdec.jar" %*

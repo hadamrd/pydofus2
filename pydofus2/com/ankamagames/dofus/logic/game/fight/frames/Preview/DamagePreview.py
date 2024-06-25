@@ -1,3 +1,6 @@
+from typing import List
+
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import WeaponWrapper
@@ -6,7 +9,9 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterMa
 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.Preview.SpellEffectTranslator import SpellEffectTranslator
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff import BasicBuff
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.TriggeredBuff import TriggeredBuff
+from pydofus2.damageCalculation.DamageCalculator import DamageCalculator
 from pydofus2.damageCalculation.fighterManagement.HaxeBuff import HaxeBuff
+from pydofus2.damageCalculation.spellManagement.HaxeSpell import HaxeSpell
 
 
 class DamagePreview:
@@ -35,7 +40,7 @@ class DamagePreview:
         isFist = spell.spellId == cls.FIST_SPELL_ID
         isWeapon = not isinstance(spell, SpellLevel) or isFist
         if isWeapon and not isFist:
-            spell = PlayedCharacterManager.getInstance().currentWeapon
+            spell = PlayedCharacterManager().currentWeapon
             spellId = 0
         if not isWeapon:
             cacheKey = DamageCalculator.create32BitHashSpellLevel(spellId, spellLevel)
@@ -43,9 +48,11 @@ class DamagePreview:
                 return cls.haxeSpellCache[cacheKey]
         spellEffects = spell.effects if isWeapon and not isFist else spell.effects
         spellCriticalEffects = spellEffects if isWeapon and not isFist else spell.criticalEffect
-        translatedEffects = loadEffectArray(spell, spellEffects, isWeapon, False)
-        translatedCriticalEffects = loadEffectArray(spell, spellCriticalEffects, isWeapon, True)
-        canAlwaysTriggerSpells = isWeapon or spell.canAlwaysTriggerSpells if isinstance(spell, SpellLevel) else False
+        translatedEffects = cls.loadEffectArray(spell, spellEffects, isWeapon, False)
+        translatedCriticalEffects = cls.loadEffectArray(spell, spellCriticalEffects, isWeapon, True)
+        canAlwaysTriggerSpells = (
+            isWeapon or spell.spell.canAlwaysTriggerSpells if isinstance(spell, SpellLevel) else False
+        )
         if isWeapon and not isinstance(spell, SpellLevel):
             spell = PlayedCharacterManager().currentWeapon
         needFreeCell = needTakenCell = needVisibleEntity = False
@@ -84,3 +91,19 @@ class DamagePreview:
         effect.isCritical = isCritical
         triggerCount = buff.triggerCount if isinstance(buff, TriggeredBuff) else -1
         return HaxeBuff(casterId, newSpell, effect, triggerCount)
+
+    @classmethod
+    def loadEffectArray(cls, spell, sourceEffects: List[EffectInstance], isWeapon: bool, isCritical: bool) -> list:
+        targetEffects = []
+        for effect in sourceEffects:
+            if not effect.forClientOnly and effect.delay == 0:
+                if isWeapon:
+                    if effect.useInFight:
+                        targetEffects.append(
+                            SpellEffectTranslator.fromWeapon(
+                                effect, PlayedCharacterManager().currentWeapon, isCritical
+                            )
+                        )
+                elif isinstance(spell, SpellLevel):
+                    targetEffects.append(SpellEffectTranslator.fromSpell(effect, spell.grade, isCritical))
+        return targetEffects

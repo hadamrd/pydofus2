@@ -44,9 +44,9 @@ class EffectInstance(IDataCenter):
 
         self.targetMask: str = None
 
-        self.duration: int = None
+        self.duration: int = 0
 
-        self.delay: int = None
+        self.delay: int = 0
 
         self.random: float = None
 

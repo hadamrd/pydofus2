@@ -7,7 +7,7 @@ from typing import Dict
 
 from dataclasses_json import LetterCase, config, dataclass_json
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.network.enums.GameContextEnum import GameContextEnum
@@ -34,7 +34,7 @@ pricesDataLock = Lock()
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
 class PricesData:
-    last_update: datetime = field(metadata=config(encoder=datetime.isoformat, decoder=datetime.fromisoformat))
+    lastUpdate: datetime = field(metadata=config(encoder=datetime.isoformat, decoder=datetime.fromisoformat))
     items: Dict[int, float] = field(default_factory=dict)
 
 
@@ -43,16 +43,17 @@ class AveragePricesFrame(Frame):
 
     def __init__(self):
         super().__init__()
-        with pricesDataLock:
-            if not AveragePricesFrame._pricesData:
-                if os.path.exists(Constants.AVERAGE_PRICES_PATH):
-                    try:
-                        with open(Constants.AVERAGE_PRICES_PATH, "r") as file:
-                            data: Dict = json.load(file)
+        if not AveragePricesFrame._pricesData:
+            if os.path.exists(settings.AVERAGE_PRICES_PATH):
+                try:
+                    with open(settings.AVERAGE_PRICES_PATH, "r") as file:
+                        data: Dict = json.load(file)
+                        with pricesDataLock:
                             for server, prices_data in data.items():
-                                AveragePricesFrame._pricesData[server] = PricesData.from_dict(prices_data)
-                    except json.JSONDecodeError as e:
-                        Logger().error(f"Error loading average prices JSON data: {e}")
+                                prices_data["lastUpdate"] = datetime.fromisoformat(prices_data["lastUpdate"])
+                                AveragePricesFrame._pricesData[server] = PricesData(**prices_data)
+                except json.JSONDecodeError as e:
+                    Logger().error(f"Error loading average prices JSON data: {e}")
         self._server_name = PlayerManager().server.name
         self._prices_data_asked = False
 
@@ -94,18 +95,18 @@ class AveragePricesFrame(Frame):
     def updatePricesData(self, pItemsIds: list[int], pItemsAvgPrices: list[float]) -> None:
         with pricesDataLock:
             # Initialize PricesData with current datetime and empty items
-            self._pricesData[self._server_name] = PricesData(last_update=datetime.now(), items={})
+            self._pricesData[self._server_name] = PricesData(lastUpdate=datetime.now(), items={})
 
             # Update the items dictionary with the provided IDs and average prices
             for itemId, averagePrice in zip(pItemsIds, pItemsAvgPrices):
                 self._pricesData[self._server_name].items[itemId] = averagePrice
 
             # Ensure the directory for the averagePricesPath exists
-            if not os.path.exists(os.path.dirname(Constants.AVERAGE_PRICES_PATH)):
-                os.makedirs(os.path.dirname(Constants.AVERAGE_PRICES_PATH))
+            if not os.path.exists(os.path.dirname(settings.AVERAGE_PRICES_PATH)):
+                os.makedirs(os.path.dirname(settings.AVERAGE_PRICES_PATH))
 
             # Serialize the PricesData to JSON and write to the file
-            with open(Constants.AVERAGE_PRICES_PATH, "w") as file:
+            with open(settings.AVERAGE_PRICES_PATH, "w") as file:
                 prices_data_dict = {
                     server_name: prices_data.to_dict() for server_name, prices_data in self._pricesData.items()
                 }
@@ -115,16 +116,16 @@ class AveragePricesFrame(Frame):
 
     def updateAllowed(self) -> bool:
         if (
-            self._pricesData is not None
+            self._pricesData
             and self._server_name in self._pricesData
-            and datetime.now().date() == self._pricesData[self._server_name].last_update.date()
+            and datetime.now().date() == self._pricesData[self._server_name].lastUpdate.date()
         ):
             Logger().debug("Average prices data already up to date")
             return False
         return True
 
     def getItemAveragePrice(self, guid: int):
-        return self._pricesData[self._server_name].items.get(guid)
+        return self._pricesData[self._server_name].items.get(str(guid), 0)
 
     def askPricesData(self) -> None:
         if self._prices_data_asked:

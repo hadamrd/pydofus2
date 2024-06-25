@@ -11,12 +11,11 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRole
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.party.PartyMemberInformations import (
     PartyMemberInformations,
 )
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
 
 
 class KernelEventsManager(EventsHandler, metaclass=Singleton):
-
     def __init__(self):
         super().__init__()
 
@@ -110,7 +109,7 @@ class KernelEventsManager(EventsHandler, metaclass=Singleton):
     def onceFightSword(self, entityId, entityCell, callback, args=[], originator=None):
         def onFightSword(event: Event, infos: FightCommonInformations):
             for team in infos.fightTeams:
-                if team.leaderId == entityId and infos.fightTeamsPositions[team.teamId] == entityCell:
+                if team.leaderId == entityId:
                     event.listener.delete()
                     callback(*args)
 

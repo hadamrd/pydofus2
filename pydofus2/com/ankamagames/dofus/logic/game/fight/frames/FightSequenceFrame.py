@@ -83,7 +83,6 @@ from pydofus2.com.ankamagames.dofus.network.enums.GameActionFightInvisibilitySta
     GameActionFightInvisibilityStateEnum,
 )
 from pydofus2.com.ankamagames.dofus.network.enums.GameActionMarkTypeEnum import GameActionMarkTypeEnum
-from pydofus2.com.ankamagames.dofus.scripts.SpellScriptManager import SpellScriptManager
 from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import IMovable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.sequencer.ParallelStartSequenceStep import ParallelStartSequenceStep
@@ -513,9 +512,9 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
             self._tmpSpellCastSequence = SpellCastSequence(self._forcedCastSequenceContext)
             if isinstance(msg, GameActionFightCloseCombatMessage):
                 self._forcedCastSequenceContext.weaponId = msg.weaponGenericId
-                self._playSpellScriptStep = self.pushPlaySpellScriptStep(self)
+                self._playSpellScriptStep = self.pushPlaySpellScriptStep(self._tmpSpellCastSequence)
             elif not self._forcedCastSequenceContext.isCriticalFail:
-                self._playSpellScriptStep = self.pushPlaySpellScriptStep(self)
+                self._playSpellScriptStep = self.pushPlaySpellScriptStep(self._tmpSpellCastSequence)
             self._steps.extend(self._tmpSpellCastSequence.steps)
             if gafscmsg.critical != FightSpellCastCriticalEnum.CRITICAL_FAIL:
                 spellTargetEntities = []
@@ -1484,17 +1483,11 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
             step.castingSpellId = self.context.id
         self._steps.append(step)
 
-    def pushPlaySpellScriptStep(
-        self, castSequence: ISpellCastSequence, specifictargetedCellId: int = -1
-    ) -> FightPlaySpellScriptStep:
-        scriptTypes = SpellScriptManager().resolveScriptUsageFromCastContext(
-            castSequence.context, specifictargetedCellId
-        )
-        step = FightPlaySpellScriptStep(scriptTypes, castSequence, castSequence.context.spellLevelData.grade)
-        if self.context:
-            step.castingSpellId = self.context.id
-        self._steps.append(step)
-        return step
+    def pushPlaySpellScriptStep(self, castSequence: ISpellCastSequence) -> FightPlaySpellScriptStep:
+        # scriptTypes = SpellScriptManager().resolveScriptUsageFromCastContext(
+        #     castSequence.context, specifictargetedCellId
+        # )
+        self._steps.append(FightPlaySpellScriptStep(castSequence.context))
 
     def pushThrowCharacterStep(self, fighterId: float, carriedId: float, cellId: int) -> None:
         step = FightThrowCharacterStep(fighterId, carriedId, cellId)

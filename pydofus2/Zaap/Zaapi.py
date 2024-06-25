@@ -9,10 +9,12 @@ import requests
 from urllib3.exceptions import InsecureRequestWarning
 
 from pydofus2.com.ankamagames.atouin.HappiConfig import AUTH_STATES, ZAAP_CONFIG
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class HaapiException(Exception):
@@ -43,8 +45,8 @@ class Zaapi(metaclass=Singleton):
             "accept-language": "en-US",
         }
         self.zaap_session.headers.update(self.zaap_headers)
-        if "zaapi_proxies" in Constants.USER_SETTINGS and Constants.USER_SETTINGS.get("use_proxy", False):
-            self.zaap_session.proxies.update(Constants.USER_SETTINGS["zaapi_proxies"])
+        if "zaapi_proxies" in settings.USER_SETTINGS and settings.USER_SETTINGS.get("use_proxy", False):
+            self.zaap_session.proxies.update(settings.USER_SETTINGS["zaapi_proxies"])
         self.verify_ssl = False
 
     def getUrl(self, request, params={}):
@@ -173,12 +175,17 @@ class Zaapi(metaclass=Singleton):
             apikey = self.zaap_apikey
         url = self.getUrl("SIGN_ON_WITH_APIKEY", {"game": game_id})
         response = self.zaap_session.post(url, headers={"apikey": apikey}, verify=self.verify_ssl)
-        body = response.json()
+        try:
+            body = response.json()
+        except Exception as exc:
+            KernelEventsManager().send(
+                KernelEvent.ClientCrashed,
+                f"Failed to json decode the following singOn with api key api call :\n{response.text}",
+            )
+            return
         if "reason" in body:
             if body["reason"] == "BAN":
-                # delete the api key from the disk
                 Logger().error("[AUTH] Account banned")
-
             raise HaapiException(f"Error while signing on with apikey: {body['reason']}")
         if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
             Logger().error("[AUTH] Mail not confirmed by user")
@@ -264,9 +271,9 @@ class Zaapi(metaclass=Singleton):
             "avatar": body["avatar_url"],
         }
 
-    def createToken(self, game, certId="", certHash="", apikey=None):
-        nbrtries = 0
-        while nbrtries < 5:
+    def createToken(self, game, certId=0, certHash="", apikey=None):
+        nbr_tries = 0
+        while nbr_tries < 5:
             try:
                 if apikey is None:
                     apikey = self.zaap_apikey
@@ -278,25 +285,29 @@ class Zaapi(metaclass=Singleton):
                         "certificate_hash": certHash,
                     },
                 )
+                if not apikey:
+                    Logger().error("Create token requires a apikey but none provided")
+                    return None
+
                 Logger().debug("[HAAPI] Calling HAAPI to get Login Token, url: %s" % url)
+
+                # Merge session headers with the additional headers
                 response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
+
                 if response.headers["content-type"] == "application/json":
                     token = response.json().get("token")
                     if token:
-                        Logger().debug("[HAAPI] Login Token created")
+                        Logger().debug("Login Token created")
                         return token
                     elif response.json().get("reason") == "Certificate control failed.":
                         Logger().error("Invalid certificate, please check your certificate")
                         return None
-                    elif (
-                        response.json().get("reason")
-                        == f"Invalid security parameters. certificate_id : {certId}, certificate_hash: {certHash}"
-                    ):
-                        Logger().error("Invalid security parameters, please check your certificate")
-                        return None
+                    elif response.json().get("reason") == f"Invalid security parameters.":
+                        raise HaapiException(
+                            f"Invalid security parameters, please check your certificate (certificate_id : {certId}, certificate_hash: {certHash})"
+                        )
                     else:
-                        Logger().error("Error while calling HAAPI to get Login Token : %s" % response.json())
-                        return None
+                        raise HaapiException("Error while calling HAAPI to get Login Token : %s" % response.json())
                 else:
                     from lxml import html
 

@@ -1,5 +1,5 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.rtypes.Selection import Selection
+from pydofus2.com.ankamagames.atouin.types.Selection import Selection
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
@@ -13,7 +13,7 @@ from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.GameActionM
 from pydofus2.com.ankamagames.dofus.types.entities.Glyph import Glyph
 from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.Cross import Cross
 from pydofus2.com.ankamagames.jerakine.types.zones.Custom import Custom
@@ -208,7 +208,7 @@ class MarkedCellsManager(IDestroyable, metaclass=Singleton):
             self.removeGlyph(bufferId[i])
         self = None
 
-    def onPropertyChanged(self, pEvent) -> None:
+    def onPropertyChanged(self, pEvent, name, value, oldValue) -> None:
         pass
 
     def getSelectionUid(self) -> str:

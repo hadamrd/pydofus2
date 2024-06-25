@@ -40,14 +40,13 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.Storage
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.PlayerInventory import PlayerInventory
 from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
 from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 
 
 class InventoryManager(metaclass=Singleton):
-
     def __init__(self):
         super().__init__()
         self._presetsItemPositionsOrder = [

@@ -6,7 +6,7 @@ from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesMan
 from pydofus2.com.ankamagames.dofus.types.entities.AnimatedCharacter import AnimatedCharacter
 from pydofus2.com.ankamagames.jerakine.interfaces.IObstacle import IObstacle
 from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.mapTools import MapTools
 

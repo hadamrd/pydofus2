@@ -35,6 +35,7 @@ class KernelEvent(Enum):
     ClientShutdown = auto()
     ClientRestart = auto()
     HaapiApiKeyReady = auto()
+    ClientStatusUpdate = auto()
 
     # Inactivity
     InactivityNotification = auto()

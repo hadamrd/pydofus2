@@ -46,7 +46,7 @@ class WorldMap(IDataCenter):
         return GameData().getObject(WorldMap.MODULE, id)
 
     @staticmethod
-    def getAllWorldMaps() -> list:
+    def getAllWorldMaps() -> list["WorldMap"]:
         return GameData().getObjects(WorldMap.MODULE)
 
     idAccessors: IdAccessors = IdAccessors(getWorldMapById, getAllWorldMaps)

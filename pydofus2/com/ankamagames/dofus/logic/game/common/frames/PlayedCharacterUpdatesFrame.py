@@ -169,29 +169,26 @@ class PlayedCharacterUpdatesFrame(Frame):
             return True
 
         if isinstance(msg, CharacterStatsListMessage):
-            cslmsg = msg
             fightBattleFrame = krnl.Kernel().battleFrame
             if fightBattleFrame is not None and fightBattleFrame.executingSequence:
-                fightBattleFrame.delayCharacterStatsList(cslmsg)
+                fightBattleFrame.delayCharacterStatsList(msg)
             else:
-                self.updateCharacterStatsList(cslmsg.stats)
+                self.updateCharacterStatsList(msg.stats)
             if self.roleplayContextFrame and self.roleplayContextFrame.entitiesFrame:
                 playerInfos = self.roleplayContextFrame.entitiesFrame.getEntityInfos(pcm.PlayedCharacterManager().id)
                 if playerInfos:
-                    playerInfos.alignmentInfos = cslmsg.stats.alignmentInfos
+                    playerInfos.alignmentInfos = msg.stats.alignmentInfos
             if krnl.Kernel().questFrame:
-                if krnl.Kernel().questFrame.achievmentsListProcessed == False:
+                if not krnl.Kernel().questFrame.achievmentsListProcessed:
                     krnl.Kernel().questFrame.processAchievements(True)
-            KernelEventsManager().send(KernelEvent.CharacterStats)
+            KernelEventsManager().send(KernelEvent.CharacterStats, msg.stats)
             return True
 
         if isinstance(msg, MapComplementaryInformationsDataMessage):
-            mcidmsg = msg
-            for grai in mcidmsg.actors:
-                grpci = grai
-                if grpci and grpci.contextualId == pcm.PlayedCharacterManager().id:
-                    pcm.PlayedCharacterManager().infos.entityLook = grpci.look
-                    for opt in grpci.humanoidInfo.options:
+            for actor in msg.actors:
+                if actor and actor.contextualId == pcm.PlayedCharacterManager().id:
+                    pcm.PlayedCharacterManager().infos.entityLook = actor.look
+                    for opt in actor.humanoidInfo.options:
                         if isinstance(opt, HumanOptionAlliance):
                             pcm.PlayedCharacterManager().characteristics.alignmentInfos.aggressable = opt.aggressable
             return False
@@ -528,7 +525,7 @@ class PlayedCharacterUpdatesFrame(Frame):
         player.characteristics = stats
         if player.isFighting:
             swmod.SpellWrapper.refreshAllPlayerSpellHolder(playerId)
-        Logger().info(f"Updated stats of player {playerId}")
+        # Logger().info(f"Updated stats of player {playerId}")
 
     def updateSpellModifier(self, targetId: float, spellId: float, statId: float) -> None:
         playerId: float = pcm.PlayedCharacterManager().id

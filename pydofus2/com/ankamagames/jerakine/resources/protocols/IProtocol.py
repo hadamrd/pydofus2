@@ -12,7 +12,6 @@ class IProtocol(Poolable, ABC):
         self,
         uri: Uri,
         observer: IResourceObserver,
-        dispatchProgress: bool,
         cache: ICache,
         forcedAdapter: type,
         singleFile: bool,

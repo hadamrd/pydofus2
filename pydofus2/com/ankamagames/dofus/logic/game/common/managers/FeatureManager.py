@@ -3,7 +3,7 @@ from types import FunctionType
 
 from pydofus2.com.ankamagames.dofus.datacenter.feature.OptionalFeature import OptionalFeature
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 lock = Lock()
 
