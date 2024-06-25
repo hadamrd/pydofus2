@@ -8,18 +8,15 @@ from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
 class AbstractUrlLoaderAdapter(metaclass=abc.ABCMeta):
-
     def __init__(self):
         self._observer = None
         self._uri = None
-        self._dispatchProgress = None
 
-    def loadDirectly(self, uri: Uri, path, observer: IResourceObserver, dispatchProgress):
+    def loadDirectly(self, uri: Uri, path, observer: IResourceObserver):
         if self._observer is not None:
             raise Exception("A single adapter can't handle two simultaneous loadings.")
         self._observer = observer
         self._uri = uri
-        self._dispatchProgress = dispatchProgress
 
         if uri.protocol == "file":
             with open(path, "rb") as file:
@@ -28,12 +25,11 @@ class AbstractUrlLoaderAdapter(metaclass=abc.ABCMeta):
             response = requests.get(path)
             self.process(response.content)
 
-    def loadFromData(self, uri, data, observer, dispatchProgress):
+    def loadFromData(self, uri, data, observer):
         if self._observer is not None:
             raise Exception("A single adapter can't handle two simultaneous loadings.")
         self._observer = observer
         self._uri = uri
-        self._dispatchProgress = dispatchProgress
         self.process(data)
 
     def free(self):

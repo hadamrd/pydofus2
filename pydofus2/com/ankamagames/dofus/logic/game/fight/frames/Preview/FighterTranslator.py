@@ -123,7 +123,11 @@ class FighterTranslator(HaxeFighter):
         fef = Kernel().fightEntitiesFrame
         if fef:
             monsterInfo = fef.getEntityInfos(id)
-            if monsterInfo and not Monster.getMonsterById(monsterInfo.creatureGenericId).canPlay:
+            if (
+                monsterInfo
+                and isinstance(monsterInfo, GameFightMonsterInformations)
+                and not Monster.getMonsterById(monsterInfo.creatureGenericId).canPlay
+            ):
                 return True
         return False
 

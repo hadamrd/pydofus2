@@ -189,6 +189,7 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
+from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class FightContextFrame(Frame):
@@ -294,7 +295,7 @@ class FightContextFrame(Frame):
         return self._timelineOverEntityId
 
     @property
-    def hiddenEntites(self) -> list:
+    def hiddenEntities(self) -> list:
         return self._hiddenEntites
 
     @property
@@ -396,7 +397,7 @@ class FightContextFrame(Frame):
 
         elif isinstance(msg, CurrentMapMessage):
             mcmsg = msg
-            Logger().info(f" Loading fight map {msg.mapId}...")
+            Logger().info(f"Loading fight map {msg.mapId}...")
             if isinstance(mcmsg, CurrentMapInstanceMessage):
                 mdm.MapDisplayManager().mapInstanceId = mcmsg.instantiatedMapId
             else:
@@ -408,10 +409,11 @@ class FightContextFrame(Frame):
             return True
 
         elif isinstance(msg, MapLoadedMessage):
-            Logger().info(f"Fight map Loaded")
-            gcrmsg = GameContextReadyMessage()
-            gcrmsg.init(int(mdm.MapDisplayManager().currentMapPoint.mapId))
-            ConnectionsHandler().send(gcrmsg)
+            Logger().info(f"Fight Map Loaded")
+            message = GameContextReadyMessage()
+            message.init(int(mdm.MapDisplayManager().currentMapPoint.mapId))
+            ConnectionsHandler().send(message)
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_FIGHTING)
             return True
 
         elif isinstance(msg, GameFightResumeMessage):
@@ -756,7 +758,7 @@ class FightContextFrame(Frame):
         return self.entitiesFrame.getEntityInfos(fighterId)
 
     def stopReconnection(self, *args) -> None:
-        Kernel().beingInReconection = False
+        Kernel().beingInReconnection = False
 
     def buildFighResul(self, gfemsg: GameFightEndMessage) -> None:
         fightEnding = FightEndingMessage()

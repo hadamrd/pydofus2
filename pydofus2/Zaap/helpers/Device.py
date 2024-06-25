@@ -25,9 +25,7 @@ class Device:
             return Device.__uuid
 
         id = Device.machine_id()
-        # Logger().debug(f"Machine id : {id}")
         cpu_count, cpu_model = Device.get_cpu_info()
-        # Logger().debug(f"cpu_count : {cpu_count}, cpu_model : {cpu_model}")
         plt, arch = Device.get_platform_and_architecture()
         Device.__uuid = ",".join([plt, arch, id, str(cpu_count), cpu_model])
         return Device.__uuid
@@ -60,7 +58,6 @@ class Device:
                 Logger().error(f"Error while getting wmi : {e}", exc_info=True)
             cpu_info = w.Win32_Processor()[0]
             cpu_model = cpu_info.Name
-            # Logger().debug(f"cpu_model : {cpu_model}")
 
         # For Unix/Linux
         elif psutil.LINUX or psutil.MACOS or psutil.UNIX:

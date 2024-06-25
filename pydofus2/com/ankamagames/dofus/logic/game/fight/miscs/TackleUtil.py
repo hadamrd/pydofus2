@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.internalDatacenter.stats.EntityStats import EntityStats
@@ -33,7 +33,6 @@ from pydofus2.mapTools import MapTools
 
 
 class TackleUtil:
-
     @classmethod
     def getTackle(
         cls,
@@ -42,7 +41,7 @@ class TackleUtil:
     ) -> float:
         stats: EntityStats = StatsManager().getStats(playerInfos.contextualId)
         entitiesFrame = Kernel().fightEntitiesFrame
-        if Constants.DETERMINIST_TACKLE:
+        if settings.DETERMINIST_TACKLE:
             if not cls.canBeTackled(playerInfos, position):
                 return 1
             x = position.x
@@ -91,7 +90,7 @@ class TackleUtil:
         tackler: GameFightFighterInformations,
         tackled: GameFightFighterInformations,
     ) -> float:
-        if not Constants.DETERMINIST_TACKLE:
+        if not settings.DETERMINIST_TACKLE:
             return 1
         if not cls.canBeTackled(tackled):
             return 1

@@ -54,7 +54,7 @@ class HaxeFighter:
         self._carriedFighter = None  # Assuming HaxeFighter or None
         self._buffs = LinkedList()
         for buff in buffs:
-            self._buffs.add(buff)  # Assuming this method exists for LinkedList
+            self._buffs.append(buff)  # Assuming this method exists for LinkedList
 
     def wasTeleportedInInvalidCellThisTurn(self, param1):
         for effect_output in self.pendingEffects:

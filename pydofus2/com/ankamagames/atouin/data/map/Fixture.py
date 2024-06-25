@@ -2,18 +2,30 @@ from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 
 
 class Fixture:
+    fixtureId: int
+    offsetX: int
+    offsetY: int
+    rotation: float
+    xScale: float
+    yScale: float
+    redMultiplier: int
+    greenMultiplier: int
+    blueMultiplier: int
+    hue: int
+    alpha: float
+
     def __init__(self, raw):
         self.read(raw)
 
     def read(self, raw: BinaryStream):
-        self.fixtureId = raw.readInt()
-        self.offsetX = raw.readShort()
-        self.offsetY = raw.readShort()
-        self.rotation = raw.readShort()
-        self.xScale = raw.readShort()
-        self.yScale = raw.readShort()
-        self.redMultiplier = raw.readByte()
-        self.greenMultiplier = raw.readByte()
-        self.blueMultiplier = raw.readByte()
+        self.fixtureId: int = raw.readInt()
+        self.offsetX: int = raw.readShort()
+        self.offsetY: int = raw.readShort()
+        self.rotation: float = raw.readShort()
+        self.xScale: float = raw.readShort()
+        self.yScale: float = raw.readShort()
+        self.redMultiplier: int = raw.readByte()
+        self.greenMultiplier: int = raw.readByte()
+        self.blueMultiplier: int = raw.readByte()
         self.hue = self.redMultiplier | self.greenMultiplier | self.blueMultiplier
         self.alpha = raw.readUchar()

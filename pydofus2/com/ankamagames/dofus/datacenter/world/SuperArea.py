@@ -27,12 +27,12 @@ class SuperArea(IDataCenter):
             return None
         return superArea
 
-    @staticmethod
-    def getAllSuperArea() -> list:
-        if SuperArea._allSuperAreas:
-            return SuperArea._allSuperAreas
-        _allSuperAreas = GameData().getObjects(SuperArea.MODULE)
-        return _allSuperAreas
+    @classmethod
+    def getAllSuperArea(cls) -> list["SuperArea"]:
+        if cls._allSuperAreas:
+            return cls._allSuperAreas
+        cls._allSuperAreas = GameData().getObjects(SuperArea.MODULE)
+        return cls._allSuperAreas
 
     idAccessors: IdAccessors = IdAccessors(getSuperAreaById, getAllSuperArea)
 

@@ -1,4 +1,4 @@
-from xml.etree.ElementTree import Element, ElementTree
+import xml.etree.ElementTree as ET
 
 from pydofus2.com.ankamagames.jerakine.utils.files.FileUtils import FileUtils
 
@@ -13,12 +13,11 @@ class LangMetaData:
 
     @staticmethod
     def fromXml(sXml, sUrlProvider, checkFunction):
-        tree = ElementTree(Element(sXml))
+        tree = ET.fromstring(sXml)
         metaData = LangMetaData()
         bHaveVersionData = False
 
         filesActions = tree.findall("filesActions")
-
         for fileActions in filesActions:
             clearOnlyNotUpToDate = fileActions.findtext("clearOnlyNotUpToDate")
             if clearOnlyNotUpToDate == "true":

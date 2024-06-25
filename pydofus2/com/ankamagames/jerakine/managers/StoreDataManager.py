@@ -4,7 +4,7 @@ from typing import Any
 
 from pydofus2.com.ankamagames.jerakine import JerakineConstants
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 from pydofus2.com.ankamagames.jerakine.types.CustomSharedObject import CustomSharedObject
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
@@ -30,14 +30,15 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
         self._aRegisteredClassAlias = dict()
         self._self = None
         aClass = self.getData(JerakineConstants.DATASTORE_CLASS_ALIAS, "classAliasList")
-        for s in aClass:
-            className = base64.b64decode(s).decode()
-            try:
-                oClass = getattr(sys.modules[__package__], className)
-                globals().update({aClass[s]: oClass})
-            except Exception as e:
-                pass
-            self._aRegisteredClassAlias[className] = True
+        if aClass is not None:
+            for s in aClass:
+                className = base64.b64decode(s).decode()
+                try:
+                    oClass = getattr(sys.modules[__package__], className)
+                    globals().update({aClass[s]: oClass})
+                except Exception as e:
+                    pass
+                self._aRegisteredClassAlias[className] = True
 
     def getSharedObject(self, sName: str) -> "CustomSharedObject":
         if sName in self._aSharedObjectCache:
@@ -47,7 +48,7 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
         return so
 
     def getData(self, dataType: DataStoreType, sKey: str) -> Any:
-        if dataType.persistant:
+        if dataType.persistent:
             if dataType.location == DataStoreEnum.LOCATION_LOCAL:
                 so = self.getSharedObject(dataType.category)
                 if so.data:
@@ -81,18 +82,20 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
                 globals().update({sAlias: oClass})
                 Logger().warn("Register " + className)
             except Exception as e:
+                Logger().error(e)
                 self._aRegisteredClassAlias[className] = True
-                # logger.fatal("Impossible de trouver la classe " + className + " dans l'application domain courant")
+                Logger().fatal("Unable to find the class " + className + " in the current application domain")
                 return
+            self._aRegisteredClassAlias[className] = True
             if keepClassInSo:
-                aClassAlias = self.getSetData(JerakineConstants.DATASTORE_CLASS_ALIAS, "classAliasList", [])
-                aClassAlias[base64.encode(className)] = sAlias
+                aClassAlias = self.getSetData(JerakineConstants.DATASTORE_CLASS_ALIAS, "classAliasList", {})
+                encoded_class_name = base64.b64encode(className.encode("utf-8")).decode("utf-8")
+                aClassAlias[encoded_class_name] = sAlias
                 self.setData(
                     JerakineConstants.DATASTORE_CLASS_ALIAS,
                     "classAliasList",
                     aClassAlias,
                 )
-            self._aRegisteredClassAlias[className] = True
         if deepClassScan:
             if isinstance(oInstance, dict) or isinstance(oInstance, list):
                 desc = oInstance
@@ -109,20 +112,20 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
                 if desc == oInstance:
                     break
 
-    def setData(self, dataType: DataStoreType, sKey: str, oValue, deepClassScan: bool = False) -> bool:
-        so: CustomSharedObject = None
+    def setData(self, dataType: DataStoreType, sKey: str, oValue, deepClassScan=False) -> bool:
         if dataType.category not in self._aData:
             self._aData[dataType.category] = dict()
         self._aData[dataType.category][sKey] = oValue
-        if dataType.persistant:
+        if dataType.persistent:
             if dataType.location == DataStoreEnum.LOCATION_LOCAL:
                 self.registerClass(oValue, deepClassScan)
                 so = self.getSharedObject(dataType.category)
                 if not so.data:
                     so.data = {}
                 so.data[sKey] = oValue
-                if not self._bStoreSequence and not so.flush():
-                    return False
+                if not self._bStoreSequence:
+                    if not so.flush():
+                        return False
                 else:
                     self._aStoreSequence[dataType.category] = dataType
                 return True
@@ -132,7 +135,7 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
 
     def getKeys(self, dataType: DataStoreType) -> list:
         result: list = []
-        if dataType.persistant:
+        if dataType.persistent:
             if dataType.location == DataStoreEnum.LOCATION_LOCAL:
                 so = self.getSharedObject(dataType.category)
                 data = so.datak
@@ -147,7 +150,7 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
 
     def getSetData(self, dataType: DataStoreType, sKey: str, oValue) -> Any:
         o = self.getData(dataType, sKey)
-        if o != None:
+        if o is not None:
             return o
         self.setData(dataType, sKey, oValue)
         return oValue

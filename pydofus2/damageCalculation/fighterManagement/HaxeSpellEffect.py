@@ -1,3 +1,5 @@
+from functools import cmp_to_key
+
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.castSpellManager.SpellManager import SpellManager
 
 
@@ -38,7 +40,7 @@ class HaxeSpellEffect:
         self.triggers = SpellManager.splitTriggers(trigger)
         self.rawZone = rawZone
         self.masks = SpellManager.splitMasks(mask)
-        self.masks.sort(key=lambda x: HaxeSpellEffect.sortMasks(x))
+        self.masks.sort(key=cmp_to_key(HaxeSpellEffect.sortMasks))
         self.randomWeight = randomWeight
         self.randomGroup = randomGroup
         self.isDispellable = isDispellable
@@ -48,8 +50,19 @@ class HaxeSpellEffect:
         self.zone = None
 
     @staticmethod
-    def sortMasks(param1, param2):
-        # Placeholder for the actual sort function
+    def sortMasks(param1: str, param2: str) -> int:
+        order = "*bBeEfFzZKoOPpTWUvVrRQq"
+        if param1[0] in order:
+            if param2[0] in order:
+                if param1[0] == "*" and param2[0] != "*":
+                    return -1
+                if param2[0] == "*" and param1[0] != "*":
+                    return 1
+                # Compare based on their order in the string
+                return order.index(param1[0]) - order.index(param2[0])
+            return -1
+        if param2[0] in order:
+            return 1
         return 0
 
 

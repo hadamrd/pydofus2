@@ -21,23 +21,23 @@ class HaxeBuff:
         "DV",
     ]
 
-    def __init__(self, caster_id: float, spell, effect, trigger_count: int = 0):
-        self._starting_trigger_count = 0
-        self._trigger_count = 0
-        self.spell_state = None
-        self.has_been_triggered_on = []
+    def __init__(self, caster_id: float, spell, effect, triggerCount: int = 0):
+        self._startingTriggerCount = 0
+        self._triggerCount = 0
+        self.spellState = None
+        self.hasBeenTriggeredOn = []
         self.spell = spell
         self.caster_id = caster_id
         self.effect = effect
-        self._trigger_count = self._starting_trigger_count = trigger_count
+        self._triggerCount = self._startingTriggerCount = triggerCount
 
-        if effect.action_id == 950:
-            self.spell_state = DamageCalculator.dataInterface.createStateFromId(effect.param3)
+        # if effect.actionId == 950:
+        #     self.spellState = DamageCalculator.dataInterface.createStateFromId(effect.param3)
 
     @property
     def trigger_count(self):
-        return self._trigger_count
+        return self._triggerCount
 
     @trigger_count.setter
     def trigger_count(self, value):
-        self._trigger_count = value
+        self._triggerCount = value

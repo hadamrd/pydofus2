@@ -7,11 +7,10 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellZoneManager i
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptContext import SpellScriptContext
 from pydofus2.com.ankamagames.dofus.scripts.SpellScriptUsageUtils import SpellScriptUsageUtils
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class SpellScriptManager(metaclass=Singleton):
-
     def __init__(self) -> None:
         pass
 

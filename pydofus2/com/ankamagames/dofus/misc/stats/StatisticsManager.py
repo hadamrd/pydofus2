@@ -19,7 +19,7 @@ from pydofus2.com.ankamagames.haapi.client.GameApi import GameApi
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 
@@ -64,7 +64,6 @@ class StatisticsManager(EventsHandler, metaclass=Singleton):
         self.sendPendingEvents()
 
     def onAccountSessionReady(self, event):
-
         def callback(apiKey):
             self._apiCredentials.apiToken = apiKey
             self._accountApi = AccountApi(self._apiCredentials)

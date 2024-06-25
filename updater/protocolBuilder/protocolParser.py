@@ -6,7 +6,7 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 TO_PTYPE = {
@@ -128,7 +128,7 @@ class ProtocolParser:
         var_type = None
         dynamicType = False
         if "." in typename and "Vector" not in typename:
-            print(f"'{name}' found with vector type complete path '{typename}'")
+            # print(f"'{name}' found with vector type complete path '{typename}'")
             typename = typename.split(".")[-1]
         if typename in self.json["type"]:
             var_type = typename
@@ -263,5 +263,5 @@ if __name__ == "__main__":
 
     protocol_json.update(ProtocolParser().run(src_paths))
 
-    with open(Constants.PROTOCOL_SPEC_PATH, "w") as fp:
+    with open(settings.PROTOCOL_SPEC_PATH, "w") as fp:
         json.dump(protocol_json, fp, indent=4, separators=(", ", ": "), sort_keys=True)

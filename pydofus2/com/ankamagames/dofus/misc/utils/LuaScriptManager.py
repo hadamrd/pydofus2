@@ -1,11 +1,10 @@
 import lupa
 
 from pydofus2.com.ankamagames.dofus.datacenter.misc.LuaFormula import LuaFormula
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 
 class LuaScriptManager(metaclass=ThreadSharedSingleton):
-
     def __init__(self):
         self._lua = lupa.LuaRuntime()
 

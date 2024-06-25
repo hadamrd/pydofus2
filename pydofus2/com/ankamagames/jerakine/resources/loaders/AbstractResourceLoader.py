@@ -1,17 +1,17 @@
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
-from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+from PyQt5.QtCore import QObject, pyqtSignal
+
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
 from pydofus2.com.ankamagames.jerakine.resources.CacheableResource import CacheableResource
-from pydofus2.com.ankamagames.jerakine.resources.events.ResourceEvent import ResourceEvent
 from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 
 
-class AbstractResourceLoader(IResourceObserver, EventsHandler):
-
-    _log = None
-    MEMORY_TEST = {}
+class AbstractResourceLoader(IResourceObserver, QObject):
     RES_CACHE_PREFIX = "RES_"
+    resourceLoaded = pyqtSignal(Uri, int, object)
+    loadingProgress = pyqtSignal(Uri, int, int)
+    loadingComplete = pyqtSignal(int, int)
+    loadFailed = pyqtSignal(Uri, str, int)
 
     def __init__(self):
         self._cache: ICache = None
@@ -55,8 +55,8 @@ class AbstractResourceLoader(IResourceObserver, EventsHandler):
             cr = CacheableResource(resourceType, resource)
             self._cache.store(resourceUrl, cr)
         self._filesLoaded += 1
-        self.send(ResourceEvent.LOADED, uri, resourceType, resource)
-        self.send(ResourceEvent.LOADER_PROGRESS, uri, self._filesTotal, self._filesLoaded)
+        self.resourceLoaded.emit(uri, resourceType, resource)
+        self.loadingProgress.emit(uri, self._filesTotal, self._filesLoaded)
         if self._filesLoaded == self._filesTotal:
             self.dispatchComplete()
 
@@ -64,19 +64,14 @@ class AbstractResourceLoader(IResourceObserver, EventsHandler):
         if self._filesTotal == 0:
             return
         self._filesLoaded += 1
-        if self.hasListener(ResourceEvent.ERROR):
-            self.send(ResourceEvent.ERROR, uri, errorMsg, errorCode)
-        else:
-            Logger().error(
-                "[Error code " + str(hex(errorCode)) + "] Unable to load resource " + str(uri) + ": " + errorMsg
-            )
+        self.loadFailed.emit(uri, errorMsg, errorCode)
         if self._filesLoaded == self._filesTotal:
             self.dispatchComplete()
 
     def dispatchComplete(self):
         if not self._completed:
             self._completed = True
-            self.send(ResourceEvent.LOADER_COMPLETE, self._filesTotal, self._filesLoaded)
+            self.loadingComplete.emit(self._filesTotal, self._filesLoaded)
 
     def onLoaded(self, uri: Uri, resourceType: int, resource):
         self.dispatchSuccess(uri, resourceType, resource)
@@ -84,5 +79,5 @@ class AbstractResourceLoader(IResourceObserver, EventsHandler):
     def onFailed(self, uri: Uri, errorMsg: str, errorCode: int):
         self.dispatchFailure(uri, errorMsg, errorCode)
 
-    def onProgress(self, uri: Uri, bytesLoaded: int, bytesTotal: int):
-        self.send(ResourceEvent.PROGRESS, uri, bytesLoaded, bytesTotal)
+    def onProgress(self, uri: Uri, qtyLoaded: int, qtyTotal: int):
+        self.loadingProgress.emit(uri, qtyLoaded, qtyTotal)

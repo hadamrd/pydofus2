@@ -24,20 +24,20 @@ class DataUpdateManager(EventsHandler):
         self._dataFilesLoaded = False
         self._files = None
         self._loadedFileCount = 0
-        self._metaFileListe = None
+        self._metaFileList = None
         self._storeKey = None
         self._clearAll = None
         self._datastoreList = None
 
-    def init(self, metaFileListe: Uri, clearAll=False):
-        self._metaFileListe = metaFileListe
-        self._storeKey = "version_" + self._metaFileListe.uri
+    def init(self, metaFileList: Uri, clearAll=False):
+        self._metaFileList = metaFileList
+        self._storeKey = "version_" + self._metaFileList.uri
         self._clearAll = clearAll
         if self._clearAll:
             self.clear()
-        self.initMetaFileListe()
+        self.initMetaFileList()
 
-    def initMetaFileListe(self):
+    def initMetaFileList(self):
         self._versions = (
             []
             if self._clearAll
@@ -48,7 +48,7 @@ class DataUpdateManager(EventsHandler):
         self._loader.on(ResourceEvent.LOADER_COMPLETE, self.onComplete)
         self._loader.on(ResourceEvent.LOADED, self.onLoaded)
         self._loader.on(ResourceEvent.ERROR, self.onLoadFailed)
-        self._loader.load(self._metaFileListe)
+        self._loader.load(self._metaFileList)
 
     @property
     def files(self):

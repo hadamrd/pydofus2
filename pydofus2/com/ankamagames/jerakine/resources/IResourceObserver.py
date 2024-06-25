@@ -1,16 +1,9 @@
-from abc import ABC, abstractmethod
-
-
-class IResourceObserver(ABC):
-
-    @abstractmethod
+class IResourceObserver:
     def onLoaded(self, uri, param2, param3):
-        pass
+        ...
 
-    @abstractmethod
     def onFailed(self, uri, param2, param3):
-        pass
+        ...
 
-    @abstractmethod
     def onProgress(self, uri, param2, param3):
-        pass
+        ...

@@ -86,7 +86,7 @@ class BasicBuff:
             entitiesFrame = Kernel().fightEntitiesFrame
             if entitiesFrame:
                 fighterInfo = entitiesFrame.getEntityInfos(currentPlayerId)
-        if Kernel().beingInReconection or not isPlayerId or fighterInfo and not fighterInfo.spawnInfo.alive:
+        if Kernel().beingInReconnection or not isPlayerId or fighterInfo and not fighterInfo.spawnInfo.alive:
             self.aliveSource = self.source
         else:
             self.aliveSource = currentPlayerId

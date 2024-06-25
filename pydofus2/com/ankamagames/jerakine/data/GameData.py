@@ -10,13 +10,12 @@ if TYPE_CHECKING:
 import threading
 
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 lock = threading.Lock()
 
 
 class GameData(metaclass=ThreadSharedSingleton):
-
     def __init__(self) -> None:
         self._modules = dict[str, ModuleReader]()
 

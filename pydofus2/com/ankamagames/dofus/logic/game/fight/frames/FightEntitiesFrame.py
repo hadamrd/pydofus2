@@ -273,12 +273,11 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
             self._interactiveElements = mcidmsg.interactiveElements
             if isinstance(msg, MapComplementaryInformationsWithCoordsMessage):
                 mciwcmsg = msg
-                if pcm.PlayedCharacterManager().isInHouse:
-                    pass
                 pcm.PlayedCharacterManager().isInHouse = False
                 pcm.PlayedCharacterManager().isInHisHouse = False
                 pcm.PlayedCharacterManager().currentMap.setOutdoorCoords(mciwcmsg.worldX, mciwcmsg.worldY)
                 self._worldPoint = WorldPointWrapper(mciwcmsg.mapId, True, mciwcmsg.worldX, mciwcmsg.worldY)
+                return True
 
             elif isinstance(msg, MapComplementaryInformationsDataInHouseMessage):
                 mcidihmsg = msg
@@ -295,6 +294,7 @@ class FightEntitiesFrame(AbstractEntitiesFrame, Frame):
                     mcidihmsg.currentHouse.worldX,
                     mcidihmsg.currentHouse.worldY,
                 )
+                return True
 
             elif isinstance(msg, MapComplementaryInformationsBreachMessage):
                 return True

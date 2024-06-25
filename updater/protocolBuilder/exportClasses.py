@@ -6,11 +6,11 @@ from pathlib import Path
 from jinja2 import Template
 from tqdm import tqdm
 
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 
 PRIMITIVES = ["int", "float", "bool", "str", "list", "dict", "bytearray"]
 ROOTDIR = Path(os.path.dirname(__file__))
-with open(Constants.PROTOCOL_SPEC_PATH, "r") as fp:
+with open(settings.PROTOCOL_SPEC_PATH, "r") as fp:
     json_spec = json.load(fp)
 
 

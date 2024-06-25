@@ -20,6 +20,8 @@ class ColorMultiplicator:
         self.blue = blueComponent
         if not forceCalculation and redComponent + greenComponent + blueComponent == 0:
             self._isOne = True
+        else:
+            self._isOne = False
 
     @staticmethod
     def clamp(value: float, min: float, max: float) -> float:

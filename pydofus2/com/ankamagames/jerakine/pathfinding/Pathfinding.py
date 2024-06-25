@@ -5,13 +5,13 @@ from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvide
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import TransitionTypeEnum
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
 from pydofus2.com.ankamagames.jerakine.types.positions.PathElement import PathElement
 
 
-class Pathfinding(metaclass=Singleton):
+class PathFinding(metaclass=Singleton):
     VERBOSE = False
     HV_COST: int = 10
     DIAG_COST: int = 15

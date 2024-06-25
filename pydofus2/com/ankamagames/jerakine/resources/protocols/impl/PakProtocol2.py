@@ -1,4 +1,6 @@
+import json
 import os
+import traceback
 from collections import defaultdict
 from io import BufferedReader
 from pathlib import Path
@@ -7,6 +9,7 @@ from typing import Dict
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.newCache.ICache import ICache
+from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import AdapterLoadError, IAdapter
 from pydofus2.com.ankamagames.jerakine.resources.IResourceObserver import IResourceObserver
 from pydofus2.com.ankamagames.jerakine.resources.protocols.AbstractProtocol import AbstractProtocol
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
@@ -15,123 +18,120 @@ from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 class PakProtocol2(AbstractProtocol):
 
     _indexes = defaultdict(dict)
-    _properties = defaultdict(dict)
 
     def __init__(self):
+        self._dataCount = None
         super().__init__()
 
-    def getFilesIndex(self, uri: Uri) -> Dict:
-        fileStream = self._indexes.get(uri.path, None)
-        if not fileStream:
-            fileStream = self.initStream(uri)
+    def getElementIndex(self, uri: Uri) -> Dict:
+        if not self._indexes:
+            fileStream = self.initStreamsIndexTable(uri)
             if not fileStream:
-                return None
-        return self._indexes[uri.path]
+                raise Exception(f"Unable to init stream data for d2O protocol!")
+        pathIndex = self._indexes.get(uri.path)
+        if not pathIndex:
+            Logger().warning(f"Unable to find stream index of the uri path : {uri.path}")
+            return None
+        subPathIndex = pathIndex.get(uri.subPath)
+        if not subPathIndex:
+            # Logger().warning(f"Unable to find stream index of the uri sub-path : {uri.subPath}. Available subPaths data {[k for k in pathIndex]}")
+            return None
+        return subPathIndex
+
+    @property
+    def indexes(self):
+        return self._indexes
 
     def loadDirectly(self, uri: Uri) -> bytes:
-        index = None
-        fileStream = None
-        if not self._indexes.get(uri.path):
-            fileStream = self.initStream(uri)
-            if not fileStream:
-                Logger().error("Unable data for this uri : " + uri.path + " / " + uri.subPath + " / " + uri.fileType)
-                return
-        index = self._indexes[uri.path].get(uri.subPath)
+        index = self.getElementIndex(uri)
         if not index:
             return
-        fileStream: BinaryStream = index["stream"]
-        fileStream.seek(index["o"])
-        resource_bytes = fileStream.readBytes(index["l"])
-        return resource_bytes
+        with open(index["filePath"], "rb") as fp:
+            fileStream = BinaryStream(fp, True)
+            fileStream.seek(index["offset"])
+            return fileStream.readBytes(index["length"])
 
     def load(
         self,
         uri: Uri,
         observer: "IResourceObserver",
-        dispatchProgress: bool,
         cache: "ICache",
-        forcedAdapter: "type",
+        forcedAdapter: "IAdapter",
         uniqueFile: bool,
     ) -> None:
         index = None
         data = bytearray()
-        fileStream = None
-        if not self._indexes.get(uri.path):
-            fileStream = self.initStream(uri)
-            if not fileStream:
-                if observer:
-                    observer.onFailed(uri, "Unable to find container.", "PAK_NOT_FOUND")
-                return
-        index = self._indexes[uri.path].get(uri.subPath)
+        index = self.getElementIndex(uri)
         if not index:
             if observer:
                 observer.onFailed(uri, "Unable to find the file in the container.", "FILE_NOT_FOUND_IN_PAK")
             return
         fileStream: BinaryStream = index["stream"]
-        fileStream.seek(index["o"])
-        data = fileStream.readBytes(index["l"])
+        fileStream.seek(index["offset"])
+        data = fileStream.readBytes(index["length"])
         self.getAdapter(uri, forcedAdapter)
         try:
-            self._adapter.loadFromData(uri, data, observer, dispatchProgress)
-        except Exception as e:
-            print(e)
-            observer.onFailed(uri, "Can't load byte array from this adapter.", "INCOMPATIBLE_ADAPTER")
+            self._adapter.loadFromData(uri, data, observer)
+        except AdapterLoadError as e:
+            error_message = str(e)
+            stack_trace = traceback.format_exc()
+            formatted_message = (
+                f"Error loading byte array from adapter (URI: {uri}):\n{error_message}\nStack Trace:\n{stack_trace}"
+            )
+            if observer:
+                observer.onFailed(uri, formatted_message, "UNEXPECTED_ERROR")
             return
 
-    def initStream(self, uri: Uri) -> "BufferedReader":
-        vMax = 0
-        vMin = 0
-        dataOffset = 0
-        indexOffset = 0
-        indexCount = 0
-        propertiesOffset = 0
-        propertyName = None
-        propertyValue = None
-        filePath = None
-        fileOffset = 0
-        fileLength = 0
-        idx = 0
-        fileUri = uri
-        # Replace `Path` with the correct method for getting a `Path` object in your environment
-        file = Path(fileUri.toFile())
-        if not file.exists():
-            raise FileNotFoundError(file)
-        indexes = defaultdict(dict)
-        properties = defaultdict(dict)
-        self._indexes[uri.path] = indexes
-        self._properties[uri.path] = properties
-        while file and file.exists():
-            print("working on : " + fileUri.path)
-            fs = BinaryStream(file.open("rb"), True)
+    def initStreamsIndexTable(self, uri: Uri) -> "BufferedReader":
+        file_path = Path(uri.toFile())
+        if not file_path.exists():
+            raise FileNotFoundError(file_path)
+        self._indexes[uri.path] = defaultdict(dict)
+        while file_path and file_path.exists():
+            fs = BinaryStream(file_path.open("rb"), True)
             vMax = fs.readUnsignedByte()
             vMin = fs.readUnsignedByte()
             if vMax != 2 or vMin != 1:
                 return None
             fs.seek(-24, os.SEEK_END)
             dataOffset = fs.readUnsignedInt()
-            fs.readUnsignedInt()
+            dataCount = fs.readUnsignedInt()  # type: ignore
             indexOffset = fs.readUnsignedInt()
             indexCount = fs.readUnsignedInt()
             propertiesOffset = fs.readUnsignedInt()
-            fs.readUnsignedInt()
-            fs.position = propertiesOffset
-            file = None
-            propertyName = str(fs.readUTF())
-            propertyValue = str(fs.readUTF())
-            if propertyName == "link":
-                idx = fileUri.path.rfind("\\")
-                if idx != -1:
-                    fileUri = Uri(fileUri.path[:idx] + "/" + propertyValue)
-                else:
-                    fileUri = Uri(propertyValue)
-                file = fileUri.toFile()
-            fs.seek(indexOffset)
-            for _ in range(indexCount):
-                filePath = fs.readUTF()
-                fileOffset = fs.readUnsignedInt()
-                fileLength = fs.readUnsignedInt()
-                indexes[filePath] = {"o": fileOffset + dataOffset, "l": fileLength, "stream": fs}
-        return fs
+            sub_files_indexes = self.getSubFilesIndexes(file_path, fs, indexOffset, indexCount, dataOffset)
+            self._indexes[uri.path].update(sub_files_indexes)
+            file_path = self.getNextFile(uri, fs, propertiesOffset)
+        file_name_part = uri.path.replace("\\", "_")
+        with open(f"gfx_{file_name_part}.json", "w") as fs:
+            json.dump(self._indexes[uri.path], fs, indent=4)
+
+    def getSubFilesIndexes(self, file_path, fs: BinaryStream, indexOffset, indexCount, dataOffset):
+        indexes = {}
+        fs.seek(indexOffset)
+        for _ in range(indexCount):
+            fileSubPath = str(fs.readUTF())
+            fileOffset = fs.readUnsignedInt()
+            fileLength = fs.readUnsignedInt()
+            indexes[fileSubPath] = {
+                "offset": fileOffset + dataOffset,
+                "length": fileLength,
+                "filePath": str(file_path),
+            }
+        return indexes
+
+    def getNextFile(self, uri: Uri, fs: BinaryStream, propertiesOffset):
+        fs.seek(propertiesOffset)
+        propertyName = fs.readUTF()
+        propertyValue = fs.readUTF()
+        if propertyName == "link":
+            idx = uri.path.rfind("\\")
+            if idx != -1:
+                uri = Uri(uri.path[:idx] + "/" + propertyValue)
+            else:
+                uri = Uri(propertyValue)
+            return uri.toFile()
+        return None
 
     def release(self):
-        pass
+        ...

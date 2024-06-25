@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 
 from pydofus2.com.ankamagames.dofus.datacenter.misc.Month import Month
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 
 class TimeManager(metaclass=Singleton):
@@ -22,6 +22,17 @@ class TimeManager(metaclass=Singleton):
     def getTimestamp(self):
         current_time = time.time() * 1000  # Convert to milliseconds
         return current_time + self.serverTimeLag
+
+    def getFormatterDateFromTime(
+        self, timeUTC: int, useTimezoneOffset: bool = False, format: str = "DD/MM/YYYY HH:mm"
+    ) -> str:
+        [nminute, nhour, nday, nmonth, nyear] = self.getDateFromTime(timeUTC, useTimezoneOffset)
+        format = format.replace("DD", str(nday).zfill(2))
+        format = format.replace("MM", str(nmonth).zfill(2))
+        format = format.replace("YYYY", str(nyear))
+        format = format.replace("HH", str(nhour).zfill(2))
+        format = format.replace("mm", str(nminute).zfill(2))
+        return format
 
     def getDateFromTime(self, timeUTC: int, useTimezoneOffset: bool = False) -> list:
         date: datetime = None

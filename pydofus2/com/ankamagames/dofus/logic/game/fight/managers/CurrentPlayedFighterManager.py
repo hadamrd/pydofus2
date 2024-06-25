@@ -28,12 +28,11 @@ from pydofus2.com.ankamagames.dofus.network.types.game.character.characteristic.
     CharacterCharacteristicsInformations,
 )
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 
 
 class CurrentPlayedFighterManager(metaclass=Singleton):
-
     def __init__(self):
         self._characteristicsInformationsList = dict()
         self._spellCastInFightManagerList = dict()

@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 from time import perf_counter
 
-from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthentificationManager import AuthentificationManager
+from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.dofus.misc.stats.StatisticsManager import StatisticsManager
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
@@ -29,7 +29,7 @@ class StatsAction:
 
     @staticmethod
     def getUserId():
-        login = AuthentificationManager().username
+        login = AuthenticationManager().username
         if login:
             return "user-" + hashlib.md5(login.encode()).hexdigest()
         return None

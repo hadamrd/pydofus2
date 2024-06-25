@@ -28,6 +28,8 @@ nav:
       - updates:
         - KamasUpdate: events/updates/KamasUpdate.md
         - PlayerLevelUp: events/updates/PlayerLevelUp.md
+        - StatsUpgradeResult: events/updates/StatsUpgradeResult.md
+        - CharacterStats: events/updates/CharacterStats.md
       - inventory:
         - ObjectAdded: events/inventory/ObjectAdded.md
         - ObtainedItem: events/inventory/ObtainedItem.md

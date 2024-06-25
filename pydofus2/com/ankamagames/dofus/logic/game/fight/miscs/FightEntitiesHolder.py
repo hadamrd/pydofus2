@@ -3,13 +3,12 @@ import threading
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IEntityLocalizer import IEntityLocalizer
 from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 
 lock = threading.Lock()
 
 
 class FightEntitiesHolder(IEntityLocalizer, metaclass=Singleton):
-
     def __init__(self):
         self._holdedEntities = dict()
         DofusEntities().registerLocalizer(self)

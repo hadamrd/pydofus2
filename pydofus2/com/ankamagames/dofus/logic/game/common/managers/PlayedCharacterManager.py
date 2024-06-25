@@ -41,14 +41,13 @@ from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import Pl
 from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
 from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclasses.Singleton import Singleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.Callback import Callback
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 from pydofus2.flash.geom.Point import Point
 
 
 class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
-
     def __init__(self):
         self._followingPlayerIds = list[float]()
         self._infosAvailableCallbacks = list[Callback]()
@@ -136,16 +135,16 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
             return None
         v = WorldGraph().getVertex(self.currentMap.mapId, self.currentZoneRp)
         if v is None:
-            potentialVerticies = WorldGraph().getVertices(PlayedCharacterManager().currentMap.mapId)
-            if not potentialVerticies:
+            potentialvertices = WorldGraph().getVertices(PlayedCharacterManager().currentMap.mapId)
+            if not potentialvertices:
                 Logger().error(f"Weird that no vertex is found for map {PlayedCharacterManager().currentMap.mapId}!")
             else:
-                Logger().debug(potentialVerticies)
-                for zoneId, v in potentialVerticies.items():
+                Logger().debug(potentialvertices)
+                for zoneId, v in potentialvertices.items():
                     if self.currentZoneRp and zoneId == self.currentZoneRp:
                         return v
                 else:
-                    return potentialVerticies[1]
+                    return potentialvertices[1]
         else:
             return v
 
@@ -431,7 +430,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
     def distanceFromCell(self, mp) -> int:
         return self.entity.position.distanceToCell(mp)
 
-    def joblevel(self, jobId) -> int:
+    def getJobLevel(self, jobId) -> int:
         if jobId not in self.jobs:
             if jobId != 1:  # base
                 job = Job.getJobById(jobId)

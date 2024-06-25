@@ -3,12 +3,12 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-import pydofus2.com.ankamagames.dofus.Constants as Constants
+import pydofus2.com.ankamagames.dofus.settings as settings
 from pydofus2.dataAdapter.pak2 import PakProtocol2
 
 work_dir = Path(os.path.dirname(__file__))
-D2P_MAPS_PATH = Constants.DOFUS_HOME / "content" / "maps"
-out_dir = Constants.MAPS_PATH
+D2P_MAPS_PATH = settings.DOFUS_HOME / "content" / "maps"
+out_dir = settings.MAPS_PATH
 
 if not os.path.exists(D2P_MAPS_PATH):
     raise Exception("D2P maps path not found: " + str(D2P_MAPS_PATH))

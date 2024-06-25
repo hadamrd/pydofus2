@@ -4,12 +4,12 @@ import xml.etree.ElementTree as ET
 from functools import lru_cache
 from time import perf_counter
 
-from pydofus2.com.ankamagames.dofus import Constants
+from pydofus2.com.ankamagames.dofus import settings
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.managers.LangManager import LangManager
 from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
-from pydofus2.com.ankamagames.jerakine.metaclasses.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 
 
 class I18nFileAccessor(metaclass=ThreadSharedSingleton):
@@ -45,12 +45,11 @@ class I18nFileAccessor(metaclass=ThreadSharedSingleton):
                 full_path = os.path.join(lang_files_dir, file_name)
                 if os.path.exists(full_path):
                     files_dict[file_name] = full_path
-        lastLang = StoreDataManager().getData(Constants.DATASTORE_LANG_VERSION, "lastLang")
+        lastLang = StoreDataManager().getData(settings.DATASTORE_LANG_VERSION, "lastLang")
         file_name = None
         if lastLang:
             file_name = f"i18n_{lastLang}.d2i"
         else:
-            # Get any file but in preference current if exists
             file_name = XmlConfig().getEntry("config.lang.current")
             if not file_name in files_dict:
                 file_name = list(files_dict.keys())[0]

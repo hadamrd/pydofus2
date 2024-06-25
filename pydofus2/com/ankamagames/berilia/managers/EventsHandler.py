@@ -19,12 +19,13 @@ class Event(object):
 
 
 class EventsHandler:
-    def __init__(self):
+    def __init__(self, name="Unknown"):
         super().__init__()
         self._listeners = dict[str, dict[int, list[Listener]]]()
         self._sorted = {}
-        self.__waiting_evts = list[threading.Event]()
+        self.__waiting_events = list[threading.Event]()
         self._crashMessage = None
+        self.name = name
 
     def hasListener(self, event_id):
         return event_id in self._listeners
@@ -38,10 +39,10 @@ class EventsHandler:
             ret[0] = *args, *kwargs
 
         self.once(event, onReceived, originator=originator)
-        self.__waiting_evts.append(received)
+        self.__waiting_events.append(received)
         wait_result = received.wait(timeout)
-        if received in self.__waiting_evts:
-            self.__waiting_evts.remove(received)
+        if received in self.__waiting_events:
+            self.__waiting_events.remove(received)
         if self._crashMessage:
             raise Exception(self._crashMessage)
         if not wait_result:
@@ -134,8 +135,8 @@ class EventsHandler:
         event = Event()
         event.sender = self
         event.name = event_id
-        liteners = self._listeners.get(event_id, [])
-        if not liteners:
+        listeners = self._listeners.get(event_id, [])
+        if not listeners:
             return event
         event_listeners = self.getSortedListeners(event_id)
         to_remove = list[Listener]()
@@ -157,28 +158,28 @@ class EventsHandler:
                     listener.delete()
 
     def reset(self):
-        self.stopAllwaiting()
+        self.stopAllWaiting()
         for listener in self.iterListeners():
             listener.delete()
         self._listeners.clear()
         self._sorted.clear()
-        Logger().debug("Events manager reseted")
+        Logger().debug(f"Events manager {self.name} reset")
 
     def iterListeners(self):
-        for listenersByPrio in self._listeners.values():
-            for listeners in listenersByPrio.values():
+        for listenersByPriority in self._listeners.values():
+            for listeners in listenersByPriority.values():
                 for listener in listeners:
                     yield listener
 
-    def stopAllwaiting(self):
-        for evt in self.__waiting_evts:
+    def stopAllWaiting(self):
+        for evt in self.__waiting_events:
             evt.set()
-        self.__waiting_evts.clear()
+        self.__waiting_events.clear()
 
     def remove_listeners(self, event_id, callbacks) -> list:
         if event_id not in self._listeners:
             return Logger().warning(f"Event {event_id} not found")
-        for priority, listeners in self._listeners[event_id].items():
+        for _, listeners in self._listeners[event_id].items():
             listeners = list(filter(lambda l: l.callback not in callbacks, listeners))
         if event_id in self._sorted:
             del self._sorted[event_id]
@@ -186,15 +187,15 @@ class EventsHandler:
     def remove_listener(self, event_id, callback):
         if event_id not in self._listeners:
             return Logger().warning(f"Event {event_id} not found")
-        for priority, listeners in self._listeners[event_id].items():
+        for _, listeners in self._listeners[event_id].items():
             listeners = list(filter(lambda l: l.callback != callback, listeners))
         if event_id in self._sorted:
             del self._sorted[event_id]
 
     def getListenersByOrigin(self, origin):
         result = list[Listener]()
-        for listenersByPrio in self._listeners.values():
-            for listeners in listenersByPrio.values():
+        for listenersByPriority in self._listeners.values():
+            for listeners in listenersByPriority.values():
                 for listener in listeners:
                     if listener.originator and listener.originator == origin:
                         result.append(listener)

@@ -191,7 +191,7 @@ def getLookDirection4DiagExactByCoord(param1: int, param2: int, param3: int, par
 
 
 def iterChilds(cell):
-    for x, y in MapPoint.fromCellId(cell).iterChilds():
+    for x, y in MapPoint.fromCellId(cell).iterChildren():
         yield getCellIdByCoord(x, y)
 
 
