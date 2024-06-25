@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.lua.GroupMemberLuaData import \
-    GroupMemberLuaData
+from pydofus2.com.ankamagames.dofus.internalDatacenter.lua.GroupMemberLuaData import GroupMemberLuaData
 
 
 class PlayerLuaData(GroupMemberLuaData):

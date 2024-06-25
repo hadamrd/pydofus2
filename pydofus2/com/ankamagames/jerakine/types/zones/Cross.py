@@ -1,10 +1,8 @@
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
+from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
 from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.SpellShapeEnum import SpellShapeEnum
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
-    DirectionsEnum
-from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
 class Cross(DisplayZone):
@@ -16,12 +14,20 @@ class Cross(DisplayZone):
     _disabledDirection = list[int]()
     _onlyPerpendicular: bool = False
 
-    def __init__(self, shape:int, alternativeSize:int, size:int, dataMapProvider:IDataMapProvider, diagonal:bool = False, allDirections:bool = False):
+    def __init__(
+        self,
+        shape: int,
+        alternativeSize: int,
+        size: int,
+        dataMapProvider: IDataMapProvider,
+        diagonal: bool = False,
+        allDirections: bool = False,
+    ):
         self._disabledDirection = []
         super().__init__(shape, size, dataMapProvider)
         self._minRadius = alternativeSize
         self._radius = size
-        self._onlyPerpendicular = (shape == SpellShapeEnum.T or shape == SpellShapeEnum.minus)
+        self._onlyPerpendicular = shape == SpellShapeEnum.T or shape == SpellShapeEnum.minus
         self._diagonal = not allDirections and diagonal
         self._allDirections = allDirections
 

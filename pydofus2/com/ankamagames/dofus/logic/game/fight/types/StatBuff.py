@@ -1,14 +1,14 @@
 import pydofus2.com.ankamagames.dofus.logic.game.fight.types.BasicBuff as basicBuff
 from pydofus2.com.ankamagames.dofus.datacenter.effects.Effect import Effect
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import \
-    EffectInstanceDice
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import \
-    ActionIdHelper
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import EffectInstanceDice
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightDetailedTemporaryBoostEffect import \
-    FightDetailedTemporaryBoostEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import \
-    FightTemporaryBoostEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightDetailedTemporaryBoostEffect import (
+    FightDetailedTemporaryBoostEffect,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.actions.fight.FightTemporaryBoostEffect import (
+    FightTemporaryBoostEffect,
+)
 
 
 class StatBuff(basicBuff.BasicBuff):

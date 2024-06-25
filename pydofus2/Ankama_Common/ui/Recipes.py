@@ -1,25 +1,18 @@
 from typing import List
 
 from pydofus2.Ankama_Common.Common import Common
-from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import \
-    RecipesFilterWrapper
+from pydofus2.Ankama_Common.ui.items.RecipesFilterWrapper import RecipesFilterWrapper
 from pydofus2.Ankama_storage.ui.enum.StorageState import StorageState
 from pydofus2.com.ankamagames.berilia.api.UiApi import UiApi
-from pydofus2.com.ankamagames.berilia.enums.SelectMethodEnum import \
-    SelectMethodEnum
+from pydofus2.com.ankamagames.berilia.enums.SelectMethodEnum import SelectMethodEnum
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Recipe import Recipe
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.jobs.KnownJobWrapper import \
-    KnownJobWrapper
-from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import \
-    ProtocolConstantsEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.jobs.KnownJobWrapper import KnownJobWrapper
+from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
 from pydofus2.com.ankamagames.dofus.uiApi.JobsApi import JobsApi
-from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import \
-    PlayedCharacterApi
+from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharacterApi
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

@@ -1,8 +1,6 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
-    ItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import ItemCriterion
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class AchievementPioneerItemCriterion(ItemCriterion, IDataCenter):
@@ -16,7 +14,7 @@ class AchievementPioneerItemCriterion(ItemCriterion, IDataCenter):
     @property
     def text(self) -> str:
         return ""
-    
+
     @property
     def is_respected(self) -> bool:
         achievementId, criterionValue = map(int, self._criterionValueText.split(","))

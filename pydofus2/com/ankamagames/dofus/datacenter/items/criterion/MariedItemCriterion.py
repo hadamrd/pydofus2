@@ -1,12 +1,8 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion import \
-    ItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import \
-    IItemCriterion
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import \
-    ItemCriterionOperator
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion import ItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.IItemCriterion import IItemCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterion import ItemCriterionOperator
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class MariedItemCriterion(ItemCriterion, IDataCenter):

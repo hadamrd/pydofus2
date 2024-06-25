@@ -1,9 +1,6 @@
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-    MapDisplayManager
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.astar.AStar import \
-    AStar
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import \
-    WorldGraph
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.astar.AStar import AStar
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 
 dstmapId = 152043521.0
 dstMapRpz = 1

@@ -1,6 +1,7 @@
 from pydofus2.com.ankamagames.atouin.AtouinConstants import AtouinConstants
-from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import \
-    NormalGraphicalElementData
+from pydofus2.com.ankamagames.atouin.data.elements.subtypes.NormalGraphicalElementData import (
+    NormalGraphicalElementData,
+)
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 

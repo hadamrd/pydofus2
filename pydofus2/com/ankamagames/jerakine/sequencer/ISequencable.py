@@ -1,8 +1,7 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import \
-        ISequencableListener
+    from pydofus2.com.ankamagames.jerakine.sequencer.ISequencableListener import ISequencableListener
 
 
 class ISequencable:

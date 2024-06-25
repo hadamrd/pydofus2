@@ -1,7 +1,6 @@
 from Cryptodome.PublicKey import RSA
 
-from pydofus2.com.ankamagames.jerakine.types.BinaryDofusData import \
-    BinaryResource
+from pydofus2.com.ankamagames.jerakine.types.BinaryDofusData import BinaryResource
 
 
 class AuthentificationManager__verifyKey(BinaryResource):

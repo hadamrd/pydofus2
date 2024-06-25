@@ -6,11 +6,12 @@ class HaxeStat:
         self.total = 0
         self.id = stat_id
 
-    def updateStatWithValue(self, value: int, is_flat: bool) -> None:
-        ...
+    def updateStatWithValue(self, value: int, is_flat: bool) -> None: ...
 
     def updateStatFromEffect(self, effect, is_flat: bool) -> None:
-        if ActionIdHelper.isFlatStatBoostActionId(effect.actionId) or ActionIdHelper.isPercentStatBoostActionId(effect.actionId):
+        if ActionIdHelper.isFlatStatBoostActionId(effect.actionId) or ActionIdHelper.isPercentStatBoostActionId(
+            effect.actionId
+        ):
             self.updateStatWithValue(effect.getMinRoll(), is_flat)
 
     @property

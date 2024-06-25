@@ -1,10 +1,7 @@
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
-    EffectInstance
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemSet import ItemSet
-from pydofus2.com.ankamagames.dofus.misc.ObjectEffectAdapter import \
-    ObjectEffectAdapter
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import \
-    ObjectEffect
+from pydofus2.com.ankamagames.dofus.misc.ObjectEffectAdapter import ObjectEffectAdapter
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import ObjectEffect
 
 
 class PlayerSetInfo:

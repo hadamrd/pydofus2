@@ -1,13 +1,8 @@
-from pydofus2.com.ankamagames.atouin.entities.behaviours.MovementBehavior import \
-    MovementBehavior
-from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import \
-    EntitiesManager
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IDisplayable import \
-    IDisplayable
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import \
-    IEntity
-from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import \
-    IMovable
+from pydofus2.com.ankamagames.atouin.entities.behaviours.MovementBehavior import MovementBehavior
+from pydofus2.com.ankamagames.atouin.managers.EntitiesManager import EntitiesManager
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IDisplayable import IDisplayable
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IEntity import IEntity
+from pydofus2.com.ankamagames.jerakine.entities.interfaces.IMovable import IMovable
 from pydofus2.com.ankamagames.jerakine.interfaces.IObstacle import IObstacle
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 

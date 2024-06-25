@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.utils.misc.Priotizable import \
-    Prioritizable
+from pydofus2.com.ankamagames.jerakine.utils.misc.Priotizable import Prioritizable
 
 
 class PriorityComparer:

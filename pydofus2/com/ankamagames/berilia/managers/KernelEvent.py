@@ -6,7 +6,7 @@ class KernelEvent(Enum):
     TextInformation = auto()
     StorageKamasUpdate = auto()
     DofusBakKamasAmount = auto()
-    
+
     # popups
     NonSubscriberPopup = auto()
 

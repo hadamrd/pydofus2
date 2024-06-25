@@ -1,7 +1,6 @@
 from typing import Any
 
-from pydofus2.com.ankamagames.jerakine.interfaces.IDragAndDropHandler import \
-    IDragAndDropHandler
+from pydofus2.com.ankamagames.jerakine.interfaces.IDragAndDropHandler import IDragAndDropHandler
 
 
 class ISlotDataHolder(IDragAndDropHandler):

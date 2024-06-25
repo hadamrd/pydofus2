@@ -3,13 +3,10 @@ from collections import OrderedDict
 from functools import lru_cache
 from typing import Any
 
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-    BenchmarkTimer
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
-from pydofus2.com.ankamagames.jerakine.data.GameDataClassDefinition import \
-    GameDataClassDefinition
-from pydofus2.com.ankamagames.jerakine.data.GameDataProcess import \
-    GameDataProcess
+from pydofus2.com.ankamagames.jerakine.data.GameDataClassDefinition import GameDataClassDefinition
+from pydofus2.com.ankamagames.jerakine.data.GameDataProcess import GameDataProcess
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.hurlan.crypto.Signature import Signature
 

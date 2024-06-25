@@ -1,9 +1,6 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.ChallengeWrapper import \
-    ChallengeWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.EnumChallengeCategory import \
-    EnumChallengeCategory
-from pydofus2.com.ankamagames.dofus.network.enums.ChallengeStateEnum import \
-    ChallengeStateEnum
+from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.ChallengeWrapper import ChallengeWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.EnumChallengeCategory import EnumChallengeCategory
+from pydofus2.com.ankamagames.dofus.network.enums.ChallengeStateEnum import ChallengeStateEnum
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.types.Uri import Uri
 

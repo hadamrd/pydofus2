@@ -1,6 +1,5 @@
 from pydofus2.com.ankamagames.dofus.datacenter.items.Weapon import Weapon
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 
 
 class WeaponWrapper(ItemWrapper):

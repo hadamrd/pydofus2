@@ -2,11 +2,9 @@ import json
 import os
 from pathlib import Path
 
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
-from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import \
-    DataStoreEnum
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 from pydofus2.com.hurlan.crypto.SignatureKey import SignatureKey
 
 ROOTDIR = Path(os.path.dirname(__file__))
@@ -35,8 +33,10 @@ if not DOFUS_HOME:
     if not DOFUS_HOME:
         DOFUS_HOME = Path(os.getenv("DOFUS_HOME")) if os.getenv("DOFUS_HOME") else None
         if not DOFUS_HOME:
-            raise Exception("DOFUS_HOME not found in ZAAP settings, PYDOFUS2 USER settings and not found in environment variables!. \
-                Please set DOFUS_HOME in settings.json or in environment variables with the path to your Dofus installation directory.")
+            raise Exception(
+                "DOFUS_HOME not found in ZAAP settings, PYDOFUS2 USER settings and not found in environment variables!. \
+                Please set DOFUS_HOME in settings.json or in environment variables with the path to your Dofus installation directory."
+            )
 
 LOG_UPLOAD_MODE = False
 
@@ -77,7 +77,7 @@ DATASTORE_COMPUTER_OPTIONS = DataStoreType(
 
 MAX_LOGIN_ATTEMPTS = 3
 
-LOGS_DIR = USER_SETTINGS.get("LOGS_DIR")    
+LOGS_DIR = USER_SETTINGS.get("LOGS_DIR")
 if not LOGS_DIR:
     LOGS_DIR = Path(os.getenv("LOGS_DIR")) if os.getenv("LOGS_DIR") else None
     if not LOGS_DIR:

@@ -1,12 +1,9 @@
 import pydofus2.com.ankamagames.jerakine.network.NetworkMessage as bnm
 import pydofus2.com.ankamagames.jerakine.network.parser.NetworkMessageDataField as nmdf
 from pydofus2.com.ankamagames.jerakine.logger.Logger import TraceLogger
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
-from pydofus2.com.ankamagames.jerakine.network.parser.BooleanByteWrapper import \
-    boolByteWrapper
-from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
-    FieldSpec, ProtocolSpec)
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.network.parser.BooleanByteWrapper import boolByteWrapper
+from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import FieldSpec, ProtocolSpec
 
 
 class NetworkMessageClassDefinition:

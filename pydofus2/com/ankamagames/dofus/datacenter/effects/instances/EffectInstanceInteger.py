@@ -6,8 +6,7 @@ if TYPE_CHECKING:
     )
 
 import pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance as effinst
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
-    InteractiveElement
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 

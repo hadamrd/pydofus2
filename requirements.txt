@@ -11,4 +11,10 @@ psutil
 wmi
 cryptography
 pytz
+dataclasses-json
+black
+isort
+autoflake
+poetry
+pre-commit
 pydantic

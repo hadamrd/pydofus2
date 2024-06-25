@@ -491,7 +491,7 @@ class QuestFrame(Frame):
                         KernelEvent.TextInformation,
                         info,
                         ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                        TimeManager().getTimestamp()
+                        TimeManager().getTimestamp(),
                     )
 
                 playerId = PlayedCharacterManager().id
@@ -745,7 +745,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp()
+                            TimeManager().getTimestamp(),
                         )
 
                 for spellId in currentAchievementReward.spellsReward:
@@ -759,7 +759,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp()
+                            TimeManager().getTimestamp(),
                         )
 
                 for emoteId in currentAchievementReward.emotesReward:
@@ -773,7 +773,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp()
+                            TimeManager().getTimestamp(),
                         )
 
                 for ornamentId in currentAchievementReward.ornamentsReward:
@@ -787,7 +787,7 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp()
+                            TimeManager().getTimestamp(),
                         )
 
                 for titleId in currentAchievementReward.titlesReward:
@@ -800,5 +800,5 @@ class QuestFrame(Frame):
                             KernelEvent.TextInformation,
                             chatMessage,
                             ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
-                            TimeManager().getTimestamp()
+                            TimeManager().getTimestamp(),
                         )

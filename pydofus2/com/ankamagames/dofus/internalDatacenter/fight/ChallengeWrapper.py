@@ -1,12 +1,10 @@
-from pydofus2.com.ankamagames.dofus.datacenter.challenges.Challenge import \
-    Challenge
-from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.ChallengeTargetWrapper import \
-    ChallengeTargetWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.EnumChallengeCategory import \
-    EnumChallengeCategory
+from pydofus2.com.ankamagames.dofus.datacenter.challenges.Challenge import Challenge
+from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.ChallengeTargetWrapper import ChallengeTargetWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.EnumChallengeCategory import EnumChallengeCategory
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.challenge.ChallengeTargetWithAttackerInformation import \
-    ChallengeTargetWithAttackerInformation
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.challenge.ChallengeTargetWithAttackerInformation import (
+    ChallengeTargetWithAttackerInformation,
+)
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 
 

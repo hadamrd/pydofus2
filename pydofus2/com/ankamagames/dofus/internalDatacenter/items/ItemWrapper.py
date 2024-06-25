@@ -2,47 +2,31 @@ import math
 import threading
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import \
-    EffectInstanceInteger
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import EffectInstanceInteger
 from pydofus2.com.ankamagames.dofus.datacenter.items.Item import Item
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemType import ItemType
-from pydofus2.com.ankamagames.dofus.datacenter.items.LegendaryPowerCategory import \
-    LegendaryPowerCategory
+from pydofus2.com.ankamagames.dofus.datacenter.items.LegendaryPowerCategory import LegendaryPowerCategory
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
-from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterGrade import \
-    MonsterGrade
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterGrade import MonsterGrade
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import \
-    ActionIdProtocol
-from pydofus2.com.ankamagames.dofus.misc.ObjectEffectAdapter import \
-    ObjectEffectAdapter
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import \
-    ObjectEffect
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
-    ObjectItem
-from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import \
-    ItemCategoryEnum
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdProtocol import ActionIdProtocol
+from pydofus2.com.ankamagames.dofus.misc.ObjectEffectAdapter import ObjectEffectAdapter
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.effects.ObjectEffect import ObjectEffect
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
+from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import ItemCategoryEnum
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.interfaces.ISlotData import ISlotData
-from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import \
-    ISlotDataHolder
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ICellZoneProvider import \
-    ICellZoneProvider
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import \
-    IZoneShape
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ZoneEffect import \
-    ZoneEffect
-from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import \
-    StringUtils
+from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import ISlotDataHolder
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ICellZoneProvider import ICellZoneProvider
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import IZoneShape
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ZoneEffect import ZoneEffect
+from pydofus2.com.ankamagames.jerakine.utils.misc.StringUtils import StringUtils
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
-        EffectInstance
+    from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
 lock = threading.Lock()
 
 
@@ -163,8 +147,7 @@ class ItemWrapper(Item, ISlotData, ICellZoneProvider, IDataCenter):
         with lock:
             if not cachedItem:
                 if refItem.isWeapon:
-                    from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import \
-                        WeaponWrapper
+                    from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import WeaponWrapper
 
                     item = WeaponWrapper()
                 else:
@@ -212,8 +195,7 @@ class ItemWrapper(Item, ISlotData, ICellZoneProvider, IDataCenter):
         )
         if not cachedItem or not useCache:
             if refItem.isWeapon:
-                from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import \
-                    WeaponWrapper
+                from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import WeaponWrapper
 
                 item = WeaponWrapper()
             else:

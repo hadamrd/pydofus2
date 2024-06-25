@@ -1,11 +1,13 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.arena.GameRolePlayArenaUpdatePlayerInfosMessage import \
-    GameRolePlayArenaUpdatePlayerInfosMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight.arena.GameRolePlayArenaUpdatePlayerInfosMessage import (
+    GameRolePlayArenaUpdatePlayerInfosMessage,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.fight.arena.ArenaRankInfos import \
-        ArenaRankInfos
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.fight.arena.ArenaRankInfos import (
+        ArenaRankInfos,
+    )
 
 
 class GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage(GameRolePlayArenaUpdatePlayerInfosMessage):

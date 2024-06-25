@@ -1,15 +1,10 @@
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager as storageoptmgr
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import \
-    IInventoryView
-from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import \
-    CharacterInventoryPositionEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import \
-    ObjectItem
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import IInventoryView
+from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.data.items.ObjectItem import ObjectItem
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 

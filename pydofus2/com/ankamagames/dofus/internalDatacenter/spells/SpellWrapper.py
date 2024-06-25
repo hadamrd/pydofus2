@@ -2,15 +2,11 @@ import math
 from functools import lru_cache
 from typing import TYPE_CHECKING, Any
 
-from pydofus2.com.ankamagames.berilia.types.messages.managers.SlotDataHolderManager import \
-    SlotDataHolderManager
+from pydofus2.com.ankamagames.berilia.types.messages.managers.SlotDataHolderManager import SlotDataHolderManager
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
-from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import \
-    ActionIdHelper
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierActionTypeEnum import \
-    SpellModifierActionTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
-    SpellModifierTypeEnum
+from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.ActionIdHelper import ActionIdHelper
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierActionTypeEnum import SpellModifierActionTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import SpellModifierTypeEnum
 
 if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import (
@@ -21,33 +17,21 @@ import threading
 
 import pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager as cpfm
 import pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager as spellmm
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import \
-    EffectInstanceDice
-from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import \
-    EffectZone
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceDice import EffectInstanceDice
+from pydofus2.com.ankamagames.dofus.datacenter.spells.EffectZone import EffectZone
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import \
-    WeaponWrapper
-from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import \
-    StatsManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-    InventoryManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import WeaponWrapper
+from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.interfaces.ISlotData import ISlotData
-from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import \
-    ISlotDataHolder
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ICellZoneProvider import \
-    ICellZoneProvider
-from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import \
-    IZoneShape
+from pydofus2.com.ankamagames.jerakine.interfaces.ISlotDataHolder import ISlotDataHolder
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.ICellZoneProvider import ICellZoneProvider
+from pydofus2.com.ankamagames.jerakine.utils.display.spellZone.IZoneShape import IZoneShape
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 
 lock = threading.Lock()
@@ -330,8 +314,7 @@ class SpellWrapper(ISlotData, ICellZoneProvider, IDataCenter):
     def getEntityId(self):
         if not math.isnan(self.playerId) and self.playerId != 0:
             return self.playerId
-        from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import \
-            PlayedCharacterApi
+        from pydofus2.com.ankamagames.dofus.uiApi.PlayedCharacterApi import PlayedCharacterApi
 
         if PlayedCharacterApi().isInFight():
             return cpfm.CurrentPlayedFighterManager().currentFighterId

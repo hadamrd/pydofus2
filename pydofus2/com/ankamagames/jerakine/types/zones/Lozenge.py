@@ -1,10 +1,8 @@
 import math
 
-from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
-import pydofus2.mapTools.MapTools as MapTools
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
+from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
 
 
 class Lozenge(DisplayZone):
@@ -12,8 +10,8 @@ class Lozenge(DisplayZone):
     _radius = 0
     _minRadius = 2
 
-    def __init__(self, shape:int, alternativeSize:int, size:int, dataMapProvider:IDataMapProvider):
-        super().__init__(shape,alternativeSize,size,dataMapProvider)
+    def __init__(self, shape: int, alternativeSize: int, size: int, dataMapProvider: IDataMapProvider):
+        super().__init__(shape, alternativeSize, size, dataMapProvider)
         self._minRadius = alternativeSize
         self._radius = size
 

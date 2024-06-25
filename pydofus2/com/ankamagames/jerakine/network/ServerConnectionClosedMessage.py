@@ -1,6 +1,5 @@
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
-from pydofus2.com.ankamagames.jerakine.network.ServerConnection import \
-    ServerConnection
+from pydofus2.com.ankamagames.jerakine.network.ServerConnection import ServerConnection
 
 
 class ServerConnectionClosedMessage(Message):

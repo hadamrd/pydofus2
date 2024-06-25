@@ -49,8 +49,7 @@ class MonsterRace:
     @property
     def canAttack(self) -> bool:
         if self.aggressiveImmunityCriterion:
-            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
-                GroupItemCriterion
+            from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
 
             criterions = GroupItemCriterion(self.aggressiveImmunityCriterion)
             if criterions.isRespected:

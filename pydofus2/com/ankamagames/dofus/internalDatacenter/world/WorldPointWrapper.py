@@ -1,10 +1,7 @@
 import pydofus2.com.ankamagames.atouin.managers.MapDisplayManager as mdm
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import \
-    MapPosition
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapScrollAction import \
-    MapScrollAction
-from pydofus2.com.ankamagames.jerakine.types.positions.WorldPoint import \
-    WorldPoint
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapScrollAction import MapScrollAction
+from pydofus2.com.ankamagames.jerakine.types.positions.WorldPoint import WorldPoint
 
 
 class WorldPointWrapper(WorldPoint):

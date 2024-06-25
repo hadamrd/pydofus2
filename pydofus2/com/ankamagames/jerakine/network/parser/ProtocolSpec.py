@@ -3,8 +3,7 @@ import json
 import os
 
 import pydofus2.com.ankamagames.dofus.settings as settings
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-    INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 ROOTDIR = os.path.dirname(__file__)
@@ -15,7 +14,6 @@ with open(settings.PROTOCOL_SPEC_PATH, "r") as fp:
 
 
 class ClassSpec:
-
     def __init__(self, infos: dict) -> None:
         self.parent: str = infos.get("parent")
         self.package: str = infos.get("package")
@@ -37,7 +35,6 @@ class ClassSpec:
 
 
 class FieldSpec:
-
     def __init__(self, infos: dict):
         self.dynamicType: bool = infos.get("dynamicType")
         self.length: int = infos.get("length")
@@ -60,7 +57,6 @@ class FieldSpec:
 
 
 class ProtocolSpec:
-
     @staticmethod
     def getTypeSpecById(id):
         if str(id) not in D2PROTOCOL["type_by_id"]:

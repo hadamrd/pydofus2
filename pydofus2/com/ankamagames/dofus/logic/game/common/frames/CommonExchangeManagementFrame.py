@@ -1,46 +1,54 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-    InventoryManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager import \
-    StorageOptionManager
-from pydofus2.com.ankamagames.dofus.network.enums.ExchangeTypeEnum import \
-    ExchangeTypeEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogRequestMessage import \
-    LeaveDialogRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeAcceptMessage import \
-    ExchangeAcceptMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeIsReadyMessage import \
-    ExchangeIsReadyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectAddedMessage import \
-    ExchangeObjectAddedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveMessage import \
-    ExchangeObjectMoveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectsAddedMessage import \
-    ExchangeObjectsAddedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeReadyMessage import \
-    ExchangeReadyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.FocusedExchangeReadyMessage import \
-    FocusedExchangeReadyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeKamaModifiedMessage import \
-    ExchangeKamaModifiedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectModifiedMessage import \
-    ExchangeObjectModifiedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectRemovedMessage import \
-    ExchangeObjectRemovedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectsModifiedMessage import \
-    ExchangeObjectsModifiedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectsRemovedMessage import \
-    ExchangeObjectsRemovedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangePodsModifiedMessage import \
-    ExchangePodsModifiedMessage
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager import StorageOptionManager
+from pydofus2.com.ankamagames.dofus.network.enums.ExchangeTypeEnum import ExchangeTypeEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogRequestMessage import (
+    LeaveDialogRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeAcceptMessage import (
+    ExchangeAcceptMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeIsReadyMessage import (
+    ExchangeIsReadyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectAddedMessage import (
+    ExchangeObjectAddedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveMessage import (
+    ExchangeObjectMoveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectsAddedMessage import (
+    ExchangeObjectsAddedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeReadyMessage import (
+    ExchangeReadyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.FocusedExchangeReadyMessage import (
+    FocusedExchangeReadyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeKamaModifiedMessage import (
+    ExchangeKamaModifiedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectModifiedMessage import (
+    ExchangeObjectModifiedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectRemovedMessage import (
+    ExchangeObjectRemovedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectsModifiedMessage import (
+    ExchangeObjectsModifiedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangeObjectsRemovedMessage import (
+    ExchangeObjectsRemovedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ExchangePodsModifiedMessage import (
+    ExchangePodsModifiedMessage,
+)
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 

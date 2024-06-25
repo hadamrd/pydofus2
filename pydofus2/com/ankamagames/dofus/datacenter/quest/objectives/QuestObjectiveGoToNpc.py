@@ -1,10 +1,7 @@
 from pydofus2.com.ankamagames.dofus.datacenter.npcs.Npc import Npc
-from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import \
-    QuestObjective
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
-from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import \
-    PatternDecoder
+from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import QuestObjective
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
+from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import PatternDecoder
 
 
 class QuestObjectiveGoToNpc(QuestObjective, IDataCenter):

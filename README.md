@@ -28,12 +28,12 @@ if __name__ == "__main__":
     api_key = "YOUR_API_KEY"
     certId = "YOUR_CERT_ID"
     certHash = "YOUR_CERT_HASH"
-    
+
     serverId = 293 # Tylezia server id example
     breedId = 10 # Sadida breed id example
     DOFUS_GAMEID = 1 # Dofus 2
-    
-    characterCreator = CharacterCreator()    
+
+    characterCreator = CharacterCreator()
     client = DofusClient(api_key)
     client.setApiKey(apikey)
     client.setCertificate(certid, certhash)
@@ -42,21 +42,21 @@ if __name__ == "__main__":
     eventsManager = KernelEventsManager.WaitThreadRegister(api_key, 25)
 
     Logger().info("Kernel event manager instance created")
-        
+
     def onNewCharacterEnded(error, character: BasicCharacterWrapper):
         if character:
             client.shutdown(msg=f"Character {character.name} created successfully")
         else:
             client.crash(None, message=f"Character creation ended with error : {error}")
-            
+
     def onCharactersList(event, characters: list[BasicCharacterWrapper]):
         Logger().info("Characters list received")
         characterCreator.run(breedId, callback=onNewCharacterEnded)
-    
+
     eventsManager.once(KernelEvent.CharactersList, onCharactersList)
 
     client.join()
-    
+
     if client._crashed:
         raise Exception(client._shutDownMessage)
 

@@ -1,21 +1,18 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.quest.NpcMessage import \
-    NpcMessage
-from pydofus2.com.ankamagames.dofus.datacenter.quest.objectives.QuestObjectiveParameters import \
-    QuestObjectiveParameters
-from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjectiveType import \
-    QuestObjectiveType
+from pydofus2.com.ankamagames.dofus.datacenter.quest.NpcMessage import NpcMessage
+from pydofus2.com.ankamagames.dofus.datacenter.quest.objectives.QuestObjectiveParameters import (
+    QuestObjectiveParameters,
+)
+from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjectiveType import QuestObjectiveType
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.flash.geom.Point import Point
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStep import \
-        QuestStep
+    from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStep import QuestStep
 
 
 class QuestObjective(IDataCenter):
@@ -57,8 +54,7 @@ class QuestObjective(IDataCenter):
 
     @property
     def step(self) -> "QuestStep":
-        from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStep import \
-            QuestStep
+        from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStep import QuestStep
 
         if not self._step:
             self._step = QuestStep.getQuestStepById(self.stepId)

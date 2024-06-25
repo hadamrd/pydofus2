@@ -1,7 +1,6 @@
 import math
 
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-    MapDisplayManager
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
 
 
 class CellUtil:

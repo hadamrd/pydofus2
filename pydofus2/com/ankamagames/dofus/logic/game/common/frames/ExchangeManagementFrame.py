@@ -1,93 +1,118 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import \
-    GroupItemCriterion
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
 from pydofus2.com.ankamagames.dofus.datacenter.npcs.Npc import Npc
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-    InventoryManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import \
-    DialogTypeEnum
-from pydofus2.com.ankamagames.dofus.network.enums.ExchangeTypeEnum import \
-    ExchangeTypeEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogRequestMessage import \
-    LeaveDialogRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildChestTabContributionMessage import \
-    GuildChestTabContributionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildChestTabContributionsMessage import \
-    GuildChestTabContributionsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildGetChestTabContributionsRequestMessage import \
-    GuildGetChestTabContributionsRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildSelectChestTabRequestMessage import \
-    GuildSelectChestTabRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.StartGuildChestContributionMessage import \
-    StartGuildChestContributionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.guild.StopGuildChestContributionMessage import \
-    StopGuildChestContributionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeLeaveMessage import \
-    ExchangeLeaveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveKamaMessage import \
-    ExchangeObjectMoveKamaMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveToTabMessage import \
-    ExchangeObjectMoveToTabMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertAllFromInvMessage import \
-    ExchangeObjectTransfertAllFromInvMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertAllToInvMessage import \
-    ExchangeObjectTransfertAllToInvMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertExistingFromInvMessage import \
-    ExchangeObjectTransfertExistingFromInvMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertExistingToInvMessage import \
-    ExchangeObjectTransfertExistingToInvMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListFromInvMessage import \
-    ExchangeObjectTransfertListFromInvMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListWithQuantityToInvMessage import \
-    ExchangeObjectTransfertListWithQuantityToInvMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangePlayerRequestMessage import \
-    ExchangePlayerRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestedTradeMessage import \
-    ExchangeRequestedTradeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedMessage import \
-    ExchangeStartedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedTaxCollectorShopMessage import \
-    ExchangeStartedTaxCollectorShopMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedWithMultiTabStorageMessage import \
-    ExchangeStartedWithMultiTabStorageMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedWithPodsMessage import \
-    ExchangeStartedWithPodsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedWithStorageMessage import \
-    ExchangeStartedWithStorageMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkNpcShopMessage import \
-    ExchangeStartOkNpcShopMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkNpcTradeMessage import \
-    ExchangeStartOkNpcTradeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkRecycleTradeMessage import \
-    ExchangeStartOkRecycleTradeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkRunesTradeMessage import \
-    ExchangeStartOkRunesTradeMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.RecycleResultMessage import \
-    RecycleResultMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageInventoryContentMessage import \
-    StorageInventoryContentMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectRemoveMessage import \
-    StorageObjectRemoveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectsRemoveMessage import \
-    StorageObjectsRemoveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectsUpdateMessage import \
-    StorageObjectsUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectUpdateMessage import \
-    StorageObjectUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import \
-    ProtocolConstantsEnum
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNamedActorInformations import \
-    GameRolePlayNamedActorInformations
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import DialogTypeEnum
+from pydofus2.com.ankamagames.dofus.network.enums.ExchangeTypeEnum import ExchangeTypeEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogRequestMessage import (
+    LeaveDialogRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildChestTabContributionMessage import (
+    GuildChestTabContributionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildChestTabContributionsMessage import (
+    GuildChestTabContributionsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildGetChestTabContributionsRequestMessage import (
+    GuildGetChestTabContributionsRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.GuildSelectChestTabRequestMessage import (
+    GuildSelectChestTabRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.StartGuildChestContributionMessage import (
+    StartGuildChestContributionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.guild.StopGuildChestContributionMessage import (
+    StopGuildChestContributionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeLeaveMessage import (
+    ExchangeLeaveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveKamaMessage import (
+    ExchangeObjectMoveKamaMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMoveToTabMessage import (
+    ExchangeObjectMoveToTabMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertAllFromInvMessage import (
+    ExchangeObjectTransfertAllFromInvMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertAllToInvMessage import (
+    ExchangeObjectTransfertAllToInvMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertExistingFromInvMessage import (
+    ExchangeObjectTransfertExistingFromInvMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertExistingToInvMessage import (
+    ExchangeObjectTransfertExistingToInvMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListFromInvMessage import (
+    ExchangeObjectTransfertListFromInvMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListWithQuantityToInvMessage import (
+    ExchangeObjectTransfertListWithQuantityToInvMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangePlayerRequestMessage import (
+    ExchangePlayerRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestedTradeMessage import (
+    ExchangeRequestedTradeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedMessage import (
+    ExchangeStartedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedTaxCollectorShopMessage import (
+    ExchangeStartedTaxCollectorShopMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedWithMultiTabStorageMessage import (
+    ExchangeStartedWithMultiTabStorageMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedWithPodsMessage import (
+    ExchangeStartedWithPodsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedWithStorageMessage import (
+    ExchangeStartedWithStorageMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkNpcShopMessage import (
+    ExchangeStartOkNpcShopMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkNpcTradeMessage import (
+    ExchangeStartOkNpcTradeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkRecycleTradeMessage import (
+    ExchangeStartOkRecycleTradeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkRunesTradeMessage import (
+    ExchangeStartOkRunesTradeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.RecycleResultMessage import (
+    RecycleResultMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageInventoryContentMessage import (
+    StorageInventoryContentMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectRemoveMessage import (
+    StorageObjectRemoveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectsRemoveMessage import (
+    StorageObjectsRemoveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectsUpdateMessage import (
+    StorageObjectsUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.storage.StorageObjectUpdateMessage import (
+    StorageObjectUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNamedActorInformations import (
+    GameRolePlayNamedActorInformations,
+)
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame

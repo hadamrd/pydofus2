@@ -1,10 +1,7 @@
 from pydofus2.com.ankamagames.dofus.enums.ActionIds import ActionIds
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager import \
-    StorageOptionManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageMinoukiView import \
-    StorageMinoukiView
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager import StorageOptionManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.StorageMinoukiView import StorageMinoukiView
 
 
 class StorageMinoukiFilteredView(StorageMinoukiView):

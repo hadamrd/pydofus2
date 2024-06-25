@@ -2,10 +2,13 @@ from functools import reduce
 
 import pydofus2.com.ankamagames.jerakine.network.NetworkMessage as bnm
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import \
-    ByteArray
+from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.network.parser.ProtocolSpec import (
-    D2PROTOCOL, ClassSpec, FieldSpec, ProtocolSpec)
+    D2PROTOCOL,
+    ClassSpec,
+    FieldSpec,
+    ProtocolSpec,
+)
 from pydofus2.com.ankamagames.jerakine.network.parser.TypeEnum import TypeEnum
 
 dataWrite = {
@@ -14,8 +17,8 @@ dataWrite = {
 
 PY_PRIMITIVES = {int, float, str, bool}
 
+
 class EncoderError(Exception):
-    
     def __init__(self, message: str, field: str, instance: "bnm.NetworkMessage"):
         self.field = field
         self.instance = instance
@@ -23,7 +26,6 @@ class EncoderError(Exception):
 
 
 class NetworkMessageEncoder:
-
     @classmethod
     def encode(cls, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         spec = inst.getSpec()
@@ -56,7 +58,9 @@ class NetworkMessageEncoder:
                     return cls.writePrimitive(spec, inst, data)
                 except Exception as exc:
                     raise EncoderError(
-                        f"Error while writing primitive field '{spec}' of instance '{inst.__class__.__name__}'\n{exc}", spec, inst.__class__.__name__
+                        f"Error while writing primitive field '{spec}' of instance '{inst.__class__.__name__}'\n{exc}",
+                        spec,
+                        inst.__class__.__name__,
                     ) from exc
             if spec.dynamicType:
                 spec = inst.getSpec()
@@ -78,14 +82,18 @@ class NetworkMessageEncoder:
                     cls.writeArray(field, getattr(inst, field.name), data)
                 except Exception as exc:
                     raise EncoderError(
-                        f"Error while writing vector '{field}' of instance '{inst.__class__.__name__}'\n{exc}", field, inst.__class__.__name__
+                        f"Error while writing vector '{field}' of instance '{inst.__class__.__name__}'\n{exc}",
+                        field,
+                        inst.__class__.__name__,
                     ) from exc
             else:
                 try:
                     cls._encode(field, getattr(inst, field.name), data)
                 except Exception as exc:
                     raise EncoderError(
-                        f"Error while writing field '{field}' of instance '{inst.__class__.__name__}'\n{exc}", field, inst.__class__.__name__
+                        f"Error while writing field '{field}' of instance '{inst.__class__.__name__}'\n{exc}",
+                        field,
+                        inst.__class__.__name__,
                     ) from exc
         if hasattr(inst, "hash_function"):
             data.write(getattr(inst, "hash_function"))
@@ -112,7 +120,11 @@ class NetworkMessageEncoder:
                 raise EncoderError("Vector length type cant be an OBJECT!", var.name, inst.__class__.__name__)
             type_primite_name = TypeEnum.getPrimitiveName(TypeEnum(var.lengthTypeId))
             if type_primite_name is None:
-                raise EncoderError(f"Unknown primitive type id {var.lengthTypeId}, {TypeEnum(var.lengthTypeId)}!", var.name, inst.__class__.__name__)
+                raise EncoderError(
+                    f"Unknown primitive type id {var.lengthTypeId}, {TypeEnum(var.lengthTypeId)}!",
+                    var.name,
+                    inst.__class__.__name__,
+                )
             dataWrite[type_primite_name][1](data, n)
         if var.type in D2PROTOCOL["primitives"]:
             for it in inst:

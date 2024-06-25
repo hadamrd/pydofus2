@@ -6,8 +6,7 @@ if TYPE_CHECKING:
     )
 
 from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastSequenceContext import SpellCastSequenceContext
-from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import \
-    StatBuff
+from pydofus2.com.ankamagames.dofus.logic.game.fight.types.StatBuff import StatBuff
 
 
 class BlockEvadeBuff(StatBuff):

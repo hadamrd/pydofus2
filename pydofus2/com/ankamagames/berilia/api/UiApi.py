@@ -1,7 +1,6 @@
 from pydofus2.com.ankamagames.berilia.interfaces.IApi import IApi
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import \
-    PatternDecoder
+from pydofus2.com.ankamagames.jerakine.utils.pattern.PatternDecoder import PatternDecoder
 
 
 class UiApi(IApi):

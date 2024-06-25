@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-    INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 
 
 class NetworkSentEvent:

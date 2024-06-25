@@ -1,28 +1,34 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.network.enums.AlignmentSideEnum import \
-    AlignmentSideEnum
-from pydofus2.com.ankamagames.dofus.network.enums.AlignmentWarEffortDonationResultEnum import \
-    AlignmentWarEffortDonationResultEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.AlignmentWarEffortDonateRequestMessage import \
-    AlignmentWarEffortDonateRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.AlignmentWarEffortDonationResultMessage import \
-    AlignmentWarEffortDonationResultMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.CharacterAlignmentWarEffortProgressionMessage import \
-    CharacterAlignmentWarEffortProgressionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.CharacterAlignmentWarEffortProgressionRequestMessage import \
-    CharacterAlignmentWarEffortProgressionRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.alignment.war.effort.AlignmentWarEffortProgressionMessage import \
-    AlignmentWarEffortProgressionMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.alignment.war.effort.AlignmentWarEffortProgressionRequestMessage import \
-    AlignmentWarEffortProgressionRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.pvp.AlignmentRankUpdateMessage import \
-    AlignmentRankUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.pvp.SetEnablePVPRequestMessage import \
-    SetEnablePVPRequestMessage
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.network.enums.AlignmentSideEnum import AlignmentSideEnum
+from pydofus2.com.ankamagames.dofus.network.enums.AlignmentWarEffortDonationResultEnum import (
+    AlignmentWarEffortDonationResultEnum,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.AlignmentWarEffortDonateRequestMessage import (
+    AlignmentWarEffortDonateRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.AlignmentWarEffortDonationResultMessage import (
+    AlignmentWarEffortDonationResultMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.CharacterAlignmentWarEffortProgressionMessage import (
+    CharacterAlignmentWarEffortProgressionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.character.alignment.war.effort.CharacterAlignmentWarEffortProgressionRequestMessage import (
+    CharacterAlignmentWarEffortProgressionRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.alignment.war.effort.AlignmentWarEffortProgressionMessage import (
+    AlignmentWarEffortProgressionMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.alignment.war.effort.AlignmentWarEffortProgressionRequestMessage import (
+    AlignmentWarEffortProgressionRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.pvp.AlignmentRankUpdateMessage import (
+    AlignmentRankUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.pvp.SetEnablePVPRequestMessage import (
+    SetEnablePVPRequestMessage,
+)
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 

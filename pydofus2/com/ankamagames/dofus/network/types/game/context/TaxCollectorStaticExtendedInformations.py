@@ -1,13 +1,16 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.network.types.game.context.TaxCollectorStaticInformations import \
-    TaxCollectorStaticInformations
+from pydofus2.com.ankamagames.dofus.network.types.game.context.TaxCollectorStaticInformations import (
+    TaxCollectorStaticInformations,
+)
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import \
-        AllianceInformation
-    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformations import \
-        AllianceInformations
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformation import (
+        AllianceInformation,
+    )
+    from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.AllianceInformations import (
+        AllianceInformations,
+    )
 
 
 class TaxCollectorStaticExtendedInformations(TaxCollectorStaticInformations):

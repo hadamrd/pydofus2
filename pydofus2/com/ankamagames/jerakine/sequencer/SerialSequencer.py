@@ -1,19 +1,13 @@
 import sys
 
-from pydofus2.com.ankamagames.berilia.managers.EventsHandler import \
-    EventsHandler
-from pydofus2.com.ankamagames.jerakine.events.SequencerEvent import \
-    SequencerEvent
+from pydofus2.com.ankamagames.berilia.managers.EventsHandler import EventsHandler
+from pydofus2.com.ankamagames.jerakine.events.SequencerEvent import SequencerEvent
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import \
-    AbstractSequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.IPausableSequencable import \
-    IPausableSequencable
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
-    ISequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.IPausableSequencable import IPausableSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
 from pydofus2.com.ankamagames.jerakine.sequencer.ISequencer import ISequencer
-from pydofus2.com.ankamagames.jerakine.sequencer.ISubSequenceSequencable import \
-    ISubSequenceSequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISubSequenceSequencable import ISubSequenceSequencable
 
 
 class SerialSequencer(ISequencer, EventsHandler):

@@ -1,10 +1,10 @@
+import random
+from collections import defaultdict
+
 from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
 from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.ItemCriterionFactory import ItemCriterionFactory
 from pydofus2.com.ankamagames.dofus.datacenter.spells.BoundScriptUsageData import BoundScriptUsageData
 from pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper import SpellWrapper
-from collections import defaultdict
-import random
-
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.logic.game.fight.miscs.DamageUtil import DamageUtil
 from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
@@ -55,9 +55,7 @@ class SpellScriptUsageUtils:
         activation_effect.zoneMinSize = targetZone.otherSize
 
         activation_zone_cell_ids = activationZone.getCells(targetedCellId)
-        fight_entities_frame = (
-            Kernel().fightEntitiesFrame
-        ) 
+        fight_entities_frame = Kernel().fightEntitiesFrame
 
         for entity_id in entitiesIds:
             entity_info = fight_entities_frame.getEntityInfos(entity_id)

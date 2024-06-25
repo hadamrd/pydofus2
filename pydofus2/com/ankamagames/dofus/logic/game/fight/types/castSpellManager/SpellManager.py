@@ -1,22 +1,16 @@
 from typing import TYPE_CHECKING, List
 
 import pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper as spellw
-from pydofus2.com.ankamagames.dofus.datacenter.optionalFeatures.ForgettableSpell import \
-    ForgettableSpell
+from pydofus2.com.ankamagames.dofus.datacenter.optionalFeatures.ForgettableSpell import ForgettableSpell
 from pydofus2.com.ankamagames.dofus.datacenter.spells.Spell import Spell
-from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import \
-    SpellLevel
-from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import \
-    SpellModifiersManager
-from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import \
-    SpellModifierTypeEnum
+from pydofus2.com.ankamagames.dofus.datacenter.spells.SpellLevel import SpellLevel
+from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import SpellModifiersManager
+from pydofus2.com.ankamagames.dofus.network.enums.SpellModifierTypeEnum import SpellModifierTypeEnum
 from pydofus2.damageCalculation.fighterManagement.playerTypeEnum import PlayerTypeEnum
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastInFightManager import \
-        SpellCastInFightManager
+    from pydofus2.com.ankamagames.dofus.logic.game.fight.types.SpellCastInFightManager import SpellCastInFightManager
     from pydofus2.damageCalculation.fighterManagement.HaxeFighter import HaxeFighter
-
 
 
 class SpellManager:
@@ -153,7 +147,13 @@ class SpellManager:
             spellW.actualCooldown = self.cooldown
 
     @staticmethod
-    def isSelectedByMask(figher: "HaxeFighter", masks: List[str], targetFighter: "HaxeFighter", triggeringFighter: "HaxeFighter", fightContext):
+    def isSelectedByMask(
+        figher: "HaxeFighter",
+        masks: List[str],
+        targetFighter: "HaxeFighter",
+        triggeringFighter: "HaxeFighter",
+        fightContext,
+    ):
         if masks:
             return True
         if targetFighter is None:
@@ -181,19 +181,38 @@ class SpellManager:
                     if not same_team and target_fighter.playerType == PlayerTypeEnum.HUMAN and not is_summon:
                         return True
                 elif mask == "I":
-                    if not same_team and target_fighter.playerType != PlayerTypeEnum.SIDEKICK and is_summon and not target_fighter.isStaticElement:
+                    if (
+                        not same_team
+                        and target_fighter.playerType != PlayerTypeEnum.SIDEKICK
+                        and is_summon
+                        and not target_fighter.isStaticElement
+                    ):
                         return True
                 elif mask == "J":
                     if not same_team and target_fighter.playerType != PlayerTypeEnum.SIDEKICK and is_summon:
                         return True
                 elif mask == "L":
-                    if not same_team and (target_fighter.playerType == PlayerTypeEnum.HUMAN and not is_summon or target_fighter.playerType == PlayerTypeEnum.SIDEKICK):
+                    if not same_team and (
+                        target_fighter.playerType == PlayerTypeEnum.HUMAN
+                        and not is_summon
+                        or target_fighter.playerType == PlayerTypeEnum.SIDEKICK
+                    ):
                         return True
                 elif mask == "M":
-                    if not same_team and target_fighter.playerType != PlayerTypeEnum.HUMAN and not is_summon and not target_fighter.isStaticElement:
+                    if (
+                        not same_team
+                        and target_fighter.playerType != PlayerTypeEnum.HUMAN
+                        and not is_summon
+                        and not target_fighter.isStaticElement
+                    ):
                         return True
                 elif mask == "S":
-                    if not same_team and target_fighter.playerType != PlayerTypeEnum.SIDEKICK and is_summon and target_fighter.isStaticElement:
+                    if (
+                        not same_team
+                        and target_fighter.playerType != PlayerTypeEnum.SIDEKICK
+                        and is_summon
+                        and target_fighter.isStaticElement
+                    ):
                         return True
                 elif mask == "a" or mask == "g":
                     if same_team:
@@ -205,19 +224,38 @@ class SpellManager:
                     if same_team and target_fighter.playerType == PlayerTypeEnum.HUMAN and not is_summon:
                         return True
                 elif mask == "i":
-                    if same_team and target_fighter.playerType != PlayerTypeEnum.SIDEKICK and is_summon and not target_fighter.isStaticElement:
+                    if (
+                        same_team
+                        and target_fighter.playerType != PlayerTypeEnum.SIDEKICK
+                        and is_summon
+                        and not target_fighter.isStaticElement
+                    ):
                         return True
                 elif mask == "j":
                     if same_team and target_fighter.playerType != PlayerTypeEnum.SIDEKICK and is_summon:
                         return True
                 elif mask == "l":
-                    if same_team and (target_fighter.playerType == PlayerTypeEnum.HUMAN and not is_summon or target_fighter.playerType == PlayerTypeEnum.SIDEKICK):
+                    if same_team and (
+                        target_fighter.playerType == PlayerTypeEnum.HUMAN
+                        and not is_summon
+                        or target_fighter.playerType == PlayerTypeEnum.SIDEKICK
+                    ):
                         return True
                 elif mask == "m":
-                    if same_team and target_fighter.playerType != PlayerTypeEnum.HUMAN and not is_summon and not target_fighter.isStaticElement:
+                    if (
+                        same_team
+                        and target_fighter.playerType != PlayerTypeEnum.HUMAN
+                        and not is_summon
+                        and not target_fighter.isStaticElement
+                    ):
                         return True
                 elif mask == "s":
-                    if same_team and target_fighter.playerType != PlayerTypeEnum.SIDEKICK and is_summon and target_fighter.isStaticElement:
+                    if (
+                        same_team
+                        and target_fighter.playerType != PlayerTypeEnum.SIDEKICK
+                        and is_summon
+                        and target_fighter.isStaticElement
+                    ):
                         return True
         return False
 

@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import \
-    ISequencable
+from pydofus2.com.ankamagames.jerakine.sequencer.ISequencable import ISequencable
 
 
 class IFightStep(ISequencable):

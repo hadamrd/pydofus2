@@ -1,46 +1,48 @@
 from typing import Tuple
 
-from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import \
-    MapDisplayManager
-from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import \
-    DataMapProvider
+from pydofus2.com.ankamagames.atouin.managers.MapDisplayManager import MapDisplayManager
+from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.datacenter.interactives.Interactive import \
-    Interactive
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.datacenter.interactives.Interactive import Interactive
 from pydofus2.com.ankamagames.dofus.datacenter.interactives.Sign import Sign
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Skill import Skill
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.InteractiveElementData import \
-    InteractiveElementData
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import \
-    GameContextDestroyMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapObstacleUpdateMessage import \
-    MapObstacleUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveElementUpdatedMessage import \
-    InteractiveElementUpdatedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveMapUpdateMessage import \
-    InteractiveMapUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import \
-    InteractiveUsedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseEndedMessage import \
-    InteractiveUseEndedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseErrorMessage import \
-    InteractiveUseErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.StatedElementUpdatedMessage import \
-    StatedElementUpdatedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.StatedMapUpdateMessage import \
-    StatedMapUpdateMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import \
-    InteractiveElement
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElementSkill import \
-    InteractiveElementSkill
-from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import \
-    StatedElement
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.InteractiveElementData import InteractiveElementData
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDestroyMessage import (
+    GameContextDestroyMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapObstacleUpdateMessage import (
+    MapObstacleUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveElementUpdatedMessage import (
+    InteractiveElementUpdatedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveMapUpdateMessage import (
+    InteractiveMapUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import (
+    InteractiveUsedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseEndedMessage import (
+    InteractiveUseEndedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUseErrorMessage import (
+    InteractiveUseErrorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.StatedElementUpdatedMessage import (
+    StatedElementUpdatedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.StatedMapUpdateMessage import (
+    StatedMapUpdateMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElement import InteractiveElement
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.InteractiveElementSkill import (
+    InteractiveElementSkill,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.interactive.StatedElement import StatedElement
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

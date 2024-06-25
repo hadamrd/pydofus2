@@ -1,7 +1,5 @@
-from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementObjective import \
-    AchievementObjective
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import \
-    GameDataQuery
+from pydofus2.com.ankamagames.dofus.datacenter.quest.AchievementObjective import AchievementObjective
+from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import GameDataQuery
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
@@ -59,8 +57,7 @@ class Challenge:
             achievementObjective = AchievementObjective.getAchievementObjectiveById(objective_id)
             criterionId = int(achievementObjective.criterion.split("EH>")[1].split(",")[0])
             if achievementObjective and criterionId == self.id:
-                from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import \
-                    Achievement
+                from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
 
                 achievement = Achievement.getAchievementById(achievementObjective.achievementId)
                 if achievement:

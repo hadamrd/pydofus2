@@ -1,91 +1,100 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
-from pydofus2.com.ankamagames.dofus.internalDatacenter.mount.MountData import \
-    MountData
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.internalDatacenter.mount.MountData import MountData
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.common.frames.MountDialogFrame import \
-    MountDialogFrame
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import \
-    TimeManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import \
-    DofusEntities
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import \
-    ChatActivableChannelsEnum
-from pydofus2.com.ankamagames.dofus.network.enums.MountCharacteristicEnum import \
-    MountCharacteristicEnum
-from pydofus2.com.ankamagames.dofus.network.enums.MountEquipedErrorEnum import \
-    MountEquipedErrorEnum
-from pydofus2.com.ankamagames.dofus.network.enums.ProtocolConstantsEnum import \
-    ProtocolConstantsEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountDataMessage import \
-    MountDataMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountEmoteIconUsedOkMessage import \
-    MountEmoteIconUsedOkMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountEquipedErrorMessage import \
-    MountEquipedErrorMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountFeedRequestMessage import \
-    MountFeedRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountHarnessColorsUpdateRequestMessage import \
-    MountHarnessColorsUpdateRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountHarnessDissociateRequestMessage import \
-    MountHarnessDissociateRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountInformationInPaddockRequestMessage import \
-    MountInformationInPaddockRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountInformationRequestMessage import \
-    MountInformationRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountReleasedMessage import \
-    MountReleasedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountReleaseRequestMessage import \
-    MountReleaseRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountRenamedMessage import \
-    MountRenamedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountRenameRequestMessage import \
-    MountRenameRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountRidingMessage import \
-    MountRidingMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSetMessage import \
-    MountSetMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSetXpRatioRequestMessage import \
-    MountSetXpRatioRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSterilizedMessage import \
-    MountSterilizedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSterilizeRequestMessage import \
-    MountSterilizeRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountToggleRidingRequestMessage import \
-    MountToggleRidingRequestMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountUnSetMessage import \
-    MountUnSetMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountXpRatioMessage import \
-    MountXpRatioMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeHandleMountsMessage import \
-    ExchangeHandleMountsMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsPaddockAddMessage import \
-    ExchangeMountsPaddockAddMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsPaddockRemoveMessage import \
-    ExchangeMountsPaddockRemoveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsStableAddMessage import \
-    ExchangeMountsStableAddMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsStableRemoveMessage import \
-    ExchangeMountsStableRemoveMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsTakenFromPaddockMessage import \
-    ExchangeMountsTakenFromPaddockMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestOnMountStockMessage import \
-    ExchangeRequestOnMountStockMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkMountMessage import \
-    ExchangeStartOkMountMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkMountWithOutPaddockMessage import \
-    ExchangeStartOkMountWithOutPaddockMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeWeightMessage import \
-    ExchangeWeightMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.UpdateMountCharacteristicsMessage import \
-    UpdateMountCharacteristicsMessage
-from pydofus2.com.ankamagames.dofus.network.types.game.mount.UpdateMountIntegerCharacteristic import \
-    UpdateMountIntegerCharacteristic
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.common.frames.MountDialogFrame import MountDialogFrame
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
+from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.network.enums.MountCharacteristicEnum import MountCharacteristicEnum
+from pydofus2.com.ankamagames.dofus.network.enums.MountEquipedErrorEnum import MountEquipedErrorEnum
+from pydofus2.com.ankamagames.dofus.network.enums.ProtocolConstantsEnum import ProtocolConstantsEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountDataMessage import MountDataMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountEmoteIconUsedOkMessage import (
+    MountEmoteIconUsedOkMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountEquipedErrorMessage import (
+    MountEquipedErrorMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountFeedRequestMessage import (
+    MountFeedRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountHarnessColorsUpdateRequestMessage import (
+    MountHarnessColorsUpdateRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountHarnessDissociateRequestMessage import (
+    MountHarnessDissociateRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountInformationInPaddockRequestMessage import (
+    MountInformationInPaddockRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountInformationRequestMessage import (
+    MountInformationRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountReleasedMessage import (
+    MountReleasedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountReleaseRequestMessage import (
+    MountReleaseRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountRenamedMessage import MountRenamedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountRenameRequestMessage import (
+    MountRenameRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountRidingMessage import MountRidingMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSetMessage import MountSetMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSetXpRatioRequestMessage import (
+    MountSetXpRatioRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSterilizedMessage import (
+    MountSterilizedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountSterilizeRequestMessage import (
+    MountSterilizeRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountToggleRidingRequestMessage import (
+    MountToggleRidingRequestMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountUnSetMessage import MountUnSetMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.mount.MountXpRatioMessage import MountXpRatioMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeHandleMountsMessage import (
+    ExchangeHandleMountsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsPaddockAddMessage import (
+    ExchangeMountsPaddockAddMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsPaddockRemoveMessage import (
+    ExchangeMountsPaddockRemoveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsStableAddMessage import (
+    ExchangeMountsStableAddMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsStableRemoveMessage import (
+    ExchangeMountsStableRemoveMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeMountsTakenFromPaddockMessage import (
+    ExchangeMountsTakenFromPaddockMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeRequestOnMountStockMessage import (
+    ExchangeRequestOnMountStockMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkMountMessage import (
+    ExchangeStartOkMountMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartOkMountWithOutPaddockMessage import (
+    ExchangeStartOkMountWithOutPaddockMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeWeightMessage import (
+    ExchangeWeightMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.UpdateMountCharacteristicsMessage import (
+    UpdateMountCharacteristicsMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.mount.UpdateMountIntegerCharacteristic import (
+    UpdateMountIntegerCharacteristic,
+)
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame

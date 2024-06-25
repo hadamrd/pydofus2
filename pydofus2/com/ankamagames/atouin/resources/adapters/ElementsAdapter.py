@@ -3,15 +3,11 @@ import zlib
 from typing import Optional, Union
 
 from pydofus2.com.ankamagames.atouin.data.elements.Elements import Elements
-from pydofus2.com.ankamagames.atouin.resources.AtouinResourceType import \
-    AtouinResourceType
-from pydofus2.com.ankamagames.atouin.resources.ResourceErrorCode import \
-    ResourceErrorCode
+from pydofus2.com.ankamagames.atouin.resources.AtouinResourceType import AtouinResourceType
+from pydofus2.com.ankamagames.atouin.resources.ResourceErrorCode import ResourceErrorCode
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
-from pydofus2.com.ankamagames.jerakine.resources.adapters.AbstractUrlLoaderAdapter import \
-    AbstractUrlLoaderAdapter
-from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import \
-    IAdapter
+from pydofus2.com.ankamagames.jerakine.resources.adapters.AbstractUrlLoaderAdapter import AbstractUrlLoaderAdapter
+from pydofus2.com.ankamagames.jerakine.resources.adapters.IAdapter import IAdapter
 
 
 class ElementsAdapter(AbstractUrlLoaderAdapter, IAdapter):

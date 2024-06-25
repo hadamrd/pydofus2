@@ -1,9 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import \
-    BenchmarkTimer
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.network.ILagometer import ILagometer
-from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import \
-    INetworkMessage
+from pydofus2.com.ankamagames.jerakine.network.INetworkMessage import INetworkMessage
 
 
 class Lagometer(ILagometer):

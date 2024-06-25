@@ -1,52 +1,53 @@
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import \
-    KernelEventsManager
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import \
-    ItemWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import \
-    ConnectionsHandler
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import \
-    InventoryManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.DeleteObjectAction import \
-    DeleteObjectAction
-from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import \
-    CharacterInventoryPositionEnum
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.InventoryContentMessage import \
-    InventoryContentMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.InventoryWeightMessage import \
-    InventoryWeightMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectAddedMessage import \
-    ObjectAddedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectDeletedMessage import \
-    ObjectDeletedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectDeleteMessage import \
-    ObjectDeleteMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectDropMessage import \
-    ObjectDropMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectModifiedMessage import \
-    ObjectModifiedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectMovementMessage import \
-    ObjectMovementMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectQuantityMessage import \
-    ObjectQuantityMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectsAddedMessage import \
-    ObjectsAddedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectsDeletedMessage import \
-    ObjectsDeletedMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectsQuantityMessage import \
-    ObjectsQuantityMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectUseMessage import \
-    ObjectUseMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectUseMultipleMessage import \
-    ObjectUseMultipleMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.WatchInventoryContentMessage import \
-    WatchInventoryContentMessage
-from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.KamasUpdateMessage import \
-    KamasUpdateMessage
+from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.logic.game.roleplay.actions.DeleteObjectAction import DeleteObjectAction
+from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.InventoryContentMessage import (
+    InventoryContentMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.InventoryWeightMessage import (
+    InventoryWeightMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectAddedMessage import ObjectAddedMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectDeletedMessage import (
+    ObjectDeletedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectDeleteMessage import (
+    ObjectDeleteMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectDropMessage import ObjectDropMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectModifiedMessage import (
+    ObjectModifiedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectMovementMessage import (
+    ObjectMovementMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectQuantityMessage import (
+    ObjectQuantityMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectsAddedMessage import (
+    ObjectsAddedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectsDeletedMessage import (
+    ObjectsDeletedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectsQuantityMessage import (
+    ObjectsQuantityMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectUseMessage import ObjectUseMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.ObjectUseMultipleMessage import (
+    ObjectUseMultipleMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.items.WatchInventoryContentMessage import (
+    WatchInventoryContentMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.KamasUpdateMessage import KamasUpdateMessage
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message

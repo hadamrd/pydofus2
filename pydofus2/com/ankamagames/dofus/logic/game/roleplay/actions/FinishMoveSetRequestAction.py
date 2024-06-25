@@ -1,7 +1,6 @@
 import sys
 
-from pydofus2.com.ankamagames.dofus.misc.utils.AbstractAction import \
-    AbstractAction
+from pydofus2.com.ankamagames.dofus.misc.utils.AbstractAction import AbstractAction
 from pydofus2.com.ankamagames.jerakine.handlers.messages.Action import Action
 
 

@@ -8,8 +8,7 @@ class PoolsManager:
     @classmethod
     def getLinkedListNodePool(cls) -> pool.Pool:
         if not cls._linkedListNodePool:
-            from pydofus2.com.ankamagames.jerakine.pools.PoolableLinkedListNode import \
-                PoolableLinkedListNode
+            from pydofus2.com.ankamagames.jerakine.pools.PoolableLinkedListNode import PoolableLinkedListNode
 
             cls._linkedListNodePool = pool.Pool(
                 pooledClass=PoolableLinkedListNode,

@@ -25,7 +25,7 @@ class SpellScript(IDataCenter):
                 cls._weaponScriptData = SpellScript()
                 cls._weaponScriptData.typeId = SpellScript.WEAPON_TYPE_SCRIPT_ID
             return cls._weaponScriptData
-        
+
         scriptData = GameData().getObject(cls.MODULE, id)
         if scriptData is None:
             if cls._fallbackScriptData is None:

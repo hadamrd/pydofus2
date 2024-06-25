@@ -1,20 +1,15 @@
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.dofus.datacenter.quest.NpcMessage import \
-    NpcMessage
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.datacenter.quest.NpcMessage import NpcMessage
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 if TYPE_CHECKING:
-    from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import \
-        QuestObjective
-    from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStepRewards import \
-        QuestStepRewards
+    from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import QuestObjective
+    from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStepRewards import QuestStepRewards
 
 
 class QuestStep(IDataCenter):
@@ -119,8 +114,7 @@ class QuestStep(IDataCenter):
 
     @property
     def objectives(self) -> list["QuestObjective"]:
-        from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import \
-            QuestObjective
+        from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestObjective import QuestObjective
 
         i: int = 0
         if not self._objectives:
@@ -146,8 +140,7 @@ class QuestStep(IDataCenter):
         )
 
     def initCurrentLevelRewards(self) -> None:
-        from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStepRewards import \
-            QuestStepRewards
+        from pydofus2.com.ankamagames.dofus.datacenter.quest.QuestStepRewards import QuestStepRewards
 
         playerLvl: int = PlayedCharacterManager().limitedLevel
         if (

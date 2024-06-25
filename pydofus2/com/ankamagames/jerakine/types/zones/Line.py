@@ -1,10 +1,7 @@
-from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
-import pydofus2.mapTools.MapTools as MapTools
-from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import \
-    IDataMapProvider
-from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import \
-    DirectionsEnum
+from pydofus2.com.ankamagames.jerakine.map.IDataMapProvider import IDataMapProvider
+from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
+from pydofus2.com.ankamagames.jerakine.types.zones.DisplayZone import DisplayZone
 
 
 class Line(DisplayZone):
@@ -15,7 +12,16 @@ class Line(DisplayZone):
     _stopAtTarget: bool
     _casterCellId: int
 
-    def __init__(self, shape: int, alternativeSize:int, size:int, dataMapProvider: IDataMapProvider, fromCaster: bool = False, stopAtTarget: bool = False, casterCellId: int = 0):
+    def __init__(
+        self,
+        shape: int,
+        alternativeSize: int,
+        size: int,
+        dataMapProvider: IDataMapProvider,
+        fromCaster: bool = False,
+        stopAtTarget: bool = False,
+        casterCellId: int = 0,
+    ):
         super().__init__(shape, alternativeSize, size, dataMapProvider)
         self._radius = size
         self._minRadius = alternativeSize

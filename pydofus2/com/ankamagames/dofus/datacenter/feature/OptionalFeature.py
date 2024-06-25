@@ -1,9 +1,7 @@
-from pydofus2.com.ankamagames.dofus.datacenter.feature.criterion.GroupFeatureCriterion import \
-    GroupFeatureCriterion
+from pydofus2.com.ankamagames.dofus.datacenter.feature.criterion.GroupFeatureCriterion import GroupFeatureCriterion
 from pydofus2.com.ankamagames.dofus.types.IdAccessors import IdAccessors
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class OptionalFeature(IDataCenter):

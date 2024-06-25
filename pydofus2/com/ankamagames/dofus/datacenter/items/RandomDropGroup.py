@@ -1,8 +1,6 @@
-from pydofus2.com.ankamagames.dofus.datacenter.items.RandomDropItem import \
-    RandomDropItem
+from pydofus2.com.ankamagames.dofus.datacenter.items.RandomDropItem import RandomDropItem
 from pydofus2.com.ankamagames.jerakine.data.GameData import GameData
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class RandomDropGroup(IDataCenter):

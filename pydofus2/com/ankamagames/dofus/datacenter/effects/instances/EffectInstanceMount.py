@@ -1,7 +1,5 @@
-from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import \
-    EffectInstance
-from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import \
-    EffectInstanceInteger
+from pydofus2.com.ankamagames.dofus.datacenter.effects.EffectInstance import EffectInstance
+from pydofus2.com.ankamagames.dofus.datacenter.effects.instances.EffectInstanceInteger import EffectInstanceInteger
 
 
 class EffectInstanceMount(EffectInstance):

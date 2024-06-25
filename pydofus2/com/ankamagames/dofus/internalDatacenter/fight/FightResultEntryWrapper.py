@@ -1,41 +1,43 @@
-from pydofus2.com.ankamagames.dofus.datacenter.monsters.Companion import \
-    Companion
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.Companion import Companion
 from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
-from pydofus2.com.ankamagames.dofus.datacenter.npcs.TaxCollectorFirstname import \
-    TaxCollectorFirstname
-from pydofus2.com.ankamagames.dofus.datacenter.npcs.TaxCollectorName import \
-    TaxCollectorName
-from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.FightLootWrapper import \
-    FightLootWrapper
+from pydofus2.com.ankamagames.dofus.datacenter.npcs.TaxCollectorFirstname import TaxCollectorFirstname
+from pydofus2.com.ankamagames.dofus.datacenter.npcs.TaxCollectorName import TaxCollectorName
+from pydofus2.com.ankamagames.dofus.internalDatacenter.fight.FightLootWrapper import FightLootWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import \
-    PlayedCharacterManager
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultExperienceData import \
-    FightResultExperienceData
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultFighterListEntry import \
-    FightResultFighterListEntry
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultListEntry import \
-    FightResultListEntry
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultMutantListEntry import \
-    FightResultMutantListEntry
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultPlayerListEntry import \
-    FightResultPlayerListEntry
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultPvpData import \
-    FightResultPvpData
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultTaxCollectorListEntry import \
-    FightResultTaxCollectorListEntry
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacterInformations import \
-    GameFightCharacterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEntityInformation import \
-    GameFightEntityInformation
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import \
-    GameFightFighterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import \
-    GameFightMonsterInformations
-from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightTaxCollectorInformations import \
-    GameFightTaxCollectorInformations
-from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import \
-    IDataCenter
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultExperienceData import (
+    FightResultExperienceData,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultFighterListEntry import (
+    FightResultFighterListEntry,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultListEntry import FightResultListEntry
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultMutantListEntry import (
+    FightResultMutantListEntry,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultPlayerListEntry import (
+    FightResultPlayerListEntry,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultPvpData import FightResultPvpData
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightResultTaxCollectorListEntry import (
+    FightResultTaxCollectorListEntry,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightCharacterInformations import (
+    GameFightCharacterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightEntityInformation import (
+    GameFightEntityInformation,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightFighterInformations import (
+    GameFightFighterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightMonsterInformations import (
+    GameFightMonsterInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.GameFightTaxCollectorInformations import (
+    GameFightTaxCollectorInformations,
+)
+from pydofus2.com.ankamagames.jerakine.interfaces.IDataCenter import IDataCenter
 
 
 class FightResultEntryWrapper(IDataCenter):

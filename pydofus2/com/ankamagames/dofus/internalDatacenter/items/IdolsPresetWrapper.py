@@ -1,5 +1,4 @@
-from pydofus2.com.ankamagames.dofus.internalDatacenter.items.PresetWrapper import \
-    PresetWrapper
+from pydofus2.com.ankamagames.dofus.internalDatacenter.items.PresetWrapper import PresetWrapper
 
 
 class IdolsPresetWrapper(PresetWrapper):
