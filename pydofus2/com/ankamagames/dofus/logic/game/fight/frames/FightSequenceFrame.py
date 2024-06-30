@@ -713,12 +713,7 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         if isinstance(msg, GameActionFightMultipleSummonMessage):
             gafmsmsg = msg
             gffinfos = GameFightFighterInformations()
-            self.pushStep(
-                FightUpdateStatStep(
-                    0,
-                    [],
-                )
-            )
+            self.pushStep(FightUpdateStatStep(gffinfos.contextualId, gffinfos.stats.characteristics.characteristics))
             gffinfos = self.fighterSummonMultipleEntities(gafmsmsg, gffinfos)
             return True
 
@@ -1085,14 +1080,14 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
                 if isinstance(summons.spawnInformation, SpawnCharacterInformation):
                     gffninfos = GameFightFighterNamedInformations()
                     gffninfos.init(
-                        sum.informations.contextualId,
-                        sum.informations.disposition,
-                        summons.look,
+                        summons.spawnInformation.name,
                         sum,
                         summons.wave,
                         summons.stats,
                         None,
-                        summons.spawnInformation,
+                        summons.look,
+                        sum.informations.contextualId,
+                        sum.informations.disposition,
                     )
                     gffinfos = gffninfos
 
@@ -1416,23 +1411,13 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
 
     def subSequenceInitDone(self) -> None:
         self._subSequenceWaitingCount -= 1
-        # Logger().debug(
-        #     f"\r[STEPS DEBUG] sequence #{self._instanceId} has {self._subSequenceWaitingCount} subsequences waiting and {self._scriptInit} script init"
-        # )
-        # Logger().debug(f"\r[STEPS DEBUG] init subsequence isWaiting {self.isWaiting}, sequencer {self._sequencer}")
         if not self.isWaiting and self._sequencer and not self._sequencer.running:
-            # Logger().warn("Sub sequence init end -- Run main sequence")
             self._sequencer.start()
-        else:
-            # Logger().warn(f"warning did not start sequener of sequence #{self._instanceId}")
-            pass
 
     def pushTeleportStep(self, fighterId: float, destinationCell: int) -> None:
         if destinationCell != -1:
             step = FightTeleportStep(fighterId, MapPoint.fromCellId(destinationCell))
-            if self.context is not None:
-                self.castingSpellId = self.context.id
-            self._steps.append(step)
+            self.pushStep(step)
 
     def pushSlideStep(self, fighterId: float, startCell: int, endCell: int) -> None:
         if startCell < 0 or endCell < 0:
@@ -1440,9 +1425,7 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         step: FightEntitySlideStep = FightEntitySlideStep(
             fighterId, MapPoint.fromCellId(startCell), MapPoint.fromCellId(endCell)
         )
-        if self.context is not None:
-            self.castingSpellId = self.context.id
-        self._steps.append(step)
+        self.pushStep(step)
 
     def pushPointsVariationStep(self, fighterId: float, actionId: int, delta: int) -> None:
         step: IFightStep = None
@@ -1461,9 +1444,7 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         else:
             Logger().warn(f"Points variation with unsupported action ({actionId}), skipping.")
             return
-        if self.context is not None:
-            self.castingSpellId = self.context.id
-        self._steps.append(step)
+        self.pushStep(step)
 
     def pushStep(self, step: AbstractSequencable) -> None:
         if self.context is not None:
@@ -1479,14 +1460,9 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
         else:
             Logger().warn(f"Points dodge with unsupported action ({actionId}), skipping.")
             return
-        if self.context is not None:
-            step.castingSpellId = self.context.id
-        self._steps.append(step)
+        self.pushStep(step)
 
     def pushPlaySpellScriptStep(self, castSequence: ISpellCastSequence) -> FightPlaySpellScriptStep:
-        # scriptTypes = SpellScriptManager().resolveScriptUsageFromCastContext(
-        #     castSequence.context, specifictargetedCellId
-        # )
         self._steps.append(FightPlaySpellScriptStep(castSequence.context))
 
     def pushThrowCharacterStep(self, fighterId: float, carriedId: float, cellId: int) -> None:

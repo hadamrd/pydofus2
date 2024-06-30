@@ -46,7 +46,7 @@ class Listener:
         self._deleted = True
         self.cancelTimer()
         if self.event_id not in self.manager._listeners:
-            return Logger().warning("Trying to delete Event not registred")
+            return Logger().warning("Trying to delete Event not registered")
         listeners = self.manager._listeners[self.event_id][self.priority]
         if self in listeners:
             listeners.remove(self)

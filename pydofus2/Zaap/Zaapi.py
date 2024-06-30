@@ -27,7 +27,11 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 class Zaapi(metaclass=Singleton):
     MAX_CREATE_API_KEY_RETRIES = 5
 
-    def __init__(self, zaap_version: str):
+    def __init__(self, zaap_version: str = None):
+        if not zaap_version:
+            from pydofus2.Zaap.ZaapDecoy import ZaapDecoy
+
+            zaap_version = ZaapDecoy.fetch_version()
         Logger().debug(f"Zaap version: {zaap_version}")
         self.BASE_URL = f"https://{XmlConfig().getEntry('config.haapiUrlAnkama')}"
         self.zaap_session = requests.Session()
@@ -52,12 +56,13 @@ class Zaapi(metaclass=Singleton):
     def getUrl(self, request, params={}):
         queries = {
             "SIGN_ON_WITH_APIKEY": "/Ankama/v5/Account/SignOnWithApiKey",
+            "GET_ACCOUNT": "/Ankama/v5/Account/Account",
             "SET_NICKNAME": "/Ankama/v5/Account/SetNicknameWithApiKey",
             "START_SESSION_WITH_API_KEY": "/Ankama/v5/Game/StartSessionWithApiKey",
             "LIST_WITH_API_KEY": "/Ankama/v5/Game/ListWithApiKey",
             "SEND_MAIL_VALIDATION": "/Ankama/v5/Account/SendMailValidation",
-            "SECURITY_CODE": "/Ankama/v5/Shield/SecurityCode",
-            "VALIDATE_CODE": "/Ankama/v5/Shield/ValidateCode",
+            "ANKAMA_SHIELD_SECURITY_CODE": "/Ankama/v5/Shield/SecurityCode",
+            "ANKAMA_SHIELD_VALIDATE_CODE": "/Ankama/v5/Shield/ValidateCode",
             "DELETE_API_KEY": "/Ankama/v5/Api/DeleteApiKey",
             "CREATE_GUEST": "/Ankama/v2/Account/CreateGuest",
             "CREATE_TOKEN": "/Ankama/v5/Account/CreateToken",
@@ -77,6 +82,40 @@ class Zaapi(metaclass=Singleton):
         if params:
             result += "?" + urlencode(params)
         return result
+
+    def askSecurityCode(self, apikey, transportType="EMAIL"):
+        url = self.getUrl("ANKAMA_SHIELD_SECURITY_CODE", {"transportType": transportType})
+        response = self.zaap_session.get(url, headers={"apikey": apikey})
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise HaapiException(f"Failed to send code: {response.text}")
+
+    def shieldValidateCode(self, apikey, validationCode, hm1, hm2):
+        userName = "launcher-Merkator"
+        url = self.getUrl(
+            "ANKAMA_SHIELD_VALIDATE_CODE",
+            {"game_id": ZAAP_CONFIG.ZAAP_GAME_ID, "code": validationCode, "hm1": hm1, "hm2": hm2, "name": userName},
+        )
+        return self.zaap_session.get(url, headers={"apikey": apikey})
+
+    def exchange_code_for_token(self, code, code_verifier):
+        redirect_url = "http://127.0.0.1:9001/authorized"
+        url = "https://auth.ankama.com/token"
+        client_id = 102
+        data = {
+            "grant_type": "authorization_code",
+            "code": code,
+            "redirect_uri": redirect_url,
+            "client_id": client_id,
+            "code_verifier": code_verifier,
+        }
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        response = self.zaap_session.post(url, data=data, headers=headers, verify=self.verify_ssl)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            raise HaapiException(f"Failed to exchange code for token: {response.text}")
 
     def sendDeviceInfos(self, session_id, connection_type, client_type, os, device, partner, device_uid, apikey=None):
         if not apikey:
@@ -116,6 +155,13 @@ class Zaapi(metaclass=Singleton):
         )
         response = self.zaap_session.get(url, verify=self.verify_ssl)
         self.zaap_session.cookies.update(response.cookies)
+        return response.json()
+
+    def getAccount(self, apikey=None):
+        if not apikey:
+            apikey = self.zaap_apikey
+        url = self.getUrl("GET_ACCOUNT")
+        response = self.zaap_session.get(url, verify=self.verify_ssl, headers={"apikey": apikey})
         return response.json()
 
     def getLegalsTou(self, game, lang, knowVersion):

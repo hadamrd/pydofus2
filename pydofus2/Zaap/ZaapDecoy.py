@@ -32,6 +32,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
     CONNECTED_ACCOUNTS = 0
     SESSIONS_LAUNCH = 0
     INITIALIZED = threading.Event()
+    ZAAP_VERSION = None
 
     def __init__(self, mainAccountApiKey: str = ""):
         self.kill_ankama_launcher()
@@ -163,6 +164,9 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
 
     @classmethod
     def fetch_version(cls) -> str:
+        if cls.ZAAP_VERSION is not None:
+            return cls.ZAAP_VERSION
+
         url = "https://launcher.cdn.ankama.com/installers/production/latest.yml?noCache=1hkaeforb"
         response = requests.get(
             url,
@@ -193,11 +197,11 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             file.write(response.content)
 
         # Extract the version
-        version = data.get("version")
-        if not version:
+        cls.ZAAP_VERSION = data.get("version")
+        if not cls.ZAAP_VERSION:
             raise ZaapError("Failed to extract ZAAP version from YAML file")
 
-        return version
+        return cls.ZAAP_VERSION
 
     def get_dofus_launch_event(self, accountId):
         return {
