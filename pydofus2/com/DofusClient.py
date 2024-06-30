@@ -28,6 +28,7 @@ from pydofus2.com.ankamagames.dofus.misc.utils.GameID import GameID
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiEvent import HaapiEvent
 from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
 from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
+from pydofus2.com.ankamagames.dofus.network.enums.ServerStatusEnum import ServerStatusEnum
 from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.ModuleReader import ModuleReader
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -122,7 +123,7 @@ class DofusClient(threading.Thread):
             data = {}
         self._status = status
         for listener in self._statusChangedListeners:
-            listener(self, status, data)
+            BenchmarkTimer(0.1, lambda: listener(self, status, data)).start()
 
     def init(self):
         Logger().info("Initializing ...")
@@ -229,6 +230,8 @@ class DofusClient(threading.Thread):
 
     def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):
         Logger().error(f"Server selection refused for reason : {error_text}, server status {server_status}")
+        if server_status == ServerStatusEnum.SAVING.value:
+            return
         self._crashed = True
         self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 

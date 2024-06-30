@@ -100,7 +100,7 @@ class InactivityManager(metaclass=Singleton):
         inactivity_message_text = InfoMessage.getInfoMessageById(
             self.MESSAGE_TYPE_ID * 10000 + self.DISCONNECTED_FOR_INACTIVITY_MESSAGE_ID
         ).text
-        KernelEventsManager().send(KernelEvent.ClientCrashed, inactivity_message_text)
+        KernelEventsManager().send(KernelEvent.ClientRestart, inactivity_message_text)
 
     def onServerActivityTimerUp(self):
         if self._hasActivity:

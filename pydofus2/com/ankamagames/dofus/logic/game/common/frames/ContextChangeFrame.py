@@ -11,6 +11,7 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextDes
     GameContextDestroyMessage,
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameContextQuitMessage import GameContextQuitMessage
+from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
@@ -33,7 +34,10 @@ class ContextChangeFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, GameContextDestroyMessage):
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHANGING_CONTEXT)
+            BenchmarkTimer(
+                0.1,
+                lambda: KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHANGING_CONTEXT),
+            ).start()
             return True
 
         elif isinstance(msg, GameContextCreateMessage):
@@ -45,15 +49,26 @@ class ContextChangeFrame(Frame):
 
                 Kernel().worker.addFrame(RoleplayContextFrame())
                 KernelEventsManager().send(KernelEvent.RoleplayStarted)
-                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_ROLEPLAY)
+                BenchmarkTimer(
+                    0.1,
+                    lambda: KernelEventsManager().send(
+                        KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_ROLEPLAY
+                    ),
+                ).start()
 
             elif self.currentContext == GameContextEnum.FIGHT:
                 from pydofus2.com.ankamagames.dofus.logic.game.fight.frames.FightContextFrame import FightContextFrame
 
                 if not Kernel().isMule:
                     Kernel().worker.addFrame(FightContextFrame())
+
                 KernelEventsManager().send(KernelEvent.FightStarted)
-                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_FIGHTING)
+                BenchmarkTimer(
+                    0.1,
+                    lambda: KernelEventsManager().send(
+                        KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_FIGHTING
+                    ),
+                ).start()
             return True
 
         elif isinstance(msg, GameContextQuitAction):

@@ -139,7 +139,6 @@ class MiscFrame(Frame, metaclass=Singleton):
             return True
 
         if isinstance(msg, SubscriptionLimitationMessage):
-            Logger().error("SubscriptionLimitationMessage reason " + msg.reason)
             text = ""
             payZonePopupMode = "payzone"
             if msg.reason == SubscriptionRequiredEnum.LIMIT_ON_JOB_XP:
@@ -161,7 +160,7 @@ class MiscFrame(Frame, metaclass=Singleton):
             else:
                 text = I18n.getUiText("ui.payzone.limit")
 
-            Logger().warning("SubscriptionLimitationMessage text " + text)
+            Logger().warning("SubscriptionLimitationMessage text : " + text)
             KernelEventsManager().send(
                 KernelEvent.TextInformation,
                 text,
