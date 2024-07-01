@@ -83,13 +83,16 @@ class Zaapi(metaclass=Singleton):
             result += "?" + urlencode(params)
         return result
 
+    def setNickname(self, apikey, nickname, lang):
+        url = self.getUrl("SET_NICKNAME")
+        return self.zaap_session.post(
+            url, headers={"apikey": apikey}, data={"nickname": nickname, "lang": lang}, verify=self.verify_ssl
+        )
+
     def askSecurityCode(self, apikey, transportType="EMAIL"):
         url = self.getUrl("ANKAMA_SHIELD_SECURITY_CODE", {"transportType": transportType})
-        response = self.zaap_session.get(url, headers={"apikey": apikey})
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HaapiException(f"Failed to send code: {response.text}")
+        return self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
+
 
     def shieldValidateCode(self, apikey, validationCode, hm1, hm2):
         userName = "launcher-Merkator"
@@ -97,7 +100,7 @@ class Zaapi(metaclass=Singleton):
             "ANKAMA_SHIELD_VALIDATE_CODE",
             {"game_id": ZAAP_CONFIG.ZAAP_GAME_ID, "code": validationCode, "hm1": hm1, "hm2": hm2, "name": userName},
         )
-        return self.zaap_session.get(url, headers={"apikey": apikey})
+        return self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
 
     def exchange_code_for_token(self, code, code_verifier):
         redirect_url = "http://127.0.0.1:9001/authorized"

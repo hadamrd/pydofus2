@@ -711,10 +711,9 @@ class FightSequenceFrame(Frame, ISpellCastSequence):
             return True
 
         if isinstance(msg, GameActionFightMultipleSummonMessage):
-            gafmsmsg = msg
             gffinfos = GameFightFighterInformations()
-            self.pushStep(FightUpdateStatStep(gffinfos.contextualId, gffinfos.stats.characteristics.characteristics))
-            gffinfos = self.fighterSummonMultipleEntities(gafmsmsg, gffinfos)
+            self.pushStep(FightUpdateStatStep(0, []))
+            gffinfos = self.fighterSummonMultipleEntities(msg, gffinfos)
             return True
 
         if isinstance(msg, RefreshCharacterStatsMessage):

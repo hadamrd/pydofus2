@@ -425,6 +425,12 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             dofus_release_config = json.load(file)
         return dofus_release_config["location"]
 
+    @classmethod
+    def get_settings(cls):
+        if not cls.SETTINGS:
+            cls.load_settings()
+        return cls.SETTINGS
+
 
 if __name__ == "__main__":
     print(ZaapDecoy.get_certificates())

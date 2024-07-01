@@ -294,6 +294,8 @@ class DofusClient(threading.Thread):
             Logger().info(f"Taking a nap for {afterTime}sec before reconnecting again")
             self._taking_nap = True
             BenchmarkTimer(afterTime, self.initListenersAndLogin).start()
+        else:
+            self.initListenersAndLogin()
 
     def initListenersAndLogin(self):
         self._taking_nap = False
