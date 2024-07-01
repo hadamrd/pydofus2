@@ -91,11 +91,7 @@ class Zaapi(metaclass=Singleton):
 
     def askSecurityCode(self, apikey, transportType="EMAIL"):
         url = self.getUrl("ANKAMA_SHIELD_SECURITY_CODE", {"transportType": transportType})
-        response = self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
-        if response.status_code == 200:
-            return response.json()
-        else:
-            raise HaapiException(f"Failed to send code: {response.text}")
+        return self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
 
     def shieldValidateCode(self, apikey, validationCode, hm1, hm2):
         userName = "launcher-Merkator"

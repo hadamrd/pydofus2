@@ -62,6 +62,7 @@ class Kernel(metaclass=Singleton):
         self.beingInReconnection: bool = False
         self._reset = True
         self.isMule = False
+        self.restart_on_unexpected_conn_close = False
 
     @property
     def worker(self) -> Worker:
