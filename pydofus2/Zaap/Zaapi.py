@@ -93,6 +93,7 @@ class Zaapi(metaclass=Singleton):
         url = self.getUrl("ANKAMA_SHIELD_SECURITY_CODE", {"transportType": transportType})
         return self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
 
+
     def shieldValidateCode(self, apikey, validationCode, hm1, hm2):
         userName = "launcher-Merkator"
         url = self.getUrl(
