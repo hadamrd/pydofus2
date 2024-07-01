@@ -26,6 +26,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSu
 from pydofus2.com.ankamagames.dofus.network.messages.connection.IdentificationSuccessWithLoginTokenMessage import (
     IdentificationSuccessWithLoginTokenMessage,
 )
+from pydofus2.com.ankamagames.dofus.network.messages.connection.register.NicknameRegistrationMessage import (
+    NicknameRegistrationMessage,
+)
 from pydofus2.com.ankamagames.dofus.network.messages.security.ClientKeyMessage import ClientKeyMessage
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -113,6 +116,9 @@ class AuthentificationFrame(Frame):
                 {"subscribed": not PlayerManager().isBasicAccount(), "subscriptionEndDate": formatted},
             )
             return True
+
+        elif isinstance(msg, NicknameRegistrationMessage):
+            KernelEventsManager().send(KernelEvent.ClientCrashed, "Account nickname missing!")
 
         elif isinstance(msg, IdentificationFailedMessage):
             reason = IdentificationFailureReasonEnum(msg.reason)
