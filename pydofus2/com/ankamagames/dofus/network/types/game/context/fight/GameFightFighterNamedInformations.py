@@ -28,6 +28,10 @@ class GameFightFighterNamedInformations(GameFightFighterInformations):
     def init(
         self,
         name_: str,
+        status_: "PlayerStatus",
+        leagueId_: int,
+        ladderPosition_: int,
+        hiddenInPrefight_: bool,
         spawnInfo_: "GameContextBasicSpawnInformation",
         wave_: int,
         stats_: "GameFightCharacteristics",
@@ -35,10 +39,6 @@ class GameFightFighterNamedInformations(GameFightFighterInformations):
         look_: "EntityLook",
         contextualId_: int,
         disposition_: "EntityDispositionInformations",
-        status_: "PlayerStatus" = None,
-        leagueId_: int = 0,
-        ladderPosition_: int = 0,
-        hiddenInPrefight_: bool = False,
     ):
         self.name = name_
         self.status = status_
