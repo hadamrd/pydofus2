@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.MountDialogFrame import MountDialogFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
-    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthenticationFrame import AuthenticationFrame
     from pydofus2.com.ankamagames.dofus.logic.connection.frames.ServerSelectionFrame import ServerSelectionFrame
     from pydofus2.com.ankamagames.dofus.logic.game.approach.frames.GameServerApproachFrame import (
         GameServerApproachFrame,
@@ -165,14 +165,14 @@ class Kernel(metaclass=Singleton):
         from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
         from pydofus2.com.ankamagames.dofus.logic.common.frames.LatencyFrame import LatencyFrame
         from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
-        from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+        from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthenticationFrame import AuthenticationFrame
         from pydofus2.com.ankamagames.dofus.logic.connection.frames.DisconnectionHandlerFrame import (
             DisconnectionHandlerFrame,
         )
 
         Logger().info("Adding initial frames ...")
         self._worker.addFrame(LatencyFrame())
-        self._worker.addFrame(AuthentificationFrame())
+        self._worker.addFrame(AuthenticationFrame())
         self._worker.addFrame(QueueFrame())
         self._worker.addFrame(DisconnectionHandlerFrame())
         self._worker.addFrame(CleanupCrewFrame())
@@ -229,7 +229,7 @@ class Kernel(metaclass=Singleton):
         return self._worker.getFrameByName("RoleplayContextFrame")
 
     @property
-    def authFrame(self) -> "AuthentificationFrame":
+    def authFrame(self) -> "AuthenticationFrame":
         return self._worker.getFrameByName("AuthentificationFrame")
 
     @property

@@ -10,7 +10,7 @@ from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueF
 from pydofus2.com.ankamagames.dofus.logic.connection.actions.LoginValidationWithTokenAction import (
     LoginValidationWithTokenAction as LVA_WithToken,
 )
-from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import AuthentificationFrame
+from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthenticationFrame import AuthenticationFrame
 from pydofus2.com.ankamagames.dofus.logic.connection.managers.AuthenticationManager import AuthenticationManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.ConnectionProcessCrashedMessage import ConnectionProcessCrashedMessage
@@ -97,7 +97,7 @@ class DisconnectionHandlerFrame(Frame):
                                 )
                             else:
                                 Logger().info(f"Switching to target server {targetServerId} server ...")
-                                Kernel().worker.addFrame(AuthentificationFrame())
+                                Kernel().worker.addFrame(AuthenticationFrame())
                                 Kernel().worker.addFrame(QueueFrame())
                                 lva = LVA_WithToken.create(targetServerId != 0, targetServerId)
                                 Kernel().worker.process(lva)

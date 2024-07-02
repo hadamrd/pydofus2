@@ -42,7 +42,7 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
-class AuthentificationFrame(Frame):
+class AuthenticationFrame(Frame):
     HIDDEN_PORT: int = 443
     CONNEXION_MODULE_NAME: str = "ComputerModule_Ankama_Connection"
 
