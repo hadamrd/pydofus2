@@ -61,7 +61,6 @@ class KernelEventsManager(EventsHandler, metaclass=Singleton):
 
     def send(self, event_id: KernelEvent, *args, **kwargs):
         self._listeners.get(event_id, [])
-        # Logger().info(f"Sending event {event_id} to {len(event_listeners)} listeners : {event_listeners}")
         if event_id == KernelEvent.ClientCrashed:
             self._crashMessage = kwargs.get("message", None)
         super().send(event_id, *args, **kwargs)
@@ -142,5 +141,5 @@ class KernelEventsManager(EventsHandler, metaclass=Singleton):
                     ontimeout(event.listener)
 
         KernelEventsManager().on(
-            KernelEvent.MemberJoinedParty, onNewMember, timeout=None, ontimeout=None, originator=originator
+            KernelEvent.MemberJoinedParty, onNewMember, timeout=timeout, ontimeout=ontimeout, originator=originator
         )

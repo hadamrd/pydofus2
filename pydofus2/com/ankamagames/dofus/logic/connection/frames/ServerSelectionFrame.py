@@ -48,7 +48,7 @@ class ServerSelectionFrame(Frame):
         self._worker: Worker = None
         self._alreadyConnectedToServerId: int = 0
         self._serverSelectionAction: ServerSelectionAction = None
-        self._connexionPorts: list = []
+        self._connectionPorts: list = []
         self._waitingServerOnline = False
         self._serversTypeAvailableSlots = dict()
         super().__init__()
@@ -131,14 +131,14 @@ class ServerSelectionFrame(Frame):
                     Logger().error(f"Closed connection to change server but no serverId is specified in Auth Manager")
                 else:
                     from pydofus2.com.ankamagames.dofus.logic.common.frames.QueueFrame import QueueFrame
-                    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthentificationFrame import (
-                        AuthentificationFrame,
+                    from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthenticationFrame import (
+                        AuthenticationFrame,
                     )
 
                     Logger().info(
                         f"Connection closed to change server to {AuthenticationManager()._lva.serverId}, will reconnect"
                     )
-                    Kernel().worker.addFrame(AuthentificationFrame())
+                    Kernel().worker.addFrame(AuthenticationFrame())
                     Kernel().worker.addFrame(QueueFrame())
                     Kernel().worker.process(
                         LoginValidationWithTokenAction.create(
@@ -155,7 +155,7 @@ class ServerSelectionFrame(Frame):
             AuthenticationManager().gameServerTicket = AuthenticationManager().decodeWithAES(msg.ticket).decode()
             PlayerManager().server = Server.getServerById(msg.serverId)
             PlayerManager().kisServerPort = 0
-            self._connexionPorts = msg.ports
+            self._connectionPorts = msg.ports
             KernelEventsManager().send(
                 KernelEvent.SelectedServerData,
                 msg.serverId,
@@ -169,16 +169,15 @@ class ServerSelectionFrame(Frame):
             return True
 
         if isinstance(msg, SelectedServerRefusedMessage):
-            ssrmsg = msg
             for server in self._serversList:
-                self.getUpdateServerStatusFunction(ssrmsg.serverId, ssrmsg.serverStatus)(server)
+                self.getUpdateServerStatusFunction(msg.serverId, msg.serverStatus)(server)
             self.broadcastServersListUpdate()
-            error_text = self.getSelectionErrorText(ssrmsg.error, ssrmsg.serverStatus)
+            error_text = self.getSelectionErrorText(msg.error, msg.serverStatus)
             KernelEventsManager().send(
                 KernelEvent.SelectedServerRefused,
-                ssrmsg.serverId,
-                ssrmsg.error,
-                ssrmsg.serverStatus,
+                msg.serverId,
+                msg.error,
+                msg.serverStatus,
                 error_text,
                 self.getSelectableServers(),
             )
