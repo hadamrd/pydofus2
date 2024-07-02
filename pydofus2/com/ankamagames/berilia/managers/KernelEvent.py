@@ -93,6 +93,7 @@ class KernelEvent(Enum):
     JobExperienceUpdate = auto()
     PlayerAddedToSceene = auto()
     KamasLostFromTeleport = auto()
+    KamasGained = auto()
 
     # NPC
     NpcDialogOpen = auto()

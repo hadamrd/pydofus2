@@ -64,6 +64,8 @@ class ChatFrame(Frame):
                 Logger().info(f"text info for id {textId}, params {params}: {msgContent}")
             else:
                 Logger().error(f"There's no message for id {timsg.msgType * 10000 + timsg.msgId}")
+            if textId == 325840:
+                KernelEventsManager().send(KernelEvent.KamasGained, int(params[0]))
             KernelEventsManager().send(KernelEvent.ServerTextInfo, msg.msgId, msg.msgType, textId, msgContent, params)
             return True
 
