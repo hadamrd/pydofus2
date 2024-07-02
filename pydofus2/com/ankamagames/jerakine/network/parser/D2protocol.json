@@ -29758,23 +29758,23 @@
         }
     },
     "primitives": [
-        "ByteArray",
-        "UnsignedShort",
-        "VarShort",
-        "VarLong",
+        "UTF",
+        "Float",
         "Boolean",
-        "VarUhLong",
-        "VarUhInt",
-        "Byte",
+        "ByteArray",
+        "UnsignedByte",
+        "Short",
+        "VarShort",
         "Double",
         "UnsignedInt",
-        "Short",
-        "Float",
-        "Int",
         "VarUhShort",
+        "UnsignedShort",
+        "Byte",
+        "VarLong",
+        "VarUhInt",
         "VarInt",
-        "UTF",
-        "UnsignedByte"
+        "Int",
+        "VarUhLong"
     ],
     "type": {
         "AbstractCharacterInformation": {
@@ -73396,7 +73396,7 @@
             ],
             "hash_function": false,
             "name": "Uuid",
-            "package": "pydofus2.com.ankamagames.dofus.network.types.game.Uuid",
+            "package": "pydofus2.com.ankamagames.dofus.network.types.game.uuid",
             "parent": null,
             "protocolId": 8662
         },
@@ -85693,7 +85693,7 @@
             ],
             "hash_function": false,
             "name": "Uuid",
-            "package": "pydofus2.com.ankamagames.dofus.network.types.game.Uuid",
+            "package": "pydofus2.com.ankamagames.dofus.network.types.game.uuid",
             "parent": null,
             "protocolId": 8662
         },

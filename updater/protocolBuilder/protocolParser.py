@@ -55,11 +55,15 @@ class ProtocolParser:
             msg_type = {}
             for as_file_path in Path(path).glob("**/*.as"):
                 name = as_file_path.name[:-3]
+                if name == "Uuid":
+                    module_name = "uuid"
+                else:
+                    module_name = name
                 msg_type[name] = {
                     "name": name,
                     "path": as_file_path,
                     "package": "pydofus2."
-                    + ".".join(as_file_path.parts[as_file_path.parts.index("com") : -1] + (name,)),
+                    + ".".join(as_file_path.parts[as_file_path.parts.index("com") : -1] + (module_name,)),
                 }
             self.json["type"].update(msg_type)
 

@@ -35,19 +35,19 @@ class LoggerSingleton(type):
 CYAN_COLOR = "\033[0;36m"
 YELLOW_COLOR = "\033[0;33m"
 RED_COLOR = "\033[0;31m"
-MAGNETA_COLOR = "\033[0;35m"
+MAGENTA_COLOR = "\033[0;35m"
 GREEN_COLOR = "\033[0;32m"
 ORANGE_COLOR = "\033[38;5;208m"
 DARK_GRAY_COLOR = "\033[90m"
 
 ansi_to_color_style = {
-    CYAN_COLOR: "color: cyan;",
-    YELLOW_COLOR: "color: yellow;",
-    RED_COLOR: "color: red;",
-    MAGNETA_COLOR: "color: magenta;",
-    GREEN_COLOR: "color: green;",
-    ORANGE_COLOR: "color: orange;",
-    DARK_GRAY_COLOR: "color: darkgray;",
+    CYAN_COLOR: "color: #2aa198;",  # Solarized Cyan
+    YELLOW_COLOR: "color: #b58900;",  # Solarized Yellow
+    RED_COLOR: "color: #dc322f;",  # Solarized Red
+    MAGENTA_COLOR: "color: #d33682;",  # Solarized Magenta
+    GREEN_COLOR: "color: #859900;",  # Solarized Green
+    ORANGE_COLOR: "color: #cb4b16;",  # Solarized Orange
+    DARK_GRAY_COLOR: "color: #586e75;",  # Solarized Base01
 }
 
 COLORS = {
@@ -59,18 +59,18 @@ COLORS = {
     "RoleplayEntitiesFrame": GREEN_COLOR,
     "RoleplayMovementFrame": GREEN_COLOR,
     "MapMove": GREEN_COLOR,
-    "AttackMonsters": MAGNETA_COLOR,
+    "AttackMonsters": MAGENTA_COLOR,
     "RoleplayContextFrame": GREEN_COLOR,
     "ChangeMap": GREEN_COLOR,
-    "BotFightFrame": MAGNETA_COLOR,
-    "BotMuleFightFrame": MAGNETA_COLOR,
-    "FightSequenceFrame": MAGNETA_COLOR,
-    "FightTurnFrame": MAGNETA_COLOR,
-    "FightContextFrame": MAGNETA_COLOR,
+    "BotFightFrame": MAGENTA_COLOR,
+    "BotMuleFightFrame": MAGENTA_COLOR,
+    "FightSequenceFrame": MAGENTA_COLOR,
+    "FightTurnFrame": MAGENTA_COLOR,
+    "FightContextFrame": MAGENTA_COLOR,
     "FarmPath": GREEN_COLOR,
     "BotPartyFrame": GREEN_COLOR,
-    "PlayedCharacterUpdatesFrame": MAGNETA_COLOR,
-    "AbstractFarmBehavior": MAGNETA_COLOR,
+    "PlayedCharacterUpdatesFrame": MAGENTA_COLOR,
+    "AbstractFarmBehavior": MAGENTA_COLOR,
     "Kernel": ORANGE_COLOR,
     "Haapi": ORANGE_COLOR,
     "WorldGraph": ORANGE_COLOR,
@@ -87,10 +87,10 @@ COLORS = {
     "SynchronisationFrame": DARK_GRAY_COLOR,
     "Singleton": DARK_GRAY_COLOR,
     "RequestMapData": GREEN_COLOR,
-    "GiveItems": MAGNETA_COLOR,
+    "GiveItems": MAGENTA_COLOR,
     "UnloadInBank": GREEN_COLOR,
     "NetworkMessageClassDefinition": GREEN_COLOR,
-    "NetworkMessageDataField": MAGNETA_COLOR,
+    "NetworkMessageDataField": MAGENTA_COLOR,
 }
 
 
@@ -120,11 +120,9 @@ class AnsiFormatter(logging.Formatter):
 
     def format(self, record):
         color = getRecordColor(record)
-        # Use local variables for formatted module and levelname
         formatted_module = f"{record.module[:self.module_format]:{self.module_format}}"
         formatted_levelname = f"{record.levelname[:self.levelname_format]:{self.levelname_format}}"
 
-        # Create a copy of the original format to insert formatted module and levelname
         original_format = self._fmt
         try:
             self._fmt = self._fmt.replace("%(module)s", formatted_module).replace("%(levelname)s", formatted_levelname)
@@ -147,7 +145,9 @@ class HtmlFormatter(logging.Formatter):
         color_style = getRecordColor(record, "html")
         record.module = f"{record.module[:self.module_format]:{self.module_format}}"
         record.levelname = f"{record.levelname[:self.levelname_format]:{self.levelname_format}}"
-        record.msg = f"<span style='{color_style}'>{super().format(record)}</span>"
+        formatted_message = super().format(record)
+        formatted_message = formatted_message.replace("\n", "<br>")
+        record.msg = f"<span style='{color_style}'><pre>{formatted_message}</pre></span>"
         return record.msg
 
 
