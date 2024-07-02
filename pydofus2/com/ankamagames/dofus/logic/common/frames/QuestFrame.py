@@ -566,10 +566,9 @@ class QuestFrame(Frame):
             return True
 
         elif isinstance(msg, TreasureHuntFinishedMessage):
-            thfmsg = msg
-            if thfmsg.questType in self._treasureHunts:
-                del self._treasureHunts[thfmsg.questType]
-                KernelEventsManager().send(KernelEvent.TreasureHuntFinished, thfmsg.questType)
+            if msg.questType in self._treasureHunts:
+                del self._treasureHunts[msg.questType]
+                KernelEventsManager().send(KernelEvent.TreasureHuntFinished, msg.questType)
             return True
 
         elif isinstance(msg, TreasureHuntDigRequestAnswerFailedMessage):
