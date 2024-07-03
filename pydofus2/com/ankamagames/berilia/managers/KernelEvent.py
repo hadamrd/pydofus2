@@ -18,7 +18,7 @@ class KernelEvent(Enum):
     ServerStatusUpdate = auto()
     SelectedServerRefused = auto()
     CharacterImpossibleSelection = auto()
-    TutorielAvailable = auto()
+    TutorialAvailable = auto()
     CharacterCreationStart = auto()
     CharacterSelectedForce = auto()
     AuthenticationTicketAccepted = auto()
@@ -91,9 +91,10 @@ class KernelEvent(Enum):
     StatsUpgradeResult = auto()
     ObtainedItem = auto()
     JobExperienceUpdate = auto()
-    PlayerAddedToSceene = auto()
+    PlayerAddedToScene = auto()
     KamasLostFromTeleport = auto()
     KamasGained = auto()
+    ZAAP_TELEPORT = auto()
 
     # NPC
     NpcDialogOpen = auto()
@@ -200,10 +201,12 @@ class KernelEvent(Enum):
     MountSet = auto()
     MountUnSet = auto()
     ExchangeWeight = auto()
-    MountEquipedError = auto()
+    MountEquippedError = auto()
     ExchangeStartOkMount = auto()
 
     # social
     GuildInvited = auto()
     LeaveDialog = auto()
     PlayerStatusUpdate = auto()
+    StatsCollectStarted = auto()
+    KamasLostFromBankOpen = auto()

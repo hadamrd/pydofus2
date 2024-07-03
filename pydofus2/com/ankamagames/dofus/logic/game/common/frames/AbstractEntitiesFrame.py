@@ -30,7 +30,6 @@ from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 
 class AbstractEntitiesFrame(Frame):
-
     def __init__(self):
         self._entities = dict[int, GameContextActorInformations]()
         self._interactiveElements = list[InteractiveElement]()
@@ -118,7 +117,7 @@ class AbstractEntitiesFrame(Frame):
                 characterEntity.speedAdjust = Monster.getMonsterById(infos.creatureGenericId).speedAdjust
             EntitiesManager().addEntity(infos.contextualId, characterEntity)
             if infos.contextualId == pcm.PlayedCharacterManager().id:
-                KernelEventsManager().send(KernelEvent.PlayerAddedToSceene, characterEntity)
+                KernelEventsManager().send(KernelEvent.PlayerAddedToScene, characterEntity)
             # else:
             #     KernelEventsManager().send(KernelEvent.ActorShowed, characterEntity)
         else:

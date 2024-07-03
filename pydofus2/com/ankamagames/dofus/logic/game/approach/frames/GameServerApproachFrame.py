@@ -291,7 +291,7 @@ class GameServerApproachFrame(Frame):
             PlayerManager().canCreateNewCharacter = msg.canCreateNewCharacter
             if msg.tutorialAvailable:
                 self.TUTORIAL_SELECTION_IS_AVAILABLE = True
-            KernelEventsManager().send(KernelEvent.TutorielAvailable, msg.tutorialAvailable)
+            KernelEventsManager().send(KernelEvent.TutorialAvailable, msg.tutorialAvailable)
             KernelEventsManager().send(KernelEvent.CharacterCreationStart, "create")
             return True
 

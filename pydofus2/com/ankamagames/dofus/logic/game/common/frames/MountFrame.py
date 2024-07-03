@@ -310,7 +310,7 @@ class MountFrame(Frame):
             elif meemsg.errorType == MountEquipedErrorEnum.RIDING:
                 typeError = "RIDING"
                 KernelEventsManager().send(KernelEvent.MountRiding, False)
-            KernelEventsManager().send(KernelEvent.MountEquipedError, typeError)
+            KernelEventsManager().send(KernelEvent.MountEquippedError, typeError)
             return True
 
         elif isinstance(msg, ExchangeWeightMessage):
