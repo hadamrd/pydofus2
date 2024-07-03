@@ -122,7 +122,7 @@ class AbstractEntitiesFrame(Frame):
             #     KernelEventsManager().send(KernelEvent.ActorShowed, characterEntity)
         else:
             if infos.contextualId == pcm.PlayedCharacterManager().id:
-                # Logger().info(f"Current Player updated on the sceene")
+                # Logger().info(f"Current Player updated on the scene")
                 pass
         if isinstance(infos, GameRolePlayHumanoidInformations):
             if infos.contextualId == pcm.PlayedCharacterManager().id:
