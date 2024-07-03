@@ -264,7 +264,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             },
         }
 
-    def get_krozmos_launch_event(self, accountId):
+    def get_krozmoz_launch_event(self, accountId):
         return {
             "event_id": 659,
             "date": self.get_date(),
@@ -284,7 +284,7 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
 
     def getCloseEvents(self, accountId):
         return [
-            self.get_krozmos_launch_event(accountId),
+            self.get_krozmoz_launch_event(accountId),
             self.get_dofus_launch_event(accountId),
             self.get_device_data(accountId),
             self.get_num_connected_event(accountId),
@@ -357,10 +357,10 @@ class ZaapDecoy(metaclass=ThreadSharedSingleton):
             if not apikey_filename.startswith(".keydata"):
                 continue
             apikey_file_path = os.path.join(apikeys_folder, apikey_filename)
-            Logger().debug(f"Extracting apikey data from file {apikey_file_path} ...")
+            # Logger().debug(f"Extracting apikey data from file {apikey_file_path} ...")
             apikey_dict = CryptoHelper.decrypt_from_file(apikey_file_path)
             apikey_data: StoredApikey = StoredApikey(**apikey_dict)
-            Logger().debug(f"Found Apikey data : {apikey_data.key} for account {apikey_data.accountId}")
+            # Logger().debug(f"Found Apikey data : {apikey_data.key} for account {apikey_data.accountId}")
             deciphered_apikeys.append(apikey_data)
         cls._api_keys = deciphered_apikeys
         return deciphered_apikeys

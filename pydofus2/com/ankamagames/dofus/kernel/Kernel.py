@@ -85,7 +85,7 @@ class Kernel(metaclass=Singleton):
         self,
         reloadData: bool = False,
     ) -> None:
-        from pyd2bot.logic.roleplay.behaviors.AbstractBehavior import AbstractBehavior
+        pass
 
         from pydofus2.com.ankamagames.atouin.HaapiEventsManager import HaapiEventsManager
         from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
@@ -124,7 +124,6 @@ class Kernel(metaclass=Singleton):
         InactivityManager.clear()
         InterClientManager().freeFlashKey()
         SpellCastSequenceContext.reset()
-        AbstractBehavior.clearAllChildren()
 
         if not reloadData:
             self._worker.terminate()
