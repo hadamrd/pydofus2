@@ -78,27 +78,29 @@ class HaapiEventsManager(metaclass=Singleton):
         self.used_shortcuts[shortcut_id]["use"] += 1
 
     def getShortCutsUsedEvent(self):
-        return {
-            "event_id": InternalStatisticTypeEnum.USE_SHORTCUT,
-            "data": {
-                "keyboard": "frFR",
-                "character_level": PlayedCharacterManager().infos.level,
-                "account_id": PlayerManager().accountId,
-                "shortcuts_list": self.used_shortcuts,
-                "character_id": int(PlayedCharacterManager().extractedServerCharacterIdFromInterserverCharacterId),
-            },
-            "date": self.get_date(),
-        }
+        if PlayedCharacterManager().infos:
+            return {
+                "event_id": InternalStatisticTypeEnum.USE_SHORTCUT,
+                "data": {
+                    "keyboard": "frFR",
+                    "character_level": PlayedCharacterManager().infos.level,
+                    "account_id": PlayerManager().accountId,
+                    "shortcuts_list": self.used_shortcuts,
+                    "character_id": int(PlayedCharacterManager().extractedServerCharacterIdFromInterserverCharacterId),
+                },
+                "date": self.get_date(),
+            }
 
     def getButtonEventData(self, button_id, button_name):
-        return {
-            "character_level": PlayedCharacterManager().infos.level,
-            "button_id": button_id,
-            "button_name": button_name,
-            "server_id": PlayerManager().server.id,
-            "character_id": int(PlayedCharacterManager().extractedServerCharacterIdFromInterserverCharacterId),
-            "account_id": PlayerManager().accountId,
-        }
+        if PlayedCharacterManager().infos:
+            return {
+                "character_level": PlayedCharacterManager().infos.level,
+                "button_id": button_id,
+                "button_name": button_name,
+                "server_id": PlayerManager().server.id,
+                "character_id": int(PlayedCharacterManager().extractedServerCharacterIdFromInterserverCharacterId),
+                "account_id": PlayerManager().accountId,
+            }
 
     def sendCharacteristicsOpenEvent(self):
         if self.DEACTIVATE:

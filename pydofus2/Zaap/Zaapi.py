@@ -93,7 +93,6 @@ class Zaapi(metaclass=Singleton):
         url = self.getUrl("ANKAMA_SHIELD_SECURITY_CODE", {"transportType": transportType})
         return self.zaap_session.get(url, headers={"apikey": apikey}, verify=self.verify_ssl)
 
-
     def shieldValidateCode(self, apikey, validationCode, hm1, hm2):
         userName = "launcher-Merkator"
         url = self.getUrl(
@@ -236,9 +235,13 @@ class Zaapi(metaclass=Singleton):
             if body["reason"] == "BAN":
                 Logger().error("[AUTH] Account banned")
             raise HaapiException(f"Error while signing on with apikey: {body['reason']}")
-        if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
-            Logger().error("[AUTH] Mail not confirmed by user")
-            raise Exception(AUTH_STATES.USER_EMAIL_INVALID)
+        if "account" in body:
+            if body["account"]["locked"] == ZAAP_CONFIG.USER_ACCOUNT_LOCKED.MAILNOVALID:
+                Logger().error("[AUTH] Mail not confirmed by user")
+                raise Exception(AUTH_STATES.USER_EMAIL_INVALID)
+        else:
+            raise Exception(body)
+
         self.zaap_session.cookies.update(response.cookies)
         self._curr_account = {
             "id": body["id"],

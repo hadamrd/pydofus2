@@ -68,3 +68,4 @@ class ClientStatusEnum(str, Enum):
     MAP_CHANGE_SUCCESS = "MAP_CHANGE_SUCCESS"
 
     TAKING_BREAK = "TAKING_BREAK"
+    TAKING_NAP = "TAKING_NAP"

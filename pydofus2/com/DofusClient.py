@@ -292,6 +292,7 @@ class DofusClient(threading.Thread):
         Kernel().reset(reloadData=True)
         if afterTime:
             Logger().info(f"Taking a nap for {afterTime}sec before reconnecting again")
+            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.TAKING_NAP)
             self._taking_nap = True
             BenchmarkTimer(afterTime, self.initListenersAndLogin).start()
         else:
