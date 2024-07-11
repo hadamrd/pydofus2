@@ -8,7 +8,7 @@ class ServerStatusEnum(Enum):
     ONLINE = 3
     NOJOIN = 4
     SAVING = 5
-    STOPING = 6
+    STOPPING = 6
     FULL = 7
 
     def __str__(self):

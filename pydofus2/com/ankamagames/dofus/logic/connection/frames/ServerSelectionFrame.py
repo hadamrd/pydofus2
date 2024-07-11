@@ -225,8 +225,8 @@ class ServerSelectionFrame(Frame):
                 error_text += "Nojoin"
             elif server_status == ServerStatusEnum.SAVING:
                 error_text += "Saving"
-            elif server_status == ServerStatusEnum.STOPING:
-                error_text += "Stoping"
+            elif server_status == ServerStatusEnum.STOPPING:
+                error_text += "Stopping"
             elif server_status == ServerStatusEnum.FULL:
                 error_text += "Full"
             elif server_status == ServerStatusEnum.STATUS_UNKNOWN:

@@ -301,7 +301,7 @@ class SpellInventoryManagementFrame(Frame, metaclass=Singleton):
         return True
 
     def getFullSpellListByOwnerId(self, ownerId: float) -> list["SpellWrapper"]:
-        return self._fullSpellList[ownerId]
+        return self._fullSpellList.get(ownerId)
 
     def addSpellGlobalCoolDownInfo(self, pEntityId: float, pGameFightSpellCooldown: GameFightSpellCooldown) -> None:
         if not self._spellsGlobalCooldowns[pEntityId]:

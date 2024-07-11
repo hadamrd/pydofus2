@@ -232,6 +232,18 @@ class DofusClient(threading.Thread):
         Logger().error(f"Server selection refused for reason : {error_text}, server status {server_status}")
         if server_status == ServerStatusEnum.SAVING.value:
             return
+        elif server_status == ServerStatusEnum.STOPPING.value:
+            self.onReconnect(event, "Server is stopping, will disconnect and retry after 3 minutes...", 3 * 60)
+            return
+        elif server_status == ServerStatusEnum.OFFLINE.value:
+            self.onReconnect(event, "Server is offline, will disconnect and retry after 3 minutes...", 3 * 60)
+            return
+        elif server_status == ServerStatusEnum.STARTING.value:
+            self.onReconnect(event, "Server is starting, will disconnect and retry after 1 minutes...", 1 * 60)
+            return
+        elif server_status == ServerStatusEnum.NOJOIN.value:
+            self.onReconnect(event, "Server is not joinable, will disconnect and retry after 3 minutes...", 3 * 60)
+            return
         self._crashed = True
         self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 

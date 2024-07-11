@@ -5,6 +5,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFight
     CurrentPlayedFighterManager,
 )
 from pydofus2.com.ankamagames.dofus.logic.game.fight.steps.IFightStep import IFightStep
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.sequencer.AbstractSequencable import AbstractSequencable
 
 
@@ -47,14 +48,17 @@ class FightSpellCooldownVariationStep(AbstractSequencable, IFightStep):
             spellCastManager = CurrentPlayedFighterManager().getSpellCastManagerById(self._fighterId)
             simf = Kernel().spellInventoryManagementFrame
             spellList = simf.getFullSpellListByOwnerId(self._fighterId)
-            for spellKnown in spellList:
-                if spellKnown.id == self._spellId:
-                    spellLvl = spellKnown.spellLevel
-            if spellCastManager and spellLvl > 0:
-                if not spellCastManager.getSpellManagerBySpellId(self._spellId):
-                    spellCastManager.castSpell(self._spellId, spellLvl, [], False)
-                spellManager = spellCastManager.getSpellManagerBySpellId(self._spellId)
-                spellManager.forceCooldown(self._value, True)
+            if spellList is not None:
+                for spellKnown in spellList:
+                    if spellKnown.id == self._spellId:
+                        spellLvl = spellKnown.spellLevel
+                if spellCastManager and spellLvl > 0:
+                    if not spellCastManager.getSpellManagerBySpellId(self._spellId):
+                        spellCastManager.castSpell(self._spellId, spellLvl, [], False)
+                    spellManager = spellCastManager.getSpellManagerBySpellId(self._spellId)
+                    spellManager.forceCooldown(self._value, True)
+            else:
+                Logger().error(f"Couldn't find spell list for fighter Id {self._fighterId}")
         if self._isGlobal:
             fightEntitiesFrame = Kernel().fightEntitiesFrame
             if fightEntitiesFrame is not None:
