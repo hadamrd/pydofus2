@@ -35,7 +35,7 @@ class AStar(metaclass=Singleton):
     def addForbidenEdge(self, edge: Edge) -> None:
         self._forbiddenEdges.append(edge)
 
-    def resetForbinedEdges(self) -> None:
+    def resetForbiddenEdges(self) -> None:
         self._forbiddenEdges.clear()
 
     def search(
