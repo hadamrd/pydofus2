@@ -120,6 +120,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRole
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayTreasureHintInformations import (
     GameRolePlayTreasureHintInformations,
 )
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GroupMonsterStaticInformationsWithAlternatives import (
+    GroupMonsterStaticInformationsWithAlternatives,
+)
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanInformations import HumanInformations
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.HumanOptionObjectUse import (
     HumanOptionObjectUse,
@@ -506,6 +509,33 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             f"Fight({infos.fightId}) appeared with team entities {['leader : ' + str(ft.leaderId) + ', cell: ' + str(infos.fightTeamsPositions[ft.teamId]) for ft in infos.fightTeams]}."
         )
         KernelEventsManager().send(KernelEvent.FightSwordShowed, infos)
+
+    def getMonsterGroup(self, pStaticMonsterInfos):
+        newGroup = None
+        pmf = None
+        nbMembers = 0
+        infos = (
+            pStaticMonsterInfos
+            if isinstance(pStaticMonsterInfos, GroupMonsterStaticInformationsWithAlternatives)
+            else None
+        )
+
+        if infos:
+            pmf = Kernel().partyFrame
+            partyMembers = pmf.partyMembers if pmf else None
+            nbMembers = len(partyMembers) if partyMembers else 0
+
+            if nbMembers == 0 and PlayedCharacterManager().hasCompanion:
+                nbMembers = 2
+            else:
+                for member in partyMembers:
+                    nbMembers += len(member.companions)
+
+            for monsterGroup in infos.alternatives:
+                if not newGroup or monsterGroup.playerCount <= nbMembers:
+                    newGroup = monsterGroup.monsters[:]
+
+        return newGroup.copy() if newGroup else None
 
     def updateMonstersGroup(self, pMonstersInfo: GameRolePlayGroupMonsterInformations) -> None:
         monstersGroup: list[MonsterInGroupLightInformations] = self.getMonsterGroup(pMonstersInfo.staticInfos)
