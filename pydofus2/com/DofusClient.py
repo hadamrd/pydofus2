@@ -129,7 +129,7 @@ class DofusClient(threading.Thread):
         Logger().info("Initializing ...")
         ZaapDecoy.SESSIONS_LAUNCH += 1
         atexit.register(self.at_exit)
-        self.zaap = ZaapDecoy()
+        self.zaap = ZaapDecoy(self._apikey)
         self.kernel = Kernel()
         self.kernel.init()
         AdapterFactory.addAdapter("ele", ElementsAdapter)
