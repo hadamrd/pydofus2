@@ -90,6 +90,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.fight.FightTeamIn
 from pydofus2.com.ankamagames.dofus.network.types.game.context.GameContextActorInformations import (
     GameContextActorInformations,
 )
+from pydofus2.com.ankamagames.dofus.network.types.game.context.GameRolePlayTaxCollectorInformations import (
+    GameRolePlayTaxCollectorInformations,
+)
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayCharacterInformations import (
     GameRolePlayCharacterInformations,
 )
@@ -101,6 +104,18 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRole
 )
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMerchantInformations import (
     GameRolePlayMerchantInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcInformations import (
+    GameRolePlayNpcInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcWithQuestInformations import (
+    GameRolePlayNpcWithQuestInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayPortalInformations import (
+    GameRolePlayPortalInformations,
+)
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayPrismInformations import (
+    GameRolePlayPrismInformations,
 )
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayTreasureHintInformations import (
     GameRolePlayTreasureHintInformations,
@@ -511,3 +526,37 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
         for entityInfo in entities:
             if isinstance(entityInfo, GameRolePlayGroupMonsterInformations):
                 self.updateMonstersGroup(entityInfo)
+
+    def addOrUpdateActor(self, infos: GameContextActorInformations) -> AnimatedCharacter:
+        ac = super().addOrUpdateActor(infos)
+        if isinstance(infos, GameRolePlayNpcWithQuestInformations):
+            self._npcList[infos.contextualId] = ac
+        elif isinstance(infos, GameRolePlayGroupMonsterInformations):
+            groupHasMiniBoss = Monster.getMonsterById(infos.staticInfos.mainCreatureLightInfos.genericId).isMiniBoss
+            if not groupHasMiniBoss and infos.staticInfos.underlings:
+                for migi in infos.staticInfos.underlings:
+                    groupHasMiniBoss = Monster.getMonsterById(migi.genericId).isMiniBoss
+                    if groupHasMiniBoss:
+                        break
+                else:
+                    # Only execute if the loop completes without breaking
+                    self.updateMonstersGroup(infos)
+                    if infos.contextualId not in self._monstersIds:
+                        self._monstersIds.append(infos.contextualId)
+            else:
+                # If there are no underlings or if groupHasMiniBoss is already True
+                self.updateMonstersGroup(infos)
+                if infos.contextualId not in self._monstersIds:
+                    self._monstersIds.append(infos.contextualId)
+        elif isinstance(infos, GameRolePlayHumanoidInformations):
+            if infos.contextualId and self._playersId and infos.contextualId not in self._playersId:
+                self._playersId.append(infos.contextualId)
+        elif isinstance(infos, GameRolePlayNpcInformations):
+            self._npcList[infos.contextualId] = ac
+        elif isinstance(
+            infos,
+            (GameRolePlayTaxCollectorInformations, GameRolePlayPrismInformations, GameRolePlayPortalInformations),
+        ):
+            ac.allowMovementThrough = True
+        else:
+            Logger().error(f"Unknown actor type {type(infos)}")
