@@ -11,7 +11,7 @@ class MovementFailError(Enum):
     PLAYER_CANT_MOVE = auto()
     MOVE_REQUEST_TIMEOUT = auto()
     MOVE_REQUEST_REJECTED = auto()
-    MAPCHANGE_TIMEOUT = auto()
+    MAP_CHANGE_TIMEOUT = auto()
     INTERACTIVE_USE_ERROR = auto()
     NO_PATH_FOUND = auto()
     NO_VALID_SCROLL_CELL = auto()

@@ -32,7 +32,7 @@ class AStar(metaclass=Singleton):
         self.dstinations: set[Vertex] = None
         self.running = None
 
-    def addForbidenEdge(self, edge: Edge) -> None:
+    def addForbiddenEdge(self, edge: Edge) -> None:
         self._forbiddenEdges.append(edge)
 
     def resetForbiddenEdges(self) -> None:
