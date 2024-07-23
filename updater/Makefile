@@ -56,7 +56,6 @@ cleanup:
 	# Clean up the src directory after the decompilation process completes
 	@echo "Cleaning up $(DOFUS_SRC_DIR)"
 	@rm -rf $(DOFUS_SRC_DIR)
-	@cd $(PYDOFUS_DIR) && black . && isort .
 
 extract-keys:
 	@$(FFDEC) -config parallelSpeedUp=true -export binaryData $(PYDOFUS_BINARY_DATA_DIR) $(DOFUSINVOKER)
