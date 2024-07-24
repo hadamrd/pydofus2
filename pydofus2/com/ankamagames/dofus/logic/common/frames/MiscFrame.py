@@ -144,6 +144,7 @@ class MiscFrame(Frame, metaclass=Singleton):
             if msg.reason == SubscriptionRequiredEnum.LIMIT_ON_JOB_XP:
                 text = I18n.getUiText("ui.payzone.limitJobXp")
                 payZonePopupMode = "payzone_job"
+
             if msg.reason == SubscriptionRequiredEnum.LIMIT_ON_JOB_USE:
                 text = I18n.getUiText("ui.payzone.limitJobXp")
                 payZonePopupMode = "payzone_job"
@@ -157,6 +158,7 @@ class MiscFrame(Frame, metaclass=Singleton):
             if msg.reason == SubscriptionRequiredEnum.LIMIT_ON_HAVENBAG:
                 text = I18n.getUiText("ui.payzone.limit")
                 payZonePopupMode = "payzone_havenbag"
+
             else:
                 text = I18n.getUiText("ui.payzone.limit")
 
@@ -167,7 +169,7 @@ class MiscFrame(Frame, metaclass=Singleton):
                 ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO,
                 TimeManager().getTimestamp(),
             )
-            KernelEventsManager().send(KernelEvent.NonSubscriberPopup, [payZonePopupMode])
+            KernelEventsManager().send(KernelEvent.NonSubscriberPopup, payZonePopupMode, text)
             return True
 
     @property
