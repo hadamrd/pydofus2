@@ -229,7 +229,9 @@ class DofusClient(threading.Thread):
         )
 
     def onServerSelectionRefused(self, event, serverId, err_type, server_status, error_text, selectableServers):
-        Logger().error(f"Server selection refused for reason : {error_text}, server status {server_status}")
+        Logger().error(
+            f"Server selection refused for reason: {error_text}, error_type: {err_type}, server_status: {server_status}"
+        )
         if server_status == ServerStatusEnum.SAVING.value:
             return
         elif server_status == ServerStatusEnum.STOPPING.value:
@@ -242,8 +244,11 @@ class DofusClient(threading.Thread):
             self.onReconnect(event, "Server is starting, will disconnect and retry after 1 minutes...", 1 * 60)
             return
         elif server_status == ServerStatusEnum.NOJOIN.value:
-            self.onReconnect(event, "Server is not joinable, will disconnect and retry after 3 minutes...", 3 * 60)
-            return
+            if error_text != "SubscribersOnly":
+                self.onReconnect(event, "Server is not joinable, will disconnect and retry after 3 minutes...", 3 * 60)
+                return
+            else:
+                error_text = "You can't join the server because its subscriber only and you are not subscribed!"
         self._crashed = True
         self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 
