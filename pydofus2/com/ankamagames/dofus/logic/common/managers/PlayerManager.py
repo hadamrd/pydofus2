@@ -110,7 +110,10 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         self._subscriptionEndDateUpdateTime = TimeManager().getUtcTimestamp()
 
     def isBasicAccount(self) -> bool:
-        return self.subscriptionEndDate <= TimeManager().getUtcTimestamp() and not self.hasRights
+        # Logger().debug(f"Subscription end date : {self.subscriptionEndDate}")
+        # Logger().debug(f"Current timestamp : {TimeManager().getUtcTimestamp()}")
+        # Logger().debug(f"Has rights : {self.hasRights}")
+        return self.subscriptionEndDate / 1000 <= TimeManager().getUtcTimestamp() and not self.hasRights
 
     def isMapInHavenbag(self, mapId: int) -> bool:
         return HavenbagTheme.isMapIdInHavenbag(mapId)
