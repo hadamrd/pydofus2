@@ -154,15 +154,40 @@ class Haapi(metaclass=Singleton):
             if not session_id:
                 raise Exception("Need a session_id to send events")
         url = self.getUrl("SEND_EVENTS")
+
         for _ in range(3):
-            response = self.dofus_session.post(
-                url,
-                data={"game": game, "session_id": session_id, "events": json.dumps(events)},
-                verify=self.verify_ssl,
-            )
-            self.dofus_session.cookies.update(response.cookies)
-            if response.ok:
-                break
+            try:
+                response = self.dofus_session.post(
+                    url,
+                    data={"game": game, "session_id": session_id, "events": json.dumps(events)},
+                    verify=self.verify_ssl,
+                )
+                self.dofus_session.cookies.update(response.cookies)
+
+                # Handle 422 errors for date format issues
+                if response.status_code == 422:
+                    error_data = response.json()
+                    if "datetime format" in error_data.get("message", "").lower():
+                        Logger().debug(f"Ignoring datetime format error in sendEvents: {error_data}")
+                        return None  # Or return a default response
+
+                if response.ok:
+                    break
+
+            except json.JSONDecodeError:
+                Logger().error("Failed to decode JSON response in sendEvents")
+                continue
+            except requests.exceptions.RequestException as e:
+                Logger().error(f"Request failed in sendEvents: {str(e)}")
+                continue
+            except Exception as e:
+                Logger().error(f"Unexpected error in sendEvents: {str(e)}")
+                continue
+
+        # If all retries failed
+        if not response.ok and response.status_code != 422:
+            Logger().error(f"All sendEvents attempts failed: {response.text}")
+
         return response
 
     @sendTrace
@@ -173,22 +198,42 @@ class Haapi(metaclass=Singleton):
                 raise Exception("Need a session_id to send events")
         if not date:
             date = self.get_date()
+
         url = self.getUrl("SEND_EVENT")
-        response = self.dofus_session.post(
-            url,
-            data={
-                "game": game,
-                "session_id": session_id,
-                "event_id": event_id,
-                "data": json.dumps(data),
-                "date": date,
-            },
-            verify=self.verify_ssl,
-        )
-        self.dofus_session.cookies.update(response.cookies)
-        if not response.ok:
-            raise Exception(f"Error while sending event: {response.text}")
-        return response
+
+        try:
+            response = self.dofus_session.post(
+                url,
+                data={
+                    "game": game,
+                    "session_id": session_id,
+                    "event_id": event_id,
+                    "data": json.dumps(data),
+                    "date": date,
+                },
+                verify=self.verify_ssl,
+            )
+            self.dofus_session.cookies.update(response.cookies)
+
+            # Handle 422 errors specifically for date format issues
+            if response.status_code == 422:
+                error_data = response.json()
+                if "datetime format" in error_data.get("message", "").lower():
+                    Logger().debug(f"Ignoring datetime format error: {error_data}")
+                    return None  # Or return a default response
+
+            # Handle other errors
+            if not response.ok:
+                raise Exception(f"Error while sending event: {response.text}")
+
+            return response
+
+        except json.JSONDecodeError:
+            Logger().error("Failed to decode JSON response")
+            return None
+        except requests.exceptions.RequestException as e:
+            Logger().error(f"Request failed: {str(e)}")
+            return None
 
     @property
     def account_apikey(self):

@@ -42,20 +42,21 @@ class Singleton(type):
 
     def clear(cls):
         with LOCK:
-            if cls in Singleton._instances[cls.threadName()]:
+            if cls.threadName() in Singleton._instances and cls in Singleton._instances[cls.threadName()]:
                 del Singleton._instances[cls.threadName()][cls]
         Logger().debug(f"{cls.__name__} reset")
 
     def getSubs(cls: Type[T], thname=None) -> Generator[T, T, None]:
-        thname = thname if thname is not None else Singleton.threadName()
-        for clz in Singleton._instances[thname]:
-            if issubclass(clz, cls):
-                yield Singleton._instances[thname][clz]
+        thname = str(thname) if thname is not None else Singleton.threadName()
+        if thname in Singleton._instances:
+            for clz in Singleton._instances[thname]:
+                if issubclass(clz, cls):
+                    yield Singleton._instances[thname][clz]
 
     def clearAllChildren(cls):
         with LOCK:
             scheduledForDelete = []
-            for clz in Singleton._instances[cls.threadName()]:
+            for clz in Singleton._instances.get(cls.threadName(), []):
                 if issubclass(clz, cls):
                     scheduledForDelete.append(clz)
             for clz in scheduledForDelete:
