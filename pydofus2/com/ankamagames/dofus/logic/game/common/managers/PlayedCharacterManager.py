@@ -476,7 +476,6 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         return PlayerLifeStatusEnum(self.state) != PlayerLifeStatusEnum.STATUS_ALIVE_AND_KICKING
 
     def isPodsFull(self, pourcent=0.95):
-        return (
-            PlayedCharacterManager().inventoryWeightMax > 0
-            and PlayedCharacterManager().inventoryWeight / PlayedCharacterManager().inventoryWeightMax > pourcent
-        )
+        weight_pourcent = PlayedCharacterManager().inventoryWeight / PlayedCharacterManager().inventoryWeightMax
+        Logger().info(f"Inventory weight pourcent : {weight_pourcent}")
+        return PlayedCharacterManager().inventoryWeightMax > 0 and weight_pourcent > pourcent

@@ -285,6 +285,8 @@ class ServerConnection(mp.Thread):
         self._remoteSrvHost = host
         self._remoteSrvPort = port
         Logger().info(f"[{self.id}] Connecting to {host}:{port}...")
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.settimeout(timeout)
         self.socket.connect((host, port))
 
     def handleMessage(self, msg: NetworkMessage, from_client=False):
@@ -327,6 +329,7 @@ class ServerConnection(mp.Thread):
                 if e.errno == errno.WSAENOTCONN:
                     Logger().debug(f"[{self.id}] Waiting for socket to connect...")
                     self._closing.wait(0.5)
+                    continue
                 elif e.errno == errno.WSAECONNABORTED:
                     Logger().debug(f"[{self.id}] Connection aborted by user.")
                     self._closing.set()

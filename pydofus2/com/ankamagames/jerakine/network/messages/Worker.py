@@ -60,6 +60,7 @@ class Worker(MessageHandler):
                 break
             self.processFramesInAndOut()
             self.processMessage(msg)
+            KernelEventsManager().send(KernelEvent.MessageReceived, msg)
         self.reset()
         self._terminated.set()
         Logger().warning("Worker terminated")
@@ -143,7 +144,7 @@ class Worker(MessageHandler):
 
     def pushFrame(self, frame: Frame) -> None:
         if str(frame) in [str(f) for f in self._framesList]:
-            Logger().warn(f"Frame '{frame}' is already in the list.")
+            Logger().warning(f"Frame '{frame}' is already in the list.")
             return
         if frame.pushed():
             self._framesList.append(frame)
@@ -151,10 +152,11 @@ class Worker(MessageHandler):
             self._currentFrameTypesCache[str(frame)] = frame
             KernelEventsManager().send(KernelEvent.FramePushed, frame)
         else:
-            Logger().warn(f"Frame '{frame}' refused to be pushed.")
+            Logger().warning(f"Frame '{frame}' refused to be pushed.")
 
     def pullFrame(self, frame: Frame) -> None:
         if frame.pulled():
+            KernelEventsManager().clearAllByOrigin(frame)
             strFramesList = [str(f) for f in self._framesList]
             while str(frame) in strFramesList:
                 idx = strFramesList.index(str(frame))
@@ -166,9 +168,9 @@ class Worker(MessageHandler):
                 del self._currentFrameTypesCache[str(frame)]
             if frame in self._framesBeingDeleted:
                 self._framesBeingDeleted.remove(frame)
-            KernelEventsManager().send(KernelEvent.FramePulled, frame)
+            KernelEventsManager().send(KernelEvent.FramePulled, str(frame))
         else:
-            Logger().warn(f"Frame {frame} refused to be pulled.")
+            Logger().warning(f"Frame {frame} refused to be pulled.")
 
     def processMessage(self, msg: Message) -> None:
         if self._terminating.is_set() or self._terminated.is_set():
@@ -201,5 +203,5 @@ class Worker(MessageHandler):
     def removeFrameByName(self, frameName: str) -> None:
         frame = self.getFrameByName(frameName)
         if not frame:
-            return Logger().warn(f"Tried to remove frame '{frameName}' but it doesn't exist in cache.")
+            return Logger().warning(f"Tried to remove frame '{frameName}' but it doesn't exist in cache.")
         self.removeFrame(frame)

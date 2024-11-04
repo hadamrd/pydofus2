@@ -367,7 +367,8 @@ class FightBattleFrame(Frame):
         self._slaveId = 0
         self._skipTurnTimer = None
         self._destroyed = True
-        KernelEventsManager().send(KernelEvent.FightEnded)
+        if not self._destroyed:
+            KernelEventsManager().send(KernelEvent.FightEnded)
         return True
 
     def getSequencesStack(self) -> list[fseqf.FightSequenceFrame]:

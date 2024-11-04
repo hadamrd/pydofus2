@@ -2,6 +2,20 @@ from enum import Enum, auto
 
 
 class KernelEvent(Enum):
+    # Market
+    MarketPriceChanged = auto()
+    MarketListingAdded = auto()
+    MarketListingRemoved = auto()
+    MarketPriceUpdate = auto()
+    MarketSearchResult = auto()
+    MarketModeSwitch = auto()
+    MarketPriceInfo = auto()
+
+    # MVP
+    MessageReceived = auto()
+    AssetPriceChanged = auto()
+    NewMarketLow = auto()
+
     # Infos
     TextInformation = auto()
     StorageKamasUpdate = auto()

@@ -17,6 +17,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.common.frames.CharacterFrame import CharacterFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.ChatFrame import ChatFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.ExternalGameFrame import ExternalGameFrame
+    from pydofus2.com.ankamagames.dofus.logic.common.frames.MarketFrame import MarketFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.MountDialogFrame import MountDialogFrame
     from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
     from pydofus2.com.ankamagames.dofus.logic.connection.frames.AuthenticationFrame import AuthenticationFrame
@@ -250,6 +251,10 @@ class Kernel(metaclass=Singleton):
     @property
     def questFrame(self) -> "QuestFrame":
         return self._worker.getFrameByName("QuestFrame")
+
+    @property
+    def marketFrame(self) -> "MarketFrame":
+        return self._worker.getFrameByName("MarketFrame")
 
     @property
     def alignmentFrame(self) -> "AlignmentFrame":

@@ -55,6 +55,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Ex
 from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListFromInvMessage import (
     ExchangeObjectTransfertListFromInvMessage,
 )
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListToInvMessage import (
+    ExchangeObjectTransfertListToInvMessage,
+)
 from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectTransfertListWithQuantityToInvMessage import (
     ExchangeObjectTransfertListWithQuantityToInvMessage,
 )
@@ -192,6 +195,23 @@ class ExchangeManagementFrame(Frame):
         eomkmsg.init(kamas)
         ConnectionsHandler().send(eomkmsg)
 
+    def exchangeObjectTransferListToInv(self, ids: list[int]):
+        """
+        Transfer a list of objects from storage to inventory.
+
+        Args:
+            ids: List of object UIDs to transfer
+
+        Note: Handles protocol constants and splitting large transfers automatically
+        """
+        if len(ids) > ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT:
+            Logger().info(I18n.getUiText("ui.exchange.partialTransfert"))
+
+        if len(ids) >= ProtocolConstantsEnum.MIN_OBJ_COUNT_BY_XFERT:
+            msg = ExchangeObjectTransfertListToInvMessage()
+            msg.init(ids[: ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT])
+            ConnectionsHandler().send(msg)
+
     def exchangeObjectTransfertAllToInv(self):
         eotatimsg = ExchangeObjectTransfertAllToInvMessage()
         eotatimsg.init()
@@ -202,10 +222,10 @@ class ExchangeManagementFrame(Frame):
         eotetimsg.init()
         ConnectionsHandler().send(eotetimsg)
 
-    def exchangeObjectTransfertAllFromInv(self):
+    def exchangeObjectTransferAllFromInv(self):
         ConnectionsHandler().send(ExchangeObjectTransfertAllFromInvMessage())
 
-    def exchangeObjectTransfertListFromInv(self, ids):
+    def exchangeObjectTransferListFromInv(self, ids):
         if len(ids) > ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT:
             Logger().info(I18n.getUiText("ui.exchange.partialTransfert"))
         if len(ids) >= ProtocolConstantsEnum.MIN_OBJ_COUNT_BY_XFERT:
@@ -251,7 +271,7 @@ class ExchangeManagementFrame(Frame):
         msg.init(target, exchangeType)
         ConnectionsHandler().send(msg)
 
-    def exchangeObjectTransfertListWithQuantityToInv(self, ids, qtys):
+    def exchangeObjectTransferListWithQuantityToInv(self, ids, qtys):
         if len(ids) > ProtocolConstantsEnum.MAX_OBJ_COUNT_BY_XFERT / 2:
             Logger().info(I18n.getUiText("ui.exchange.partialTransfert"))
         if len(ids) >= ProtocolConstantsEnum.MIN_OBJ_COUNT_BY_XFERT and len(ids) == len(qtys):

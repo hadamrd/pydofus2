@@ -237,6 +237,38 @@ class Inventory:
             source.effectsList,
         )
 
+    def getItemsByGID(self, gid: int) -> list[ItemWrapper]:
+        """
+        Get all items matching a specific Game ID (GID).
+
+        Args:
+            gid: The Game ID to search for
+
+        Returns:
+            List of ItemWrapper objects matching the GID
+        """
+        matching_items: list[ItemWrapper] = []
+
+        for itemSet in self._itemsDict.values():
+            if itemSet.item.objectGID == gid:
+                matching_items.append(itemSet.item)
+
+        return matching_items
+
+    def getFirstItemByGID(self, gid: int) -> ItemWrapper:
+        """
+        Get the first item matching a specific Game ID (GID).
+
+        Args:
+            gid: The Game ID to search for
+
+        Returns:
+            ItemWrapper if found, None otherwise
+        """
+        for itemSet in self._itemsDict.values():
+            if itemSet.item.objectGID == gid:
+                return itemSet.item
+
 
 class ItemSet:
 

@@ -191,7 +191,7 @@ class Recipes:
 
     def calculateIngredientsToRetrieve(self, recipe: Recipe, qty: int = None) -> None:
         """
-        The function is responsible for determining the list of ingredientsand their
+        The function is responsible for determining the list of ingredients and their
         quantities needed to craft a certain recipe, taking into account the maximum quantity that the player can carry.
         """
         availablePlayerPods = self.characterApi.inventoryWeightMax() - self.characterApi.inventoryWeight()
@@ -202,12 +202,12 @@ class Recipes:
         recipeWeight = sum(
             self._inventoryDataByGID[eid]["weight"] * qty for eid, qty in zip(recipe.ingredientIds, recipe.quantities)
         )
-        maxRecepiesCanCarry = availablePlayerPods // recipeWeight
-        nbrRecepiesToRetrieve = min(maxOccurrence, maxRecepiesCanCarry)
+        maxRecipesCanCarry = availablePlayerPods // recipeWeight
+        nbrRecipesToRetrieve = min(maxOccurrence, maxRecipesCanCarry)
         if not qty:
-            qty = nbrRecepiesToRetrieve
-        if qty > nbrRecepiesToRetrieve:
-            raise ValueError(f"Player can't carry more than {nbrRecepiesToRetrieve} of the given recipe.")
+            qty = nbrRecipesToRetrieve
+        if qty > nbrRecipesToRetrieve:
+            raise ValueError(f"Player can't carry more than {nbrRecipesToRetrieve} of the given recipe.")
         ingredients = []
         quantities = []
         required_quantities = []

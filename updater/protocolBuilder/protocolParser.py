@@ -37,7 +37,7 @@ class ProtocolParser:
     json: dict = {"type": {}, "msg_by_id": {}, "type_by_id": {}}
 
     def run(self, src_paths):
-        self.getMsgTypesFromSrcs(src_paths)
+        self.getMsgTypesFromSrc(src_paths)
         for msg_type in tqdm(self.json["type"].values()):
             self.parseMsgType(msg_type)
         self.json["primitives"] = list(
@@ -50,7 +50,7 @@ class ProtocolParser:
         )
         return self.json
 
-    def getMsgTypesFromSrcs(self, src_paths):
+    def getMsgTypesFromSrc(self, src_paths):
         for path in src_paths:
             msg_type = {}
             for as_file_path in Path(path).glob("**/*.as"):
@@ -238,16 +238,16 @@ class ProtocolParser:
 
 
 def parseVersion(metaDataAs):
-    PROTOCOL_BUILD_REGX = '^\s*public static const PROTOCOL_BUILD:String = "(?P<protocol_build>.*)";'
-    PROTOCOL_DATE_REGX = '^\s*public static const PROTOCOL_DATE:String = "(?P<protocol_date>.*)";'
+    PROTOCOL_BUILD_REGEX = '^\s*public static const PROTOCOL_BUILD:String = "(?P<protocol_build>.*)";'
+    PROTOCOL_DATE_REGEX = '^\s*public static const PROTOCOL_DATE:String = "(?P<protocol_date>.*)";'
     with open(metaDataAs, "r") as fp:
         lines = list(fp.readlines())
         for line in lines:
-            m = re.match(PROTOCOL_BUILD_REGX, line)
+            m = re.match(PROTOCOL_BUILD_REGEX, line)
             if m:
                 build = m.group("protocol_build")
             else:
-                m = re.match(PROTOCOL_DATE_REGX, line)
+                m = re.match(PROTOCOL_DATE_REGEX, line)
                 if m:
                     date = m.group("protocol_date")
     return build, date

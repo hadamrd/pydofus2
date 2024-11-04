@@ -5,3 +5,4 @@ certs.json
 pydofus2.egg-info
 latest.yml
 .venv
+**/.venvb

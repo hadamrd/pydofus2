@@ -10,6 +10,7 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import 
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.frames.AlignmentFrame import AlignmentFrame
+from pydofus2.com.ankamagames.dofus.logic.common.frames.MarketFrame import MarketFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.MiscFrame import MiscFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.NpcFrame import NpcFrame
 from pydofus2.com.ankamagames.dofus.logic.common.frames.QuestFrame import QuestFrame
@@ -312,6 +313,7 @@ class GameServerApproachFrame(Frame):
             Kernel().worker.addFrame(JobsFrame())
             Kernel().worker.addFrame(SocialFrame())
             Kernel().worker.addFrame(QuestFrame())
+            Kernel().worker.addFrame(MarketFrame())
             Kernel().worker.addFrame(AveragePricesFrame())
             Kernel().worker.addFrame(NpcFrame())
             Kernel().worker.addFrame(PartyFrame())

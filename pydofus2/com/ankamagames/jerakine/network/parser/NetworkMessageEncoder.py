@@ -29,10 +29,7 @@ class NetworkMessageEncoder:
     @classmethod
     def encode(cls, inst: "bnm.NetworkMessage", data=None, random_hash=False) -> ByteArray:
         spec = inst.getSpec()
-        try:
-            return cls._encode(spec, inst, data, random_hash)
-        except Exception as exc:
-            raise EncoderError(f"Error while encoding {inst.__class__.__name__} : {inst.__dict__}.\n{exc}") from exc
+        return cls._encode(spec, inst, data, random_hash)
 
     @classmethod
     def jsonEncode(cls, inst: "bnm.NetworkMessage", random_hash=False) -> dict:
