@@ -93,7 +93,6 @@ class MarketFrame(Frame):
         return True
 
     def reset_state(self):
-        self._bids_manager = None
         self._market_type_open = None
         self._current_mode = None
         self._current_searched_item_gid = None
@@ -146,6 +145,13 @@ class MarketFrame(Frame):
 
         # Price check response
         if isinstance(msg, ExchangeBidPriceForSellerMessage):
+            if self._state != "CHECKING_PRICE":
+                KernelEventsManager().send(
+                    KernelEvent.ClientShutdown,
+                    "Received 'ExchangeBidPriceForSellerMessage' but wasn't checking any item price!",
+                )
+                return
+
             self._state = "IDLE"
             self._bids_manager.handle_price_info(msg)
             self._current_mode = "sell"
@@ -180,7 +186,7 @@ class MarketFrame(Frame):
     def search_item(self, item_gid: int, callback=None) -> None:
         self._state = "SEARCHING"
         if callback:
-            KernelEventsManager().on(KernelEvent.MarketSearchResult, callback)
+            KernelEventsManager().once(KernelEvent.MarketSearchResult, callback)
         msg = ExchangeBidHouseSearchMessage()
         msg.init(item_gid, True)  # Enable following
         ConnectionsHandler().send(msg)
@@ -190,15 +196,16 @@ class MarketFrame(Frame):
         self._state = "CHECKING_PRICE"
         if callback:
             KernelEventsManager().once(KernelEvent.MarketPriceInfo, callback, originator=self)
+        Logger().info(f"Sending check price for item {item_gid}")
         msg = ExchangeBidHousePriceMessage()
         msg.init(item_gid)
         ConnectionsHandler().send(msg)
         InactivityManager().activity()
 
-    def create_listing(self, item_gid: int, quantity: int, price: int) -> None:
+    def create_listing(self, item_uid: int, quantity: int, price: int) -> None:
         self._state = "SELLING"
         msg = ExchangeObjectMovePricedMessage()
-        msg.init(price, item_gid, quantity)
+        msg.init(price, item_uid, quantity)
         ConnectionsHandler().send(msg)
         InactivityManager().activity()
 

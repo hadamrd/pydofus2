@@ -1,6 +1,8 @@
 from collections import defaultdict
 from typing import TYPE_CHECKING, List, Optional, Tuple
 
+from prettytable import PrettyTable
+
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.dofus.logic.common.managers.MarketBid import MarketBid
@@ -82,16 +84,14 @@ class MarketBidsManager:
             listing = MarketBid.from_message(item, self.max_delay)
             self._add_bid(listing)
 
+        # Display the bids table after initialization if there are any bids
+        if self._bids:
+            self.display_bids()
+
     def _add_bid(self, listing: MarketBid) -> None:
         """Track one of our listings"""
         self._bids[listing.item_gid][listing.quantity].append(listing)
         self._bids[listing.item_gid][listing.quantity].sort()
-
-        self._logger.info(
-            f"Added listing: uid={listing.uid} "
-            f"gid={listing.item_gid} qty={listing.quantity} "
-            f"price={listing.price} age={60 * listing.age_hours:.1f}min"
-        )
 
     def handle_search_result(self, msg: "ExchangeTypesItemsExchangerDescriptionForUserMessage") -> None:
         """Handle market price information from item search"""
@@ -146,6 +146,10 @@ class MarketBidsManager:
 
     def handle_price_info(self, msg: "ExchangeBidPriceForSellerMessage") -> None:
         """Update current market prices"""
+        self._logger.debug(
+            f"Updating prices for item {msg.genericId}: min={msg.minimalPrices}, avg={msg.averagePrice}"
+        )
+
         for i, quantity in enumerate(self.valid_quantities):
             if i < len(msg.minimalPrices):
                 self.min_price[msg.genericId][quantity] = msg.minimalPrices[i]
@@ -202,7 +206,11 @@ class MarketBidsManager:
         """Track when one of our listings is added"""
         listing = MarketBid.from_message(msg.itemInfo, self.max_delay)
         self._add_bid(listing)
-
+        self._logger.info(
+            f"Added listing: uid={listing.uid} "
+            f"gid={listing.item_gid} qty={listing.quantity} "
+            f"price={listing.price} age={60 * listing.age_hours:.1f}min"
+        )
         current_min = self.min_price[msg.itemInfo.objectGID][listing.quantity]
         if current_min == 0 or listing.price <= current_min:
             self.min_price[msg.itemInfo.objectGID][listing.quantity] = listing.price
@@ -268,7 +276,7 @@ class MarketBidsManager:
         avg_price = self.avg_prices[item_gid][quantity]
 
         if not market_price or not avg_price:
-            return None, "Unable to get market prices"
+            return None, f"Unable to get market prices"
 
         min_acceptable = int(avg_price * min_price_ratio)
         our_min = self.get_bids_min_price(item_gid, quantity)
@@ -290,3 +298,26 @@ class MarketBidsManager:
         market_price = self.min_price[item_gid][quantity]
         listings = self.get_bids(item_gid, quantity)
         return sum(1 for listing in listings if listing.price <= market_price)
+
+    def display_bids(self) -> None:
+        """Display current bids in a formatted table"""
+        table = PrettyTable()
+        table.field_names = ["Item GID", "Quantity", "Price", "Time Left"]
+        table.align = "r"  # Right align all columns
+
+        for item_gid in self._bids:
+            for quantity in self._bids[item_gid]:
+                for bid in self._bids[item_gid][quantity]:
+                    table.add_row(
+                        [
+                            item_gid,
+                            quantity,
+                            f"{bid.price:,}",  # Format price with thousand separators
+                            f"{bid.formatted_time_left}",
+                        ]
+                    )
+
+        # Sort by price and quantity
+        table.sortby = "Price"
+        print("\nCurrent Market Bids:")
+        print(table)

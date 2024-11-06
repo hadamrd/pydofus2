@@ -301,7 +301,7 @@ class ServerConnection(mp.Thread):
             msg.receptionTime = perf_counter()
             msg.sourceConnection = self.id
             if type(msg).__name__ == "NetworkDataContainerMessage":
-                Logger().debug(f"Received network Datacontainer with content of size : {len(msg.content)}")
+                Logger().debug(f"Received network Data container with content of size : {len(msg.content)}")
                 MessageReceiver().parse(ByteArray(msg.content), self.handleMessage, from_dataContainer=True)
             else:
                 self._put(msg)
@@ -337,7 +337,7 @@ class ServerConnection(mp.Thread):
                     Logger().debug(f"[{self.id}] Connection reset by peer.")
                     self._closing.set()
                 elif e.errno == errno.WSAENOTSOCK:
-                    Logger().debug(f"[{self.id}] Socket apears to be closed.")
+                    Logger().debug(f"[{self.id}] Socket appears to be closed.")
                     if not self._closing.is_set():
                         err = e
                         self._closing.set()
@@ -346,7 +346,7 @@ class ServerConnection(mp.Thread):
                     if self._connecting.is_set():
                         self.onConnectionTimeout()
                 else:
-                    Logger().debug(f"{e.errno}, {errno.errorcode[e.errno]} OS error received")
+                    Logger().error(errno.errorcode[e.errno])
                     err = e
                     self._closing.set()
         self.onClose(err)

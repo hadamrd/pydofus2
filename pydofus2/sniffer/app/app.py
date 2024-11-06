@@ -38,16 +38,14 @@ class DofusSnifferApp:
             "InventoryWeightMessage",
         }
 
-        msg_type = msg.__class__.__name__
-        if msg_type in bidhouse_filter:
-            msg_json = self.sniffer.messagesRecord[conn_id][-1]
-            client, server = conn_id.split(" <-> ")
-            _, _, client_port = client.split(":")
-            _, server_host, _ = server.split(":")
-            connection_id = f"{client_port}::{server_host}"
-            self.socketio.emit(
-                "new_message", {"conn_id": connection_id, "message": msg_json, "from_client": from_client}
-            )
+        msg.__class__.__name__
+        # if msg_type in bidhouse_filter:
+        msg_json = self.sniffer.messagesRecord[conn_id][-1]
+        client, server = conn_id.split(" <-> ")
+        _, _, client_port = client.split(":")
+        _, server_host, _ = server.split(":")
+        connection_id = f"{client_port}::{server_host}"
+        self.socketio.emit("new_message", {"conn_id": connection_id, "message": msg_json, "from_client": from_client})
 
     def handle_sniffer_crash(self, error_trace):
         print(f"Sniffer crashed with error: {error_trace}")

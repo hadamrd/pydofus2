@@ -24,7 +24,7 @@ class Recipes:
         self._inventoryDataByGID = dict[int, ItemWrapper]()
         self._currentSkillId: int = None
         self._currentJob: KnownJobWrapper = None
-        self._canTransfertItems = None
+        self._canTransferItems = None
         self._ingredientsToleranceFilter = None
         self._currentRecipesFilter = None
         self._searchCriteria = None
@@ -41,7 +41,7 @@ class Recipes:
         KernelEventsManager().on(KernelEvent.JobLevelUp, self.onJobLevelUp)
         self.uiName = uiName
         self._storageType = storage
-        self._canTransfertItems = self._storageType in [StorageState.BANK_UI_MOD, StorageState.BANK_MOD]
+        self._canTransferItems = self._storageType in [StorageState.BANK_UI_MOD, StorageState.BANK_MOD]
         self._lookBankInventory = self._storageType in [
             StorageState.GUILD_CHEST_UI_MOD,
             StorageState.BANK_UI_MOD,
@@ -64,10 +64,10 @@ class Recipes:
                 self._inventoryDataByGID,
                 self._currentSkillId,
                 self._currentJob.id if self._currentJob else 0,
-                self._canTransfertItems,
+                self._canTransferItems,
                 self._ingredientsToleranceFilter,
             )
-            Logger().debug(f"Found Recipes by job {self._currentJob} and tolerence filter: {len(self._recipes)}")
+            Logger().debug(f"Found Recipes by job {self._currentJob} and tolerance filter: {len(self._recipes)}")
             self._recipeTypes = []
             self._recipes = JobsApi.getJobFilteredRecipes(
                 self._recipes,

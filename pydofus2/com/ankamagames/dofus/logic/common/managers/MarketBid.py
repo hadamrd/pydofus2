@@ -24,6 +24,26 @@ class MarketBid:
     def age_hours(self) -> float:
         return self.age / 3600
 
+    @property
+    def time_left(self) -> int:
+        """Time remaining on the listing in seconds"""
+        return max(0, self.unsold_delay)
+
+    @property
+    def formatted_time_left(self) -> str:
+        """Time remaining formatted as 'Xd HH:MM' or 'HH:MM'"""
+        seconds = self.time_left
+        days = seconds // (24 * 3600)
+        remaining = seconds % (24 * 3600)
+        hours = remaining // 3600
+        minutes = (remaining % 3600) // 60
+
+        if days > 0:
+            return f"{days}d {hours:02d}:{minutes:02d}"
+        if hours > 0:
+            return f"{hours:02d}:{minutes:02d}"
+        return f"{minutes:02d}"
+
     def __lt__(self, other: "MarketBid"):
         """Sort by highest price first, then oldest first"""
         if self.price != other.price:

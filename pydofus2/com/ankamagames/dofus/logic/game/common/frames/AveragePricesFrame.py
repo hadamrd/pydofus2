@@ -52,6 +52,9 @@ class AveragePricesFrame(Frame):
                             for server, prices_data in data.items():
                                 prices_data["lastUpdate"] = datetime.fromisoformat(prices_data["lastUpdate"])
                                 AveragePricesFrame._pricesData[server] = PricesData(**prices_data)
+                                Logger().info(
+                                    f"Loaded average prices for server '{server}', last updated {prices_data['lastUpdate']}"
+                                )
                 except json.JSONDecodeError as e:
                     Logger().error(f"Error loading average prices JSON data: {e}")
         self._server_name = PlayerManager().server.name
@@ -99,7 +102,7 @@ class AveragePricesFrame(Frame):
 
             # Update the items dictionary with the provided IDs and average prices
             for itemId, averagePrice in zip(pItemsIds, pItemsAvgPrices):
-                self._pricesData[self._server_name].items[itemId] = averagePrice
+                self._pricesData[self._server_name].items[str(itemId)] = averagePrice
 
             # Ensure the directory for the averagePricesPath exists
             if not os.path.exists(os.path.dirname(settings.AVERAGE_PRICES_PATH)):
@@ -125,7 +128,13 @@ class AveragePricesFrame(Frame):
         return True
 
     def getItemAveragePrice(self, guid: int):
-        return self._pricesData[self._server_name].items.get(str(guid), 0)
+        server_items = self._pricesData[self._server_name].items
+        avg_price = server_items.get(str(guid))
+        if not avg_price:
+            Logger().error(f"Item '{guid}' not found in server items")
+            Logger().debug(f"Available items gids : {list(server_items.keys())}")
+            return 0
+        return avg_price
 
     def askPricesData(self) -> None:
         if self._prices_data_asked:

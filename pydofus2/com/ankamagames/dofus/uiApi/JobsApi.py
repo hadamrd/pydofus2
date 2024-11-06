@@ -16,7 +16,6 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 
 class JobsApi(IApi):
-
     def __init__(self) -> None:
         super().__init__()
 
@@ -42,16 +41,16 @@ class JobsApi(IApi):
                 totalQty = 0
                 foundIngredients = 0
                 foundIngredientsQty = 0
-                occurences = []
+                occurrences = []
                 missingIngredients = missingIngredientsTolerance
                 for ingredientId, ingredientQty in zip(recipe.ingredientIds, recipe.quantities):
                     totalQty = int(details.get(ingredientId, {"totalQuantity": 0}).get("totalQuantity", 0))
                     if totalQty >= ingredientQty:
-                        occurences.append(int(totalQty // ingredientQty))
+                        occurrences.append(int(totalQty // ingredientQty))
                         foundIngredientsQty += ingredientQty
                         foundIngredients += 1
                     else:
-                        occurences.append(0)
+                        occurrences.append(0)
                         missingIngredients -= 1
                     if missingIngredients < 0:
                         break
@@ -66,18 +65,18 @@ class JobsApi(IApi):
                     )
                 ):
                     recipes.append(recipe)
-                    occurences.sort()
+                    occurrences.sort()
                     if recipe.resultId not in details:
-                        details[recipe.resultId] = {"actualMaxOccurence": occurences[0]}
+                        details[recipe.resultId] = {"actualMaxOccurence": occurrences[0]}
                     else:
-                        details[recipe.resultId]["actualMaxOccurence"] = occurences[0]
+                        details[recipe.resultId]["actualMaxOccurence"] = occurrences[0]
                     if fromBank:
-                        potentialMaxOccurence = 0
-                        for val in occurences:
+                        potentialMaxOccurrence = 0
+                        for val in occurrences:
                             if val != 0:
-                                potentialMaxOccurence = val
+                                potentialMaxOccurrence = val
                                 break
-                        details[recipe.resultId]["potentialMaxOccurence"] = potentialMaxOccurence
+                        details[recipe.resultId]["potentialMaxOccurence"] = potentialMaxOccurrence
         return recipes
 
     @staticmethod
@@ -156,8 +155,8 @@ class JobsApi(IApi):
     @classmethod
     def comparePrice(cls, way=1):
         def comparison(a: Recipe, b: Recipe):
-            aL = Kernel().averagePricesFrame.pricesData["items"][a.resultId]
-            bL = Kernel().averagePricesFrame.pricesData["items"][b.resultId]
+            aL = Kernel().averagePricesFrame.pricesData.items[a.resultId]
+            bL = Kernel().averagePricesFrame.pricesData.items[b.resultId]
             if not aL:
                 aL = ProtocolConstantsEnum.MAX_KAMA if way == 1 else 0
             if not bL:

@@ -58,6 +58,7 @@ class Listener:
             return Logger().warning("arm timer of a deleted listener")
         if newTimeout:
             self.timeout = newTimeout
+
         self.timeoutTimer = BenchmarkTimer(self.timeout, lambda: self.timeoutCallback(self))
         self.timeoutTimer.start()
 
