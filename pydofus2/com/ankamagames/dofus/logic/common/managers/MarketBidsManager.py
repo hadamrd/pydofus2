@@ -78,19 +78,32 @@ class MarketBidsManager:
         self.valid_quantities = list(descriptor.quantities)
         self.npc_id = descriptor.npcContextualId
 
-        self._bids.clear()
-
         for item in msg.objectsInfos:
             listing = MarketBid.from_message(item, self.max_delay)
             self._add_bid(listing)
 
         # Display the bids table after initialization if there are any bids
-        if self._bids:
-            self.display_bids()
+        self.display_bids()
 
     def _add_bid(self, listing: MarketBid) -> None:
-        """Track one of our listings"""
-        self._bids[listing.item_gid][listing.quantity].append(listing)
+        """
+        Track one of our listings and maintain sorted order
+
+        Args:
+            listing (MarketBid): The new market bid to track
+        """
+        # Initialize nested defaultdict structure if needed
+        bids_for_quantity = self._bids[listing.item_gid][listing.quantity]
+
+        # Remove existing bid with same UID if it exists
+        for i, existing_bid in enumerate(bids_for_quantity):
+            if existing_bid.uid == listing.uid:
+                bids_for_quantity.pop(i)
+                break
+
+        # Add the new/updated bid
+        bids_for_quantity.append(listing)
+        # Sort bids (assuming MarketBid implements comparison methods)
         self._bids[listing.item_gid][listing.quantity].sort()
 
     def handle_search_result(self, msg: "ExchangeTypesItemsExchangerDescriptionForUserMessage") -> None:
@@ -319,5 +332,5 @@ class MarketBidsManager:
 
         # Sort by price and quantity
         table.sortby = "Price"
-        print("\nCurrent Market Bids:")
-        print(table)
+        self._logger.info("\nCurrent Market Bids:")
+        self._logger.info(table)
