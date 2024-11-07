@@ -41,11 +41,11 @@ class Inventory:
         if view:
             del self._views[name]
 
-    def getItem(self, uid: int) -> ItemWrapper:
+    def getItem(self, uid: int) -> "ItemSet":
         return self._itemsDict.get(uid)
 
     def getItemMaskCount(self, uid: int, mask: str) -> int:
-        itemSet: ItemSet = self._itemsDict[uid]
+        itemSet = self._itemsDict[uid]
         if not itemSet:
             return 0
         if itemSet.masks.get(mask):
@@ -61,7 +61,7 @@ class Inventory:
 
     def initializeFromObjectItems(self, items: list[ObjectItem]) -> None:
         self._itemsDict = dict()
-        iteml: list[ItemWrapper] = list[ItemWrapper]()
+        iteml = list[ItemWrapper]()
         for item in items:
             iw = ItemWrapper.create(
                 item.position,
@@ -75,7 +75,7 @@ class Inventory:
         self.initializeViews(iteml)
 
     def addObjectItem(self, item: ObjectItem) -> ItemWrapper:
-        iw: ItemWrapper = ItemWrapper.create(
+        iw = ItemWrapper.create(
             item.position,
             item.objectUID,
             item.objectGID,
@@ -87,7 +87,7 @@ class Inventory:
         return iw
 
     def addItem(self, item: ItemWrapper) -> None:
-        itemSet: ItemSet = self._itemsDict.get(item.objectUID)
+        itemSet = self._itemsDict.get(item.objectUID)
         if itemSet:
             oldItem = item.clone()
             itemSet.item.quantity += item.quantity
@@ -99,7 +99,7 @@ class Inventory:
             self.addItemToViews(itemSet)
 
     def removeItem(self, itemUID: int, quantity: int = -1) -> None:
-        itemSet: ItemSet = self._itemsDict.get(int(itemUID))
+        itemSet = self._itemsDict.get(int(itemUID))
         if itemSet is None:
             return
         if quantity == -1 or quantity == itemSet.item.quantity:
@@ -114,7 +114,7 @@ class Inventory:
             self.modifyItemFromViews(itemSet, oldItem)
 
     def modifyItemQuantity(self, itemUID: int, quantity: int) -> None:
-        itemSet: ItemSet = self._itemsDict.get(itemUID)
+        itemSet = self._itemsDict.get(itemUID)
         if not itemSet:
             Logger().error("We are trying to modify quantity of a non existing item!")
             return
@@ -124,7 +124,7 @@ class Inventory:
         return iw
 
     def modifyItemPosition(self, itemUID: int, position: int) -> None:
-        itemSet: ItemSet = self._itemsDict.get(itemUID)
+        itemSet = self._itemsDict.get(itemUID)
         if not itemSet:
             Logger().warning("On essaye de modifier la position d'un objet qui n'existe pas")
             return
@@ -158,7 +158,7 @@ class Inventory:
 
     def modifyItem(self, item: ItemWrapper) -> None:
         oldItem: ItemWrapper = None
-        itemSet: ItemSet = self._itemsDict.get(item.objectUID)
+        itemSet = self._itemsDict.get(item.objectUID)
         if itemSet:
             oldItem = itemSet.item.clone()
             self.copyItem(itemSet.item, item)
@@ -167,7 +167,7 @@ class Inventory:
             self.addItem(item)
 
     def addItemMask(self, objectUID: int, name: str, size: int) -> None:
-        itemSet: ItemSet = self._itemsDict.get(objectUID)
+        itemSet = self._itemsDict.get(objectUID)
         if not itemSet:
             Logger().error("On essaye de masquer un item qui n'existe pas dans l'inventaire")
             return
@@ -175,14 +175,14 @@ class Inventory:
         self.modifyItemFromViews(itemSet, itemSet.item)
 
     def removeItemMask(self, objectUID: int, name: str) -> None:
-        itemSet: ItemSet = self._itemsDict.get(objectUID)
+        itemSet = self._itemsDict.get(objectUID)
         if not itemSet:
             return
         del itemSet.masks[name]
         self.modifyItemFromViews(itemSet, itemSet.item)
 
     def removeAllItemMasks(self, name: str) -> None:
-        itemSet: ItemSet = None
+        itemSet = None
         for itemSet in self._itemsDict:
             if itemSet.masks.get(name):
                 del itemSet.masks[name]

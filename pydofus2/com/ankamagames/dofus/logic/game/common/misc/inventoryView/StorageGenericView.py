@@ -111,6 +111,12 @@ class StorageGenericView(IStorageView):
     def getItemTypes(self) -> dict:
         return self._types
 
+    def getItemByUID(self, uid):
+        for item in self._content:
+            if item.objectUID == uid:
+                return item
+        return None
+
     def getItemIndex(self, item: ItemWrapper, iwlist: list[ItemWrapper] = None) -> int:
         if iwlist is None:
             iwlist = self._content
@@ -226,12 +232,7 @@ class StorageGenericView(IStorageView):
         return self.compareFunction(a, b, sortDepth + 1)
 
     def getItemAveragePrice(self, pItemGID: int) -> float:
-        avgPricesFrame = Kernel().averagePricesFrame
-        return (
-            float(avgPricesFrame.pricesData.items[pItemGID])
-            if avgPricesFrame.pricesData.items.get(pItemGID) is not None
-            else 0
-        )
+        return Kernel().averagePricesFrame.getItemAveragePrice(pItemGID)
 
     def updateView(self) -> None:
         sameSort: bool = True

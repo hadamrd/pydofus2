@@ -115,6 +115,13 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         # Logger().debug(f"Has rights : {self.hasRights}")
         return self.subscriptionEndDate / 1000 <= TimeManager().getUtcTimestamp() and not self.hasRights
 
+    def inHavenBag(self):
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
+            PlayedCharacterManager,
+        )
+
+        return HavenbagTheme.isMapIdInHavenbag(PlayedCharacterManager().currentMap.mapId)
+
     def isMapInHavenbag(self, mapId: int) -> bool:
         return HavenbagTheme.isMapIdInHavenbag(mapId)
 
@@ -140,7 +147,7 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         return name + (self.TAG_PREFIX + displayedTag if not tag else "") + (" (" + other + ")" if not other else "")
 
     def addTagStyleToText(self, tagStyleName: str, text: str) -> str:
-        return '<span class="' + tagStyleName + '">' + text + "</span>"
+        return f'<span class="{tagStyleName}">{text}</span>'
 
     def destroy(self) -> None:
         self._self = None

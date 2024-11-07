@@ -346,7 +346,10 @@ class ServerConnection(mp.Thread):
                     if self._connecting.is_set():
                         self.onConnectionTimeout()
                 else:
-                    Logger().error(errno.errorcode[e.errno])
+                    Logger().error(
+                        f"Socket interrupted because of unknown error [{e.errno}] : {errno.errorcode[e.errno]}",
+                        exc_info=True,
+                    )
                     err = e
                     self._closing.set()
         self.onClose(err)

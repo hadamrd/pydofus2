@@ -499,7 +499,7 @@ class PlayedCharacterUpdatesFrame(Frame):
         if isinstance(msg, GameMapSpeedMovementMessage):
             gmsmm = msg
             newSpeedAjust = 10 * (gmsmm.speedMultiplier - 1)
-            pcm.PlayedCharacterManager().speedAjust = newSpeedAjust
+            pcm.PlayedCharacterManager().speedAdjust = newSpeedAjust
             if (
                 DofusEntities().getEntity(pcm.PlayedCharacterManager().id) is not None
                 and self.roleplayContextFrame is not None

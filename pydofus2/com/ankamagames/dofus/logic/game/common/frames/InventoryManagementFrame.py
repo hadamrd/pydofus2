@@ -174,6 +174,10 @@ class InventoryManagementFrame(Frame):
             PlayedCharacterManager().inventoryWeightMax = msg.weightMax
             if msg.inventoryWeight / msg.weightMax > 0.95:
                 KernelEventsManager().send(KernelEvent.PlayerPodsFull)
+
+            Logger().info(
+                f"Inventory weight percent changed to : {round(100 * msg.inventoryWeight / msg.weightMax, 1)}%"
+            )
             KernelEventsManager().send(
                 KernelEvent.InventoryWeightUpdate, lastInventoryWeight, msg.inventoryWeight, msg.weightMax
             )

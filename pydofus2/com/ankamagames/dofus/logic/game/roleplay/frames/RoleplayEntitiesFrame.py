@@ -247,9 +247,8 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                 PlayedCharacterManager().isIndoor = False
 
             if isinstance(msg, MapComplementaryInformationsWithCoordsMessage):
-                mciwcmsg = msg
                 PlayedCharacterManager().isIndoor = True
-                self._worldPoint = WorldPointWrapper(mciwcmsg.mapId, True, mciwcmsg.worldX, mciwcmsg.worldY)
+                self._worldPoint = WorldPointWrapper(msg.mapId, True, msg.worldX, msg.worldY)
 
             elif isinstance(msg, MapComplementaryInformationsDataInHouseMessage):
                 self.checkPlayerInHouse(msg)
@@ -295,7 +294,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                 ac = self.addOrUpdateActor(actor1)
                 if ac:
                     if ac.id == PlayedCharacterManager().id:
-                        ac.speedAdjust = PlayedCharacterManager().speedAjust
+                        ac.speedAdjust = PlayedCharacterManager().speedAdjust
                     character = actor1
                     if isinstance(character, GameRolePlayCharacterInformations):
                         for option in character.humanoidInfo.options:
@@ -351,6 +350,8 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                 Logger().debug("Played entered haven bag")
                 KernelEventsManager().send(KernelEvent.InHavenBag)
             KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_PROCESSED)
+            if PlayedCharacterManager().currVertex is None:
+                raise Exception("At the end of map data processing, we still have no player position!")
             return True
 
         if isinstance(msg, GameRolePlayShowActorMessage):

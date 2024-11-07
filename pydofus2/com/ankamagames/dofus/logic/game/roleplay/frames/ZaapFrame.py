@@ -59,7 +59,7 @@ class ZaapFrame(Frame):
     def pulled(self) -> bool:
         return True
 
-    def teleportRequest(self, cost, sourceType, destinationType, mapId):
+    def sendTeleportRequest(self, cost, sourceType, destinationType, mapId):
         if cost <= PlayedCharacterManager().characteristics.kamas:
             trmsg = TeleportRequestMessage()
             trmsg.init(sourceType, destinationType, mapId)

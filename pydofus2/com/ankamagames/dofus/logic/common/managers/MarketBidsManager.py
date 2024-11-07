@@ -332,5 +332,5 @@ class MarketBidsManager:
 
         # Sort by price and quantity
         table.sortby = "Price"
-        self._logger.info("\nCurrent Market Bids:")
+        self._logger.info("\nCurrent Market Bids:\n")
         self._logger.info(table)

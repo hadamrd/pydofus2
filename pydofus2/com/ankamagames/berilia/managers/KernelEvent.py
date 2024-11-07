@@ -10,6 +10,7 @@ class KernelEvent(Enum):
     MarketSearchResult = auto()
     MarketModeSwitch = auto()
     MarketPriceInfo = auto()
+    ExchangeError = auto()
 
     # MVP
     MessageReceived = auto()

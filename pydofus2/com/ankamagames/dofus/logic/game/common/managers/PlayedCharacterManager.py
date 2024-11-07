@@ -94,7 +94,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         self.achievementPercent = 0
         self.applicationInfo = None
         self.guildApplicationInfo = None
-        self.speedAjust: int = 0
+        self.speedAdjust: int = 0
         self.isInParty: bool = False
         self.playerMaxForgettableSpellsfloat: int = -1
         self._knownZaapMapIds: list[float] = list()
@@ -133,18 +133,27 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
 
         if self.currentZoneRp is None or self.currentMap is None:
             return None
+
         v = WorldGraph().getVertex(self.currentMap.mapId, self.currentZoneRp)
         if v is None:
-            potentialvertices = WorldGraph().getVertices(PlayedCharacterManager().currentMap.mapId)
-            if not potentialvertices:
-                Logger().error(f"Weird that no vertex is found for map {PlayedCharacterManager().currentMap.mapId}!")
+            possible_vertices = WorldGraph().getVertices(PlayedCharacterManager().currentMap.mapId)
+            if not possible_vertices:
+                Logger().debug("Checking if its a haven bag ...")
+                from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+
+                if PlayerManager().isMapInHavenbag(PlayedCharacterManager().currentMap.mapId):
+                    Logger().warning("Current player vertex is undefined because player is inside its haven bag ...")
+                else:
+                    Logger().error(
+                        f"Weird that no vertex is found for map {PlayedCharacterManager().currentMap.mapId}!"
+                    )
             else:
-                Logger().debug(potentialvertices)
-                for zoneId, v in potentialvertices.items():
+                Logger().debug(possible_vertices)
+                for zoneId, v in possible_vertices.items():
                     if self.currentZoneRp and zoneId == self.currentZoneRp:
                         return v
                 else:
-                    return potentialvertices[1]
+                    return possible_vertices[1]
         else:
             return v
 
