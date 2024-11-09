@@ -54,16 +54,15 @@ from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class CommonExchangeManagementFrame(Frame):
-
     def __init__(self, pExchangeType):
         super().__init__()
         self._exchangeType = pExchangeType
         self._numCurrentSequence = 0
 
-    def incrementEchangeSequence(self):
+    def incrementExchangeSequence(self):
         self._numCurrentSequence += 1
 
-    def resetEchangeSequence(self):
+    def resetExchangeSequence(self):
         self._numCurrentSequence = 0
 
     def leaveShopStock(self):

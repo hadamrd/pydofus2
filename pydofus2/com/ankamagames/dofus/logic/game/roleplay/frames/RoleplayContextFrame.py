@@ -177,7 +177,7 @@ class RoleplayContextFrame(Frame):
         elif isinstance(msg, ExchangeStartedMessage):
             commonExchangeFrame = Kernel().commonExchangeManagementFrame
             if commonExchangeFrame:
-                commonExchangeFrame.resetEchangeSequence()
+                commonExchangeFrame.resetExchangeSequence()
             if msg.exchangeType in [
                 ExchangeTypeEnum.CRAFT,
                 ExchangeTypeEnum.MULTICRAFT_CRAFTER,

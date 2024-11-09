@@ -5,7 +5,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.Storage
 from pydofus2.com.ankamagames.dofus.types.enums.ItemCategoryEnum import ItemCategoryEnum
 
 
-class BankRessourcesView(StorageGenericView):
+class BankResourcesView(StorageGenericView):
     def __init__(self):
         super().__init__()
 

@@ -6,8 +6,6 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import 
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.MarketBidsManager import MarketBidsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import InactivityManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
-from pydofus2.com.ankamagames.dofus.network.enums.ChatActivableChannelsEnum import ChatActivableChannelsEnum
 from pydofus2.com.ankamagames.dofus.network.enums.ExchangeErrorEnum import ExchangeErrorEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.NpcGenericActionRequestMessage import (
     NpcGenericActionRequestMessage,
@@ -38,6 +36,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.Ex
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeObjectMovePricedMessage import (
     ExchangeObjectMovePricedMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeOfflineSoldItemsMessage import (
+    ExchangeOfflineSoldItemsMessage,
 )
 from pydofus2.com.ankamagames.dofus.network.messages.game.inventory.exchanges.ExchangeStartedBidBuyerMessage import (
     ExchangeStartedBidBuyerMessage,
@@ -86,6 +87,7 @@ class MarketFrame(Frame):
         self._state = "INIT"
         self._current_mode = None
         self._market_mapId = None
+        self._search_item_listener = None
 
     @property
     def priority(self) -> int:
@@ -100,6 +102,10 @@ class MarketFrame(Frame):
         return True
 
     def reset_state(self):
+        if self._bids_manager:
+            self._bids_manager.max_item_level = None
+            self._bids_manager.allowed_types = None
+            self._bids_manager.npc_id = None
         self._market_type_open = None
         self._current_mode = None
         self._current_searched_item_gid = None
@@ -110,12 +116,12 @@ class MarketFrame(Frame):
         return True
 
     def process(self, msg: Message) -> bool:
-        """
-        Process incoming market-related messages
-        Args:
-            msg: Message to process
-        Returns: True if message was handled
-        """
+        if isinstance(msg, ExchangeOfflineSoldItemsMessage):
+            # FIXME: Implement this very important logic so we can save markets state offline
+            # items where sold when we where offline
+            # { "bidHouseItems": [ { "__type__": "ObjectItemQuantityPriceDateEffects", "objectGID": 443, "quantity": 100, "price": 3571, "effects": { "__type__": "ObjectEffects", "effects": [] }, "date": 1731091668 } ] }
+            return True
+
         # Handle sell mode initialization
         if isinstance(msg, ExchangeStartedBidSellerMessage):
             if self._state != "SWITCHING_TO_SELL":
@@ -126,6 +132,7 @@ class MarketFrame(Frame):
                 return
 
             Logger().info("Market switched to sell mode")
+            self._current_mode = "sell"
             self._state = "IDLE"
             self._logger.info("Initialize market state with rules from seller descriptor")
             self._bids_manager.init_from_seller_descriptor(msg)
@@ -133,6 +140,7 @@ class MarketFrame(Frame):
             return True
 
         elif isinstance(msg, ExchangeStartedBidBuyerMessage):
+            self._current_mode = "buy"
             return True
 
         # Handle item type descriptions
@@ -147,7 +155,9 @@ class MarketFrame(Frame):
             self._logger.debug(f"Received item research result for GID {msg.objectGID}")
             self._state = "IDLE"
             self._current_searched_item_gid = self._bids_manager.handle_search_result(msg)
-            KernelEventsManager().send(KernelEvent.MarketSearchResult, msg)
+            KernelEventsManager().send(KernelEvent.MarketSearchResult, None, None)
+            if self._search_item_listener:
+                self._search_item_listener = None
             return True
 
         # Price check response
@@ -177,7 +187,7 @@ class MarketFrame(Frame):
         if isinstance(msg, ExchangeBidHouseItemAddOkMessage):
             listing = self._bids_manager.handle_bid_added(msg)
             if listing:
-                self._logger.info(f"Added listing {listing.uid} to market state")
+                # self._logger.info(f"Added listing {listing.uid} to market state")
                 KernelEventsManager().send(KernelEvent.MarketListingAdded, listing)
             return True
 
@@ -190,9 +200,6 @@ class MarketFrame(Frame):
             return True
 
         if isinstance(msg, ExchangeErrorMessage):
-            ermsg = msg  # Type casting not needed in Python
-            channelId = ChatActivableChannelsEnum.PSEUDO_CHANNEL_INFO
-
             # Dictionary for error message mapping
             error_messages = {
                 ExchangeErrorEnum.REQUEST_CHARACTER_OCCUPIED: "ui.exchange.cantExchangeCharacterOccupied",
@@ -209,21 +216,20 @@ class MarketFrame(Frame):
             errorMessage = None
 
             # Special case for guest character
-            if ermsg.errorType == ExchangeErrorEnum.REQUEST_CHARACTER_GUEST:
+            if msg.errorType == ExchangeErrorEnum.REQUEST_CHARACTER_GUEST:
                 errorMessage = I18n.getUiText("ui.exchange.cantExchangeCharacterGuest")
             # Skip processing for BID_SEARCH_ERROR
-            elif ermsg.errorType != ExchangeErrorEnum.BID_SEARCH_ERROR:
+            elif msg.errorType != ExchangeErrorEnum.BID_SEARCH_ERROR:
                 # Get message from dictionary, default to generic error message
-                errorMessage = I18n.getUiText(error_messages.get(ermsg.errorType, "ui.exchange.cantExchange"))
-            Logger().error(f"Received exchange error : {errorMessage}")
+                errorMessage = I18n.getUiText(error_messages.get(msg.errorType, "ui.exchange.cantExchange"))
 
-            if errorMessage:
-                KernelEventsManager().send(
-                    KernelEvent.TextInformation, errorMessage, channelId, TimeManager().getTimestamp()
-                )
+            Logger().error(f"Received exchange error [{msg.errorType}] : {errorMessage}")
 
-            KernelEventsManager().send(KernelEvent.ExchangeError, ermsg.errorType)
-
+            KernelEventsManager().send(KernelEvent.ExchangeError, msg.errorType)
+            if self._state == "SEARCHING":
+                Logger().error("Bid search request to server was rejected !")
+                self._state = "IDLE"
+                KernelEventsManager().send(KernelEvent.MarketSearchResult, msg.errorType, errorMessage)
             return True
 
     # Market Operations
@@ -240,7 +246,7 @@ class MarketFrame(Frame):
         if callback:
             KernelEventsManager().once(
                 KernelEvent.MarketSearchResult,
-                callback=lambda *_: callback(0, None),
+                callback=lambda _, error_type, error_message: callback(error_type, error_message),
                 ontimeout=lambda *_: callback(1, "Market search operation timed out!"),
                 timeout=5,
                 retryNbr=3,

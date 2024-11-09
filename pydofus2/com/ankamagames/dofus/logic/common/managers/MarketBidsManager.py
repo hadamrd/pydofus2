@@ -1,10 +1,12 @@
 from collections import defaultdict
-from typing import TYPE_CHECKING, List, Optional, Tuple
+from typing import TYPE_CHECKING, Generator, List, Optional, Tuple
 
 from prettytable import PrettyTable
 
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
 from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
+from pydofus2.com.ankamagames.dofus.datacenter.items.Item import Item
+from pydofus2.com.ankamagames.dofus.datacenter.items.ItemType import ItemType
 from pydofus2.com.ankamagames.dofus.logic.common.managers.MarketBid import MarketBid
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
@@ -41,9 +43,9 @@ class MarketBidsManager:
 
         # Market rules from seller descriptor
         self.max_delay = self.MAX_LISTING_SECONDS
-        self.tax_percentage: int = 0
-        self.max_item_level: int = 0
-        self.max_item_count: int = 0
+        self.tax_percentage: int = None
+        self.max_item_level: int = None
+        self.max_item_count: int = None
         self.allowed_types: List[int] = []
         self.valid_quantities: List[int] = []
         self.npc_id: Optional[int] = None
@@ -54,6 +56,18 @@ class MarketBidsManager:
 
         # Nested defaultdict for listings
         self._bids = defaultdict(lambda: defaultdict(list[MarketBid]))  # gid -> quantity -> listings
+
+    def get_all_bids(self) -> Generator[MarketBid, None, None]:
+        """Get all active bids across all items"""
+        for gid_listings in self._bids.values():
+            for quantity_listings in gid_listings.values():
+                for bid in quantity_listings:
+                    yield bid
+
+    def get_all_updatable_bids(self, min_age: int) -> List[MarketBid]:
+        """Get all updatable listings sorted by highest price first"""
+        updatable = [bid for bid in self.get_all_bids() if bid.age_hours >= min_age]
+        return sorted(updatable, key=lambda x: x.price, reverse=True)
 
     def get_remaining_sell_slots(self) -> int:
         """
@@ -83,7 +97,8 @@ class MarketBidsManager:
             self._add_bid(listing)
 
         # Display the bids table after initialization if there are any bids
-        self.display_bids()
+        self.display_market_rules()
+        self.display_current_bids()
 
     def _add_bid(self, listing: MarketBid) -> None:
         """
@@ -119,7 +134,9 @@ class MarketBidsManager:
             if i < len(first_item.prices):
                 self.min_price[msg.objectGID][quantity] = first_item.prices[i]
 
-        self._logger.debug(f"Updated prices for item {msg.objectGID}: {self.min_price[msg.objectGID]}")
+        self._logger.debug(
+            f"Received search result for item {msg.objectGID}: {list(self.min_price[msg.objectGID].values())}"
+        )
         return msg.objectGID
 
     def get_bid_by_uid(self, uid: int) -> Optional[MarketBid]:
@@ -144,7 +161,7 @@ class MarketBidsManager:
                     KernelEventsManager().send(
                         KernelEvent.AssetPriceChanged, msg.objectGID, quantity, old_price, new_price
                     )
-                    our_min = self.get_bids_min_price(msg.objectGID, quantity)
+                    our_min = self.get_bid_min_price(msg.objectGID, quantity)
                     if our_min and new_price < our_min:
                         KernelEventsManager().send(
                             KernelEvent.NewMarketLow, msg.objectGID, quantity, old_price, new_price
@@ -249,7 +266,7 @@ class MarketBidsManager:
 
         return sorted([l for l in listings if l.age >= min_age], key=lambda x: x.age, reverse=True)
 
-    def get_bids_min_price(self, item_gid: int, quantity: int) -> Optional[int]:
+    def get_bid_min_price(self, item_gid: int, quantity: int) -> Optional[int]:
         """Get our lowest listing price for given item and quantity"""
         listings = self.get_bids(item_gid, quantity)
         if not listings:
@@ -292,7 +309,7 @@ class MarketBidsManager:
             return None, f"Unable to get market prices"
 
         min_acceptable = int(avg_price * min_price_ratio)
-        our_min = self.get_bids_min_price(item_gid, quantity)
+        our_min = self.get_bid_min_price(item_gid, quantity)
 
         self._logger.debug(f"Market state: gid={item_gid} qty={quantity} " f"market={market_price} our_min={our_min}")
 
@@ -312,25 +329,87 @@ class MarketBidsManager:
         listings = self.get_bids(item_gid, quantity)
         return sum(1 for listing in listings if listing.price <= market_price)
 
-    def display_bids(self) -> None:
+    def display_market_rules(self) -> None:
+        """Display market characteristics in a formatted table"""
+        market_info = PrettyTable()
+        market_info.field_names = ["Market Characteristics", "Value"]
+        market_info.align["Market Characteristics"] = "l"  # Left align first column
+        market_info.align["Value"] = "r"  # Right align second column
+        market_info.add_row(["Maximum Items", f"{self.max_item_count:,}"])
+        market_info.add_row(["Maximum Item Level", f"{self.max_item_level:,}"])
+        market_info.add_row(["Tax Percentage", f"{self.tax_percentage}%"])
+        market_info.add_row(["Maximum Listing Duration", f"{self.MAX_LISTING_DAYS} days"])
+        market_info.add_row(["Available Slots", f"{self.get_remaining_sell_slots():,}"])
+
+        # Add allowed quantities in a readable format
+        quantities_str = ", ".join(str(q) for q in sorted(self.valid_quantities))
+        market_info.add_row(["Valid Quantities", quantities_str])
+
+        # Add allowed types in a readable format
+        type_names = []
+        for type_id in self.allowed_types:
+            try:
+                item_type = ItemType.getItemTypeById(int(type_id))
+                if item_type:
+                    type_names.append(item_type.name)
+            except:
+                type_names.append(f"Type {type_id}")
+        types_str = ", ".join(type_names)
+        market_info.add_row(["Allowed Types", types_str[:50] + "..." if len(types_str) > 50 else types_str])
+
+        market_info.border = True
+        market_info.title = "Market Rules"
+
+        self._logger.info("\nMarket Status Report")
+        self._logger.info("=" * 80)
+        self._logger.info(f"\n{market_info}")
+
+    def display_current_bids(self) -> None:
         """Display current bids in a formatted table"""
-        table = PrettyTable()
-        table.field_names = ["Item GID", "Quantity", "Price", "Time Left"]
-        table.align = "r"  # Right align all columns
+        bids_table = PrettyTable()
+        bids_table.field_names = ["Item Name", "Item GID", "Type", "Quantity", "Price", "Market Min", "Time Left"]
+        bids_table.align = "r"  # Right align all columns
+        bids_table.align["Item Name"] = "l"  # Left align item names
+        bids_table.align["Type"] = "l"  # Left align type names
+
+        total_value = 0
+        total_tax = 0
 
         for item_gid in self._bids:
             for quantity in self._bids[item_gid]:
+                market_min = self.min_price[item_gid][quantity]
                 for bid in self._bids[item_gid][quantity]:
-                    table.add_row(
+                    item = Item.getItemById(item_gid)
+                    total_value += bid.price
+                    total_tax += self.calculate_tax(bid.price)
+
+                    # Color coding for price comparison
+                    price_str = f"{bid.price:,}"
+                    if bid.price <= market_min:
+                        price_str = f"{price_str}*"  # Mark lowest price
+
+                    bids_table.add_row(
                         [
+                            item.name,
                             item_gid,
-                            quantity,
-                            f"{bid.price:,}",  # Format price with thousand separators
-                            f"{bid.formatted_time_left}",
+                            item.type.name,
+                            f"{quantity:,}",
+                            price_str,
+                            f"{market_min:,}" if market_min > 0 else "N/A",
+                            bid.formatted_time_left,
                         ]
                     )
 
+        # Add summary row
+        if self._bids:
+            bids_table.add_row(["TOTALS", "", "", "", f"{total_value:,}", "", f"Tax: {total_tax:,}"])
+
         # Sort by price and quantity
-        table.sortby = "Price"
-        self._logger.info("\nCurrent Market Bids:\n")
-        self._logger.info(table)
+        bids_table.sortby = "Price"
+        bids_table.title = "Current Market Bids"
+
+        if self._bids:
+            self._logger.info(f"\n{bids_table}")
+            self._logger.info("\n* Indicates lowest price on market")
+        else:
+            self._logger.info("\nNo active listings")

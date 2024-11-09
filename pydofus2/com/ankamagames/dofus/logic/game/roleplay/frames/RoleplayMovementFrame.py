@@ -179,7 +179,7 @@ class RoleplayMovementFrame(Frame):
                 "keyMoves": movePath.keyMoves(),
             },
         )
-        Logger().info(f"Requested move from {PlayedCharacterManager().currentCellId} to {destCell.cellId}")
+        # Logger().info(f"Requested move from {PlayedCharacterManager().currentCellId} to {destCell.cellId}")
         InactivityManager().activity()
 
     def pulled(self) -> bool:

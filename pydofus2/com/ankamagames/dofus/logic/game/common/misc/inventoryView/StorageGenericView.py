@@ -48,8 +48,11 @@ class StorageGenericView(IStorageView):
     def types(self) -> dict:
         return self._types
 
+    def hasItemType(self, typeId):
+        return typeId in self._types
+
     def addItem(self, item: ItemWrapper, invisible: int, needUpdateView: bool = True) -> None:
-        clone: ItemWrapper = item.clone()
+        clone = item.clone()
         clone.quantity -= invisible
         self._content.insert(0, clone)
         if self._sortedContent:

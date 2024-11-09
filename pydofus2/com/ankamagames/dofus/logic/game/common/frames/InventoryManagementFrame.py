@@ -112,7 +112,7 @@ class InventoryManagementFrame(Frame):
             Logger().debug("Inventory content received")
             InventoryManager().inventory.initializeFromObjectItems(msg.objects)
             InventoryManager().inventory.kamas = msg.kamas
-            Logger().debug(f"Player inventgory Kamas: {msg.kamas}")
+            Logger().debug(f"Player inventory Kamas: {msg.kamas}")
             KernelEventsManager().send(KernelEvent.KamasUpdate, msg.kamas)
             equipmentView = InventoryManager().inventory.getView("equipment")
             if equipmentView and equipmentView.content:
@@ -136,31 +136,34 @@ class InventoryManagementFrame(Frame):
 
         if isinstance(msg, ObjectAddedMessage):
             iw = InventoryManager().inventory.addObjectItem(msg.object)
-            Logger().debug(f"Added object {iw.objectGID} x {iw.quantity}")
-            KernelEventsManager().send(KernelEvent.ObjectAdded, iw)
+            Logger().debug(f"[inventory] Added object {iw.objectGID} x{iw.quantity}")
+            KernelEventsManager().send(KernelEvent.ObjectAdded, iw, iw.quantity)
             return True
 
         if isinstance(msg, ObjectsAddedMessage):
-            for osait in msg.object:
-                iw = InventoryManager().inventory.addObjectItem(osait)
-                KernelEventsManager().send(KernelEvent.ObjectAdded, iw)
+            added_objects = []
+            for added_object in msg.object:
+                iw = InventoryManager().inventory.addObjectItem(added_object)
+                Logger().debug(f"[inventory] Added object {iw.objectGID} x{iw.quantity}")
+                added_objects.append((iw, iw.quantity))
+                KernelEventsManager().send(KernelEvent.ObjectAdded, iw, iw.quantity)
+            KernelEventsManager().send(KernelEvent.ObjectsAdded, added_objects)
             return True
 
         if isinstance(msg, ObjectQuantityMessage):
-            iw = InventoryManager().inventory.modifyItemQuantity(msg.objectUID, msg.quantity)
-            for shortcutQty in InventoryManager().shortcutBarItems:
-                if shortcutQty and shortcutQty.id == msg.objectUID:
-                    shortcutQty.quantity = msg.quantity
-            KernelEventsManager().send(KernelEvent.ObjectAdded, iw)
+            iw, added_quantity = InventoryManager().inventory.modifyItemQuantity(msg.objectUID, msg.quantity)
+            Logger().debug(f"[inventory] Added object {iw.objectGID} x{added_quantity}")
+            KernelEventsManager().send(KernelEvent.ObjectAdded, iw, added_quantity)
             return True
 
         if isinstance(msg, ObjectsQuantityMessage):
-            osqm = msg
-            for objoqm in osqm.objectsUIDAndQty:
-                InventoryManager().inventory.modifyItemQuantity(objoqm.objectUID, objoqm.quantity)
-                for shortcutsQty in InventoryManager().shortcutBarItems:
-                    if shortcutsQty and shortcutsQty.id == objoqm.objectUID:
-                        shortcutsQty.quantity = objoqm.quantity
+            added_objects = []
+            for item in msg.objectsUIDAndQty:
+                iw, added_quantity = InventoryManager().inventory.modifyItemQuantity(item.objectUID, item.quantity)
+                Logger().debug(f"[inventory] Added object {iw.objectGID} x{added_quantity}")
+                added_objects.append((iw, added_quantity))
+                KernelEventsManager().send(KernelEvent.ObjectAdded, iw, added_quantity)
+            KernelEventsManager().send(KernelEvent.ObjectsAdded, added_objects)
             return True
 
         if isinstance(msg, KamasUpdateMessage):
@@ -184,32 +187,32 @@ class InventoryManagementFrame(Frame):
             return True
 
         if isinstance(msg, ObjectMovementMessage):
-            ommsg = msg
-            InventoryManager().inventory.modifyItemPosition(ommsg.objectUID, ommsg.position)
+            InventoryManager().inventory.modifyItemPosition(msg.objectUID, msg.position)
             return True
 
         if isinstance(msg, ObjectModifiedMessage):
-            omdmsg = msg
             inventoryMgr = InventoryManager()
-            inventoryMgr.inventory.modifyObjectItem(omdmsg.object)
+            inventoryMgr.inventory.modifyObjectItem(msg.object)
             return False
 
         if isinstance(msg, ObjectDeletedMessage):
-            odmsg = msg
-            InventoryManager().inventory.removeItem(odmsg.objectUID, -1)
+            InventoryManager().inventory.removeItem(msg.objectUID, -1)
+            Logger().debug(f"[inventory] Deleted object {msg.objectUID}")
+            KernelEventsManager().send(KernelEvent.ObjectDeleted, msg.objectUID)
             return True
 
         if isinstance(msg, ObjectsDeletedMessage):
-            osdmsg = msg
-            for osdit in osdmsg.objectUID:
-                InventoryManager().inventory.removeItem(osdit, -1)
+            for item in msg.objectUID:
+                InventoryManager().inventory.removeItem(item, -1)
+                Logger().debug(f"[inventory] Deleted object {msg.objectUID}")
+                KernelEventsManager().send(KernelEvent.ObjectDeleted, msg.objectUID)
+            KernelEventsManager().send(KernelEvent.ObjectsDeleted, msg.objectUID)
             return True
 
         if isinstance(msg, DeleteObjectAction):
-            doa = msg
-            odmsg2 = ObjectDeleteMessage()
-            odmsg2.init(doa.objectUID, doa.quantity)
-            ConnectionsHandler().send(odmsg2)
+            action = ObjectDeleteMessage()
+            action.init(msg.objectUID, msg.quantity)
+            ConnectionsHandler().send(action)
             return True
 
         return False
@@ -234,12 +237,12 @@ class InventoryManagementFrame(Frame):
         else:
             if quantity > 1:
                 oumsg = ObjectUseMultipleMessage()
-                oumsg.init(iw.objectUID, quantity)
+                oumsg.init(quantity, iw.objectUID)
             else:
                 oumsg = ObjectUseMessage()
                 oumsg.init(iw.objectUID)
             playerEntity = PlayedCharacterManager().entity
             if playerEntity and playerEntity.isMoving:
-                playerEntity.stop()
+                Logger().error("Can't use item because player is moving")
             else:
                 ConnectionsHandler().send(oumsg)

@@ -1,7 +1,4 @@
-from enum import IntEnum
-
-
-class ExchangeErrorEnum(IntEnum):
+class ExchangeErrorEnum:
     REQUEST_IMPOSSIBLE = 1
     REQUEST_CHARACTER_OCCUPIED = 2
     REQUEST_CHARACTER_JOB_NOT_EQUIPED = 3

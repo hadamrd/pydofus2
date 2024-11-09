@@ -298,7 +298,7 @@ class ExchangeManagementFrame(Frame):
             PlayedCharacterManager().isInExchange = True
             commonExchangeFrame = Kernel().commonExchangeManagementFrame
             if commonExchangeFrame:
-                commonExchangeFrame.resetEchangeSequence()
+                commonExchangeFrame.resetExchangeSequence()
             pods = int(msg.storageMaxSlot)
             KernelEventsManager().send(KernelEvent.ExchangeBankStartedWithStorage, msg.exchangeType, pods)
             return False
@@ -307,7 +307,7 @@ class ExchangeManagementFrame(Frame):
             PlayedCharacterManager().isInExchange = True
             commonExchangeManagementFrame = Kernel().commonExchangeManagementFrame
             if commonExchangeManagementFrame:
-                commonExchangeManagementFrame.resetEchangeSequence()
+                commonExchangeManagementFrame.resetExchangeSequence()
             KernelEventsManager().send(
                 KernelEvent.ExchangeBankStartedWithMultiTabStorage, msg.exchangeType, msg.storageMaxSlot, msg.tabNumber
             )
@@ -317,7 +317,7 @@ class ExchangeManagementFrame(Frame):
             PlayedCharacterManager().isInExchange = True
             commonExchangeFrame = Kernel().commonExchangeManagementFrame
             if commonExchangeFrame:
-                commonExchangeFrame.resetEchangeSequence()
+                commonExchangeFrame.resetExchangeSequence()
                 if msg.exchangeType == ExchangeTypeEnum.PLAYER_TRADE:
                     sourceName = self._sourceInformations.name
                     targetName = self._targetInformations.name

@@ -108,7 +108,7 @@ class RoleplayInteractivesFrame(Frame):
         return self._collectableResource
 
     def pushed(self) -> bool:
-        Logger().debug("RoleplayInteractivesFrame pushed")
+        # Logger().debug("RoleplayInteractivesFrame pushed")
         return True
 
     def process(self, msg: Message) -> bool:

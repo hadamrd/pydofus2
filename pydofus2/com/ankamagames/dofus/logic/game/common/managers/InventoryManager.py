@@ -3,14 +3,14 @@ from typing import TYPE_CHECKING
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.Inventory import Inventory
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankConsumablesView import BankConsumablesView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankCosmeticsView import BankCosmeticsView
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankEquipementView import BankEquipementView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankEquipementView import BankEquipmentView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankFilteredView import BankFilteredView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankMinoukiFilteredView import (
     BankMinoukiFilteredView,
 )
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankMinoukiView import BankMinoukiView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankQuestView import BankQuestView
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankRessourcesView import BankRessourcesView
+from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankResourcesView import BankResourcesView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.BankView import BankView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.CertificateView import CertificateView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.inventoryView.EquipmentView import EquipmentView
@@ -119,9 +119,9 @@ class InventoryManager(metaclass=Singleton):
         if not self._bankInventory:
             self._bankInventory = Inventory()
             self._bankInventory.addView(BankView())
-            self._bankInventory.addView(BankEquipementView())
+            self._bankInventory.addView(BankEquipmentView())
             self._bankInventory.addView(BankConsumablesView())
-            self._bankInventory.addView(BankRessourcesView())
+            self._bankInventory.addView(BankResourcesView())
             self._bankInventory.addView(BankCosmeticsView())
             self._bankInventory.addView(BankQuestView())
             self._bankInventory.addView(BankMinoukiView())

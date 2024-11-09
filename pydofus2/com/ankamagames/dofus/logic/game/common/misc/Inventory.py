@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager as storageoptmgr
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
@@ -101,32 +103,34 @@ class Inventory:
     def removeItem(self, itemUID: int, quantity: int = -1) -> None:
         itemSet = self._itemsDict.get(int(itemUID))
         if itemSet is None:
+            Logger().error("Item not found!")
             return
         if quantity == -1 or quantity == itemSet.item.quantity:
             del self._itemsDict[itemUID]
             self.removeItemFromViews(itemSet)
         else:
             if itemSet.item.quantity < quantity:
-                Logger().warning("On essaye de supprimer de l'inventaire plus d'objet qu'il n'en existe")
+                Logger().error("Not enough items to delete!")
                 return
             oldItem = itemSet.item.clone()
             itemSet.item.quantity -= quantity
             self.modifyItemFromViews(itemSet, oldItem)
 
-    def modifyItemQuantity(self, itemUID: int, quantity: int) -> None:
+    def modifyItemQuantity(self, itemUID: int, quantity: int) -> Tuple["ItemWrapper", int]:
         itemSet = self._itemsDict.get(itemUID)
         if not itemSet:
             Logger().error("We are trying to modify quantity of a non existing item!")
-            return
+            return None, None
         iw: ItemWrapper = itemSet.item.clone()
+        added_quantity = quantity - iw.quantity
         iw.quantity = quantity
         self.modifyItem(iw)
-        return iw
+        return iw, added_quantity
 
     def modifyItemPosition(self, itemUID: int, position: int) -> None:
         itemSet = self._itemsDict.get(itemUID)
         if not itemSet:
-            Logger().warning("On essaye de modifier la position d'un objet qui n'existe pas")
+            Logger().warning("Item not found!")
             return
         iw: ItemWrapper = itemSet.item.clone()
         iw.position = position
@@ -192,8 +196,8 @@ class Inventory:
         pass
 
     def refillView(self, src: str, dst: str) -> None:
-        fromView: IInventoryView = self.getView(src)
-        toView: IInventoryView = self.getView(dst)
+        fromView = self.getView(src)
+        toView = self.getView(dst)
         if not fromView or not toView:
             return
         toView.initialize(fromView.content)

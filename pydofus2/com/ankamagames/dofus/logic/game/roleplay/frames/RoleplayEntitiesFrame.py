@@ -215,7 +215,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
     def sendMapDataRequest(self):
         if self.mapDataRequestTimer:
             self.mapDataRequestTimer.cancel()
-        Logger().info(f"Requesting data for map {MapDisplayManager().currentMapPoint.mapId}")
+        # Logger().info(f"Requesting data for map {MapDisplayManager().currentMapPoint.mapId}")
         self.mapDataRequestTimer = BenchmarkTimer(self.MAPDATA_REQ_TIMEOUT, self.ontimeout)
         self.mapDataRequestTimer.start()
         msg = MapInformationsRequestMessage()
@@ -231,7 +231,7 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             return False
 
         elif isinstance(msg, MapComplementaryInformationsDataMessage):
-            Logger().info("Map data received")
+            # Logger().info("Map data received")
             KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_RECEIVED)
             KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.PROCESSING_MAP_DATA)
             if self.mapDataRequestTimer:
@@ -350,8 +350,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                 Logger().debug("Played entered haven bag")
                 KernelEventsManager().send(KernelEvent.InHavenBag)
             KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MAP_DATA_PROCESSED)
-            if PlayedCharacterManager().currVertex is None:
-                raise Exception("At the end of map data processing, we still have no player position!")
             return True
 
         if isinstance(msg, GameRolePlayShowActorMessage):

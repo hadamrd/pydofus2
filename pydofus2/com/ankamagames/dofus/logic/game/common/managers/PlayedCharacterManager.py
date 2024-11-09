@@ -1,3 +1,4 @@
+import sys
 import threading
 from typing import TYPE_CHECKING
 
@@ -34,6 +35,8 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.internalDatacenter.items.WeaponWrapper import WeaponWrapper
     from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
+import os
+
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
 from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
@@ -45,6 +48,45 @@ from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.Callback import Callback
 from pydofus2.damageCalculation.tools.StatIds import StatIds
 from pydofus2.flash.geom.Point import Point
+
+
+class ConsoleProgressBar:
+    def __init__(self):
+        # Check if Windows
+        self.is_windows = os.name == "nt"
+
+        # Enable ANSI escape sequences on Windows
+        if self.is_windows:
+            os.system("color")
+
+        # Check if output is redirected to a file
+        self.is_file_output = not sys.stdout.isatty()
+
+    def get_bar(self, current: float, maximum: float, bar_length: int = 30) -> str:
+        # If output is redirected or not a terminal, return simple format
+        if self.is_file_output:
+            return f"{current}/{maximum} ({current/maximum:.1%})"
+
+        percent = current / maximum if maximum > 0 else 0
+        filled_length = int(percent * bar_length)
+
+        # Use simpler ASCII characters on Windows if needed
+        if self.is_windows:
+            bar = "#" * filled_length + "-" * (bar_length - filled_length)
+        else:
+            bar = "█" * filled_length + "░" * (bar_length - filled_length)
+
+        # Color coding
+        if percent > 0.9:
+            color = "\033[91m"  # Red
+        elif percent > 0.7:
+            color = "\033[93m"  # Yellow
+        else:
+            color = "\033[92m"  # Green
+
+        reset = "\033[0m"
+
+        return f"{color}{bar}{reset} {current}/{maximum} ({percent:.1%})"
 
 
 class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
@@ -485,6 +527,14 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         return PlayerLifeStatusEnum(self.state) != PlayerLifeStatusEnum.STATUS_ALIVE_AND_KICKING
 
     def isPodsFull(self, pourcent=0.95):
-        weight_pourcent = PlayedCharacterManager().inventoryWeight / PlayedCharacterManager().inventoryWeightMax
-        Logger().info(f"Inventory weight pourcent : {weight_pourcent}")
-        return PlayedCharacterManager().inventoryWeightMax > 0 and weight_pourcent > pourcent
+        curr_weight = PlayedCharacterManager().inventoryWeight
+        max_weight = PlayedCharacterManager().inventoryWeightMax
+        weight_percent = curr_weight / max_weight if max_weight > 0 else 0
+
+        # Use the progress bar class
+        progress = ConsoleProgressBar()
+        bar_text = progress.get_bar(curr_weight, max_weight)
+
+        Logger().info(f"Inventory: {bar_text}")
+
+        return max_weight > 0 and weight_percent > pourcent

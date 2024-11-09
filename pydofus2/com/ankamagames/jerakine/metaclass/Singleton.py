@@ -44,7 +44,7 @@ class Singleton(type):
         with LOCK:
             if cls.threadName() in Singleton._instances and cls in Singleton._instances[cls.threadName()]:
                 del Singleton._instances[cls.threadName()][cls]
-        Logger().debug(f"{cls.__name__} reset")
+        # Logger().debug(f"{cls.__name__} reset")
 
     def getSubs(cls: Type[T], thname=None) -> Generator[T, T, None]:
         thname = str(thname) if thname is not None else Singleton.threadName()

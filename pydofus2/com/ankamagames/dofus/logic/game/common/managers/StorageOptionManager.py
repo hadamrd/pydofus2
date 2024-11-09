@@ -4,7 +4,6 @@ import pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManage
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Skill import Skill
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IInventoryView import IInventoryView
 from pydofus2.com.ankamagames.dofus.logic.game.common.misc.IStorageView import IStorageView
 
 if TYPE_CHECKING:
@@ -335,7 +334,7 @@ class StorageOptionManager(metaclass=Singleton):
         if category == ItemCategoryEnum.CONSUMABLES_CATEGORY:
             return inventorymgr.InventoryManager().bankInventory.getView("bankConsumables")
         if category == ItemCategoryEnum.RESOURCES_CATEGORY:
-            return inventorymgr.InventoryManager().bankInventory.getView("bankRessources")
+            return inventorymgr.InventoryManager().bankInventory.getView("bankResources")
         if category == ItemCategoryEnum.COSMETICS_CATEGORY:
             return inventorymgr.InventoryManager().bankInventory.getView("bankCosmetics")
         if category == ItemCategoryEnum.QUEST_CATEGORY:
@@ -386,7 +385,7 @@ class StorageOptionManager(metaclass=Singleton):
             self.refreshView("forgettableSpellsFilter")
 
     def refreshView(self, viewName: str) -> None:
-        view: IInventoryView = self.inventory.getView(viewName)
+        view = self.inventory.getView(viewName)
         self.inventory.removeView(viewName)
         name: str = self.currentStorageView.name
         self.inventory.addView(view)
@@ -415,7 +414,7 @@ class StorageOptionManager(metaclass=Singleton):
         inventorymgr.InventoryManager().bankInventory.addView(
             BankAssociatedRunesView(inventorymgr.InventoryManager().bankInventory.hookLock, item)
         )
-        inventorymgr.InventoryManager().bankInventory.refillView("bankRessources", "bankAssociatedRunes")
+        inventorymgr.InventoryManager().bankInventory.refillView("bankResources", "bankAssociatedRunes")
         self._associatedRunesActive = True
 
     def disableBankAssociatedRunesFilter(self) -> None:

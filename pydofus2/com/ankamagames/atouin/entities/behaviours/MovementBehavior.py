@@ -14,7 +14,6 @@ if TYPE_CHECKING:
 
 
 class MovementBehavior(threading.Thread):
-
     def __init__(self, clientMovePath: "MovementPath", callback, parent: "AnimatedCharacter" = None):
         super().__init__(name=threading.currentThread().name)
         self.parent = parent
@@ -42,13 +41,14 @@ class MovementBehavior(threading.Thread):
             msg.init(self.currStep.cellId)
             ConnectionsHandler().send(msg)
         else:
-            Logger().info(f"Movement animation completed")
+            # Logger().info(f"Movement animation completed")
+            pass
         self.parent.isMoving = False
         self.running.clear()
         return self.callback(success)
 
     def run(self):
-        Logger().info(f"Movement animation started")
+        # Logger().info(f"Movement animation started")
         self.parent.isMoving = True
         self.running.set()
         self.startTime = time.perf_counter()

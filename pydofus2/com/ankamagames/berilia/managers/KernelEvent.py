@@ -174,7 +174,10 @@ class KernelEvent(Enum):
 
     # inventory
     ObjectAdded = auto()
+    ObjectsAdded = auto()
     InventoryContent = auto()
+    ObjectDeleted = auto()
+    ObjectsDeleted = auto()
 
     # job
     JobLevelUp = auto()

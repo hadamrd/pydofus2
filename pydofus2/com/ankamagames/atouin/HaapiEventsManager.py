@@ -154,7 +154,7 @@ class HaapiEventsManager(metaclass=Singleton):
                 HaapiEvent.GameSessionReadyEvent, lambda event, sessionId: self.sendBannerEvent(data), originator=self
             )
         Haapi().sendEvent(GameID.DOFUS, Haapi().game_sessionId, InternalStatisticTypeEnum.BANNER, data)
-        Logger().info(f"Sent banner event for {data['button_name']}")
+        # Logger().info(f"Sent banner event for {data['button_name']}")
 
     def sendRandomEvent(self):
         if self.DEACTIVATE:
