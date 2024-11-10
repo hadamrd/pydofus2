@@ -3,6 +3,8 @@ from enum import Enum, auto
 
 class KernelEvent(Enum):
     ObjectObtainedInFarm = auto()
+    ItemSold = auto()
+    KamasSpentOnSellTax = auto()
 
     # Market
     MarketPriceChanged = auto()
