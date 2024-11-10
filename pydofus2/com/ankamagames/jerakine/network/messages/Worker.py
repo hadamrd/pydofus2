@@ -24,7 +24,7 @@ T = TypeVar("T", bound="Frame")
 
 class Worker(MessageHandler):
     DEBUG_FRAMES: bool = False
-    DEBUG_MESSAGES: bool = False
+    DEBUG_MESSAGES: bool = True
     DEBUG_FRAMES_PROCESSING: bool = False
     LOCK = threading.Lock()
     CONDITION = threading.Condition(LOCK)
@@ -43,6 +43,7 @@ class Worker(MessageHandler):
         self._queue = queue.Queue()
         self.paused = threading.Event()
         self.resumed = threading.Event()
+        self._callbacks = queue.Queue()  # Thread-safe queue instead of deque
 
     @property
     def terminated(self) -> threading.Event:
@@ -50,7 +51,14 @@ class Worker(MessageHandler):
 
     def run(self) -> None:
         while not self._terminating.is_set():
+            # Process callbacks first
+            self._process_callbacks()
+
             msg = self._queue.get()
+            if msg is None:
+                # Just a sentinel to wake up the loop ignore it
+                continue
+
             if self.DEBUG_MESSAGES:
                 Logger().debug(f"[RCV] {msg}")
             if type(msg).__name__ == "AccountLoggingKickedMessage":
@@ -72,6 +80,22 @@ class Worker(MessageHandler):
     def resume(self) -> None:
         self.paused.clear()
         self.resumed.set()
+
+    def _process_callbacks(self):
+        """Process all pending callbacks"""
+        while not self._callbacks.empty():
+            try:
+                callback = self._callbacks.get_nowait()
+                callback()
+                self._callbacks.task_done()
+                # if self.DEBUG_MESSAGES:
+                #     Logger().debug(f"[DEFER] Executed callback")
+            except queue.Empty:
+                break  # Queue is empty
+            except Exception as e:
+                Logger().error(f"Error executing deferred callback: {e}")
+                self._callbacks.task_done()
+                raise
 
     def process(self, msg: Message) -> bool:
         if self._terminated.is_set():

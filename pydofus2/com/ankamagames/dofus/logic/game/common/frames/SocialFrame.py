@@ -4,6 +4,7 @@ from pydofus2.com.ankamagames.dofus.internalDatacenter.people.SocialCharacterWra
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.game.common.frames.GuildDialogFrame import GuildDialogFrame
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.network.enums.GuildInformationsTypeEnum import GuildInformationsTypeEnum
 from pydofus2.com.ankamagames.dofus.network.enums.PlayerStatusEnum import PlayerStatusEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.alliance.AllianceRanksRequestMessage import (
@@ -40,15 +41,16 @@ from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerSt
 from pydofus2.com.ankamagames.dofus.network.types.game.character.status.PlayerStatusExtended import (
     PlayerStatusExtended,
 )
+from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 
 
 class SocialFrame(Frame):
-
     def __init__(self):
         super().__init__()
+        self._current_mod = None
 
     @property
     def priority(self) -> int:
@@ -99,7 +101,20 @@ class SocialFrame(Frame):
         return True
 
     @classmethod
-    def updateStatus(cls, status: PlayerStatusEnum):
+    def updateStatus(cls, status: PlayerStatusEnum, callback):
+        def onPlayerStatusUpdate(event, accountId, playerId, statusId, message):
+            if playerId == PlayedCharacterManager().id:
+                if statusId == PlayerStatusEnum.PLAYER_STATUS_SOLO:
+                    event.listener.delete()
+                    Logger().info("Player is now in mode solo and can't be bothered by other players")
+                    callback(0, None)
+
+        KernelEventsManager().once(
+            KernelEvent.PlayerStatusUpdate,
+            onPlayerStatusUpdate,
+            timeout=10,
+            ontimeout=lambda *_: callback(2222, "Update player status action timed out!"),
+        )
         pstatus = PlayerStatus()
         pstatus.init(status)
         psurmsg = PlayerStatusUpdateRequestMessage()
@@ -117,6 +132,7 @@ class SocialFrame(Frame):
             message = ""
             if isinstance(msg.status, PlayerStatusExtended):
                 message = msg.status.message
+            self._current_mod = msg.status.statusId
             KernelEventsManager().send(
                 KernelEvent.PlayerStatusUpdate, msg.accountId, msg.playerId, msg.status.statusId, message
             )

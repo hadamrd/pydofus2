@@ -383,12 +383,12 @@ class PlayedCharacterApi(IApi):
         return subarea and subarea.id == DataEnum.SUBAREA_TUTORIAL
 
     @classmethod
-    def state(cls) -> int:
-        return PlayedCharacterManager().state
+    def life_status(cls) -> int:
+        return PlayedCharacterManager().player_life_status
 
     @classmethod
     def isAlive(cls) -> bool:
-        return PlayedCharacterManager().state == PlayerLifeStatusEnum.STATUS_ALIVE_AND_KICKING
+        return PlayedCharacterManager().player_life_status == PlayerLifeStatusEnum.STATUS_ALIVE
 
     @classmethod
     def getFollowingPlayerIds(cls) -> list[float]:

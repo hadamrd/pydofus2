@@ -123,7 +123,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         self.inventoryWeight = 0
         self.shopWeight = 0
         self.inventoryWeightMax = 0
-        self.state = 0
+        self.player_life_status = PlayerLifeStatusEnum.STATUS_ALIVE
         self.publicMode = False
         self.isPetsMounting = False
         self.petsMount = None
@@ -369,7 +369,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
 
     @property
     def isGhost(self) -> bool:
-        return self.state == PlayerLifeStatusEnum.STATUS_PHANTOM
+        return self.player_life_status == PlayerLifeStatusEnum.STATUS_PHANTOM
 
     @property
     def artworkId(self) -> int:
@@ -524,7 +524,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         return tgtRpZone == self.currentZoneRp
 
     def isDead(self) -> bool:
-        return PlayerLifeStatusEnum(self.state) != PlayerLifeStatusEnum.STATUS_ALIVE_AND_KICKING
+        return self.player_life_status != PlayerLifeStatusEnum.STATUS_ALIVE
 
     def isPodsFull(self, pourcent=0.95):
         curr_weight = PlayedCharacterManager().inventoryWeight

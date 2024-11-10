@@ -5,6 +5,8 @@ class KernelEvent(Enum):
     ObjectObtainedInFarm = auto()
     ItemSold = auto()
     KamasSpentOnSellTax = auto()
+    FarmPathStart = auto()
+    Paused = auto()
 
     # Market
     MarketPriceChanged = auto()

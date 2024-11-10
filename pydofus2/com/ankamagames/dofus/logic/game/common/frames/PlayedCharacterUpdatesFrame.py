@@ -316,15 +316,14 @@ class PlayedCharacterUpdatesFrame(Frame):
 
         if isinstance(msg, GameRolePlayPlayerLifeStatusMessage):
             state = PlayerLifeStatusEnum(msg.state)
-            pcm.PlayedCharacterManager().state = state
+            pcm.PlayedCharacterManager().player_life_status = state
             self._phenixMapId = msg.phenixMapId
-            KernelEventsManager().send(
-                KernelEvent.PlayerStateChanged, PlayerLifeStatusEnum(msg.state), msg.phenixMapId
-            )
+            KernelEventsManager().send(KernelEvent.PlayerStateChanged, state, msg.phenixMapId)
+            Logger().debug(f"Player state changed to : {state.name}")
             return True
 
         if isinstance(msg, GameRolePlayGameOverMessage):
-            pcm.PlayedCharacterManager().state = PlayerLifeStatusEnum.STATUS_TOMBSTONE
+            pcm.PlayedCharacterManager().player_life_status = PlayerLifeStatusEnum.STATUS_TOMBSTONE
             return True
 
         if isinstance(msg, AlmanachCalendarDateMessage):

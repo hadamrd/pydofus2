@@ -172,7 +172,7 @@ class MarketFrame(Frame):
             self._state = "IDLE"
             self._bids_manager.handle_price_info(msg)
             self._current_mode = "sell"
-            KernelEventsManager().send(KernelEvent.MarketPriceInfo, msg)
+            KernelEventsManager().send(KernelEvent.MarketPriceInfo, 0, None, msg)
             return True
 
         # Real-time price updates
@@ -234,7 +234,11 @@ class MarketFrame(Frame):
 
     # Market Operations
     def search_item(self, item_gid: int, callback=None) -> None:
+        if self._state != "IDLE":
+            return callback(1, f"Market frame isn't idle but in state : {self._state} !!")
+
         self._state = "SEARCHING"
+        listener = None
 
         def send_msg():
             Logger().info(f"Sending search for item {item_gid}")
@@ -244,25 +248,33 @@ class MarketFrame(Frame):
             InactivityManager().activity()
 
         if callback:
-            KernelEventsManager().once(
+            listener = KernelEventsManager().once(
                 KernelEvent.MarketSearchResult,
                 callback=lambda _, error_type, error_message: callback(error_type, error_message),
-                ontimeout=lambda *_: callback(1, "Market search operation timed out!"),
+                ontimeout=lambda *_: callback(2222, "Market search operation timed out!"),
                 timeout=5,
-                retryNbr=3,
-                retryAction=send_msg,
             )
         send_msg()
+        return listener
 
     def check_price(self, item_gid: int, callback=None) -> None:
+        if self._state != "IDLE":
+            return callback(1, f"Market frame is busy doing : {self._state} !!")
+
         self._state = "CHECKING_PRICE"
+        listener = None
         if callback:
-            KernelEventsManager().once(KernelEvent.MarketPriceInfo, callback, originator=self)
+            listener = KernelEventsManager().once(
+                KernelEvent.MarketPriceInfo,
+                lambda _, code, error, infos: callback(code, error, infos),
+                originator=self,
+            )
         Logger().info(f"Sending check price for item {item_gid}")
         msg = ExchangeBidHousePriceMessage()
         msg.init(item_gid)
         ConnectionsHandler().send(msg)
         InactivityManager().activity()
+        return listener
 
     def create_listing(self, item_uid: int, quantity: int, price: int) -> None:
         self._state = "SELLING"
