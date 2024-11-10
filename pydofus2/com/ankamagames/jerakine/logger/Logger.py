@@ -50,63 +50,68 @@ ansi_to_color_style = {
     DARK_GRAY_COLOR: "color: #586e75;",  # Solarized Base01
 }
 
+# Updated color constants with modern terminal colors
 COLORS = {
-    "ServerConnection": CYAN_COLOR,
-    "ConnectionsHandler": CYAN_COLOR,
-    "DisconnectionHandlerFrame": CYAN_COLOR,
-    "HandshakeFrame": CYAN_COLOR,
-    "QueueFrame": DARK_GRAY_COLOR,
-    "RoleplayEntitiesFrame": GREEN_COLOR,
-    "RoleplayMovementFrame": GREEN_COLOR,
-    "MapMove": GREEN_COLOR,
-    "AttackMonsters": MAGENTA_COLOR,
-    "RoleplayContextFrame": GREEN_COLOR,
-    "ChangeMap": GREEN_COLOR,
-    "BotFightFrame": MAGENTA_COLOR,
-    "BotMuleFightFrame": MAGENTA_COLOR,
-    "FightSequenceFrame": MAGENTA_COLOR,
-    "FightTurnFrame": MAGENTA_COLOR,
-    "FightContextFrame": MAGENTA_COLOR,
-    "FarmPath": GREEN_COLOR,
-    "BotPartyFrame": GREEN_COLOR,
-    "PlayedCharacterUpdatesFrame": MAGENTA_COLOR,
-    "AbstractFarmBehavior": MAGENTA_COLOR,
-    "Kernel": ORANGE_COLOR,
-    "Haapi": ORANGE_COLOR,
-    "WorldGraph": ORANGE_COLOR,
-    "I18nFileAccessor": ORANGE_COLOR,
-    "FeatureManager": ORANGE_COLOR,
-    "DofusClient": ORANGE_COLOR,
-    "ChatFrame": YELLOW_COLOR,
-    "AbstractEntitiesFrame": GREEN_COLOR,
-    "AutoTrip": GREEN_COLOR,
-    "BotWorkflowFrame": DARK_GRAY_COLOR,
-    "AbstractBehavior": GREEN_COLOR,
-    "RoleplayInteractivesFrame": GREEN_COLOR,
-    "WaitForPartyMembersToShow": ORANGE_COLOR,
-    "SynchronisationFrame": DARK_GRAY_COLOR,
-    "Singleton": DARK_GRAY_COLOR,
-    "RequestMapData": GREEN_COLOR,
-    "GiveItems": MAGENTA_COLOR,
-    "UnloadInBank": GREEN_COLOR,
-    "NetworkMessageClassDefinition": GREEN_COLOR,
-    "NetworkMessageDataField": MAGENTA_COLOR,
+    # System & Connection
+    "ServerConnection": "#7aa2f7",  # Bright Blue
+    "ConnectionsHandler": "#7aa2f7",
+    "DisconnectionHandlerFrame": "#7aa2f7",
+    "HandshakeFrame": "#7aa2f7",
+    # Queue & Synchronization
+    "QueueFrame": "#a9b1d6",  # Light Gray
+    "SynchronisationFrame": "#a9b1d6",
+    "Singleton": "#a9b1d6",
+    # Roleplay & Movement
+    "RoleplayEntitiesFrame": "#9ece6a",  # Bright Green
+    "RoleplayMovementFrame": "#9ece6a",
+    "MapMove": "#9ece6a",
+    "RoleplayContextFrame": "#9ece6a",
+    "ChangeMap": "#9ece6a",
+    # Combat
+    "AttackMonsters": "#f7768e",  # Bright Pink
+    "BotFightFrame": "#f7768e",
+    "BotMuleFightFrame": "#f7768e",
+    "FightSequenceFrame": "#f7768e",
+    "FightTurnFrame": "#f7768e",
+    "FightContextFrame": "#f7768e",
+    # Farming & Party
+    "FarmPath": "#ff9e64",  # Bright Orange
+    "BotPartyFrame": "#ff9e64",
+    "AbstractFarmBehavior": "#ff9e64",
+    # System Core
+    "Kernel": "#bb9af7",  # Bright Purple
+    "Haapi": "#bb9af7",
+    "WorldGraph": "#bb9af7",
+    "I18nFileAccessor": "#bb9af7",
+    "FeatureManager": "#bb9af7",
+    "DofusClient": "#bb9af7",
+    # Chat & Interaction
+    "ChatFrame": "#7dcfff",  # Bright Cyan
+    "AbstractEntitiesFrame": "#7dcfff",
+    "RoleplayInteractivesFrame": "#7dcfff",
+    # Default fallback color
+    "default": "#c0caf5",  # Visible Light Gray
 }
 
+# Update the severity level colors to be more visible
+ERROR_COLOR = "#f7768e"  # Bright Red
+WARNING_COLOR = "#e0af68"  # Bright Yellow
+INFO_COLOR = "#c0caf5"  # Light Gray
+DEBUG_COLOR = "#a9b1d6"  # Visible Gray
 
-def getRecordColor(record: logging.LogRecord, type="ansi") -> str:
+
+def getRecordColor(record: logging.LogRecord, type="html") -> str:
     if record.levelno == logging.ERROR:
-        color = RED_COLOR
+        color = ERROR_COLOR
     elif record.levelno == logging.WARNING:
-        color = YELLOW_COLOR
+        color = WARNING_COLOR
     elif "Step" in record.module:
-        color = DARK_GRAY_COLOR
+        color = DEBUG_COLOR
     else:
-        color = COLORS.get(record.module, "")
+        color = COLORS.get(record.module, COLORS["default"])
+
     if type == "html":
-        if not color:
-            return "color: #888;"
-        return ansi_to_color_style.get(color, "")
+        return f"color: {color};"
     return color
 
 
@@ -147,8 +152,24 @@ class HtmlFormatter(logging.Formatter):
         record.levelname = f"{record.levelname[:self.levelname_format]:{self.levelname_format}}"
         formatted_message = super().format(record)
         formatted_message = formatted_message.replace("\n", "<br>")
-        record.msg = f"<span style='{color_style}'><pre>{formatted_message}</pre></span>"
-        return record.msg
+        # Add specific styling to ensure visibility on dark background
+        timestamp_style = "color: #565f89;"  # Subtle gray for timestamp
+        module_style = "color: #7aa2f7;"  # Blue for module name
+        level_style = getRecordColor(record, "html")  # Color based on level
+
+        # Format each part with appropriate color
+        parts = formatted_message.split(" | ")
+        if len(parts) == 3:
+            timestamp, level, message = parts
+            styled_msg = (
+                f'<span style="{timestamp_style}">{timestamp}</span> | '
+                f'<span style="{level_style}">{level}</span> | '
+                f'<span style="{color_style}">{message}</span>'
+            )
+        else:
+            styled_msg = f'<span style="{color_style}">{formatted_message}</span>'
+
+        return f'<pre class="log-line">{styled_msg}</pre>'
 
 
 class Logger(logging.Logger, metaclass=LoggerSingleton):
