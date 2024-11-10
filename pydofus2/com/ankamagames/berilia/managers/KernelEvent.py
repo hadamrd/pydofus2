@@ -2,6 +2,8 @@ from enum import Enum, auto
 
 
 class KernelEvent(Enum):
+    ObjectObtainedInFarm = auto()
+
     # Market
     MarketPriceChanged = auto()
     MarketListingAdded = auto()

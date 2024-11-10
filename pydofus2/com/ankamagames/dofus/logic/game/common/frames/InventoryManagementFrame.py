@@ -202,10 +202,10 @@ class InventoryManagementFrame(Frame):
             return True
 
         if isinstance(msg, ObjectsDeletedMessage):
-            for item in msg.objectUID:
-                InventoryManager().inventory.removeItem(item, -1)
-                Logger().debug(f"[inventory] Deleted object {msg.objectUID}")
-                KernelEventsManager().send(KernelEvent.ObjectDeleted, msg.objectUID)
+            for uid in msg.objectUID:
+                InventoryManager().inventory.removeItem(uid, -1)
+                Logger().debug(f"[inventory] Deleted object {uid}")
+                KernelEventsManager().send(KernelEvent.ObjectDeleted, uid)
             KernelEventsManager().send(KernelEvent.ObjectsDeleted, msg.objectUID)
             return True
 
