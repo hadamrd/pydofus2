@@ -104,7 +104,7 @@ class SocialFrame(Frame):
     def updateStatus(cls, status: PlayerStatusEnum, callback):
         def onPlayerStatusUpdate(event, accountId, playerId, statusId, message):
             if playerId == PlayedCharacterManager().id:
-                if statusId == PlayerStatusEnum.PLAYER_STATUS_SOLO:
+                if statusId == status:
                     event.listener.delete()
                     Logger().info("Player is now in mode solo and can't be bothered by other players")
                     callback(0, None)

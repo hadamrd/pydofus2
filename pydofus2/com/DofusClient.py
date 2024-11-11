@@ -91,7 +91,7 @@ class DofusClient(threading.Thread):
             originator=self,
         )
         KernelEventsManager().onceMapProcessed(self.onInGame)
-        KernelEventsManager().onMultiple(
+        KernelEventsManager().on_multiple(
             [
                 (KernelEvent.SelectedServerRefused, self.onServerSelectionRefused),
                 (KernelEvent.ClientCrashed, self.crash),
@@ -339,7 +339,7 @@ class DofusClient(threading.Thread):
             )
             self.kernel.worker.process(TerminateWorkerMessage())
         else:
-            Logger().warning("Kernel is not running, kernel running instances : " + str(Kernel._instances))
+            Logger().warning("Kernel is not running, kernel running instances : " + str(Kernel.__instances))
         return
 
     def addShutdownListener(self, callback):

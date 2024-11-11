@@ -9,7 +9,6 @@ from pydofus2.com.DofusClient import DofusClient
 
 
 class CharacterCreator:
-
     def __init__(self) -> None:
         super().__init__()
         self.requestTimer = None
@@ -36,7 +35,7 @@ class CharacterCreator:
         self.requestNewCharacter()
 
     def finish(self, err, character):
-        KernelEventsManager().clearAllByOrigin(self)  # clear all listeners registered by this instance
+        KernelEventsManager().clear_all_by_origin(self)  # clear all listeners registered by this instance
         self.callback(err, character)
 
     def askNameSuggestion(self):

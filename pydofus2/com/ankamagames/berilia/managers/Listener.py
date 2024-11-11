@@ -1,7 +1,6 @@
 import threading
 from typing import TYPE_CHECKING
 
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
 if TYPE_CHECKING:
@@ -58,6 +57,7 @@ class Listener:
             return Logger().warning("arm timer of a deleted listener")
         if newTimeout:
             self.timeout = newTimeout
+        from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 
         self.timeoutTimer = BenchmarkTimer(self.timeout, lambda: self.timeoutCallback(self))
         self.timeoutTimer.start()

@@ -43,7 +43,8 @@ class Worker(MessageHandler):
         self._queue = queue.Queue()
         self.paused = threading.Event()
         self.resumed = threading.Event()
-        self._callbacks = queue.Queue()  # Thread-safe queue instead of deque
+        self._before_callbacks = queue.Queue()
+        self._after_callbacks = queue.Queue()
 
     @property
     def terminated(self) -> threading.Event:
@@ -52,23 +53,28 @@ class Worker(MessageHandler):
     def run(self) -> None:
         while not self._terminating.is_set():
             # Process callbacks first
-            self._process_callbacks()
+            self._process_callbacks(self._before_callbacks)
 
             msg = self._queue.get()
-            if msg is None:
-                # Just a sentinel to wake up the loop ignore it
+
+            if msg is None:  # Just a sentinel to wake up the loop ignore it
                 continue
 
             if self.DEBUG_MESSAGES:
                 Logger().debug(f"[RCV] {msg}")
+
             if type(msg).__name__ == "AccountLoggingKickedMessage":
                 KernelEventsManager().send(KernelEvent.ClientShutdown, "Account banned")
+
             if isinstance(msg, TerminateWorkerMessage):
                 self._terminating.set()
                 break
+
             self.processFramesInAndOut()
             self.processMessage(msg)
             KernelEventsManager().send(KernelEvent.MessageReceived, msg)
+
+            self._process_callbacks(self._after_callbacks)
         self.reset()
         self._terminated.set()
         Logger().warning("Worker terminated")
@@ -81,20 +87,20 @@ class Worker(MessageHandler):
         self.paused.clear()
         self.resumed.set()
 
-    def _process_callbacks(self):
+    def _process_callbacks(self, callbacks: queue.Queue):
         """Process all pending callbacks"""
-        while not self._callbacks.empty():
+        while not callbacks.empty():
             try:
-                callback = self._callbacks.get_nowait()
+                callback = callbacks.get_nowait()
                 callback()
-                self._callbacks.task_done()
+                callbacks.task_done()
                 # if self.DEBUG_MESSAGES:
                 #     Logger().debug(f"[DEFER] Executed callback")
             except queue.Empty:
                 break  # Queue is empty
             except Exception as e:
                 Logger().error(f"Error executing deferred callback: {e}")
-                self._callbacks.task_done()
+                callbacks.task_done()
                 raise
 
     def process(self, msg: Message) -> bool:
@@ -180,7 +186,7 @@ class Worker(MessageHandler):
 
     def pullFrame(self, frame: Frame) -> None:
         if frame.pulled():
-            KernelEventsManager().clearAllByOrigin(frame)
+            KernelEventsManager().clear_all_by_origin(frame)
             strFramesList = [str(f) for f in self._framesList]
             while str(frame) in strFramesList:
                 idx = strFramesList.index(str(frame))

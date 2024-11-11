@@ -3,7 +3,6 @@ from collections import OrderedDict
 from functools import lru_cache
 from typing import Any
 
-from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 from pydofus2.com.ankamagames.jerakine.data.BinaryStream import BinaryStream
 from pydofus2.com.ankamagames.jerakine.data.GameDataClassDefinition import GameDataClassDefinition
 from pydofus2.com.ankamagames.jerakine.data.GameDataProcess import GameDataProcess
@@ -78,7 +77,9 @@ class ModuleReader:
                     instance = self._classes[classId].from_stream(stream)
                     objects.append(instance)
             if ModuleReader._clearObjectsCache:
-                BenchmarkTimer(60, self.clearObjectsCache).start()
+                from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
+
+                BenchmarkTimer(60 * 15, self.clearObjectsCache).start()
             return objects
 
     def __readClassDefinition(self, classId, stream: BinaryStream):

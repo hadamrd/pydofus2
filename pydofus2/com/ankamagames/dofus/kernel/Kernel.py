@@ -82,9 +82,12 @@ class Kernel(metaclass=Singleton):
             Logger().info(f"Using protocol #{Metadata.PROTOCOL_BUILD}, built on {Metadata.PROTOCOL_DATE}")
             Logger().info("Initialized")
 
-    def defer(self, callback):
+    def defer(self, callback, after=False):
         """Add a callback to be executed in the next processing cycle"""
-        self.worker._callbacks.put(callback)
+        if after:
+            self.worker._after_callbacks.put(callback)
+        else:
+            self.worker._before_callbacks.put(callback)
         self.worker._queue.put(None)
 
     def reset(

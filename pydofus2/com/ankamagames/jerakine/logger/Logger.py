@@ -32,25 +32,6 @@ class LoggerSingleton(type):
         return LoggerSingleton._instances.get(thname)
 
 
-CYAN_COLOR = "\033[0;36m"
-YELLOW_COLOR = "\033[0;33m"
-RED_COLOR = "\033[0;31m"
-MAGENTA_COLOR = "\033[0;35m"
-GREEN_COLOR = "\033[0;32m"
-ORANGE_COLOR = "\033[38;5;208m"
-DARK_GRAY_COLOR = "\033[90m"
-
-ansi_to_color_style = {
-    CYAN_COLOR: "color: #2aa198;",  # Solarized Cyan
-    YELLOW_COLOR: "color: #b58900;",  # Solarized Yellow
-    RED_COLOR: "color: #dc322f;",  # Solarized Red
-    MAGENTA_COLOR: "color: #d33682;",  # Solarized Magenta
-    GREEN_COLOR: "color: #859900;",  # Solarized Green
-    ORANGE_COLOR: "color: #cb4b16;",  # Solarized Orange
-    DARK_GRAY_COLOR: "color: #586e75;",  # Solarized Base01
-}
-
-# Updated color constants with modern terminal colors
 COLORS = {
     # System & Connection
     "ServerConnection": "#7aa2f7",  # Bright Blue
@@ -93,26 +74,95 @@ COLORS = {
     "default": "#c0caf5",  # Visible Light Gray
 }
 
-# Update the severity level colors to be more visible
-ERROR_COLOR = "#f7768e"  # Bright Red
-WARNING_COLOR = "#e0af68"  # Bright Yellow
-INFO_COLOR = "#c0caf5"  # Light Gray
-DEBUG_COLOR = "#a9b1d6"  # Visible Gray
+# ANSI Color Codes for modern terminal
+CYAN_COLOR = "\033[38;5;116m"  # Bright Cyan (#7dcfff equivalent)
+YELLOW_COLOR = "\033[38;5;179m"  # Bright Yellow (#e0af68 equivalent)
+RED_COLOR = "\033[38;5;203m"  # Bright Red (#f7768e equivalent)
+MAGENTA_COLOR = "\033[38;5;176m"  # Bright Purple (#bb9af7 equivalent)
+GREEN_COLOR = "\033[38;5;114m"  # Bright Green (#9ece6a equivalent)
+ORANGE_COLOR = "\033[38;5;209m"  # Bright Orange (#ff9e64 equivalent)
+DARK_GRAY_COLOR = "\033[38;5;145m"  # Light Gray (#a9b1d6 equivalent)
+BLUE_COLOR = "\033[38;5;111m"  # Bright Blue (#7aa2f7 equivalent)
+RESET_COLOR = "\033[0m"
+
+# Map ANSI colors to your HTML colors for consistency
+ansi_to_color_style = {
+    CYAN_COLOR: "color: #7dcfff;",  # Bright Cyan
+    YELLOW_COLOR: "color: #e0af68;",  # Bright Yellow
+    RED_COLOR: "color: #f7768e;",  # Bright Red
+    MAGENTA_COLOR: "color: #bb9af7;",  # Bright Purple
+    GREEN_COLOR: "color: #9ece6a;",  # Bright Green
+    ORANGE_COLOR: "color: #ff9e64;",  # Bright Orange
+    DARK_GRAY_COLOR: "color: #a9b1d6;",  # Light Gray
+    BLUE_COLOR: "color: #7aa2f7;",  # Bright Blue
+}
+
+# Update AnsiFormatter's format method for proper color reset
+class AnsiFormatter(logging.Formatter):
+    def format(self, record):
+        color = getRecordColor(record)
+        formatted_module = f"{record.module[:self.module_format]:{self.module_format}}"
+        formatted_levelname = f"{record.levelname[:self.levelname_format]:{self.levelname_format}}"
+
+        original_format = self._fmt
+        try:
+            self._fmt = self._fmt.replace("%(module)s", formatted_module).replace("%(levelname)s", formatted_levelname)
+            formatted_message = super().format(record)
+        finally:
+            self._fmt = original_format
+
+        return f"{color}{formatted_message}{RESET_COLOR}"
 
 
-def getRecordColor(record: logging.LogRecord, type="html") -> str:
-    if record.levelno == logging.ERROR:
-        color = ERROR_COLOR
-    elif record.levelno == logging.WARNING:
-        color = WARNING_COLOR
-    elif "Step" in record.module:
-        color = DEBUG_COLOR
-    else:
-        color = COLORS.get(record.module, COLORS["default"])
-
+# Update getRecordColor for ANSI output
+def getRecordColor(record: logging.LogRecord, type="ansi") -> str:
     if type == "html":
-        return f"color: {color};"
-    return color
+        if record.levelno == logging.ERROR:
+            return "color: #f7768e;"  # Bright Red
+        elif record.levelno == logging.WARNING:
+            return "color: #e0af68;"  # Bright Yellow
+        elif "Step" in record.module:
+            return "color: #a9b1d6;"  # Light Gray
+        else:
+            color = COLORS.get(record.module, COLORS["default"])
+            return f"color: {color};"
+    else:
+        # ANSI terminal colors
+        if record.levelno == logging.ERROR:
+            return RED_COLOR
+        elif record.levelno == logging.WARNING:
+            return YELLOW_COLOR
+        elif "Step" in record.module:
+            return DARK_GRAY_COLOR
+        else:
+            # Map module to ANSI color
+            if record.module in [
+                "ServerConnection",
+                "ConnectionsHandler",
+                "DisconnectionHandlerFrame",
+                "HandshakeFrame",
+            ]:
+                return BLUE_COLOR
+            elif record.module in [
+                "RoleplayEntitiesFrame",
+                "RoleplayMovementFrame",
+                "MapMove",
+                "RoleplayContextFrame",
+                "ChangeMap",
+            ]:
+                return GREEN_COLOR
+            elif record.module in ["AttackMonsters", "BotFightFrame", "FightSequenceFrame", "FightTurnFrame"]:
+                return RED_COLOR
+            elif record.module in ["FarmPath", "BotPartyFrame", "AbstractFarmBehavior"]:
+                return ORANGE_COLOR
+            elif record.module in ["Kernel", "Haapi", "WorldGraph", "DofusClient"]:
+                return MAGENTA_COLOR
+            elif record.module in ["ChatFrame", "AbstractEntitiesFrame", "RoleplayInteractivesFrame"]:
+                return CYAN_COLOR
+            elif record.module in ["QueueFrame", "SynchronisationFrame", "Singleton"]:
+                return DARK_GRAY_COLOR
+            else:
+                return DARK_GRAY_COLOR  # default
 
 
 class AnsiFormatter(logging.Formatter):

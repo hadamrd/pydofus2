@@ -75,7 +75,7 @@ class PartyFrame(Frame):
         return Priority.NORMAL
 
     def pulled(self):
-        KernelEventsManager().clearAllByOrigin(self)
+        KernelEventsManager().clear_all_by_origin(self)
         self.leaveParty()
         self.partyMembers.clear()
         self.currentPartyId = None

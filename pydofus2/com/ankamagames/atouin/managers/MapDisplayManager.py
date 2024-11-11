@@ -6,7 +6,6 @@ from pydofus2.com.ankamagames.atouin.data.map.Map import Map
 from pydofus2.com.ankamagames.atouin.enums.ElementTypesEnum import ElementTypesEnum
 from pydofus2.com.ankamagames.atouin.messages.MapLoadedMessage import MapLoadedMessage
 from pydofus2.com.ankamagames.berilia.managers.KernelEvent import KernelEvent
-from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.resources.loaders.MapLoader import MapLoader
@@ -71,6 +70,7 @@ class MapDisplayManager(metaclass=Singleton):
         return self._identifiedElement.get(identifier).get("position")
 
     def loadMap(self, mapId: int, forceReloadWithoutCache: bool = False, decryptionKey=None) -> None:
+        from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 
         KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOADING_MAP)

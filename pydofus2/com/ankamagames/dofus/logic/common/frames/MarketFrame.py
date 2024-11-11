@@ -207,8 +207,8 @@ class MarketFrame(Frame):
                 ExchangeErrorEnum.REQUEST_IMPOSSIBLE: "ui.exchange.cantExchange",
                 ExchangeErrorEnum.BUY_ERROR: "ui.exchange.cantExchangeBuyError",
                 ExchangeErrorEnum.MOUNT_PADDOCK_ERROR: "ui.exchange.cantExchangeMountPaddockError",
-                ExchangeErrorEnum.REQUEST_CHARACTER_JOB_NOT_EQUIPED: "ui.exchange.cantExchangeCharacterJobNotEquiped",
-                ExchangeErrorEnum.REQUEST_CHARACTER_NOT_SUSCRIBER: "ui.exchange.cantExchangeCharacterNotSuscriber",
+                ExchangeErrorEnum.REQUEST_CHARACTER_JOB_NOT_EQUIPPED: "ui.exchange.cantExchangeCharacterJobNotEquiped",
+                ExchangeErrorEnum.REQUEST_CHARACTER_NOT_SUBSCRIBER: "ui.exchange.cantExchangeCharacterNotSuscriber",
                 ExchangeErrorEnum.REQUEST_CHARACTER_OVERLOADED: "ui.exchange.cantExchangeCharacterOverloaded",
                 ExchangeErrorEnum.SELL_ERROR: "ui.exchange.cantExchangeSellError",
             }
@@ -233,7 +233,7 @@ class MarketFrame(Frame):
             return True
 
     # Market Operations
-    def search_item(self, item_gid: int, callback=None) -> None:
+    def search_item(self, item_gid: int, callback=None):
         if self._state != "IDLE":
             return callback(1, f"Market frame isn't idle but in state : {self._state} !!")
 

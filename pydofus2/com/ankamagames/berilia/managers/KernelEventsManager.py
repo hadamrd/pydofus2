@@ -121,8 +121,8 @@ class KernelEventsManager(EventsHandler, metaclass=Singleton):
             timeout=timeout,
             ontimeout=ontimeout,
             once=True,
-            retryNbr=retryNbr,
-            retryAction=retryAction,
+            retry_count=retryNbr,
+            retry_action=retryAction,
             originator=originator,
         )
 

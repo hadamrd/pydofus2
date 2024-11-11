@@ -51,7 +51,7 @@ class InactivityManager(metaclass=Singleton):
         self.resetServerActivity()
         self._isAfk = False
 
-    def stop(self):
+    def stop(self, clear_callback=None):
         self._inactivityWarningPopupTimer.cancel()
         self._inactivityTimer.cancel()
         self._serverActivityTimer.cancel()
