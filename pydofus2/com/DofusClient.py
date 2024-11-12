@@ -81,6 +81,7 @@ class DofusClient(threading.Thread):
         self._taking_nap = False
         self._startTime = None
         self._status = None
+        self.session_run_id = None
         self.kernel = None
         self.terminated = threading.Event()
 
@@ -131,6 +132,7 @@ class DofusClient(threading.Thread):
         atexit.register(self.at_exit)
         self.zaap = ZaapDecoy(self._apikey)
         self.kernel = Kernel()
+        self.kernel.client = self
         self.kernel.init()
         AdapterFactory.addAdapter("ele", ElementsAdapter)
         # AdapterFactory.addAdapter("dlm", MapsAdapter)

@@ -1,7 +1,17 @@
+import datetime
+
+from pydofus2.com.ankamagames.dofus.datacenter.alignments.AlignmentSide import AlignmentSide
 from pydofus2.com.ankamagames.dofus.datacenter.items.ItemType import ItemType
 from pydofus2.com.ankamagames.dofus.datacenter.jobs.Job import Job
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.Companion import Companion
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.Monster import Monster
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterRace import MonsterRace
+from pydofus2.com.ankamagames.dofus.datacenter.monsters.MonsterSuperRace import MonsterSuperRace
 from pydofus2.com.ankamagames.dofus.datacenter.quest.Achievement import Achievement
 from pydofus2.com.ankamagames.dofus.datacenter.quest.Quest import Quest
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
 from pydofus2.com.ankamagames.jerakine.data.I18n import I18n
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 
@@ -233,9 +243,9 @@ class ParamsDecoder:
                 newString = TimeManager().getDuration(time_to_display, False, True)
             elif type == "$date":
                 newString = (
-                    TimeManager().formatDateIRL(params[nid] * 1000, True, False)
+                    TimeManager().format_date_irl(params[nid] * 1000, True, False)
                     + " "
-                    + TimeManager().formatClock(params[nid] * 1000, False, True)
+                    + TimeManager().format_clock(params[nid] * 1000, False, True)
                 )
             elif type in ["$companion", "$sideKick"]:
                 companion = Companion.getCompanionById(params[nid])

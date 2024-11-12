@@ -87,6 +87,7 @@ class MarketFrame(Frame):
         self._state = "INIT"
         self._current_mode = None
         self._market_mapId = None
+        self._market_gfx = None
         self._search_item_listener = None
 
     @property
@@ -106,6 +107,7 @@ class MarketFrame(Frame):
             self._bids_manager.max_item_level = None
             self._bids_manager.allowed_types = None
             self._bids_manager.npc_id = None
+            self._market_gfx = None
         self._market_type_open = None
         self._current_mode = None
         self._current_searched_item_gid = None
@@ -117,9 +119,7 @@ class MarketFrame(Frame):
 
     def process(self, msg: Message) -> bool:
         if isinstance(msg, ExchangeOfflineSoldItemsMessage):
-            # FIXME: Implement this very important logic so we can save markets state offline
-            # items where sold when we where offline
-            # { "bidHouseItems": [ { "__type__": "ObjectItemQuantityPriceDateEffects", "objectGID": 443, "quantity": 100, "price": 3571, "effects": { "__type__": "ObjectEffects", "effects": [] }, "date": 1731091668 } ] }
+            KernelEventsManager().send(KernelEvent.MarketOfflineSales, msg.bidHouseItems)
             return True
 
         # Handle sell mode initialization

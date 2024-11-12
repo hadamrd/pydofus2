@@ -55,6 +55,7 @@ if TYPE_CHECKING:
     from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayMovementFrame import RoleplayMovementFrame
     from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayWorldFrame import RoleplayWorldFrame
     from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.ZaapFrame import ZaapFrame
+    from pydofus2.com.DofusClient import DofusClient
 
 
 class Kernel(metaclass=Singleton):
@@ -64,6 +65,7 @@ class Kernel(metaclass=Singleton):
         self._reset = True
         self.isMule = False
         self.restart_on_unexpected_conn_close = False
+        self.client: "DofusClient" = None
 
     @property
     def worker(self) -> Worker:

@@ -1,5 +1,3 @@
-from datetime import datetime
-from time import perf_counter
 from typing import TYPE_CHECKING
 
 import pydofus2.com.ankamagames.dofus.internalDatacenter.spells.SpellWrapper as swmod
@@ -360,12 +358,7 @@ class PlayedCharacterUpdatesFrame(Frame):
             pass
 
         if isinstance(msg, BasicTimeMessage):
-            btmsg = msg
-            receptionDelay = perf_counter() - btmsg.receptionTime
-            TimeManager().serverTimeLag = (
-                btmsg.timestamp + btmsg.timezoneOffset * 60 * 1000 - datetime.now().timestamp() + receptionDelay
-            )
-            TimeManager().serverUtcTimeLag = btmsg.timestamp - datetime.now().timestamp() + receptionDelay
+            TimeManager().sync_with_server(msg)
             return True
 
         if isinstance(msg, StartupActionsListMessage):
@@ -377,7 +370,7 @@ class PlayedCharacterUpdatesFrame(Frame):
             # for gift in salm.actions:
             #        _items = []
             #    for item in gift.items:
-            #       iw = ItemWrapper.create(0,0,item.objectGID,item.quantity,item.effects,False)
+            #       iw = ItemWrapper.create(0, 0, item.objectGID ,item.quantity, item.effects, False)
             #       _items.append(iw)
             #       obj = {
             #          "uid":gift.uid,

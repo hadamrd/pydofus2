@@ -7,6 +7,7 @@ class KernelEvent(Enum):
     KamasSpentOnSellTax = auto()
     FarmPathStart = auto()
     Paused = auto()
+    MarketOfflineSales = auto()
 
     # Market
     MarketPriceChanged = auto()

@@ -85,31 +85,32 @@ class AuthenticationFrame(Frame):
             return True
 
         elif isinstance(msg, IdentificationSuccessMessage):
-            ismsg = msg
-            if isinstance(ismsg, IdentificationSuccessWithLoginTokenMessage):
-                AuthenticationManager().nextToken = IdentificationSuccessWithLoginTokenMessage(ismsg).loginToken
-            if ismsg.login:
-                AuthenticationManager().username = ismsg.login
-            PlayerManager().accountId = ismsg.accountId
-            PlayerManager().communityId = ismsg.communityId
-            PlayerManager().hasRights = ismsg.hasRights
-            PlayerManager().hasReportRight = ismsg.hasReportRight
-            PlayerManager().nickname = ismsg.accountTag.nickname
-            PlayerManager().tag = ismsg.accountTag.tagNumber
-            PlayerManager().subscriptionEndDate = ismsg.subscriptionEndDate
+            if isinstance(msg, IdentificationSuccessWithLoginTokenMessage):
+                AuthenticationManager().nextToken = msg.loginToken
+            if msg.login:
+                AuthenticationManager().username = msg.login
+            PlayerManager().accountId = msg.accountId
+            PlayerManager().communityId = msg.communityId
+            PlayerManager().hasRights = msg.hasRights
+            PlayerManager().hasReportRight = msg.hasReportRight
+            PlayerManager().nickname = msg.accountTag.nickname
+            PlayerManager().tag = msg.accountTag.tagNumber
+            PlayerManager().subscriptionEndDate = msg.subscriptionEndDate
             if PlayerManager().isBasicAccount():
                 Logger().info("Player has basic account")
-                formatted = "N/A"
             else:
-                formatted = TimeManager().getFormatterDateFromTime(ismsg.subscriptionEndDate)
-                Logger().info(f"Player subscription end date: {formatted}")
-            PlayerManager().accountCreation = ismsg.accountCreation
-            PlayerManager().wasAlreadyConnected = ismsg.wasAlreadyConnected
-            DataStoreType.ACCOUNT_ID = str(ismsg.accountId)
+                date = TimeManager().format_date_irl(msg.subscriptionEndDate, True)
+                time = TimeManager().format_clock(msg.subscriptionEndDate, True, True)
+                Logger().info(f"Player is subscribed until: {date} {time}")
+
+            PlayerManager().accountCreation = msg.accountCreation
+            PlayerManager().wasAlreadyConnected = msg.wasAlreadyConnected
+            DataStoreType.ACCOUNT_ID = str(msg.accountId)
             Kernel().worker.removeFrame(self)
             Kernel().worker.addFrame(CharacterFrame())
             Kernel().worker.addFrame(ServerSelectionFrame())
-            KernelEventsManager().send(KernelEvent.PlayerLoginSuccess, ismsg)
+            KernelEventsManager().send(KernelEvent.PlayerLoginSuccess, msg)
+            formatted = TimeManager().getFormatterDateFromTime(msg.subscriptionEndDate)
             KernelEventsManager().send(
                 KernelEvent.ClientStatusUpdate,
                 ClientStatusEnum.AUTHENTICATED_TO_LOGIN_SERVER,

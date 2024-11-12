@@ -1,5 +1,4 @@
 import time
-from datetime import datetime
 
 from prettytable import PrettyTable
 
@@ -128,7 +127,6 @@ from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMe
     ServerConnectionFailedMessage,
 )
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
-from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
@@ -297,12 +295,10 @@ class GameServerApproachFrame(Frame):
             return True
 
         elif isinstance(msg, CharacterSelectedSuccessMessage):
-            cssmsg = msg
             self._loadingStart = time.perf_counter()
             if Kernel().worker.getFrameByName("ServerSelectionFrame"):
                 Kernel().worker.removeFrameByName("ServerSelectionFrame")
-            PlayedCharacterManager().infos = cssmsg.infos
-            DataStoreType.CHARACTER_ID = str(cssmsg.infos.id)
+            PlayedCharacterManager().infos = msg.infos
             Kernel().worker.addFrame(WorldFrame())
             Kernel().worker.addFrame(AlignmentFrame())
             Kernel().worker.addFrame(SynchronisationFrame())
@@ -317,13 +313,12 @@ class GameServerApproachFrame(Frame):
             Kernel().worker.addFrame(AveragePricesFrame())
             Kernel().worker.addFrame(NpcFrame())
             Kernel().worker.addFrame(PartyFrame())
-            KernelEventsManager().send(KernelEvent.CharacterSelectionSuccess, cssmsg.infos)
+            KernelEventsManager().send(KernelEvent.CharacterSelectionSuccess, msg.infos)
             KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHARACTER_SELECTED, {"infos": cssmsg.infos.to_json()}
+                KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHARACTER_SELECTED, {"infos": msg.infos.to_json()}
             )
-            self._cssmsg = cssmsg
+            self._cssmsg = msg
             PlayedCharacterManager().infos = self._cssmsg.infos
-            DataStoreType.CHARACTER_ID = str(self._cssmsg.infos.id)
             now = time.perf_counter()
             delta = now - self._loadingStart
             if delta > self.LOADING_TIMEOUT:
@@ -332,8 +327,8 @@ class GameServerApproachFrame(Frame):
 
         elif isinstance(msg, CharacterLoadingCompleteMessage):
             Kernel().worker.removeFrame(self)
-            gccrmsg = GameContextCreateRequestMessage()
-            ConnectionsHandler().send(gccrmsg)
+            msg = GameContextCreateRequestMessage()
+            ConnectionsHandler().send(msg)
             return True
 
         elif isinstance(msg, ConnectionResumedMessage):
@@ -349,13 +344,7 @@ class GameServerApproachFrame(Frame):
             return True
 
         elif isinstance(msg, BasicTimeMessage):
-            btmsg = msg
-            TimeManager().serverTimeLag = float(
-                btmsg.timestamp + btmsg.timezoneOffset * 60 * 1000 - datetime.now().timestamp()
-            )
-            TimeManager().serverUtcTimeLag = btmsg.timestamp - datetime.now().timestamp()
-            TimeManager().timezoneOffset = btmsg.timezoneOffset * 60 * 1000
-            TimeManager().dofusTimeYearLag = -1370
+            TimeManager().sync_with_server(msg)
             return True
 
         elif isinstance(msg, AccountSubscriptionElapsedDurationMessage):
@@ -384,15 +373,15 @@ class GameServerApproachFrame(Frame):
                         self._charaListMinusDeadPeople.append(perso)
             else:
                 Kernel().worker.removeFrame(self)
-                Logger().warn("Empty Gift List Received")
+                Logger().warning("Empty Gift List Received")
             return True
 
         elif isinstance(msg, PopupWarningClosedMessage):
             return True
 
         elif isinstance(msg, PopupWarningCloseRequestAction):
-            pwcrmsg = PopupWarningCloseRequestMessage()
-            ConnectionsHandler().send(pwcrmsg)
+            msg = PopupWarningCloseRequestMessage()
+            ConnectionsHandler().send(msg)
             return True
 
         elif isinstance(msg, CharacterSelectionAction):

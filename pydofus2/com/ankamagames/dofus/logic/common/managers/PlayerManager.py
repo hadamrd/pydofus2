@@ -110,10 +110,7 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         self._subscriptionEndDateUpdateTime = TimeManager().getUtcTimestamp()
 
     def isBasicAccount(self) -> bool:
-        # Logger().debug(f"Subscription end date : {self.subscriptionEndDate}")
-        # Logger().debug(f"Current timestamp : {TimeManager().getUtcTimestamp()}")
-        # Logger().debug(f"Has rights : {self.hasRights}")
-        return self.subscriptionEndDate / 1000 <= TimeManager().getUtcTimestamp() and not self.hasRights
+        return self.subscriptionEndDate <= TimeManager().getUtcTimestamp() and not self.hasRights
 
     def inHavenBag(self):
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
