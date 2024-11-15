@@ -125,6 +125,7 @@ class InventoryManagementFrame(Frame):
                     PlayedCharacterManager().petsMount = equipmentView.content[
                         CharacterInventoryPositionEnum.ACCESSORY_POSITION_PETS
                     ]
+                    Logger().info(f"Player is pet mounting: {PlayedCharacterManager().petsMount.name}")
                 if equipmentView.content[CharacterInventoryPositionEnum.INVENTORY_POSITION_ENTITY]:
                     PlayedCharacterManager().hasCompanion = True
             playerCharacterManager = PlayedCharacterManager()
@@ -230,12 +231,12 @@ class InventoryManagementFrame(Frame):
     def onRefuseDrop(self) -> None:
         self._dropPopup = None
 
-    def useItem(self, iw: ItemWrapper, quantity=0, useOnCell=False):
+    def useItem(self, iw: ItemWrapper, quantity=0, useOnCell=False, use_multiple=True):
         if useOnCell and iw.targetable:
             if Kernel().battleFrame:
                 return
         else:
-            if quantity > 1:
+            if quantity > 1 and use_multiple:
                 oumsg = ObjectUseMultipleMessage()
                 oumsg.init(quantity, iw.objectUID)
             else:

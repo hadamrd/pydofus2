@@ -129,6 +129,7 @@ class ExchangeManagementFrame(Frame):
         self._sourceInformations: GameRolePlayNamedActorInformations
         self._targetInformations: GameRolePlayNamedActorInformations
         self._success: bool
+        self._current_exchange_type = None
 
     @property
     def priority(self) -> int:
@@ -139,6 +140,7 @@ class ExchangeManagementFrame(Frame):
         return True
 
     def pulled(self) -> bool:
+        self._current_exchange_type = None
         if Kernel().commonExchangeManagementFrame:
             Kernel().worker.removeFrameByName("CommonExchangeManagementFrame")
         if self._success is not None:
@@ -300,6 +302,7 @@ class ExchangeManagementFrame(Frame):
             if commonExchangeFrame:
                 commonExchangeFrame.resetExchangeSequence()
             pods = int(msg.storageMaxSlot)
+            self._current_exchange_type = msg.exchangeType
             KernelEventsManager().send(KernelEvent.ExchangeBankStartedWithStorage, msg.exchangeType, pods)
             return False
 
@@ -365,6 +368,8 @@ class ExchangeManagementFrame(Frame):
             InventoryManager().bankInventory.kamas = msg.kamas
             InventoryManager().bankInventory.initializeFromObjectItems(msg.objects)
             KernelEventsManager().send(KernelEvent.InventoryContent, msg.objects, msg.kamas)
+            if self._current_exchange_type == ExchangeTypeEnum.BANK:
+                KernelEventsManager().send(KernelEvent.BankInventoryContent, msg.objects, msg.kamas)
             return True
 
         elif isinstance(msg, StorageObjectUpdateMessage):

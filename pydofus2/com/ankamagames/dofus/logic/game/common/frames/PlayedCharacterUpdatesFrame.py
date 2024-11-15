@@ -314,6 +314,15 @@ class PlayedCharacterUpdatesFrame(Frame):
 
         if isinstance(msg, GameRolePlayPlayerLifeStatusMessage):
             state = PlayerLifeStatusEnum(msg.state)
+            if state != PlayerLifeStatusEnum.STATUS_ALIVE:
+                if (
+                    pcm.PlayedCharacterManager().player_life_status != state
+                    and state == PlayerLifeStatusEnum.STATUS_TOMBSTONE
+                ):
+                    KernelEventsManager().send(KernelEvent.PlayerDied)
+                    Logger().warning(f"Player died!")
+                else:
+                    Logger().warning(f"Player is dead")
             pcm.PlayedCharacterManager().player_life_status = state
             self._phenixMapId = msg.phenixMapId
             KernelEventsManager().send(KernelEvent.PlayerStateChanged, state, msg.phenixMapId)

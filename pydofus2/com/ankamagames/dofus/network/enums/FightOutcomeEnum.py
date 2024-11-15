@@ -1,11 +1,14 @@
-class FightOutcomeEnum:
+from enum import Enum
 
-    RESULT_LOST: int = 0
 
-    RESULT_DRAW: int = 1
+class FightOutcomeEnum(Enum):
 
-    RESULT_VICTORY: int = 2
+    RESULT_LOST = 0
 
-    RESULT_TAX: int = 5
+    RESULT_DRAW = 1
 
-    RESULT_DEFENDER_GROUP: int = 6
+    RESULT_VICTORY = 2
+
+    RESULT_TAX = 5
+
+    RESULT_DEFENDER_GROUP = 6

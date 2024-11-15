@@ -2,12 +2,16 @@ from enum import Enum, auto
 
 
 class KernelEvent(Enum):
+    PetsMounting = auto()
     ObjectObtainedInFarm = auto()
     ItemSold = auto()
     KamasSpentOnSellTax = auto()
     FarmPathStart = auto()
     Paused = auto()
     MarketOfflineSales = auto()
+    BankInventoryContent = auto()
+    FightOutcomeForPlayer = auto()
+    PlayerDied = auto()
 
     # Market
     MarketPriceChanged = auto()

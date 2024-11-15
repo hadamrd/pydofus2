@@ -760,15 +760,15 @@ class FightContextFrame(Frame):
     def stopReconnection(self, *args) -> None:
         Kernel().beingInReconnection = False
 
-    def buildFighResul(self, gfemsg: GameFightEndMessage) -> None:
+    def buildFightResults(self, msg: GameFightEndMessage) -> None:
         fightEnding = FightEndingMessage()
         fightEnding.init()
         Kernel().worker.process(fightEnding)
-        results = list[FightResultEntryWrapper](len(gfemsg.results) * [None])
+        results = list[FightResultEntryWrapper](len(msg.results) * [None])
         resultIndex = 0
         winners = list[FightResultEntryWrapper]()
         temp = []
-        for resultEntry in gfemsg.results:
+        for resultEntry in msg.results:
             temp.append(resultEntry)
         isSpectator = True
         for i in range(len(temp)):
@@ -804,10 +804,10 @@ class FightContextFrame(Frame):
                 and temp[i + 1].wave != resultEntry.wave
             ):
                 frew.isLastOfHisWave = True
-            if resultEntry.outcome == FightOutcomeEnum.RESULT_DEFENDER_GROUP:
+            if resultEntry.outcome == FightOutcomeEnum.RESULT_DEFENDER_GROUP.value:
                 hardcoreLoots = frew
             else:
-                if resultEntry.outcome == FightOutcomeEnum.RESULT_VICTORY:
+                if resultEntry.outcome == FightOutcomeEnum.RESULT_VICTORY.value:
                     winners.append(frew)
                 results[resultIndex] = frew
                 resultIndex += 1
@@ -832,17 +832,17 @@ class FightContextFrame(Frame):
                 kamas -= winner.rewards.kamas
         winnersName = ""
         losersName = ""
-        for namedTeamWO in gfemsg.namedPartyTeamsOutcomes:
+        for namedTeamWO in msg.namedPartyTeamsOutcomes:
             if namedTeamWO.team.partyName and namedTeamWO.team.partyName != "":
-                if namedTeamWO.outcome == FightOutcomeEnum.RESULT_VICTORY:
+                if namedTeamWO.outcome == FightOutcomeEnum.RESULT_VICTORY.value:
                     winnersName = namedTeamWO.team.partyName
-                elif namedTeamWO.outcome == FightOutcomeEnum.RESULT_LOST:
+                elif namedTeamWO.outcome == FightOutcomeEnum.RESULT_LOST.value:
                     losersName = namedTeamWO.team.partyName
         resultsRecap = {
             "results": results,
-            "rewardRate": gfemsg.rewardRate,
-            "sizeMalus": gfemsg.lootShareLimitMalus,
-            "duration": gfemsg.duration,
+            "rewardRate": msg.rewardRate,
+            "sizeMalus": msg.lootShareLimitMalus,
+            "duration": msg.duration,
             "challenges": self.challengesList,
             "turns": self._battleFrame.turnsCount,
             "fightType": self._fightType,
@@ -850,6 +850,6 @@ class FightContextFrame(Frame):
             "losersName": losersName,
             "isSpectator": isSpectator,
         }
-        if isinstance(gfemsg, BreachGameFightEndMessage):
-            resultsRecap["budget"] = gfemsg.budget
+        if isinstance(msg, BreachGameFightEndMessage):
+            resultsRecap["budget"] = msg.budget
         return resultsRecap

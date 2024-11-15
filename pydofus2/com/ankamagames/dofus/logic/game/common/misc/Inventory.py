@@ -1,6 +1,7 @@
 from typing import Tuple
 
 import pydofus2.com.ankamagames.dofus.logic.game.common.managers.StorageOptionManager as storageoptmgr
+from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEvent, KernelEventsManager
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.internalDatacenter.items.ItemWrapper import ItemWrapper
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
@@ -138,6 +139,8 @@ class Inventory:
             if position == CharacterInventoryPositionEnum.ACCESSORY_POSITION_PETS:
                 PlayedCharacterManager().isPetsMounting = True
                 PlayedCharacterManager().petsMount = itemSet.item
+                KernelEventsManager().send(KernelEvent.PetsMounting, itemSet.item)
+                Logger().info(f"Player is pet mounting: {itemSet.item.name}")
             else:
                 PlayedCharacterManager().isPetsMounting = False
                 PlayedCharacterManager().petsMount = None

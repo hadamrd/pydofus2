@@ -158,6 +158,13 @@ class Worker(MessageHandler):
             self._terminating.set()
             self._queue.put(TerminateWorkerMessage())
 
+    def _clear_queue(self, queue: queue.Queue):
+        while queue.qsize() != 0:
+            try:
+                queue.get_nowait()
+            except queue.Empty:
+                break
+
     def reset(self) -> None:
         for f in self._framesList:
             f.pulled()
@@ -166,11 +173,9 @@ class Worker(MessageHandler):
         self._framesToRemove.clear()
         self._currentFrameTypesCache.clear()
         self._processingMessage.clear()
-        while self._queue.qsize() != 0:
-            try:
-                self._queue.get_nowait()
-            except self._queue.Empty:
-                break
+        self._clear_queue(self._before_callbacks)
+        self._clear_queue(self._queue)
+        self._clear_queue(self._after_callbacks)
 
     def pushFrame(self, frame: Frame) -> None:
         if str(frame) in [str(f) for f in self._framesList]:

@@ -89,6 +89,7 @@ class MarketFrame(Frame):
         self._market_mapId = None
         self._market_gfx = None
         self._search_item_listener = None
+        self._market_ie_id = None
 
     @property
     def priority(self) -> int:
@@ -99,6 +100,9 @@ class MarketFrame(Frame):
         """Called when frame is pushed to stack"""
         self._bids_manager = MarketBidsManager()
         self._market_type_open = None
+        self._market_gfx = None
+        self._market_ie_id = None
+        self._current_searched_item_gid = None
         self._state = "INIT"
         return True
 
@@ -108,6 +112,7 @@ class MarketFrame(Frame):
             self._bids_manager.allowed_types = None
             self._bids_manager.npc_id = None
             self._market_gfx = None
+            self._market_ie_id = None
         self._market_type_open = None
         self._current_mode = None
         self._current_searched_item_gid = None

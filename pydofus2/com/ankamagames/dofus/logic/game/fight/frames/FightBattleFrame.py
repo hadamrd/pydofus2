@@ -282,7 +282,6 @@ class FightBattleFrame(Frame):
             return True
 
         elif isinstance(msg, GameFightEndMessage):
-            gfemsg = msg
             maxEndRescue = 5
             maxEndRescue -= 1
             while self._currentSequenceFrame and maxEndRescue > 0:
@@ -293,9 +292,9 @@ class FightBattleFrame(Frame):
             if self._executingSequence:
                 Logger().error("Delaying fight end because we're still in a sequence.")
                 self._endBattle = True
-                self._battleResults = gfemsg
+                self._battleResults = msg
             else:
-                self.endBattle(gfemsg)
+                self.endBattle(msg)
             FightersStateManager().endFight()
             CurrentPlayedFighterManager().endFight()
             return False
@@ -467,8 +466,7 @@ class FightBattleFrame(Frame):
         self._holder.reset()
         self._synchroniseFighters = None
         Kernel().worker.removeFrame(self)
-        fightContextFrame = Kernel().fightContextFrame
-        fightContextFrame.process(fightEnd)
+        Kernel().fightContextFrame.process(fightEnd)
 
     def onSkipTurnTimeOut(self, event) -> None:
         self._skipTurnTimer.cancel()
@@ -509,8 +507,7 @@ class FightBattleFrame(Frame):
             self._neverSynchronizedBefore = False
 
     def removeSavedPosition(self, pEntityId: float) -> None:
-        fightContextFrame = Kernel().fightContextFrame
-        savedPositions: list = fightContextFrame.fightersPositionsHistory.get(pEntityId)
+        savedPositions: list = Kernel().fightContextFrame.fightersPositionsHistory.get(pEntityId)
         if savedPositions:
             nbPos = len(savedPositions)
             i = 0

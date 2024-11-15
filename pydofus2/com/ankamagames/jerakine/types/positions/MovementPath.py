@@ -49,7 +49,7 @@ class MovementPath:
 
     @property
     def walkHorizontalDiagDuration(self):
-        if PlayedCharacterManager().isRiding:
+        if PlayedCharacterManager().isRiding or PlayedCharacterManager().isPetsMounting:
             return random.gauss(
                 self.MOUNT_WALK_HORIZONTAL_DIAG_DURATION_MEAN, self.MOUNT_WALK_HORIZONTAL_DIAG_DURATION_VAR
             )
@@ -58,7 +58,7 @@ class MovementPath:
 
     @property
     def walkVerticalDiagDuration(self):
-        if PlayedCharacterManager().isRiding:
+        if PlayedCharacterManager().isRiding or PlayedCharacterManager().isPetsMounting:
             return random.gauss(
                 self.MOUNT_WALK_VERTICAL_DIAG_DURATION_MEAN, self.MOUNT_WALK_VERTICAL_DIAG_DURATION_VAR
             )
@@ -67,14 +67,14 @@ class MovementPath:
 
     @property
     def walkLinearDuration(self):
-        if PlayedCharacterManager().isRiding:
+        if PlayedCharacterManager().isRiding or PlayedCharacterManager().isPetsMounting:
             return random.gauss(self.MOUNT_WALK_LINEAR_DURATION_MEAN, self.MOUNT_WALK_LINEAR_DURATION_VAR)
         else:
             return random.gauss(self.WALK_LINEAR_DURATION_MEAN, self.WALK_LINEAR_DURATION_VAR)
 
     @property
     def runHorizontalDiagDuration(self):
-        if PlayedCharacterManager().isRiding:
+        if PlayedCharacterManager().isRiding or PlayedCharacterManager().isPetsMounting:
             return random.gauss(
                 self.MOUNT_RUN_HORIZONTAL_DIAG_DURATION_MEAN, self.MOUNT_RUN_HORIZONTAL_DIAG_DURATION_VAR
             )
@@ -83,17 +83,17 @@ class MovementPath:
 
     @property
     def runVerticalDiagDuration(self):
-        if PlayedCharacterManager().isRiding:
+        if PlayedCharacterManager().isRiding or PlayedCharacterManager().isPetsMounting:
             return random.gauss(self.MOUNT_RUN_VERTICAL_DIAG_DURATION_MEAN, self.MOUNT_RUN_VERTICAL_DIAG_DURATION_VAR)
         else:
             return random.gauss(self.RUN_VERTICAL_DIAG_DURATION_MEAN, self.RUN_VERTICAL_DIAG_DURATION_VAR)
 
     @property
     def runLinearDuration(self):
-        if PlayedCharacterManager().isRiding:
-            return self.RUN_LINEAR_DURATION_MEAN + abs(random.gauss(0, self.RUN_LINEAR_DURATION_VAR))
+        if PlayedCharacterManager().isRiding or PlayedCharacterManager().isPetsMounting:
+            return random.gauss(self.MOUNT_RUN_LINEAR_DURATION_MEAN, self.MOUNT_RUN_LINEAR_DURATION_VAR)
         else:
-            return self.MOUNT_RUN_LINEAR_DURATION_MEAN + abs(random.gauss(0, self.MOUNT_RUN_LINEAR_DURATION_VAR))
+            return random.gauss(self.RUN_LINEAR_DURATION_MEAN, self.RUN_LINEAR_DURATION_VAR)
 
     def getStepDuration(self, orientation) -> float:
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import (
