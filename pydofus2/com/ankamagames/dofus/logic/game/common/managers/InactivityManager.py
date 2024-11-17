@@ -9,22 +9,21 @@ from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton  # A
 
 
 class InactivityManager(metaclass=Singleton):
-    _self = None
-    SERVER_INACTIVITY_DELAY = 10 * 60 * 1000
-    SERVER_INACTIVITY_SPEED_PING_DELAY = 5 * 1000
-    INACTIVITY_DELAY = 30 * 60 * 1000
-    INACTIVITY_DELAY_WARNING_POPUP = 20 * 60 * 1000
+    SERVER_INACTIVITY_DELAY = 10 * 60
+    SERVER_INACTIVITY_SPEED_PING_DELAY = 5
+    INACTIVITY_DELAY = 5 * 60
+    INACTIVITY_DELAY_WARNING_POPUP = 20 * 60
     MESSAGE_TYPE_ID = 4
     DISCONNECTED_FOR_INACTIVITY_MESSAGE_ID = 1
 
     def __init__(self):
         self.popupApi = None  # Replace with actual PopupApi
         self._isAfk = False
-        self._inactivityTimer = BenchmarkTimer(self.INACTIVITY_DELAY / 1000, self.onActivityTimerUp)
+        self._inactivityTimer = BenchmarkTimer(self.INACTIVITY_DELAY, self.onActivityTimerUp)
         self._inactivityWarningPopupTimer = BenchmarkTimer(
-            self.INACTIVITY_DELAY_WARNING_POPUP / 1000, self.onActivityPopupTimerUp
+            self.INACTIVITY_DELAY_WARNING_POPUP, self.onActivityPopupTimerUp
         )
-        self._serverActivityTimer = BenchmarkTimer(self.SERVER_INACTIVITY_DELAY / 1000, self.onServerActivityTimerUp)
+        self._serverActivityTimer = BenchmarkTimer(self.SERVER_INACTIVITY_DELAY, self.onServerActivityTimerUp)
         self._paused = False
         self._hasActivity = False
         self.resetActivity()
@@ -43,7 +42,7 @@ class InactivityManager(metaclass=Singleton):
 
     @inactivity_delay.setter
     def inactivity_delay(self, t):
-        self._inactivityTimer.interval = t / 1000
+        self._inactivityTimer.interval = t
         self.resetActivity()
 
     def start(self):
@@ -61,7 +60,7 @@ class InactivityManager(metaclass=Singleton):
         if FeatureManager().isFeatureWithKeywordEnabled("FAST_PING"):
             server_inactivity_delay = self.SERVER_INACTIVITY_SPEED_PING_DELAY
         self._serverActivityTimer.cancel()
-        self._serverActivityTimer = BenchmarkTimer()(server_inactivity_delay / 1000, self.onServerActivityTimerUp)
+        self._serverActivityTimer = BenchmarkTimer(server_inactivity_delay, self.onServerActivityTimerUp)
         self.resetServerActivity()
 
     def pause(self, paused):
@@ -73,15 +72,15 @@ class InactivityManager(metaclass=Singleton):
         self._inactivityTimer.cancel()
         if not self._paused:
             self._inactivityWarningPopupTimer = BenchmarkTimer(
-                self.INACTIVITY_DELAY_WARNING_POPUP / 1000, self.onActivityPopupTimerUp
+                self.INACTIVITY_DELAY_WARNING_POPUP, self.onActivityPopupTimerUp
             )
             self._inactivityWarningPopupTimer.start()
-            self._inactivityTimer = BenchmarkTimer(self.INACTIVITY_DELAY / 1000, self.onActivityTimerUp)
+            self._inactivityTimer = BenchmarkTimer(self.INACTIVITY_DELAY, self.onActivityTimerUp)
             self._inactivityTimer.start()
 
     def resetServerActivity(self):
         self._serverActivityTimer.cancel()
-        self._serverActivityTimer = BenchmarkTimer(self.SERVER_INACTIVITY_DELAY / 1000, self.onServerActivityTimerUp)
+        self._serverActivityTimer = BenchmarkTimer(self.SERVER_INACTIVITY_DELAY, self.onServerActivityTimerUp)
         self._serverActivityTimer.start()
 
     def activity(self):
@@ -96,7 +95,6 @@ class InactivityManager(metaclass=Singleton):
         KernelEventsManager().send(KernelEvent.InactivityNotification, True)
 
     def onActivityTimerUp(self):
-        # InfoMessage and DisconnectionHandlerFrame are assumed to be defined elsewhere
         inactivity_message_text = InfoMessage.getInfoMessageById(
             self.MESSAGE_TYPE_ID * 10000 + self.DISCONNECTED_FOR_INACTIVITY_MESSAGE_ID
         ).text

@@ -105,6 +105,9 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRole
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMerchantInformations import (
     GameRolePlayMerchantInformations,
 )
+from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMountInformations import (
+    GameRolePlayMountInformations,
+)
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcInformations import (
     GameRolePlayNpcInformations,
 )
@@ -584,7 +587,12 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             self._npcList[infos.contextualId] = ac
         elif isinstance(
             infos,
-            (GameRolePlayTaxCollectorInformations, GameRolePlayPrismInformations, GameRolePlayPortalInformations),
+            (
+                GameRolePlayTaxCollectorInformations,
+                GameRolePlayPrismInformations,
+                GameRolePlayPortalInformations,
+                GameRolePlayMountInformations,
+            ),
         ):
             ac.allowMovementThrough = True
         else:

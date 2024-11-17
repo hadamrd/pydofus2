@@ -2,16 +2,9 @@ from enum import Enum, auto
 
 
 class KernelEvent(Enum):
-    PetsMounting = auto()
-    ObjectObtainedInFarm = auto()
-    ItemSold = auto()
     KamasSpentOnSellTax = auto()
     FarmPathStart = auto()
     Paused = auto()
-    MarketOfflineSales = auto()
-    BankInventoryContent = auto()
-    FightOutcomeForPlayer = auto()
-    PlayerDied = auto()
 
     # Market
     MarketPriceChanged = auto()
@@ -22,6 +15,7 @@ class KernelEvent(Enum):
     MarketModeSwitch = auto()
     MarketPriceInfo = auto()
     ExchangeError = auto()
+    MarketOfflineSales = auto()
 
     # MVP
     MessageReceived = auto()
@@ -84,6 +78,13 @@ class KernelEvent(Enum):
     FightJoined = auto()
     RoleplayStarted = auto()
     FightLeader = auto()
+    FightOutcomeForPlayer = auto()
+    PlayerDied = auto()
+    SpellCastFailed = auto()
+    FightMovementFailed = auto()
+    FightSequenceStart = auto()
+    FightSequenceEnd = auto()
+    FightTurnEnd = auto()
 
     # buffs in fight
     BuffAdd = auto()
@@ -189,6 +190,10 @@ class KernelEvent(Enum):
     InventoryContent = auto()
     ObjectDeleted = auto()
     ObjectsDeleted = auto()
+    PetsMounting = auto()
+    ObjectObtainedInFarm = auto()
+    ItemSold = auto()
+    BankInventoryContent = auto()
 
     # job
     JobLevelUp = auto()

@@ -120,6 +120,10 @@ class FightBattleFrame(Frame):
         self._endBattle = False
         super().__init__()
 
+    def is_sequence_executing(self) -> bool:
+        """Check if a sequence is currently executing"""
+        return self._sequenceFrames or self._executingSequence or self.currentSequenceFrame
+
     @property
     def priority(self) -> int:
         return Priority.HIGH
@@ -218,9 +222,8 @@ class FightBattleFrame(Frame):
             return True
 
         elif isinstance(msg, SlaveNoLongerControledMessage):
-            snlcmsg = msg
             playerId = PlayedCharacterManager().id
-            if snlcmsg.masterId != playerId and self._slaveId == snlcmsg.slaveId:
+            if msg.masterId != playerId and self._slaveId == msg.slaveId:
                 self._masterId = playerId
                 self._slaveId = self._masterId
                 self._slaveId = 0
@@ -233,15 +236,15 @@ class FightBattleFrame(Frame):
                 Kernel().worker.addFrame(self._sequenceFrameSwitcher)
             self._currentSequenceFrame = fseqf.FightSequenceFrame(self, self._currentSequenceFrame)
             self._sequenceFrameSwitcher.currentFrame = self._currentSequenceFrame
-            return False
+            KernelEventsManager().send(KernelEvent.FightSequenceStart)
+            return True
 
         elif isinstance(msg, SequenceEndMessage):
-            semsg = msg
             if not self._currentSequenceFrame:
-                Logger().warn("Got a Sequence End but no Sequence Start!")
+                Logger().warning("Got a Sequence End but no Sequence Start!")
                 return True
-            self._currentSequenceFrame.mustAck = semsg.authorId == int(CurrentPlayedFighterManager().currentFighterId)
-            self._currentSequenceFrame.ackIdent = semsg.actionId
+            self._currentSequenceFrame.mustAck = msg.authorId == int(CurrentPlayedFighterManager().currentFighterId)
+            self._currentSequenceFrame.ackIdent = msg.actionId
             self._sequenceFrameSwitcher.currentFrame = None
             if not self._currentSequenceFrame.parent:
                 Kernel().worker.removeFrame(self._sequenceFrameSwitcher)
@@ -253,17 +256,16 @@ class FightBattleFrame(Frame):
                 self._currentSequenceFrame.execute()
                 self._sequenceFrameSwitcher.currentFrame = self._currentSequenceFrame.parent
                 self._currentSequenceFrame = self._currentSequenceFrame.parent
-            return False
+            KernelEventsManager().send(KernelEvent.FightSequenceEnd)
+            return True
 
         elif isinstance(msg, GameFightNewWaveMessage):
-            gfnwmsg = msg
-            self._newWaveId = gfnwmsg.id
+            self._newWaveId = msg.id
             self._newWave = True
             return True
 
         elif isinstance(msg, GameFightNewRoundMessage):
-            gfnrmsg = msg
-            self._turnsCount = gfnrmsg.roundNumber
+            self._turnsCount = msg.roundNumber
             CurrentPlayedFighterManager().getSpellCastManager().currentTurn = self._turnsCount
             if GameDebugManager().buffsDebugActivated:
                 Logger().info(f"[BUFFS DEBUG] Start of turn {self._turnsCount} !")
@@ -271,12 +273,11 @@ class FightBattleFrame(Frame):
             return True
 
         elif isinstance(msg, GameFightLeaveMessage):
-            gflmsg = msg
             fighterInfos2 = Kernel().fightEntitiesFrame.getEntityInfos(self._lastPlayerId)
             leaveSequenceFrame = fseqf.FightSequenceFrame(self)
             if fighterInfos2 and fighterInfos2.spawnInfo.alive:
                 fakeDeathMessage = GameActionFightDeathMessage()
-                leaveSequenceFrame.process(fakeDeathMessage.init(0, 0, gflmsg.charId))
+                leaveSequenceFrame.process(fakeDeathMessage.init(0, 0, msg.charId))
                 self._sequenceFrames.append(leaveSequenceFrame)
                 self.executeNextSequence()
             return True
@@ -301,10 +302,10 @@ class FightBattleFrame(Frame):
 
         elif isinstance(msg, GameContextDestroyMessage):
             if self._battleResults:
-                Logger().debug("Proper end of combat propre (resultats known)")
+                Logger().debug("Proper end of combat (results known)")
                 self.endBattle(self._battleResults)
             else:
-                Logger().debug("Brutal end of combat (no resultats known)")
+                Logger().debug("Brutal end of combat (no results known)")
                 self._executingSequence = False
                 fakegfemsg = GameFightEndMessage()
                 fakegfemsg.init(0, 0, 0, None, [])
@@ -340,6 +341,7 @@ class FightBattleFrame(Frame):
                     SpellWrapper.refreshAllPlayerSpellHolder(msg.id)
             if msg.id == CurrentPlayedFighterManager().currentFighterId:
                 self._turnFrame.myTurn = False
+            KernelEventsManager().send(KernelEvent.FightTurnEnd, msg.id)
             return True
 
         else:

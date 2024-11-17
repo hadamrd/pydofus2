@@ -124,7 +124,10 @@ class DofusClient(threading.Thread):
             data = {}
         self._status = status
         for listener in self._statusChangedListeners:
-            BenchmarkTimer(0.1, lambda: listener(self, status, data)).start()
+            try:
+                listener(self, status, data)
+            except Exception as e:
+                Logger().error("Error while calling status update listener", exc_info=e)
 
     def init(self):
         Logger().info("Initializing ...")
@@ -333,7 +336,7 @@ class DofusClient(threading.Thread):
 
     def shutdown(self, message="", reason=None):
         self._shutdownReason = reason if reason else DisconnectionReasonEnum.WANTED_SHUTDOWN
-        self._shutdownMessage = message if message else "Wanted shutdown for unknwon reason"
+        self._shutdownMessage = message if message else "Wanted shutdown for unknown reason"
         if self.kernel:
             Logger().info(f"Shutting down client {self.name} for reason : {self._shutdownReason}")
             KernelEventsManager().send(
@@ -405,7 +408,7 @@ class DofusClient(threading.Thread):
             try:
                 HaapiEventsManager().sendEndEvent()
             except Exception as e:
-                Logger().error("Failed to send end events", exc_info=True)
+                Logger().error("Failed to send end events", exc_info=e)
 
         ZaapDecoy.CONNECTED_ACCOUNTS -= 1
 

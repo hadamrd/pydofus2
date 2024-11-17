@@ -517,13 +517,26 @@ class FightContextFrame(Frame):
             SpellWrapper.removeAllSpellWrapperBut(PlayedCharacterManager().id, None)
             SpellWrapper.resetAllCoolDown(PlayedCharacterManager().id, None)
             SpellModifiersManager.clear()
+            # Check fight outcome for the player
+            if msg.results:  # Only process if we have results
+                player_id = PlayedCharacterManager().id
+                for result in msg.results:
+                    # Find the player's result entry
+                    if hasattr(result, "id") and result.id == player_id:
+                        Logger().info(
+                            f"Fight ended, fight outcome for player: {FightOutcomeEnum(result.outcome).name}"
+                        )
+                        if result.outcome == FightOutcomeEnum.RESULT_LOST.value:
+                            Logger().warning(f"Player {player_id} lost the fight !")
+
+                        # Fire event with fight outcome
+                        KernelEventsManager().send(KernelEvent.FightOutcomeForPlayer, FightOutcomeEnum(result.outcome))
             Kernel().worker.removeFrame(self)
             return False
 
         elif isinstance(msg, ChallengeTargetsListRequestAction):
-            ctlra = msg
             ctlrmsg = ChallengeTargetsListRequestMessage()
-            ctlrmsg.init(ctlra.challengeId)
+            ctlrmsg.init(msg.challengeId)
             ConnectionsHandler().send(ctlrmsg)
             return True
 
@@ -543,28 +556,27 @@ class FightContextFrame(Frame):
             return True
 
         elif isinstance(msg, MapObstacleUpdateMessage):
-            moumsg = msg
-            for mo in moumsg.obstacles:
+            for mo in msg.obstacles:
                 DataMapProvider().updateCellMovLov(mo.obstacleCellId, mo.state == MapObstacleStateEnum.OBSTACLE_OPENED)
             return True
 
         elif isinstance(msg, GameActionFightNoSpellCastMessage):
-            return False
+            KernelEventsManager().send(KernelEvent.SpellCastFailed)
+            return True
 
         elif isinstance(msg, UpdateSpellModifierAction):
-            usma = msg
-            spellWrapper = SpellWrapper.getSpellWrapperById(usma.spellId, usma.entityId)
+            spellWrapper = SpellWrapper.getSpellWrapperById(msg.spellId, msg.entityId)
             if spellWrapper is not None:
                 spellWrapper.versionNum += 1
-                if usma.statId == CharacterSpellModificationTypeEnum.CAST_INTERVAL:
+                if msg.statId == CharacterSpellModificationTypeEnum.CAST_INTERVAL:
                     spellManager = (
                         CurrentPlayedFighterManager()
-                        .getSpellCastManagerById(usma.entityId)
-                        .getSpellManagerBySpellId(usma.spellId)
+                        .getSpellCastManagerById(msg.entityId)
+                        .getSpellManagerBySpellId(msg.spellId)
                     )
                     if spellManager is not None:
                         spellWrapper.actualCooldown = spellManager.cooldown
-                elif usma.statId == CharacterSpellModificationTypeEnum.AP_COST:
+                elif msg.statId == CharacterSpellModificationTypeEnum.AP_COST:
                     pass
             return True
 
