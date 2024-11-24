@@ -20,6 +20,13 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
         self._vertexUid: float = 0
         self.init()
 
+    def nextMapInDirection(self, mapId, direction):
+        for vertex in self.getVertices(mapId).values():
+            for edge in self.getOutgoingEdgesFromVertex(vertex):
+                for transition in edge.transitions:
+                    if transition.direction != -1 and transition.direction == direction:
+                        return edge.dst.mapId
+
     def init(self):
         s = perf_counter()
         with open(WORLDGRAPH_PATH, "rb") as binaries:

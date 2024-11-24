@@ -4,6 +4,10 @@ from pydofus2.com.ankamagames.dofus.datacenter.communication.InfoMessage import 
 from pydofus2.com.ankamagames.dofus.misc.utils.ParamsDecoder import ParamsDecoder
 from pydofus2.com.ankamagames.dofus.network.enums.TextInformationTypeEnum import TextInformationTypeEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.basic.TextInformationMessage import TextInformationMessage
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.channel.ChannelEnablingChangeMessage import (
+    ChannelEnablingChangeMessage,
+)
+from pydofus2.com.ankamagames.dofus.network.messages.game.chat.ChatServerMessage import ChatServerMessage
 from pydofus2.com.ankamagames.dofus.network.messages.server.basic.SystemMessageDisplayMessage import (
     SystemMessageDisplayMessage,
 )
@@ -30,6 +34,12 @@ class ChatFrame(Frame):
         return True
 
     def process(self, msg):
+
+        if isinstance(msg, ChatServerMessage):
+            KernelEventsManager().send(KernelEvent.ChatMessage, msg)
+
+        if isinstance(msg, ChannelEnablingChangeMessage):
+            KernelEventsManager().send(KernelEvent.ChannelActivated, msg.channel, msg.enable)
 
         if isinstance(msg, SystemMessageDisplayMessage):
             self.systemMessageDisplay(msg)

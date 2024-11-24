@@ -529,8 +529,8 @@ class FightContextFrame(Frame):
                         if result.outcome == FightOutcomeEnum.RESULT_LOST.value:
                             Logger().warning(f"Player {player_id} lost the fight !")
 
-                        # Fire event with fight outcome
                         KernelEventsManager().send(KernelEvent.FightOutcomeForPlayer, FightOutcomeEnum(result.outcome))
+                        break
             Kernel().worker.removeFrame(self)
             return False
 

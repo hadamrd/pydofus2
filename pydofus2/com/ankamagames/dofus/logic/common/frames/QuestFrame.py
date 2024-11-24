@@ -532,6 +532,7 @@ class QuestFrame(Frame):
             return True
 
         elif isinstance(msg, TreasureHuntMessage):
+            Logger().debug("Treasure hunt quest update received")
             self._treasureHunts[msg.questType] = TreasureHuntWrapper.create(
                 msg.questType,
                 msg.startMapId,
@@ -710,6 +711,7 @@ class QuestFrame(Frame):
         return False
 
     def pulled(self) -> bool:
+        Logger().debug("Quest frame pulled")
         return True
 
     def hasTreasureHunt(self) -> bool:

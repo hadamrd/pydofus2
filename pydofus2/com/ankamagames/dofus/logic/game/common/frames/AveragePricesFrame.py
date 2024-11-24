@@ -37,6 +37,9 @@ class PricesData:
     lastUpdate: datetime = field(metadata=config(encoder=datetime.isoformat, decoder=datetime.fromisoformat))
     items: Dict[int, float] = field(default_factory=dict)
 
+    def getItemPrice(self, gid):
+        return self.items.get(str(gid))
+
 
 class AveragePricesFrame(Frame):
     _pricesData: Dict[str, PricesData] = {}
@@ -132,7 +135,7 @@ class AveragePricesFrame(Frame):
         avg_price = server_items.get(str(guid))
         if not avg_price:
             Logger().error(f"Item '{guid}' not found in server items")
-            Logger().debug(f"Available items gids : {list(server_items.keys())}")
+            # Logger().debug(f"Available items gids : {list(server_items.keys())}")
             return 0
         return avg_price
 

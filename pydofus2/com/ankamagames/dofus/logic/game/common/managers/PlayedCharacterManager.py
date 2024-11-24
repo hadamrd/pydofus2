@@ -523,7 +523,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         tgtRpZone = MapDisplayManager().dataMap.cells[cellId].linkedZoneRP
         return tgtRpZone == self.currentZoneRp
 
-    def isDead(self) -> bool:
+    def is_dead(self) -> bool:
         return self.player_life_status != PlayerLifeStatusEnum.STATUS_ALIVE
 
     def isPodsFull(self, pourcent=0.95):

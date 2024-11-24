@@ -24,7 +24,7 @@ _messages_to_discard = {
     "ServerSettingsMessage",
     "SetCharacterRestrictionsMessage",
     "GameContextRefreshEntityLookMessage",
-    "ChatServerMessage",
+    # "ChatServerMessage",
     "ChatServerWithObjectMessage",
     "UpdateMapPlayersAgressableStatusMessage",
     "BasicAckMessage",

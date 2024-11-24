@@ -214,7 +214,7 @@ class EventsHandler:
             for priorities in self._listeners.values()
             for listeners in priorities.values()
             for listener in listeners
-            if listener.originator and listener.originator == origin
+            if not listener._deleted and listener.originator and listener.originator == origin
         ]
 
     def clear_all_by_origin(self, origin: Any) -> None:

@@ -71,6 +71,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapFi
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapInformationsRequestMessage import (
     MapInformationsRequestMessage,
 )
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.MapRunningFightDetailsMessage import (
+    MapRunningFightDetailsMessage,
+)
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.npc.ListMapNpcsQuestStatusUpdateMessage import (
     ListMapNpcsQuestStatusUpdateMessage,
 )
@@ -232,6 +235,9 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
                 self.nbrFails = 0
                 self.requestMapData()
             return False
+
+        elif isinstance(msg, MapRunningFightDetailsMessage):
+            KernelEventsManager().send(KernelEvent.MapFightDetails, msg)
 
         elif isinstance(msg, MapComplementaryInformationsDataMessage):
             # Logger().info("Map data received")

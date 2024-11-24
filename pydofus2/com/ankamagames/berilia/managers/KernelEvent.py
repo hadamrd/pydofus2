@@ -5,6 +5,9 @@ class KernelEvent(Enum):
     KamasSpentOnSellTax = auto()
     FarmPathStart = auto()
     Paused = auto()
+    ChannelActivated = auto()
+    MapFightDetails = auto()
+    ChatMessage = auto()
 
     # Market
     MarketPriceChanged = auto()

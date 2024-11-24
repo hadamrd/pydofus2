@@ -18,7 +18,7 @@ class MovementBehavior(threading.Thread):
         super().__init__(name=threading.currentThread().name)
         self.parent = parent
         self.movePath = clientMovePath
-        self.currStep = self.movePath.path[0]
+        self.currStep = self.movePath.path[0] if self.movePath.path else None
         self.stopEvt = threading.Event()
         self.running = threading.Event()
         self.callback = callback
@@ -49,6 +49,9 @@ class MovementBehavior(threading.Thread):
 
     def run(self):
         # Logger().info(f"Movement animation started")
+        if self.movePath.path is not None and len(self.movePath.path) == 0:
+            Logger().warning("MovementBehavior got empty movement path")
+            return self.tearDown(True)
         self.parent.isMoving = True
         self.running.set()
         self.startTime = time.perf_counter()
