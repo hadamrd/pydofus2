@@ -22,3 +22,5 @@ class TransitionTypeEnum(Enum):
     ITEM_TELEPORT = 128
 
     ZAAP = 256
+
+    NPC_TRAVEL = 512

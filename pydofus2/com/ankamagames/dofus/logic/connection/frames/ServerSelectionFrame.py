@@ -37,7 +37,6 @@ from pydofus2.com.ankamagames.jerakine.network.messages.ExpectedSocketClosureMes
 )
 from pydofus2.com.ankamagames.jerakine.network.messages.Worker import Worker
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class ServerSelectionFrame(Frame):
@@ -75,7 +74,7 @@ class ServerSelectionFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, ServersListMessage):
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SERVERS_LIST_RECEIVED)
+            # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SERVERS_LIST_RECEIVED)
             slmsg = msg
             PlayerManager().server = None
             self._serversList = slmsg.servers
@@ -148,9 +147,9 @@ class ServerSelectionFrame(Frame):
             return True
 
         if isinstance(msg, (SelectedServerDataMessage, SelectedServerDataExtendedMessage)):
-            KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate, ClientStatusEnum.SERVER_SELECT_SUCCESS, {"serverId": msg.to_json()}
-            )
+            # KernelEventsManager().send(
+            #     KernelEvent.ClientStatusUpdate, ClientStatusEnum.SERVER_SELECT_SUCCESS, {"serverId": msg.to_json()}
+            # )
             self.selectedServer = msg
             AuthenticationManager().gameServerTicket = AuthenticationManager().decodeWithAES(msg.ticket).decode()
             PlayerManager().server = Server.getServerById(msg.serverId)
@@ -165,7 +164,7 @@ class ServerSelectionFrame(Frame):
                 msg.ticket,
             )
             ConnectionsHandler().closeConnection(DisconnectionReasonEnum.SWITCHING_TO_GAME_SERVER)
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHING_TO_GAME_SERVER)
+            # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHING_TO_GAME_SERVER)
             return True
 
         if isinstance(msg, SelectedServerRefusedMessage):
@@ -278,9 +277,9 @@ class ServerSelectionFrame(Frame):
             if str(server.id) == str(serverId):
                 if ServerStatusEnum(server.status) == ServerStatusEnum.ONLINE:
                     self.requestServerSelection(server.id)
-                    KernelEventsManager().send(
-                        KernelEvent.ClientStatusUpdate, ClientStatusEnum.SELECTING_SERVER, {"serverId": server.id}
-                    )
+                    # KernelEventsManager().send(
+                    #     KernelEvent.ClientStatusUpdate, ClientStatusEnum.SELECTING_SERVER, {"serverId": server.id}
+                    # )
                     return
                 elif ServerStatusEnum(server.status) == ServerStatusEnum.SAVING:
                     self._waitingServerOnline = server.id
@@ -296,8 +295,8 @@ class ServerSelectionFrame(Frame):
                         error_text,
                         self.getSelectableServers(),
                     )
-                    KernelEventsManager().send(
-                        KernelEvent.ClientStatusUpdate,
-                        ClientStatusEnum.SERVER_SELECTION_IMPOSSIBLE,
-                        {"serverId": server.id, "error": error_text},
-                    )
+                    # KernelEventsManager().send(
+                    #     KernelEvent.ClientStatusUpdate,
+                    #     ClientStatusEnum.SERVER_SELECTION_IMPOSSIBLE,
+                    #     {"serverId": server.id, "error": error_text},
+                    # )

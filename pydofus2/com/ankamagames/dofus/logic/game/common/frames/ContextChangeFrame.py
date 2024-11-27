@@ -34,10 +34,6 @@ class ContextChangeFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, GameContextDestroyMessage):
-            BenchmarkTimer(
-                0.1,
-                lambda: KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHANGING_CONTEXT),
-            ).start()
             return True
 
         elif isinstance(msg, GameContextCreateMessage):

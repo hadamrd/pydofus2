@@ -42,7 +42,7 @@ class DisconnectionHandlerFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, ServerConnectionClosedMessage):
-            reason = ConnectionsHandler().handleDisconnection()
+            reason = ConnectionsHandler().getDisconnectionReason()
             Logger().info(f"Connection '{msg.closedConnection}' closed for reason : {reason}")
             if ConnectionsHandler().hasReceivedMsg:
                 if not reason.expected and not ConnectionsHandler().hasReceivedNetworkMsg:
@@ -113,12 +113,11 @@ class DisconnectionHandlerFrame(Frame):
             return True
 
         elif isinstance(msg, WrongSocketClosureReasonMessage):
-            wscrmsg = msg
             Logger().error(
                 "Expecting socket closure for reason "
-                + str(wscrmsg.expectedReason)
+                + str(msg.expectedReason)
                 + ", got reason "
-                + str(wscrmsg.gotReason)
+                + str(msg.gotReason)
                 + "! Reseting."
             )
             Kernel().reset([UnexpectedSocketClosureMessage()])

@@ -139,6 +139,8 @@ class Kernel(metaclass=Singleton):
         if not reloadData:
             self._worker.terminate()
         else:
+            # cleanup all frames and messages from the worker except the disconnection handler
+            # because we are about to use it to disconnect
             disconnectionHandlerFrame = self._worker.getFrameByName("DisconnectionHandlerFrame")
             self._worker.reset()
             self._worker.addFrame(disconnectionHandlerFrame)
@@ -240,7 +242,7 @@ class Kernel(metaclass=Singleton):
 
     @property
     def authFrame(self) -> "AuthenticationFrame":
-        return self._worker.getFrameByName("AuthentificationFrame")
+        return self._worker.getFrameByName("AuthenticationFrame")
 
     @property
     def commonExchangeManagementFrame(self) -> "CommonExchangeManagementFrame":
@@ -252,10 +254,14 @@ class Kernel(metaclass=Singleton):
 
     @property
     def exchangeManagementFrame(self) -> "ExchangeManagementFrame":
+        if not self.roleplayContextFrame:
+            return None
         return self.roleplayContextFrame._exchangeManagementFrame
 
     @property
     def zaapFrame(self) -> "ZaapFrame":
+        if not self.roleplayContextFrame:
+            return None
         return self.roleplayContextFrame._zaapFrame
 
     @property

@@ -189,7 +189,6 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.messages.Frame import Frame
 from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class FightContextFrame(Frame):
@@ -413,7 +412,6 @@ class FightContextFrame(Frame):
             message = GameContextReadyMessage()
             message.init(int(mdm.MapDisplayManager().currentMapPoint.mapId))
             ConnectionsHandler().send(message)
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SWITCHED_TO_FIGHTING)
             return True
 
         elif isinstance(msg, GameFightResumeMessage):

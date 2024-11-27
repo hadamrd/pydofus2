@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO
 
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.MapMovementAdapter import MapMovementAdapter
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.GameMapMovementMessage import GameMapMovementMessage
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from pydofus2.sniffer.network.DofusSniffer import DofusSniffer
 
@@ -38,7 +40,13 @@ class DofusSnifferApp:
             "InventoryWeightMessage",
         }
 
-        msg.__class__.__name__
+        if isinstance(msg, GameMapMovementMessage):
+            clientMovePath = MapMovementAdapter.getClientMovement(msg.keyMovements)
+            startCell = clientMovePath.start.cellId
+            endCell = clientMovePath.end.cellId
+            if msg.actorId == 711154991395:
+                print(f"Current Player moving from {startCell} to {endCell}.")
+
         # if msg_type in bidhouse_filter:
         msg_json = self.sniffer.messagesRecord[conn_id][-1]
         client, server = conn_id.split(" <-> ")

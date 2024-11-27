@@ -503,3 +503,5 @@ class DataEnum:
     RUNE_TYPE_ID = 78
 
     TREASURE_MAX_FRAG_BOX_TYPE_ID = 176
+
+    ZAAP_TYPEID = 16

@@ -1,0 +1,53 @@
+[
+    {
+        "src_vertex": {
+            "mapId": 40895746.0,
+            "zoneId": 2
+        },
+        "dst_vertex": {
+            "mapId": 40895746.0,
+            "zoneId": 1
+        },
+        "transitions": [
+            {
+                "type": 8,
+                "direction": 2,
+                "cell": 283
+            }
+        ]
+    },
+    {
+        "src_vertex": {
+            "mapId": 40895488.0,
+            "zoneId": 2
+        },
+        "dst_vertex": {
+            "mapId": 40895488.0,
+            "zoneId": 1
+        },
+        "transitions": [
+            {
+                "type": 8,
+                "direction": 2,
+                "cell": 192
+            }
+        ]
+    },
+    {
+        "src_vertex": {
+            "mapId": 40894464.0,
+            "zoneId": 2
+        },
+        "dst_vertex": {
+            "mapId": 40894464.0,
+            "zoneId": 1
+        },
+        "transitions": [
+            {
+                "type": 8,
+                "direction": 2,
+                "cell": 443
+            }
+        ]
+    }
+]

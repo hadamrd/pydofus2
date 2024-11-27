@@ -81,7 +81,7 @@ class AuthenticationFrame(Frame):
             iMsg = AuthenticationManager().getIdentificationMessage()
             self._currentLogIsForced = isinstance(iMsg, IdentificationAccountForceMessage)
             ConnectionsHandler().send(iMsg)
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHENTICATING_TO_LOGIN_SERVER)
+            # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHENTICATING_TO_LOGIN_SERVER)
             return True
 
         elif isinstance(msg, IdentificationSuccessMessage):
@@ -110,12 +110,12 @@ class AuthenticationFrame(Frame):
             Kernel().worker.addFrame(CharacterFrame())
             Kernel().worker.addFrame(ServerSelectionFrame())
             KernelEventsManager().send(KernelEvent.PlayerLoginSuccess, msg)
-            formatted = TimeManager().getFormatterDateFromTime(msg.subscriptionEndDate)
-            KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate,
-                ClientStatusEnum.AUTHENTICATED_TO_LOGIN_SERVER,
-                {"subscribed": not PlayerManager().isBasicAccount(), "subscriptionEndDate": formatted},
-            )
+            TimeManager().getFormatterDateFromTime(msg.subscriptionEndDate)
+            # KernelEventsManager().send(
+            #     KernelEvent.ClientStatusUpdate,
+            #     ClientStatusEnum.AUTHENTICATED_TO_LOGIN_SERVER,
+            #     {"subscribed": not PlayerManager().isBasicAccount(), "subscriptionEndDate": formatted},
+            # )
             return True
 
         elif isinstance(msg, NicknameRegistrationMessage):
@@ -130,11 +130,11 @@ class AuthenticationFrame(Frame):
                     DisconnectionReasonEnum.BANNED, f"Identification failed for reason : {reason.name}"
                 )
             else:
-                KernelEventsManager().send(
-                    KernelEvent.ClientStatusUpdate,
-                    ClientStatusEnum.FAILED_TO_IDENTIFY,
-                    {"identificationFailureReason": reason.name},
-                )
+                # KernelEventsManager().send(
+                #     KernelEvent.ClientStatusUpdate,
+                #     ClientStatusEnum.FAILED_TO_IDENTIFY,
+                #     {"identificationFailureReason": reason.name},
+                # )
                 ConnectionsHandler().closeConnection(
                     DisconnectionReasonEnum.EXCEPTION_THROWN, f"Identification failed for reason : {reason.name}"
                 )
@@ -156,9 +156,9 @@ class AuthenticationFrame(Frame):
             AuthenticationManager().loginValidationAction = msg
             connInfo = self.connexionSequence.pop(0)
             Logger().info(f"connInfo: {connInfo}")
-            KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTING_TO_LOGIN_SERVER, connInfo
-            )
+            # KernelEventsManager().send(
+            #     KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTING_TO_LOGIN_SERVER, connInfo
+            # )
             ConnectionsHandler().connectToLoginServer(connInfo["host"], connInfo["port"])
             return True
 

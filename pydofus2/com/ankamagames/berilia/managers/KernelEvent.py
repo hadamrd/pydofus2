@@ -8,6 +8,7 @@ class KernelEvent(Enum):
     ChannelActivated = auto()
     MapFightDetails = auto()
     ChatMessage = auto()
+    PlayerTeleportedOnSameMap = auto()
 
     # Market
     MarketPriceChanged = auto()

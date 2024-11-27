@@ -77,8 +77,6 @@ class RoleplayInteractivesFrame(Frame):
 
     REVIVE_SKILL_ID = 211
 
-    ZAAP_TYPEID = 16
-
     REQUEST_TIMEOUT = 10
 
     BANK_HINT_GFX = 401
@@ -273,7 +271,7 @@ class RoleplayInteractivesFrame(Frame):
         return None
 
     def getZaapIe(self) -> InteractiveElementData:
-        return self.getIeByTypeId(self.ZAAP_TYPEID)
+        return self.getIeByTypeId(DataEnum.ZAAP_TYPEID)
 
     def getIeByTypeId(self, typeId: int) -> InteractiveElementData:
         for ie in self._ie.values():

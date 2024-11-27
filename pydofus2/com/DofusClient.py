@@ -195,7 +195,7 @@ class DofusClient(threading.Thread):
         self.onReconnect(event, message, afterTime)
 
     def onLoginTimeout(self, listener: Listener):
-        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOGIN_TIMED_OUT)
+        # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOGIN_TIMED_OUT)
         self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))
         listener.armTimer()
         self.lastLoginTime = perf_counter()
@@ -219,9 +219,9 @@ class DofusClient(threading.Thread):
     def onGameSessionReady(self, event, gameSessionId):
         Haapi().game_sessionId = gameSessionId
         HaapiEventsManager().sendStartEvent(gameSessionId)
-        KernelEventsManager().send(
-            KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SESSION_STARTED, {"gameSessionId": gameSessionId}
-        )
+        # KernelEventsManager().send(
+        #     KernelEvent.ClientStatusUpdate, ClientStatusEnum.GAME_SESSION_STARTED, {"gameSessionId": gameSessionId}
+        # )
         Haapi().getCmsFeeds(site="DOFUS", page=0, lang="en", count=20, apikey=self._apikey)
         HaapiKeyManager().callWithApiKey(
             lambda apikey: Haapi().pollInGameGet(count=20, site="DOFUS", lang="en", page=1, apikey=apikey)
@@ -258,9 +258,10 @@ class DofusClient(threading.Thread):
         self.shutdown(reason=DisconnectionReasonEnum.EXCEPTION_THROWN, message=error_text)
 
     def onConnectionClosed(self, event, connId):
-        KernelEventsManager().send(
-            KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTION_CLOSED, {"connId": connId}
-        )
+        # KernelEventsManager().send(
+        #     KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTION_CLOSED, {"connId": connId}
+        # )
+        pass
 
     def at_exit(self):
         if not self._ended_correctly:
@@ -269,7 +270,7 @@ class DofusClient(threading.Thread):
                 HaapiEventsManager().sendEndEvent()
                 ZaapDecoy.CONNECTED_ACCOUNTS.remove(PlayerManager().accountId)
                 self.kernel.reset()
-                Logger().info("goodby crual world")
+                Logger().info("goodby cruel world")
                 self.terminated.set()
                 for callback in self._shutdownListeners:
                     Logger().info(f"Calling shutdown callback {callback}")
@@ -378,6 +379,7 @@ class DofusClient(threading.Thread):
             self._startTime = time.time()
             with global_data_lock:
                 self._running_clients.append(self)
+            self.onStatusUpdate(None, ClientStatusEnum.INITIALIZING)
             self.init()
             self.prepareLogin()
             self.worker.process(LVA_WithToken.create(self._serverId != 0, self._serverId))

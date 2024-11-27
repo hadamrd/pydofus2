@@ -29,7 +29,7 @@ class AStar(metaclass=Singleton):
         self.openDic = dict()
         self.iterations: int = 0
         self.worldGraph: WorldGraph = None
-        self.dstinations: set[Vertex] = None
+        self.destinations: set[Vertex] = None
         self.running = None
 
     def addForbiddenEdge(self, edge: Edge) -> None:
@@ -73,6 +73,8 @@ class AStar(metaclass=Singleton):
                 raise Exception("Too many iterations")
             self.iterations += 1
             _, _, current = heapq.heappop(self.openList)
+            if self.DEBUG:
+                Logger().debug(f"Processing vertex {current.vertex}")
             if current.closed:
                 continue
             current.closed = True
@@ -83,7 +85,11 @@ class AStar(metaclass=Singleton):
                 self.running = False
                 return result
             edges = self.worldGraph.getOutgoingEdgesFromVertex(current.vertex)
+            if self.DEBUG:
+                Logger().debug(f"Processing Outgoing edges from {current.vertex}")
             for edge in edges:
+                if self.DEBUG:
+                    Logger().debug(f"Checking Outgoing edge {edge}")
                 if (
                     edge not in self._forbiddenEdges
                     and self.hasValidTransition(edge)

@@ -57,7 +57,7 @@ class ConnectionsHandler(metaclass=Singleton):
     def restart(self) -> None:
         self.closeConnection(DisconnectionReasonEnum.RESTARTING)
 
-    def handleDisconnection(self) -> DisconnectionReason:
+    def getDisconnectionReason(self) -> DisconnectionReason:
         reason: DisconnectionReason = DisconnectionReason(
             self._wantedSocketLost,
             self._wantedSocketLostReason,

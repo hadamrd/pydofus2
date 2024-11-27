@@ -24,6 +24,9 @@ from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.fight
 from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.havenbag.EditHavenBagFinishedMessage import (
     EditHavenBagFinishedMessage,
 )
+from pydofus2.com.ankamagames.dofus.network.messages.game.context.roleplay.TeleportOnSameMapMessage import (
+    TeleportOnSameMapMessage,
+)
 from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import LeaveDialogMessage
 from pydofus2.com.ankamagames.dofus.network.messages.game.interactive.InteractiveUsedMessage import (
     InteractiveUsedMessage,
@@ -45,7 +48,6 @@ from pydofus2.com.ankamagames.jerakine.messages.Message import Message
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.positions.MovementPath import MovementPath
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class RoleplayMovementFrame(Frame):
@@ -98,12 +100,19 @@ class RoleplayMovementFrame(Frame):
                 self.entitiesFrame.updateEntityCellId(PlayedCharacterManager().id, newPos.cellId)
                 Logger().debug(f"Movement reject : {newPos}")
                 KernelEventsManager().send(KernelEvent.MovementRequestRejected)
-                KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MOVEMENT_REJECTED)
             else:
                 Logger().error(
                     "Movement reject received but player data not loaded yet, maybe map changed after a map move request that was rejected."
                 )
             return True
+
+        if isinstance(msg, TeleportOnSameMapMessage):
+            teleportedEntity = DofusEntities().getEntity(msg.targetId)
+            if teleportedEntity:
+                teleportedEntity.position = MapPoint.fromCellId(msg.cellId)
+                Logger().info(f"Entity {msg.targetId}, jumped to cell {msg.cellId}")
+                if msg.targetId == PlayedCharacterManager().id:
+                    KernelEventsManager().send(KernelEvent.PlayerTeleportedOnSameMap, teleportedEntity.position)
 
         if isinstance(msg, GameMapMovementMessage):
             movedEntity = DofusEntities().getEntity(msg.actorId)
@@ -122,11 +131,6 @@ class RoleplayMovementFrame(Frame):
                 Logger().warning(f"Actor '{msg.actorId}' moved before it was added to the scene.")
             if msg.actorId == PlayedCharacterManager().id:
                 PlayedCharacterManager().entity.move(clientMovePath, self.onPlayerMovementEnded)
-                KernelEventsManager().send(
-                    KernelEvent.ClientStatusUpdate,
-                    ClientStatusEnum.MOVEMENT_IN_PROGRESS,
-                    {"path_cells": [cell.cellId for cell in clientMovePath]},
-                )
             KernelEventsManager().send(KernelEvent.EntityMoving, msg.actorId, clientMovePath)
             return True
 
@@ -160,7 +164,6 @@ class RoleplayMovementFrame(Frame):
         if success:
             gmmcmsg = GameMapMovementConfirmMessage()
             ConnectionsHandler().send(gmmcmsg)
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.MOVEMENT_COMPLETED)
         else:
             Logger().debug("Player didnt complete movement")
         KernelEventsManager().send(KernelEvent.PlayerMovementCompleted, success)
@@ -169,16 +172,6 @@ class RoleplayMovementFrame(Frame):
         gmmrmsg = GameMapMovementRequestMessage()
         gmmrmsg.init(movePath.keyMoves(), MapDisplayManager().currentMapPoint.mapId)
         ConnectionsHandler().send(gmmrmsg)
-        KernelEventsManager().send(
-            KernelEvent.ClientStatusUpdate,
-            ClientStatusEnum.REQUESTING_MAP_MOVEMENT,
-            {
-                "startCell": PlayedCharacterManager().currentCellId,
-                "endCell": destCell.cellId,
-                "pathCells": movePath.getCells(),
-                "keyMoves": movePath.keyMoves(),
-            },
-        )
         # Logger().info(f"Requested move from {PlayedCharacterManager().currentCellId} to {destCell.cellId}")
         InactivityManager().activity()
 

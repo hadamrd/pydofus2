@@ -1,6 +1,9 @@
+import json
+import os
 from time import perf_counter
 
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Transition import Transition
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import TransitionTypeEnum
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
@@ -10,6 +13,9 @@ from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArra
 from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 
 WORLDGRAPH_PATH = XmlConfig().getEntry("config.data.pathFinding")
+__dir__ = os.path.dirname(os.path.abspath(__file__))
+NPC_TRAVEL_DATA_FILE = os.path.join(__dir__, "npc_travel_data.json")
+EDGE_PATCHES_FILE = os.path.join(__dir__, "edge_patches.json")
 
 
 class WorldGraph(metaclass=ThreadSharedSingleton):
@@ -19,6 +25,28 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
         self._outgoingEdges = dict[float, list[Edge]]()
         self._vertexUid: float = 0
         self.init()
+
+    def addEdgePatches(self):
+        with open(EDGE_PATCHES_FILE, "r") as f:
+            edges_patches = json.load(f)
+            for patch in edges_patches:
+                src_vertex = self.getVertex(patch["src_vertex"]["mapId"], patch["src_vertex"]["zoneId"])
+                dst_vertex = self.getVertex(patch["dst_vertex"]["mapId"], patch["dst_vertex"]["zoneId"])
+                patch_edge = self.addEdge(src_vertex, dst_vertex)
+                for tr in patch["transitions"]:
+                    patch_edge.addTransition(**tr)
+
+    def addNpcTravelEdges(self):
+        with open(NPC_TRAVEL_DATA_FILE, "r") as f:
+            npc_travel_infos = json.load(f)
+            for info in npc_travel_infos.values():
+                src_vertex = self.getVertex(info["npcMapId"], 1)
+                dst_vertex = self.getVertex(info["landingMapId"], 1)
+                npc_travel_transition = Transition(
+                    TransitionTypeEnum.NPC_TRAVEL, -1, -1, "", -1, -1, -1, npc_travel_infos=info
+                )
+                npc_travel_edge = self.addEdge(src_vertex, dst_vertex)
+                npc_travel_edge.transitions.append(npc_travel_transition)
 
     def nextMapInDirection(self, mapId, direction):
         for vertex in self.getVertices(mapId).values():
@@ -38,7 +66,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
                 edge = self.addEdge(src, dest)
                 transitionCount = data.readInt()
                 for _ in range(transitionCount):
-                    edge.addTransition(
+                    tr_dir, tr_type, tr_skill, tr_criterion, tr_tran_mapId, tr_cell, tr_ieId = (
                         data.readByte(),
                         data.readByte(),
                         data.readInt(),
@@ -47,7 +75,10 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
                         data.readInt(),
                         data.readDouble(),
                     )
+                    edge.addTransition(tr_dir, tr_type, tr_skill, tr_criterion, tr_tran_mapId, tr_cell, tr_ieId)
             del data
+        self.addNpcTravelEdges()
+        self.addEdgePatches()
         Logger().debug("WorldGraph loaded in %s seconds", perf_counter() - s)
 
     def addEdge(self, src: Vertex, dest: Vertex) -> Edge:

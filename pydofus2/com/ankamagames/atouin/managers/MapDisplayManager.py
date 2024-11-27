@@ -11,7 +11,6 @@ from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.resources.loaders.MapLoader import MapLoader
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 from pydofus2.com.ankamagames.jerakine.types.positions.WorldPoint import WorldPoint
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class MapDisplayManager(metaclass=Singleton):
@@ -73,7 +72,7 @@ class MapDisplayManager(metaclass=Singleton):
         from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 
-        KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOADING_MAP)
+        # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.LOADING_MAP)
         self.currentDataMap = None
         self._forceReloadWithoutCache = forceReloadWithoutCache
         self._currentMapRendered = False

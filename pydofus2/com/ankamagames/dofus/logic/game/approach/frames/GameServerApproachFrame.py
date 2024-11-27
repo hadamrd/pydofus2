@@ -128,7 +128,6 @@ from pydofus2.com.ankamagames.jerakine.network.messages.ServerConnectionFailedMe
 )
 from pydofus2.com.ankamagames.jerakine.network.NetworkMessage import NetworkMessage
 from pydofus2.com.ankamagames.jerakine.types.enums.Priority import Priority
-from pydofus2.com.ClientStatusEnum import ClientStatusEnum
 
 
 class GameServerApproachFrame(Frame):
@@ -168,15 +167,15 @@ class GameServerApproachFrame(Frame):
     def process(self, msg: Message) -> bool:
 
         if isinstance(msg, HelloGameMessage):
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTED_TO_GAME_SERVER)
+            # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CONNECTED_TO_GAME_SERVER)
             self.sendAuthTicket()
             InactivityManager().start()
             KernelEventsManager().send(KernelEvent.AuthenticationTicket)
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHETICATING_TO_GAME_SERVER)
+            # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHETICATING_TO_GAME_SERVER)
             return True
 
         elif isinstance(msg, AuthenticationTicketAcceptedMessage):
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHETICATED_TO_GAME_SERVER)
+            # KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.AUTHETICATED_TO_GAME_SERVER)
             BenchmarkTimer(0.5, self.requestCharactersList).start()
             self.authenticationTicketAccepted = True
             KernelEventsManager().send(KernelEvent.AuthenticationTicketAccepted)
@@ -188,11 +187,11 @@ class GameServerApproachFrame(Frame):
         elif isinstance(msg, CharactersListMessage):
             import pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame as pcuF
 
-            KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate,
-                ClientStatusEnum.CHARACTERS_LIST_RECEIVED,
-                {"characters": [c.name for c in msg.characters]},
-            )
+            # KernelEventsManager().send(
+            #     KernelEvent.ClientStatusUpdate,
+            #     ClientStatusEnum.CHARACTERS_LIST_RECEIVED,
+            #     {"characters": [c.name for c in msg.characters]},
+            # )
             clmsg = msg
             Kernel().worker.addFrame(pcuF.PlayedCharacterUpdatesFrame())
             self._charactersList = clmsg.characters
@@ -314,9 +313,9 @@ class GameServerApproachFrame(Frame):
             Kernel().worker.addFrame(NpcFrame())
             Kernel().worker.addFrame(PartyFrame())
             KernelEventsManager().send(KernelEvent.CharacterSelectionSuccess, msg.infos)
-            KernelEventsManager().send(
-                KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHARACTER_SELECTED, {"infos": msg.infos.to_json()}
-            )
+            # KernelEventsManager().send(
+            #     KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHARACTER_SELECTED, {"infos": msg.infos.to_json()}
+            # )
             self._cssmsg = msg
             PlayedCharacterManager().infos = self._cssmsg.infos
             now = time.perf_counter()
@@ -387,11 +386,9 @@ class GameServerApproachFrame(Frame):
         elif isinstance(msg, CharacterSelectionAction):
             characterId = msg.characterId
             self.requestCharacterSelect(characterId)
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.SELECTING_CHARACTER)
             return True
 
         elif isinstance(msg, CharacterSelectedErrorMessage):
-            KernelEventsManager().send(KernelEvent.ClientStatusUpdate, ClientStatusEnum.CHARACTER_SELECTION_FAILED)
             KernelEventsManager().send(KernelEvent.CharacterImpossibleSelection, self._requestedCharacterId)
             self._requestedCharacterId = 0
             return True
