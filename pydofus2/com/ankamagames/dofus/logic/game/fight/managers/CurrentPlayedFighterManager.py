@@ -241,7 +241,7 @@ class CurrentPlayedFighterManager(metaclass=Singleton):
             reason = I18n.getUiText("ui.fightAutomsg.spellcast.tooManyBomb", [spellName])
             return False, reason
         if not player.isFighting:
-            Logger().error(f"Cancast spell called but Player is not fighting!")
+            Logger().error(f"Can cast spell called but Player is not fighting!")
             reason = I18n.getUiText("ui.fightAutomsg.spellcast.available", [spellName])
             return True, reason
         spellCastManager = self.getSpellCastManager()

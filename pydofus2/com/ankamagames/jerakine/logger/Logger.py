@@ -141,6 +141,7 @@ def getRecordColor(record: logging.LogRecord, type="ansi") -> str:
                 "ConnectionsHandler",
                 "DisconnectionHandlerFrame",
                 "HandshakeFrame",
+                "Worker",
             ]:
                 return BLUE_COLOR
             elif record.module in [

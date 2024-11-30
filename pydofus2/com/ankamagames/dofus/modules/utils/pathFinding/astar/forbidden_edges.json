@@ -1,0 +1,52 @@
+{
+    "forbidden_edges": {
+        "1": {
+            "src_mapId": 153879813.0,
+            "src_zoneId": 1,
+            "dst_mapId": 196085770.0,
+            "dst_zoneId": 1,
+            "reason": "Edge contains impossible zaap usage from/to ankarnam",
+            "timestamp": 1732953850.1883714
+        },
+        "2": {
+            "src_mapId": 153879813.0,
+            "src_zoneId": 1,
+            "dst_mapId": 203685888.0,
+            "dst_zoneId": 1,
+            "reason": "Edge contains impossible zaap usage from/to ankarnam",
+            "timestamp": 1732954170.8205929
+        },
+        "3": {
+            "src_mapId": 154010371.0,
+            "src_zoneId": 1,
+            "dst_mapId": 196085770.0,
+            "dst_zoneId": 1,
+            "reason": "Edge contains impossible zaap usage from/to ankarnam",
+            "timestamp": 1732954419.251738
+        },
+        "4": {
+            "src_mapId": 154010371.0,
+            "src_zoneId": 1,
+            "dst_mapId": 203685888.0,
+            "dst_zoneId": 1,
+            "reason": "Edge contains impossible zaap usage from/to ankarnam",
+            "timestamp": 1732954419.3378384
+        },
+        "5": {
+            "src_mapId": 153880064.0,
+            "src_zoneId": 1,
+            "dst_mapId": 196085770.0,
+            "dst_zoneId": 1,
+            "reason": "Edge contains impossible zaap usage from/to ankarnam",
+            "timestamp": 1732954424.2186527
+        },
+        "6": {
+            "src_mapId": 153880064.0,
+            "src_zoneId": 1,
+            "dst_mapId": 203685888.0,
+            "dst_zoneId": 1,
+            "reason": "Edge contains impossible zaap usage from/to ankarnam",
+            "timestamp": 1732954424.3485332
+        }
+    }
+}

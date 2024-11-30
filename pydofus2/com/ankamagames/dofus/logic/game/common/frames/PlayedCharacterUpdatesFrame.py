@@ -11,7 +11,6 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import P
 from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import StatsManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.TimeManager import TimeManager
-from pydofus2.com.ankamagames.dofus.logic.game.common.misc.DofusEntities import DofusEntities
 from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.CurrentPlayedFighterManager import (
     CurrentPlayedFighterManager,
 )
@@ -488,24 +487,14 @@ class PlayedCharacterUpdatesFrame(Frame):
             return True
 
         if isinstance(msg, KnownZaapListMessage):
-            kzlmsg = msg
-            pcm.PlayedCharacterManager().updateKnownZaaps(kzlmsg.destinations)
+            pcm.PlayedCharacterManager().updateKnownZaaps(msg.destinations)
             return True
 
-        # if isinstance(msg, UpdateSpellModifierAction):
-        #    usmaction = msg
-        #    self.updateSpellModifier(usmaction.entityId,usmaction.spellId,usmaction.statId)
-        #    return True
-
         if isinstance(msg, GameMapSpeedMovementMessage):
-            gmsmm = msg
-            newSpeedAjust = 10 * (gmsmm.speedMultiplier - 1)
-            pcm.PlayedCharacterManager().speedAdjust = newSpeedAjust
-            if (
-                DofusEntities().getEntity(pcm.PlayedCharacterManager().id) is not None
-                and self.roleplayContextFrame is not None
-            ):
-                DofusEntities().getEntity(pcm.PlayedCharacterManager().id).speedAdjust = newSpeedAjust
+            newSpeedAdjust = 10 * (msg.speedMultiplier - 1)
+            pcm.PlayedCharacterManager().speedAdjust = newSpeedAdjust
+            if pcm.PlayedCharacterManager().entity is not None and self.roleplayContextFrame is not None:
+                pcm.PlayedCharacterManager().entity.speedAdjust = newSpeedAdjust
             return True
 
         return False
@@ -526,7 +515,6 @@ class PlayedCharacterUpdatesFrame(Frame):
         player.characteristics = stats
         if player.isFighting:
             swmod.SpellWrapper.refreshAllPlayerSpellHolder(playerId)
-        # Logger().info(f"Updated stats of player {playerId}")
 
     def updateSpellModifier(self, targetId: float, spellId: float, statId: float) -> None:
         playerId: float = pcm.PlayedCharacterManager().id
