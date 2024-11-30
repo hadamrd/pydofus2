@@ -24,3 +24,5 @@ class TransitionTypeEnum(Enum):
     ZAAP = 256
 
     NPC_TRAVEL = 512
+
+    HAVEN_BAG_ZAAP = 1024

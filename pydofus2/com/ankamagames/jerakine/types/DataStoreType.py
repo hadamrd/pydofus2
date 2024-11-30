@@ -1,24 +1,20 @@
-class JerakineError(Exception):
-    pass
-
-
 class DataStoreType:
     def __init__(
         self,
         sCategory: str,
-        bPersistant: bool,
+        bPersistent: bool,
         nLocation: float = None,
         nBind: float = None,
     ):
         super().__init__()
         self._sCategory = sCategory
-        self._bPersistant = bPersistant
-        if bPersistant:
+        self._bPersistent = bPersistent
+        if bPersistent:
             if nLocation is None:
-                raise JerakineError("When DataStoreType is a persistant data, arg 'nLocation' must be defined.")
+                raise Exception("When DataStoreType is a persistent data, arg 'nLocation' must be defined.")
             self._nLocation = nLocation
             if nBind is None:
-                raise JerakineError("When DataStoreType is a persistant data, arg 'nBind' must be defined.")
+                raise Exception("When DataStoreType is a persistent data, arg 'nBind' must be defined.")
             self._nBind = nBind
         self._ACCOUNT_ID: str = None
         self._CHARACTER_ID: str = None
@@ -53,7 +49,7 @@ class DataStoreType:
 
     @property
     def persistent(self) -> bool:
-        return self._bPersistant
+        return self._bPersistent
 
     @property
     def location(self) -> int:

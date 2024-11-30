@@ -301,6 +301,10 @@ def distL2Maps(mapIdA, mapIdB):
     return math.sqrt((mpA.posX - mpB.posX) ** 2 + (mpA.posY - mpB.posY) ** 2)
 
 
+def getZaapTpCost(srcMapId, dstMapId):
+    return 10 * distL2Maps(srcMapId, dstMapId)
+
+
 def getNextCellByDirection(param1: int, param2: int) -> int:
     _loc3_ = math.floor(param1 / MAP_GRID_WIDTH)
     _loc4_ = math.floor((_loc3_ + 1) / 2)

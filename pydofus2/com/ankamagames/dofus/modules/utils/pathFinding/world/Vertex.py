@@ -45,3 +45,7 @@ class Vertex:
     @classmethod
     def from_dict(cls, data):
         return cls(data["mapId"], data["zoneId"])
+
+    def copy(self) -> "Vertex":
+        """Creates and returns a deep copy of this Vertex."""
+        return Vertex(self._mapId, self._zoneId, self._uid)

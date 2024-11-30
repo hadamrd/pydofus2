@@ -2,10 +2,11 @@ import heapq
 from typing import List, Union
 
 from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
-from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
-from pydofus2.com.ankamagames.dofus.misc.utils.GameDataQuery import GameDataQuery
+from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.MapMemoryManager import MapMemoryManager
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Node import Node
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import TransitionTypeEnum
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
@@ -61,7 +62,8 @@ class AStar(metaclass=Singleton):
         return self.compute()
 
     def initForbiddenSubareaList(self) -> None:
-        self._forbiddenSubareaIds = GameDataQuery.queryEquals(SubArea, "mountAutoTripAllowed", False)
+        # self._forbiddenSubareaIds = GameDataQuery.queryEquals(SubArea, "mountAutoTripAllowed", False)
+        self._forbiddenSubareaIds = []
 
     def stopSearch(self) -> None:
         if self.running != None:
@@ -69,6 +71,8 @@ class AStar(metaclass=Singleton):
 
     def compute(self, e=None) -> None:
         while self.openList:
+            if Kernel().worker._terminating.is_set():
+                return
             if self.iterations > self.MAX_ITERATION:
                 raise Exception("Too many iterations")
             self.iterations += 1
@@ -88,8 +92,9 @@ class AStar(metaclass=Singleton):
             if self.DEBUG:
                 Logger().debug(f"Processing Outgoing edges from {current.vertex}")
             for edge in edges:
-                if self.DEBUG:
-                    Logger().debug(f"Checking Outgoing edge {edge}")
+                if Kernel().worker._terminating.is_set():
+                    return
+
                 if (
                     edge not in self._forbiddenEdges
                     and self.hasValidTransition(edge)
@@ -100,16 +105,6 @@ class AStar(metaclass=Singleton):
                         node = Node(self, edge.dst, current)
                         self.openDic[edge.dst] = node
                         heapq.heappush(self.openList, (node.totalCost, id(node), node))
-                else:
-                    if self.DEBUG:
-                        reasons = []
-                        if edge in self._forbiddenEdges:
-                            reasons.append("Edge is in forbidden edges list")
-                        if not self.hasValidTransition(edge):
-                            reasons.append("Edge has a non valid transition")
-                        if not self.hasValidDestinationSubarea(edge):
-                            reasons.append("Edge has a non valid destination subarea")
-                        Logger().debug(f"Edge dismissed for reason {', '.join(reasons)}")
         self.running = False
         return None
 
@@ -130,6 +125,10 @@ class AStar(metaclass=Singleton):
 
         valid = False
         for transition in edge.transitions:
+            if TransitionTypeEnum(transition.type) == TransitionTypeEnum.HAVEN_BAG_ZAAP:
+                allowed = MapMemoryManager().is_havenbag_allowed(edge.src.mapId)
+                if allowed is not None and not allowed:
+                    continue
             if transition.criterion:
                 if (
                     "&" not in transition.criterion

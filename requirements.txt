@@ -19,3 +19,4 @@ poetry
 pre-commit
 pydantic
 PyQt5
+tinydb

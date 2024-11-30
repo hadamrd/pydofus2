@@ -1,9 +1,15 @@
 import json
 import os
 from time import perf_counter
+from typing import List
 
+from pydofus2.com.ankamagames.dofus.datacenter.world.Hint import Hint
+from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
+from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
-from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Transition import Transition
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.MapMemoryManager import MapMemoryManager
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTypeEnum import TransitionTypeEnum
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
@@ -11,6 +17,7 @@ from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
+from pydofus2.mapTools import MapTools
 
 WORLDGRAPH_PATH = XmlConfig().getEntry("config.data.pathFinding")
 __dir__ = os.path.dirname(os.path.abspath(__file__))
@@ -24,6 +31,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
         self._edges = dict[float, Edge]()
         self._outgoingEdges = dict[float, list[Edge]]()
         self._vertexUid: float = 0
+        self._map_memory = MapMemoryManager()
         self.init()
 
     def addEdgePatches(self):
@@ -42,11 +50,8 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
             for info in npc_travel_infos.values():
                 src_vertex = self.getVertex(info["npcMapId"], 1)
                 dst_vertex = self.getVertex(info["landingMapId"], 1)
-                npc_travel_transition = Transition(
-                    TransitionTypeEnum.NPC_TRAVEL, -1, -1, "", -1, -1, -1, npc_travel_infos=info
-                )
                 npc_travel_edge = self.addEdge(src_vertex, dst_vertex)
-                npc_travel_edge.transitions.append(npc_travel_transition)
+                npc_travel_edge.addTransition(TransitionTypeEnum.NPC_TRAVEL, npcTravelInfos=info)
 
     def nextMapInDirection(self, mapId, direction):
         for vertex in self.getVertices(mapId).values():
@@ -75,7 +80,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
                         data.readInt(),
                         data.readDouble(),
                     )
-                    edge.addTransition(tr_dir, tr_type, tr_skill, tr_criterion, tr_tran_mapId, tr_cell, tr_ieId)
+                    edge.addTransition(tr_type, tr_dir, tr_skill, tr_criterion, tr_tran_mapId, tr_cell, tr_ieId)
             del data
         self.addNpcTravelEdges()
         self.addEdgePatches()
@@ -122,11 +127,98 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
     def getVertices(self, mapId) -> dict[int, Vertex]:
         return self._vertices.get(mapId)
 
-    def getOutgoingEdgesFromVertex(self, src: Vertex) -> list[Edge]:
+    def getOutgoingEdgesFromVertex(self, src: Vertex) -> List[Edge]:
         if src is None:
             Logger().error("Got a None edge!")
             return None
-        return self._outgoingEdges.get(src.UID, [])
+
+        result = self._outgoingEdges.get(src.UID, [])
+        rappel_potion_edge = self.getRappelPotionEdge(src)
+        if rappel_potion_edge:
+            result.append(rappel_potion_edge)
+        zaap_edges = self.getOutgoingZaapEdges(src)
+        if zaap_edges:
+            result.extend(zaap_edges)
+        return result
+
+    def getOutgoingZaapEdges(self, src: Vertex):
+        src_allow_havenbag = self._map_memory.is_havenbag_allowed(src.mapId)
+        if src_allow_havenbag is None:
+            src_allow_havenbag = MapPosition.getMapPositionById(src.mapId).allowTeleportFrom
+
+        if not PlayerManager().isBasicAccount() and src_allow_havenbag:
+            return self.getEdgesToKnownZaapsFromVertex(src, TransitionTypeEnum.HAVEN_BAG_ZAAP)
+
+        if not src.mapId in Hint.getZaapMapIds() or self._map_memory.is_zaap_vertex(src) == "no":
+            return []
+
+        return self.getEdgesToKnownZaapsFromVertex(src, TransitionTypeEnum.ZAAP)
+
+    def getRappelPotionEdge(self, src: Vertex) -> Edge:
+        from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+        from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
+
+        if not Kernel().zaapFrame:
+            return None
+
+        for iw in InventoryManager().inventory.getView("storageConsumables").content:
+            if iw.objectGID == DataEnum.RAPPEL_POTION_GUID:
+                if Kernel().zaapFrame.spawnMapId:
+                    dst_tp_vertex = self.getVertex(Kernel().zaapFrame.spawnMapId, 1)
+                    if dst_tp_vertex == src:
+                        return None
+                    edge = self.getEdge(src, dst_tp_vertex)
+                    if not edge:
+                        edge = self.addEdge(src, dst_tp_vertex)
+                    if not self.hasItemTeleportTransition(edge, DataEnum.RAPPEL_POTION_GUID):
+                        edge.addTransition(TransitionTypeEnum.ITEM_TELEPORT, itemGID=DataEnum.RAPPEL_POTION_GUID)
+                    return edge
+
+        return None
+
+    def hasItemTeleportTransition(self, edge: Edge, item_gid):
+        for transition in edge.transitions:
+            if transition.itemGID == item_gid:
+                return True
+        return False
+
+    def hasZaapTransition(self, edge: Edge, tr_type: TransitionTypeEnum):
+        for transition in edge.transitions:
+            if TransitionTypeEnum(transition.type) == tr_type:
+                return True
+        return False
+
+    def getEdgesToKnownZaapsFromVertex(self, src: Vertex, transition_type=TransitionTypeEnum.ZAAP) -> List[Edge]:
+        zaap_edges = []
+        for zaapMapId in PlayedCharacterManager()._knownZaapMapIds:
+            tp_cost = 10 * MapTools.distL2Maps(src.mapId, zaapMapId)
+            if int(tp_cost) > PlayedCharacterManager().characteristics.kamas:
+                continue
+
+            zaap_vertex_info = self._map_memory.get_zaap_vertex(zaapMapId)
+            if zaap_vertex_info is None:
+                possible_vertices = self.getVertices(zaapMapId)
+                for vertex in possible_vertices.values():
+                    if vertex == src:
+                        continue
+                    edge = self.getEdge(src, vertex)
+                    if not edge:
+                        edge = self.addEdge(src, vertex)
+                    if not self.hasZaapTransition(edge, transition_type):
+                        edge.addTransition(transition_type)
+                    zaap_edges.append(edge)
+            else:
+                map_id, zone_id = zaap_vertex_info
+                dest_vertex = self.getVertex(map_id, zone_id)
+                if dest_vertex == src:
+                    continue
+                edge = self.getEdge(src, dest_vertex)
+                if not edge:
+                    edge = self.addEdge(src, dest_vertex)
+                if not self.hasZaapTransition(edge, transition_type):
+                    edge.addTransition(transition_type)
+                zaap_edges.append(edge)
+        return zaap_edges
 
     def getEdge(self, src: Vertex, dest: Vertex) -> Edge:
         return self._edges.get(src.UID, {}).get(dest.UID)

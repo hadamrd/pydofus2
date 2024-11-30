@@ -29,15 +29,19 @@ class Edge:
 
     def addTransition(
         self,
-        direction: int,
         type: int,
+        direction: int = -1,
         skill: int = -1,
         criterion: str = "",
         transitionMapId: float = -1,
         cell: int = -1,
         ieElemId: int = -1,
+        npcTravelInfos=None,
+        itemGID: int = -1,
     ) -> None:
-        self.transitions.append(Transition(type, direction, skill, criterion, transitionMapId, cell, ieElemId))
+        self.transitions.append(
+            Transition(type, direction, skill, criterion, transitionMapId, cell, ieElemId, npcTravelInfos, itemGID)
+        )
 
     def __str__(self):
         return "Edge(src={}, dst={}, transitions={})".format(self.src, self.dst, self.transitions)

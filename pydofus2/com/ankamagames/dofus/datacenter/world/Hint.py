@@ -46,8 +46,19 @@ class Hint(IDataCenter, IPostInit):
 
     _subArea: SubArea = None
 
+    _zaapMapIds: list[float] = None
+
     def __init__(self):
         super().__init__()
+
+    @classmethod
+    def getZaapMapIds(cls):
+        if cls._zaapMapIds is None:
+            cls._zaapMapIds = []
+            for hint in Hint.getHints():
+                if hint.gfx == DataEnum.ZAAP_GFX:
+                    cls._zaapMapIds.append(hint.mapId)
+        return cls._zaapMapIds
 
     @classmethod
     def getHintById(cls, id: int) -> "Hint":

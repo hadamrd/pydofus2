@@ -13,7 +13,9 @@ class Transition:
     _criterion: str
     _transitionMapId: float
     _cell: int
-    _id: int
+    _interactive_elem_id: int
+    _npc_travel_infos: Dict
+    _itemGID: int
 
     def __init__(
         self,
@@ -23,8 +25,9 @@ class Transition:
         criterion: str,
         transitionMapId: float,
         cell: int,
-        id: int,
+        ieElemId: int,
         npc_travel_infos: Optional[Dict] = None,
+        itemGID=None,
     ):
         super().__init__()
         self._type = type
@@ -33,8 +36,9 @@ class Transition:
         self._criterion = criterion
         self._transitionMapId = transitionMapId
         self._cell = cell
-        self._id = id
+        self._interactive_elem_id = ieElemId
         self._npc_travel_infos = npc_travel_infos
+        self._itemGID = itemGID
 
     @property
     def type(self) -> int:
@@ -62,7 +66,11 @@ class Transition:
 
     @property
     def ieElemId(self) -> int:
-        return self._id
+        return self._interactive_elem_id
+
+    @property
+    def itemGID(self) -> int:
+        return self._itemGID
 
     @property
     def isValid(self) -> bool:
@@ -94,12 +102,12 @@ class Transition:
             attribs.append(f"skillId={self._skillId}")
         if self._criterion:
             attribs.append(f"criterion={self._criterion} ({self.isValid})")
-        if self._transitionMapId:
+        if self._transitionMapId != -1:
             attribs.append(f"transitionMapId={self._transitionMapId}")
-        if self._cell:
+        if self._cell != -1:
             attribs.append(f"cell={self._cell}")
-        if int(self._id) != -1:
-            attribs.append(f"id={self._id}")
+        if int(self._interactive_elem_id) != -1:
+            attribs.append(f"id={self._interactive_elem_id}")
         res += ", ".join(attribs)
         res += ")"
         return res
@@ -115,7 +123,7 @@ class Transition:
             "criterion": self._criterion,
             "transitionMapId": self._transitionMapId,
             "cell": self._cell,
-            "id": self._id,
+            "id": self._interactive_elem_id,
         }
 
     def clone(self):
@@ -126,5 +134,7 @@ class Transition:
             self._criterion,
             self._transitionMapId,
             self._cell,
-            self._id,
+            self._interactive_elem_id,
+            self._npc_travel_infos,
+            self._itemGID,
         )

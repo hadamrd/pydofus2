@@ -108,17 +108,11 @@ from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRole
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMerchantInformations import (
     GameRolePlayMerchantInformations,
 )
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayMountInformations import (
-    GameRolePlayMountInformations,
-)
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcInformations import (
     GameRolePlayNpcInformations,
 )
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayNpcWithQuestInformations import (
     GameRolePlayNpcWithQuestInformations,
-)
-from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayPortalInformations import (
-    GameRolePlayPortalInformations,
 )
 from pydofus2.com.ankamagames.dofus.network.types.game.context.roleplay.GameRolePlayPrismInformations import (
     GameRolePlayPrismInformations,
@@ -592,13 +586,6 @@ class RoleplayEntitiesFrame(AbstractEntitiesFrame, Frame):
             self._npcList[infos.contextualId] = ac
         elif isinstance(
             infos,
-            (
-                GameRolePlayTaxCollectorInformations,
-                GameRolePlayPrismInformations,
-                GameRolePlayPortalInformations,
-                GameRolePlayMountInformations,
-            ),
+            (GameRolePlayTaxCollectorInformations, GameRolePlayPrismInformations),
         ):
             ac.allowMovementThrough = True
-        else:
-            Logger().error(f"Unknown actor type {type(infos)}")

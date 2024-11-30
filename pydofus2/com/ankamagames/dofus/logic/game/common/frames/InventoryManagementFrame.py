@@ -234,7 +234,7 @@ class InventoryManagementFrame(Frame):
     def useItem(self, iw: ItemWrapper, quantity=0, useOnCell=False, use_multiple=True):
         if useOnCell and iw.targetable:
             if Kernel().battleFrame:
-                return
+                return False
         else:
             if quantity > 1 and use_multiple:
                 oumsg = ObjectUseMultipleMessage()
@@ -247,3 +247,4 @@ class InventoryManagementFrame(Frame):
                 Logger().error("Can't use item because player is moving")
             else:
                 ConnectionsHandler().send(oumsg)
+            return True

@@ -138,7 +138,7 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
         if dataType.persistent:
             if dataType.location == DataStoreEnum.LOCATION_LOCAL:
                 so = self.getSharedObject(dataType.category)
-                data = so.datak
+                data = so.data
             if dataType.location == DataStoreEnum.LOCATION_SERVER:
                 pass
         elif dataType.category in self._aData:
@@ -154,26 +154,6 @@ class StoreDataManager(metaclass=ThreadSharedSingleton):
             return o
         self.setData(dataType, sKey, oValue)
         return oValue
-
-    def startStoreSequence(self) -> None:
-        if not self._nCurrentSequenceNum:
-            pass
-        self._nCurrentSequenceNum += 1
-
-    def stopStoreSequence(self) -> None:
-        dt: DataStoreType = None
-        s = None
-        self._nCurrentSequenceNum -= 1
-        _bStoreSequence = self._nCurrentSequenceNum != 0
-        if _bStoreSequence:
-            return
-        for s in self._aStoreSequence:
-            dt = self._aStoreSequence[s]
-            if dt.location == DataStoreEnum.LOCATION_LOCAL:
-                self.getSharedObject(dt.category).flush()
-            elif DataStoreEnum.LOCATION_SERVER:
-                break
-        self._aStoreSequence = None
 
     def clear(self, dataType: DataStoreType) -> None:
         self._aData = []
