@@ -1,7 +1,11 @@
 import heapq
-from typing import List, Union
+import os
+import threading
+import time
+from typing import Callable, List, Optional, Union
 
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from tinydb import TinyDB
+
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.MapMemoryManager import MapMemoryManager
@@ -14,10 +18,13 @@ from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.pathfinding.Pathfinding import PathFinding
 from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
+__dir__ = os.path.dirname(os.path.abspath(__file__))
+FORBIDDEN_EDGES_FILE = os.path.join(__dir__, "forbidden_edges.json")
+FORBIDDEN_EDGES_LOCK = threading.Lock()
+
 
 class AStar(metaclass=Singleton):
     DEBUG = False
-    _forbiddenSubareaIds = list[int]()
     _forbiddenEdges = list[Edge]()
     HEURISTIC_SCALE: int = 1
     INDOOR_WEIGHT: int = 0
@@ -29,22 +36,47 @@ class AStar(metaclass=Singleton):
         self.openList = list[Node]()
         self.openDic = dict()
         self.iterations: int = 0
-        self.worldGraph: WorldGraph = None
+        self.worldGraph = WorldGraph()
         self.destinations: set[Vertex] = None
         self.running = None
+        self.db = TinyDB(FORBIDDEN_EDGES_FILE)
+        self.edges_table = self.db.table("forbidden_edges")
+        self._initialize_forbidden_edges()
 
-    def addForbiddenEdge(self, edge: Edge) -> None:
-        self._forbiddenEdges.append(edge)
+    def _initialize_forbidden_edges(self):
+        """Initialize forbidden edges from database once WorldGraph is available"""
+        with FORBIDDEN_EDGES_LOCK:
+            edges_data = self.edges_table.all()
+            forbidden_edges = []
 
-    def resetForbiddenEdges(self) -> None:
-        self._forbiddenEdges.clear()
+            for edge_data in edges_data:
+                src = self.worldGraph.getVertex(edge_data["src_mapId"], edge_data["src_zoneId"])
+                dst = self.worldGraph.getVertex(edge_data["dst_mapId"], edge_data["dst_zoneId"])
+                edge = self.worldGraph.getEdge(src, dst)
+                if edge:
+                    forbidden_edges.append(edge)
+
+            self._forbiddenEdges = forbidden_edges
+
+    def addForbiddenEdge(self, edge: Edge, reason: str = None) -> None:
+        with FORBIDDEN_EDGES_LOCK:
+            Logger().warning(f"Adding edge {edge} to forbidden list for reason : {reason}")
+            edge_data = {
+                "src_mapId": edge.src.mapId,
+                "src_zoneId": edge.src.zoneId,
+                "dst_mapId": edge.dst.mapId,
+                "dst_zoneId": edge.dst.zoneId,
+            }
+            edge_data["reason"] = reason
+            edge_data["timestamp"] = time.time()
+            self._forbiddenEdges.append(edge)
+            self.edges_table.insert(edge_data)
 
     def search(
         self, worldGraph: WorldGraph, src: Vertex, dst: Union[Vertex, List[Vertex]], maxPathLength=None
     ) -> list["Edge"]:
         if self.running:
             raise Exception("Pathfinding already in progress")
-        self.initForbiddenSubareaList()
         self.worldGraph = worldGraph
         if not isinstance(dst, list):
             dst = [dst]
@@ -61,9 +93,35 @@ class AStar(metaclass=Singleton):
         heapq.heappush(self.openList, (0, id(node), node))
         return self.compute()
 
-    def initForbiddenSubareaList(self) -> None:
-        # self._forbiddenSubareaIds = GameDataQuery.queryEquals(SubArea, "mountAutoTripAllowed", False)
-        self._forbiddenSubareaIds = []
+    def search_async(
+        self,
+        worldGraph: WorldGraph,
+        src: Vertex,
+        dst: Union[Vertex, List[Vertex]],
+        callback: Callable[[int, Optional[str], Optional[List[Edge]]], None],
+        maxPathLength=None,
+    ) -> None:
+        """
+        Asynchronous version of search that runs in a separate thread.
+        Callback receives (code, error, result):
+            code: 0 for success, 1 for error
+            error: error exception if code is 1, None otherwise
+            result: list of edges if code is 0, None otherwise
+        """
+        if self.running:
+            callback(1, "Pathfinding already in progress", None)
+            return
+
+        def worker():
+            try:
+                result = self.search(worldGraph, src, dst, maxPathLength)
+                Kernel().defer(lambda: callback(0, None, result))
+            except Exception as exc:
+                Kernel().defer(lambda e=exc: callback(1, e, None))
+
+        thread = threading.Thread(target=worker, name=threading.current_thread().name, daemon=True)
+        thread.start()
+        return thread
 
     def stopSearch(self) -> None:
         if self.running != None:
@@ -95,11 +153,7 @@ class AStar(metaclass=Singleton):
                 if Kernel().worker._terminating.is_set():
                     return
 
-                if (
-                    edge not in self._forbiddenEdges
-                    and self.hasValidTransition(edge)
-                    and self.hasValidDestinationSubarea(edge)
-                ):
+                if edge not in self._forbiddenEdges and self.hasValidTransition(edge):
                     existing = self.openDic.get(edge.dst)
                     if existing is None or current.moveCost + 1 < existing.moveCost:
                         node = Node(self, edge.dst, current)
@@ -140,21 +194,6 @@ class AStar(metaclass=Singleton):
                 return criterion.isRespected
             valid = True
         return valid
-
-    def hasValidDestinationSubarea(self, edge: Edge) -> bool:
-        fromMapId = edge.src.mapId
-        fromMapPos = MapPosition.getMapPositionById(fromMapId)
-        fromSubareaId = fromMapPos.subAreaId
-        toMapId = edge.dst.mapId
-        toMapPos = MapPosition.getMapPositionById(toMapId)
-        if not toMapPos:
-            Logger().error(f"MapPosition {toMapId} not found")
-            return False
-        if fromSubareaId == toMapPos.subAreaId:
-            return True
-        if toMapPos.subAreaId in self._forbiddenSubareaIds:
-            return False
-        return True
 
     def orderNodes(self, a: Node, b: Node) -> int:
         return 0 if a.heuristic == b.heuristic else (1 if a.heuristic > b.heuristic else -1)

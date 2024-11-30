@@ -15,9 +15,9 @@ class LevelItemCriterion(ItemCriterion, IDataCenter):
         readableCriterionValue: str = str(self._criterionValue)
         readableCriterionRef: str = I18n.getUiText("ui.common.level")
         if self._operator.text == ItemCriterionOperator.SUPERIOR:
-            return I18n.getUiText("ui.common.minimumLevelCondition", [(self._criterionValue + str(1))])
+            return I18n.getUiText("ui.common.minimumLevelCondition", [(self._criterionValue + 1)])
         if self._operator.text == ItemCriterionOperator.INFERIOR:
-            return I18n.getUiText("ui.common.maximumLevelCondition", [(self._criterionValue - str(1))])
+            return I18n.getUiText("ui.common.maximumLevelCondition", [(self._criterionValue - 1)])
         return readableCriterionRef + " " + self._operator.text + " " + readableCriterionValue
 
     def clone(self) -> IItemCriterion:

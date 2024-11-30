@@ -184,7 +184,7 @@ class DofusClient(threading.Thread):
 
     def crash(self, event, message, reason=DisconnectionReasonEnum.EXCEPTION_THROWN):
         KernelEventsManager().send(
-            KernelEvent.ClientStatusUpdate, ClientStatusEnum.CRASHED, {"reason": reason, "message": message}
+            KernelEvent.ClientStatusUpdate, ClientStatusEnum.CRASHED, {"reason": str(reason), "message": message}
         )
         self._crashed = True
         self._shutdownReason = reason

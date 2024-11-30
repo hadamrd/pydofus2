@@ -52,7 +52,9 @@ class Singleton(type):
                 del Singleton.__instances[cls.threadName()][clz]
             to_delete.clear()
 
-    def getInstance(cls: Type[T], thread_name: int) -> T:
+    def getInstance(cls: Type[T], thread_name: str = None) -> T:
+        if thread_name is None:
+            thread_name = threading.current_thread().name
         return Singleton.__instances[str(thread_name)].get(cls)
 
     def getInstances(cls: Type[T]) -> List[Tuple[str, T]]:

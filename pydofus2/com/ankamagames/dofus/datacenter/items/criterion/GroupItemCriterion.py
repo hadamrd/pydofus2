@@ -160,7 +160,7 @@ class GroupItemCriterion(IItemCriterion):
 
 if __name__ == "__main__":
     # cr = GroupItemCriterion('((Qo>3613&PO<11044,1&Qo<3597)')
-    cr = GroupItemCriterion("QF>1423,0")
-    print(cr)
+    cr = GroupItemCriterion("(Qo>3613&PO<11044,1&Qo<3597)")
+    print(cr.text)
     print(cr.operators)
     print("number of criterias ", len(cr.criteria))

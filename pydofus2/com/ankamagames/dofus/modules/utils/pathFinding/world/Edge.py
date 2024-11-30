@@ -53,3 +53,13 @@ class Edge:
         edge = Edge(self.src, self.dst)
         edge._transitions = [t.clone() for t in self.transitions]
         return edge
+
+    def __eq__(self, other: object) -> bool:
+        """Compare two edges for equality based on src and dst vertices"""
+        if not isinstance(other, Edge):
+            return False
+        return self.src.UID == other.src.UID and self.dst.UID == other.dst.UID
+
+    def __hash__(self) -> int:
+        """Hash function for Edge objects based on src and dst vertices"""
+        return hash((self.src.UID, self.dst.UID))

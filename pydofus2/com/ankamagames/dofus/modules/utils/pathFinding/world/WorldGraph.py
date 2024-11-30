@@ -1,10 +1,11 @@
 import json
 import os
 from time import perf_counter
-from typing import List
+from typing import List, Optional
 
 from pydofus2.com.ankamagames.dofus.datacenter.world.Hint import Hint
 from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
+from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
@@ -189,35 +190,50 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
         return False
 
     def getEdgesToKnownZaapsFromVertex(self, src: Vertex, transition_type=TransitionTypeEnum.ZAAP) -> List[Edge]:
+        """Get edges to all known zaap destinations from a source vertex."""
         zaap_edges = []
-        for zaapMapId in PlayedCharacterManager()._knownZaapMapIds:
-            tp_cost = 10 * MapTools.distL2Maps(src.mapId, zaapMapId)
-            if int(tp_cost) > PlayedCharacterManager().characteristics.kamas:
+
+        def can_afford_teleport(src_map_id: int, dst_map_id: int) -> bool:
+            tp_cost = 10 * MapTools.distL2Maps(src_map_id, dst_map_id)
+            return int(tp_cost) <= PlayedCharacterManager().characteristics.kamas
+
+        def can_travel_between_areas(src_map_id: int, dst_map_id: int) -> bool:
+            src_sub_area = SubArea.getSubAreaByMapId(src_map_id)
+            dst_sub_area = SubArea.getSubAreaByMapId(dst_map_id)
+            return (src_sub_area.areaId == DataEnum.ANKARNAM_AREA_ID) == (
+                dst_sub_area.areaId == DataEnum.ANKARNAM_AREA_ID
+            )
+
+        def get_or_create_zaap_edge(src: Vertex, dst: Vertex) -> Optional[Edge]:
+            if src == dst:
+                return None
+
+            if not can_travel_between_areas(src.mapId, dst.mapId):
+                return None
+
+            edge = self.getEdge(src, dst) or self.addEdge(src, dst)
+            if not self.hasZaapTransition(edge, transition_type):
+                edge.addTransition(transition_type)
+            return edge
+
+        for zaap_map_id in PlayedCharacterManager()._knownZaapMapIds:
+            if not can_afford_teleport(src.mapId, zaap_map_id):
                 continue
 
-            zaap_vertex_info = self._map_memory.get_zaap_vertex(zaapMapId)
+            zaap_vertex_info = self._map_memory.get_zaap_vertex(zaap_map_id)
+
             if zaap_vertex_info is None:
-                possible_vertices = self.getVertices(zaapMapId)
-                for vertex in possible_vertices.values():
-                    if vertex == src:
-                        continue
-                    edge = self.getEdge(src, vertex)
-                    if not edge:
-                        edge = self.addEdge(src, vertex)
-                    if not self.hasZaapTransition(edge, transition_type):
-                        edge.addTransition(transition_type)
-                    zaap_edges.append(edge)
+                # Try all possible vertices on the map
+                for dest_vertex in self.getVertices(zaap_map_id).values():
+                    if edge := get_or_create_zaap_edge(src, dest_vertex):
+                        zaap_edges.append(edge)
             else:
+                # Use known zaap vertex
                 map_id, zone_id = zaap_vertex_info
                 dest_vertex = self.getVertex(map_id, zone_id)
-                if dest_vertex == src:
-                    continue
-                edge = self.getEdge(src, dest_vertex)
-                if not edge:
-                    edge = self.addEdge(src, dest_vertex)
-                if not self.hasZaapTransition(edge, transition_type):
-                    edge.addTransition(transition_type)
-                zaap_edges.append(edge)
+                if edge := get_or_create_zaap_edge(src, dest_vertex):
+                    zaap_edges.append(edge)
+
         return zaap_edges
 
     def getEdge(self, src: Vertex, dest: Vertex) -> Edge:
