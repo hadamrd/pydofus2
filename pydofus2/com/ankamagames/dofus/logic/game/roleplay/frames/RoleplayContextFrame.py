@@ -14,6 +14,7 @@ from pydofus2.com.ankamagames.dofus.logic.game.common.frames.CommonExchangeManag
     CommonExchangeManagementFrame,
 )
 from pydofus2.com.ankamagames.dofus.logic.game.common.frames.ExchangeManagementFrame import ExchangeManagementFrame
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InactivityManager import InactivityManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.RoleplayMovementFrame import RoleplayMovementFrame
 from pydofus2.com.ankamagames.dofus.logic.game.roleplay.frames.ZaapFrame import ZaapFrame
@@ -107,6 +108,7 @@ class RoleplayContextFrame(Frame):
         enterhbrmsg = EnterHavenBagRequestMessage()
         enterhbrmsg.init(int(ownerId))
         ConnectionsHandler().send(enterhbrmsg)
+        InactivityManager().activity()
 
     def process(self, msg: Message) -> bool:
 
