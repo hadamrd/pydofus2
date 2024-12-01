@@ -96,8 +96,6 @@ class Kernel(metaclass=Singleton):
         self,
         reloadData: bool = False,
     ) -> None:
-        pass
-
         from pydofus2.com.ankamagames.atouin.HaapiEventsManager import HaapiEventsManager
         from pydofus2.com.ankamagames.berilia.managers.KernelEventsManager import KernelEventsManager
         from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
@@ -116,9 +114,11 @@ class Kernel(metaclass=Singleton):
         from pydofus2.com.ankamagames.dofus.logic.game.fight.managers.SpellModifiersManager import (
             SpellModifiersManager,
         )
+        from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
         from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 
         Logger().debug("Resetting ...")
+        HaapiKeyManager().reset()
         BenchmarkTimer.reset()
         KernelEventsManager().reset()
         FightersStateManager.clear()

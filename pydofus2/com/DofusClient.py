@@ -211,7 +211,7 @@ class DofusClient(threading.Thread):
 
     def onLoginSuccess(self, event, msg):
         ZaapDecoy.CONNECTED_ACCOUNTS += 1
-        HaapiKeyManager().on(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
+        HaapiKeyManager().once(HaapiEvent.GameSessionReadyEvent, self.onGameSessionReady)
         Haapi().getLoadingScreen(page=1, accountId=PlayerManager().accountId, lang="en", count=20)
         Haapi().getAlmanaxEvent(lang="en")
         HaapiKeyManager().askToken(GameID.CHAT)

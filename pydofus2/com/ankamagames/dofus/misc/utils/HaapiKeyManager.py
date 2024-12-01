@@ -84,18 +84,23 @@ class HaapiKeyManager(EventsHandler, metaclass=Singleton):
             if not Kernel().gameServerApproachFrame:
                 Logger().debug("CALL WITH API KEY :: Wait GameServerApproachFrame")
                 return KernelEventsManager().onceFramePushed(
-                    "GameServerApproachFrame", lambda: self.callWithApiKey(callback)
+                    "GameServerApproachFrame", lambda: self.callWithApiKey(callback), originator=self
                 )
             self._apikey_listeners.append(callback)
             if self._askedApiKey.is_set():
                 Logger().debug("CALL WITH API KEY :: API KEY ALREADY ASKED")
                 return
             KernelEventsManager().once(
-                KernelEvent.HaapiApiKeyReady, lambda _, haapikey: self.saveApiKey(haapikey), priority=10
+                KernelEvent.HaapiApiKeyReady,
+                lambda _, haapikey: self.saveApiKey(haapikey),
+                priority=10,
+                originator=self,
             )
             if not Kernel().gameServerApproachFrame.authenticationTicketAccepted:
                 Logger().debug("CALL WITH API KEY :: Wait authentication ticket accepted")
-                return KernelEventsManager().once(KernelEvent.AuthenticationTicketAccepted, self.onAuthTicketAccepted)
+                return KernelEventsManager().once(
+                    KernelEvent.AuthenticationTicketAccepted, self.onAuthTicketAccepted, originator=self
+                )
             self.onAuthTicketAccepted()
 
     def onAuthTicketAccepted(self, event=None):
@@ -125,4 +130,5 @@ class HaapiKeyManager(EventsHandler, metaclass=Singleton):
         self.send(HaapiEvent.AccountSessionReadyEvent, self._accountSessionId)
 
     def destroy(self):
+        KernelEventsManager().clear_all_by_origin(self)
         HaapiKeyManager.clear()
