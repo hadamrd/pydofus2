@@ -342,10 +342,6 @@ class PlayedCharacterUpdatesFrame(Frame):
             self.setList[sumsg.setId] = PlayerSetInfo(sumsg.setId, sumsg.setObjects, sumsg.setEffects)
             return True
 
-        if isinstance(msg, KnownZaapListMessage):
-            pcm.PlayedCharacterManager().updateKnownZaaps(msg.destinations)
-            return True
-
         if isinstance(msg, CompassResetMessage):
             # crmsg = msg
             # name = "flag_srv" + crmsg.type
@@ -488,6 +484,7 @@ class PlayedCharacterUpdatesFrame(Frame):
 
         if isinstance(msg, KnownZaapListMessage):
             pcm.PlayedCharacterManager().updateKnownZaaps(msg.destinations)
+            Logger().debug(f"Received known zaaps list : {msg.destinations}")
             return True
 
         if isinstance(msg, GameMapSpeedMovementMessage):
