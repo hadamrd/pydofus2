@@ -12,7 +12,6 @@ class BenchmarkTimer(threading.Thread):
     _timers = defaultdict(list)
     _timers_count = 0
     _started_timers_count = 0
-    logger = Logger()
 
     def __init__(
         self, interval: float, function: FunctionType, args: Optional[list] = None, kwargs: Optional[dict] = None
@@ -61,7 +60,7 @@ class BenchmarkTimer(threading.Thread):
             if not self.finished.wait(self.interval):
                 core.Kernel().defer(lambda: self.function(*self.args, **self.kwargs))
         except Exception as e:
-            self.logger.error(f"Error in timer execution: {e}")
+            Logger().error(f"Error in timer execution: {e}", exc_info=e)
         finally:
             self.finished.set()
             self._cleanup()

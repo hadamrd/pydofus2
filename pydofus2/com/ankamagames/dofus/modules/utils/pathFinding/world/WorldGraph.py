@@ -14,7 +14,7 @@ from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTy
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
-from pydofus2.com.ankamagames.jerakine.metaclass.ThreadSharedSingleton import ThreadSharedSingleton
+from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
 from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 from pydofus2.mapTools import MapTools
@@ -25,7 +25,7 @@ NPC_TRAVEL_DATA_FILE = os.path.join(__dir__, "npc_travel_data.json")
 EDGE_PATCHES_FILE = os.path.join(__dir__, "edge_patches.json")
 
 
-class WorldGraph(metaclass=ThreadSharedSingleton):
+class WorldGraph(metaclass=Singleton):
     def __init__(self):
         self._vertices = dict[int, dict[int, Vertex]]()
         self._edges = dict[float, Edge]()
@@ -133,7 +133,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
             return None
 
         result = self._outgoingEdges.get(src.UID, [])
-        rappel_potion_edge = self.getRappelPotionEdge(src)
+        rappel_potion_edge = self.getTpPotionEdges(src)
         if rappel_potion_edge:
             result.append(rappel_potion_edge)
         zaap_edges = self.getOutgoingZaapEdges(src)
@@ -154,7 +154,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
 
         return self.getEdgesToKnownZaapsFromVertex(src, TransitionTypeEnum.ZAAP)
 
-    def getRappelPotionEdge(self, src: Vertex) -> Edge:
+    def getTpPotionEdges(self, src: Vertex) -> Edge:
         from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
 
