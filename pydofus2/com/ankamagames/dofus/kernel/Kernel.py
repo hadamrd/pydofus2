@@ -1,3 +1,4 @@
+import threading
 from typing import TYPE_CHECKING
 
 from pydofus2.com.ankamagames.atouin.utils.DataMapProvider import DataMapProvider
@@ -66,14 +67,11 @@ class Kernel(metaclass=Singleton):
         self.isMule = False
         self.restart_on_unexpected_conn_close = False
         self.client: "DofusClient" = None
+        self.paused = threading.Event()
 
     @property
     def worker(self) -> Worker:
         return self._worker
-
-    @property
-    def reset(self) -> bool:
-        return self._reset
 
     def init(self) -> None:
         if self._reset:
@@ -86,6 +84,7 @@ class Kernel(metaclass=Singleton):
 
     def defer(self, callback, after=False):
         """Add a callback to be executed in the next processing cycle"""
+
         if after:
             self.worker._after_callbacks.put(callback)
         else:
@@ -115,6 +114,7 @@ class Kernel(metaclass=Singleton):
             SpellModifiersManager,
         )
         from pydofus2.com.ankamagames.dofus.misc.utils.HaapiKeyManager import HaapiKeyManager
+        from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.astar.AStar import AStar
         from pydofus2.com.ankamagames.jerakine.benchmark.BenchmarkTimer import BenchmarkTimer
 
         Logger().debug("Resetting ...")
@@ -135,6 +135,8 @@ class Kernel(metaclass=Singleton):
         InactivityManager.clear()
         InterClientManager().freeFlashKey()
         SpellCastSequenceContext.reset()
+        if AStar().running:
+            AStar().kill.set()
 
         if not reloadData:
             self._worker.terminate()

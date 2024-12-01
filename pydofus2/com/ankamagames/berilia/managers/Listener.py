@@ -69,7 +69,7 @@ class Listener:
     def __str__(self):
         summary = f"Listener(event_id={self.event_id}, priority={self.priority}, callback={self.callback.__name__}, "
         if self.timeoutTimer and not self.timeoutTimer.finished.is_set():
-            remaining_time = self.timeoutTimer.remainingTime()
+            remaining_time = self.timeoutTimer.remaining_time()
             summary += f"timeout={self.timeout}, time_left={remaining_time})"
         else:
             summary += f"timeout={self.timeout})"

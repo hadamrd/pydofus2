@@ -87,14 +87,18 @@ class Worker(MessageHandler):
         while not callbacks.empty():
             try:
                 callback = callbacks.get_nowait()
+                if isinstance(callback, Exception):
+                    raise callback
+                if not callable(callback):
+                    raise TypeError(f"Expected callable, got {type(callback)}")
                 callback()
                 callbacks.task_done()
-                # if self.DEBUG_MESSAGES:
-                #     Logger().debug(f"[DEFER] Executed callback")
+                if self.DEBUG_MESSAGES:
+                    Logger().debug(f"[DEFER] Executed callback")
             except queue.Empty:
-                break  # Queue is empty
+                break
             except Exception as e:
-                Logger().error(f"Error executing deferred callback: {e}")
+                Logger().error(f"Error executing deferred callback: {e}", exc_info=e)
                 callbacks.task_done()
                 raise
 

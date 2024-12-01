@@ -110,6 +110,9 @@ class PlayerManager(IDestroyable, metaclass=Singleton):
         self._subscriptionEndDateUpdateTime = TimeManager().getUtcTimestamp()
 
     def isBasicAccount(self) -> bool:
+        if self.subscriptionEndDate is None:
+            raise Exception("isBasicAccount check called before subscription end date was set")
+
         return self.subscriptionEndDate <= TimeManager().getUtcTimestamp() and not self.hasRights
 
     def inHavenBag(self):

@@ -42,7 +42,6 @@ from pydofus2.com.ankamagames.dofus.logic.common.managers.StatsManager import St
 from pydofus2.com.ankamagames.dofus.network.enums.CharacterInventoryPositionEnum import CharacterInventoryPositionEnum
 from pydofus2.com.ankamagames.dofus.network.enums.PlayerLifeStatusEnum import PlayerLifeStatusEnum
 from pydofus2.com.ankamagames.dofus.network.ProtocolConstantsEnum import ProtocolConstantsEnum
-from pydofus2.com.ankamagames.jerakine.interfaces.IDestroyable import IDestroyable
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.types.Callback import Callback
@@ -89,7 +88,7 @@ class ConsoleProgressBar:
         return f"{color}{bar}{reset} {current}/{maximum} ({percent:.1%})"
 
 
-class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
+class PlayedCharacterManager(metaclass=Singleton):
     def __init__(self):
         self._followingPlayerIds = list[float]()
         self._infosAvailableCallbacks = list[Callback]()
@@ -139,7 +138,7 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         self.speedAdjust: int = 0
         self.isInParty: bool = False
         self.playerMaxForgettableSpellsfloat: int = -1
-        self._knownZaapMapIds: list[float] = None
+        self.knownZaapMapIds: list[float] = None
         self._isPartyLeader: bool = False
         self.isFighting = False
         self.instanceId = None
@@ -498,12 +497,14 @@ class PlayedCharacterManager(IDestroyable, metaclass=Singleton):
         return length
 
     def updateKnownZaaps(self, knownZaapMapIds: list[float]) -> None:
-        self._knownZaapMapIds = knownZaapMapIds
+        Logger().debug(f"Update knownZaapMapId called for manager in thread {threading.currentThread().name}")
+        Logger().debug(f"Player known zaap maps : {knownZaapMapIds}")
+        self.knownZaapMapIds = knownZaapMapIds
 
     def isZaapKnown(self, mapId: float) -> bool:
-        if not self._knownZaapMapIds:
+        if not self.knownZaapMapIds:
             return False
-        return mapId in self._knownZaapMapIds
+        return mapId in self.knownZaapMapIds
 
     def jobsNumber(self, onlyLevelOne: bool = False) -> int:
         length: int = 0

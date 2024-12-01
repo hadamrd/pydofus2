@@ -4,7 +4,6 @@ from time import perf_counter
 from typing import List, Optional
 
 from pydofus2.com.ankamagames.dofus.datacenter.world.Hint import Hint
-from pydofus2.com.ankamagames.dofus.datacenter.world.MapPosition import MapPosition
 from pydofus2.com.ankamagames.dofus.datacenter.world.SubArea import SubArea
 from pydofus2.com.ankamagames.dofus.internalDatacenter.DataEnum import DataEnum
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
@@ -145,7 +144,7 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
     def getOutgoingZaapEdges(self, src: Vertex):
         src_allow_havenbag = self._map_memory.is_havenbag_allowed(src.mapId)
         if src_allow_havenbag is None:
-            src_allow_havenbag = MapPosition.getMapPositionById(src.mapId).allowTeleportFrom
+            src_allow_havenbag = True
 
         if not PlayerManager().isBasicAccount() and src_allow_havenbag:
             return self.getEdgesToKnownZaapsFromVertex(src, TransitionTypeEnum.HAVEN_BAG_ZAAP)
@@ -168,11 +167,8 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
                     dst_tp_vertex = self.getVertex(Kernel().zaapFrame.spawnMapId, 1)
                     if dst_tp_vertex == src:
                         return None
-                    edge = self.getEdge(src, dst_tp_vertex)
-                    if not edge:
-                        edge = self.addEdge(src, dst_tp_vertex)
-                    if not self.hasItemTeleportTransition(edge, DataEnum.RAPPEL_POTION_GUID):
-                        edge.addTransition(TransitionTypeEnum.ITEM_TELEPORT, itemGID=DataEnum.RAPPEL_POTION_GUID)
+                    edge = Edge(src, dst_tp_vertex)
+                    edge.addTransition(TransitionTypeEnum.ITEM_TELEPORT, itemGID=DataEnum.RAPPEL_POTION_GUID)
                     return edge
 
         return None
@@ -180,12 +176,6 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
     def hasItemTeleportTransition(self, edge: Edge, item_gid):
         for transition in edge.transitions:
             if transition.itemGID == item_gid:
-                return True
-        return False
-
-    def hasZaapTransition(self, edge: Edge, tr_type: TransitionTypeEnum):
-        for transition in edge.transitions:
-            if TransitionTypeEnum(transition.type) == tr_type:
                 return True
         return False
 
@@ -211,12 +201,11 @@ class WorldGraph(metaclass=ThreadSharedSingleton):
             if not can_travel_between_areas(src.mapId, dst.mapId):
                 return None
 
-            edge = self.getEdge(src, dst) or self.addEdge(src, dst)
-            if not self.hasZaapTransition(edge, transition_type):
-                edge.addTransition(transition_type)
+            edge = Edge(src, dst)
+            edge.addTransition(transition_type)
             return edge
 
-        for zaap_map_id in PlayedCharacterManager()._knownZaapMapIds:
+        for zaap_map_id in PlayedCharacterManager().knownZaapMapIds:
             if not can_afford_teleport(src.mapId, zaap_map_id):
                 continue
 

@@ -185,23 +185,19 @@ class GameServerApproachFrame(Frame):
             return True
 
         elif isinstance(msg, CharactersListMessage):
-            import pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame as pcuF
+            from pydofus2.com.ankamagames.dofus.logic.game.common.frames.PlayedCharacterUpdatesFrame import (
+                PlayedCharacterUpdatesFrame,
+            )
 
-            # KernelEventsManager().send(
-            #     KernelEvent.ClientStatusUpdate,
-            #     ClientStatusEnum.CHARACTERS_LIST_RECEIVED,
-            #     {"characters": [c.name for c in msg.characters]},
-            # )
-            clmsg = msg
-            Kernel().worker.addFrame(pcuF.PlayedCharacterUpdatesFrame())
-            self._charactersList = clmsg.characters
+            Kernel().worker.addFrame(PlayedCharacterUpdatesFrame())
+            self._charactersList = msg.characters
             server = PlayerManager().server
             if (
                 FeatureManager().isFeatureWithKeywordEnabled("server.heroic")
                 or server.gameTypeId == GameServerTypeEnum.SERVER_TYPE_EPIC
             ):
                 PlayerManager().charactersList.clear()
-                for chi in clmsg.characters:
+                for chi in msg.characters:
                     if chi.deathMaxLevel > chi.level:
                         bonusXp = 6
                     else:
@@ -224,10 +220,10 @@ class GameServerApproachFrame(Frame):
                 bonusXpFeatureActivated = FeatureManager().isFeatureWithKeywordEnabled(
                     "character.xp.bonusForYoungerCharacters"
                 )
-                for cbi in clmsg.characters:
+                for cbi in msg.characters:
                     bonusXp = 1
                     if bonusXpFeatureActivated:
-                        for cbi2 in clmsg.characters:
+                        for cbi2 in msg.characters:
                             if cbi2.id != cbi.id and cbi2.level > cbi.level and bonusXp < 4:
                                 bonusXp += 1
                     o = BasicCharacterWrapper.create(

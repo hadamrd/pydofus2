@@ -47,6 +47,14 @@
             "dst_zoneId": 1,
             "reason": "Edge contains impossible zaap usage from/to ankarnam",
             "timestamp": 1732954424.3485332
+        },
+        "7": {
+            "src_mapId": 207619076.0,
+            "src_zoneId": 1,
+            "dst_mapId": 207618048.0,
+            "dst_zoneId": 1,
+            "reason": "Unable to find interactive element 518637.0",
+            "timestamp": 1732954424.3485332
         }
     }
 }

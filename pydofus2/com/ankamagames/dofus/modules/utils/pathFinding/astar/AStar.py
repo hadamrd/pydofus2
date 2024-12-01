@@ -7,6 +7,7 @@ from typing import Callable, List, Optional, Union
 from tinydb import TinyDB
 
 from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
+from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Edge import Edge
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.MapMemoryManager import MapMemoryManager
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Node import Node
@@ -25,9 +26,7 @@ FORBIDDEN_EDGES_LOCK = threading.Lock()
 
 class AStar(metaclass=Singleton):
     DEBUG = False
-    _forbiddenEdges = list[Edge]()
-    HEURISTIC_SCALE: int = 1
-    INDOOR_WEIGHT: int = 0
+    forbiddenEdges = list[Edge]()
     MAX_ITERATION: int = 10000
     CRITERION_WHITE_LIST = ["Ad", "DM", "MI", "Mk", "Oc", "Pc", "QF", "Qo", "Qs", "Sv", "PG"]
 
@@ -36,12 +35,12 @@ class AStar(metaclass=Singleton):
         self.openList = list[Node]()
         self.openDic = dict()
         self.iterations: int = 0
-        self.worldGraph = WorldGraph()
         self.destinations: set[Vertex] = None
         self.running = None
         self.db = TinyDB(FORBIDDEN_EDGES_FILE)
         self.edges_table = self.db.table("forbidden_edges")
         self._initialize_forbidden_edges()
+        self.kill = threading.Event()
 
     def _initialize_forbidden_edges(self):
         """Initialize forbidden edges from database once WorldGraph is available"""
@@ -50,13 +49,13 @@ class AStar(metaclass=Singleton):
             forbidden_edges = []
 
             for edge_data in edges_data:
-                src = self.worldGraph.getVertex(edge_data["src_mapId"], edge_data["src_zoneId"])
-                dst = self.worldGraph.getVertex(edge_data["dst_mapId"], edge_data["dst_zoneId"])
-                edge = self.worldGraph.getEdge(src, dst)
+                src = WorldGraph().getVertex(edge_data["src_mapId"], edge_data["src_zoneId"])
+                dst = WorldGraph().getVertex(edge_data["dst_mapId"], edge_data["dst_zoneId"])
+                edge = WorldGraph().getEdge(src, dst)
                 if edge:
                     forbidden_edges.append(edge)
 
-            self._forbiddenEdges = forbidden_edges
+            self.forbiddenEdges = forbidden_edges
 
     def addForbiddenEdge(self, edge: Edge, reason: str = None) -> None:
         with FORBIDDEN_EDGES_LOCK:
@@ -69,33 +68,35 @@ class AStar(metaclass=Singleton):
             }
             edge_data["reason"] = reason
             edge_data["timestamp"] = time.time()
-            self._forbiddenEdges.append(edge)
+            self.forbiddenEdges.append(edge)
             self.edges_table.insert(edge_data)
 
-    def search(
-        self, worldGraph: WorldGraph, src: Vertex, dst: Union[Vertex, List[Vertex]], maxPathLength=None
-    ) -> list["Edge"]:
+    def search(self, src: Vertex, dst: Union[Vertex, List[Vertex]], maxPathLength=None) -> list["Edge"]:
         if self.running:
-            raise Exception("Pathfinding already in progress")
-        self.worldGraph = worldGraph
+            raise Exception("Pathfinding already in running!")
+
+        self.kill.clear()
         if not isinstance(dst, list):
             dst = [dst]
+
         if src in dst:
             Logger().info("Source vertex is one of the destinations.")
             return []
+
         self.destinations = set(dst)
         self.running = True
-        self.openList = list[tuple[int, int, Node, MapPoint]]()
+        self.openList = list()
         self.openDic = dict[Vertex, Node]()
         self.maxPathLength = maxPathLength
         self.iterations = 0
-        node = Node(self, src)
+        node = Node(self, src, None)
         heapq.heappush(self.openList, (0, id(node), node))
-        return self.compute()
+        result = self.compute()
+        self.running = False
+        return result
 
     def search_async(
         self,
-        worldGraph: WorldGraph,
         src: Vertex,
         dst: Union[Vertex, List[Vertex]],
         callback: Callable[[int, Optional[str], Optional[List[Edge]]], None],
@@ -114,56 +115,75 @@ class AStar(metaclass=Singleton):
 
         def worker():
             try:
-                result = self.search(worldGraph, src, dst, maxPathLength)
+                result = self.search(src, dst, maxPathLength)
+                if self.kill.is_set():
+                    return
                 Kernel().defer(lambda: callback(0, None, result))
             except Exception as exc:
-                Kernel().defer(lambda e=exc: callback(1, e, None))
+                if self.kill.is_set():
+                    return
+                Logger().error("Exception happened in the async astar search", exc_info=exc)
+                Kernel().defer(lambda: callback(1, exc, None))
 
         thread = threading.Thread(target=worker, name=threading.current_thread().name, daemon=True)
         thread.start()
         return thread
 
-    def stopSearch(self) -> None:
-        if self.running != None:
-            self.callbackWithResult(None)
-
     def compute(self, e=None) -> None:
+        Logger().debug(f"Astar compute called from thread {threading.current_thread().name}")
         while self.openList:
-            if Kernel().worker._terminating.is_set():
-                return
+            if self.kill.is_set():
+                Logger().warning("Path finding computed was stopped because kill signal is set")
+                break
+
             if self.iterations > self.MAX_ITERATION:
                 raise Exception("Too many iterations")
+
             self.iterations += 1
+
             _, _, current = heapq.heappop(self.openList)
             if self.DEBUG:
                 Logger().debug(f"Processing vertex {current.vertex}")
+
             if current.closed:
                 continue
+
             current.closed = True
+
             if self.maxPathLength and current.moveCost > self.maxPathLength:
                 continue
+
+            if current.total_kamas_spent > PlayedCharacterManager().characteristics.kamas:
+                continue
+
             if current.vertex in self.destinations:
-                result = self.buildResultPath(self.worldGraph, current)
+                result = self.buildResultPath(current)
                 self.running = False
                 return result
-            edges = self.worldGraph.getOutgoingEdgesFromVertex(current.vertex)
+
+            edges = WorldGraph().getOutgoingEdgesFromVertex(current.vertex)
+
             if self.DEBUG:
                 Logger().debug(f"Processing Outgoing edges from {current.vertex}")
+
             for edge in edges:
-                if Kernel().worker._terminating.is_set():
+                if self.kill.is_set():
+                    self.running = False
                     return
 
-                if edge not in self._forbiddenEdges and self.hasValidTransition(edge):
+                if edge not in self.forbiddenEdges and self.hasValidTransition(edge):
                     existing = self.openDic.get(edge.dst)
-                    if existing is None or current.moveCost + 1 < existing.moveCost:
-                        node = Node(self, edge.dst, current)
+                    if existing is None or current.totalCost + 1 < existing.totalCost:
+                        node = Node(self, edge.dst, current, edge)
                         self.openDic[edge.dst] = node
                         heapq.heappush(self.openList, (node.totalCost, id(node), node))
+
         self.running = False
+        self.kill.clear()
         return None
 
     def findDstCell(self, edge: Edge, mp: MapPoint) -> int:
-        for reverse_edge in self.worldGraph.getOutgoingEdgesFromVertex(edge.dst):
+        for reverse_edge in WorldGraph().getOutgoingEdgesFromVertex(edge.dst):
             if reverse_edge.dst == edge.src:
                 for tr in reverse_edge.transitions:
                     if tr.cell:
@@ -179,7 +199,7 @@ class AStar(metaclass=Singleton):
 
         valid = False
         for transition in edge.transitions:
-            if TransitionTypeEnum(transition.type) == TransitionTypeEnum.HAVEN_BAG_ZAAP:
+            if transition.type == TransitionTypeEnum.HAVEN_BAG_ZAAP.value:
                 allowed = MapMemoryManager().is_havenbag_allowed(edge.src.mapId)
                 if allowed is not None and not allowed:
                     continue
@@ -198,10 +218,10 @@ class AStar(metaclass=Singleton):
     def orderNodes(self, a: Node, b: Node) -> int:
         return 0 if a.heuristic == b.heuristic else (1 if a.heuristic > b.heuristic else -1)
 
-    def buildResultPath(self, worldGraph: WorldGraph, node: Node) -> list[Edge]:
+    def buildResultPath(self, node: Node) -> list[Edge]:
         result = list[Edge]()
         while node.parent is not None:
-            result.append(worldGraph.getEdge(node.parent.vertex, node.vertex))
+            result.append(node.edge)
             node = node.parent
         result.reverse()
         return result

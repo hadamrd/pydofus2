@@ -512,7 +512,7 @@ class DataEnum:
 
     ANKARNAM_AREA_ID = 45
 
-    ASTRUB_AREA_ID = 95
+    ASTRUB_AREA_ID = 18
 
     NEW_VALONIA_AREA_ID = 93
 
