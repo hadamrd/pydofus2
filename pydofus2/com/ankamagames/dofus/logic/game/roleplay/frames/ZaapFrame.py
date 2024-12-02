@@ -7,6 +7,7 @@ from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
 from pydofus2.com.ankamagames.dofus.kernel.net.ConnectionsHandler import ConnectionsHandler
 from pydofus2.com.ankamagames.dofus.logic.common.managers.PlayerManager import PlayerManager
 from pydofus2.com.ankamagames.dofus.logic.game.common.managers.PlayedCharacterManager import PlayedCharacterManager
+from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 from pydofus2.com.ankamagames.dofus.network.enums.DialogTypeEnum import DialogTypeEnum
 from pydofus2.com.ankamagames.dofus.network.enums.TeleporterTypeEnum import TeleporterTypeEnum
 from pydofus2.com.ankamagames.dofus.network.messages.game.dialog.LeaveDialogMessage import LeaveDialogMessage
@@ -63,17 +64,17 @@ class ZaapFrame(Frame):
 
     def sendTeleportRequest(self, cost, sourceType, destinationType, mapId):
         if cost <= PlayedCharacterManager().characteristics.kamas:
-            trmsg = TeleportRequestMessage()
-            trmsg.init(sourceType, destinationType, mapId)
-            ConnectionsHandler().send(trmsg)
+            msg = TeleportRequestMessage()
+            msg.init(sourceType, destinationType, mapId)
+            ConnectionsHandler().send(msg)
         else:
             Logger().warning(I18n.getUiText("ui.popup.not_enough_rich"))
             return False
         return True
 
     def zaapRespawnSaveRequest(self):
-        zrsrmsg = ZaapRespawnSaveRequestMessage()
-        ConnectionsHandler().send(zrsrmsg)
+        msg = ZaapRespawnSaveRequestMessage()
+        ConnectionsHandler().send(msg)
         return True
 
     def isZaapKnown(self, mapId):
@@ -144,6 +145,7 @@ class ZaapFrame(Frame):
         elif isinstance(msg, ZaapRespawnUpdatedMessage):
             for zaap in self._zaapsList:
                 zaap.spawn = zaap.mapId == msg.mapId
+
             self.spawnMapId = msg.mapId
             StoreDataManager().setData(
                 self.DATASTORE_SAVED_ZAAP, f"{PlayedCharacterManager().id}_spawnMapId", msg.mapId
@@ -151,6 +153,7 @@ class ZaapFrame(Frame):
             KernelEventsManager().send(
                 KernelEvent.TeleportDestinationList, self._zaapsList, TeleporterTypeEnum.TELEPORTER_ZAAP
             )
+            WorldGraph().spawnMapId = msg.mapId
             return True
 
         elif isinstance(msg, LeaveDialogMessage):

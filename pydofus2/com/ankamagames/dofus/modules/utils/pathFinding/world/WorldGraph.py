@@ -14,8 +14,11 @@ from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.TransitionTy
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex import Vertex
 from pydofus2.com.ankamagames.jerakine.data.XmlConfig import XmlConfig
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
+from pydofus2.com.ankamagames.jerakine.managers.StoreDataManager import StoreDataManager
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
 from pydofus2.com.ankamagames.jerakine.network.CustomDataWrapper import ByteArray
+from pydofus2.com.ankamagames.jerakine.types.DataStoreType import DataStoreType
+from pydofus2.com.ankamagames.jerakine.types.enums.DataStoreEnum import DataStoreEnum
 from pydofus2.com.ankamagames.jerakine.types.enums.DirectionsEnum import DirectionsEnum
 from pydofus2.mapTools import MapTools
 
@@ -33,6 +36,18 @@ class WorldGraph(metaclass=Singleton):
         self._vertexUid: float = 0
         self._map_memory = MapMemoryManager()
         self.init()
+
+    def loadZaapSpawnMap(self):
+        self.DATASTORE_SAVED_ZAAP = DataStoreType(
+            f"{PlayerManager().accountId}_spawnMapId", True, DataStoreEnum.LOCATION_LOCAL, DataStoreEnum.BIND_CHARACTER
+        )
+        self.spawnMapId = StoreDataManager().getData(
+            self.DATASTORE_SAVED_ZAAP, f"{PlayedCharacterManager().id}_spawnMapId"
+        )
+        if self.spawnMapId is None:
+            self.spawnMapId = 0
+        else:
+            Logger().info("Loaded Spawn map id: " + str(self.spawnMapId))
 
     def addEdgePatches(self):
         with open(EDGE_PATCHES_FILE, "r") as f:
@@ -84,6 +99,7 @@ class WorldGraph(metaclass=Singleton):
             del data
         self.addNpcTravelEdges()
         self.addEdgePatches()
+        self.loadZaapSpawnMap()
         Logger().debug("WorldGraph loaded in %s seconds", perf_counter() - s)
 
     def addEdge(self, src: Vertex, dest: Vertex) -> Edge:
@@ -155,16 +171,12 @@ class WorldGraph(metaclass=Singleton):
         return self.getEdgesToKnownZaapsFromVertex(src, TransitionTypeEnum.ZAAP)
 
     def getTpPotionEdges(self, src: Vertex) -> Edge:
-        from pydofus2.com.ankamagames.dofus.kernel.Kernel import Kernel
         from pydofus2.com.ankamagames.dofus.logic.game.common.managers.InventoryManager import InventoryManager
-
-        if not Kernel().zaapFrame:
-            return None
 
         for iw in InventoryManager().inventory.getView("storageConsumables").content:
             if iw.objectGID == DataEnum.RAPPEL_POTION_GUID:
-                if Kernel().zaapFrame.spawnMapId:
-                    dst_tp_vertex = self.getVertex(Kernel().zaapFrame.spawnMapId, 1)
+                if self.spawnMapId:
+                    dst_tp_vertex = self.getVertex(self.spawnMapId, 1)
                     if dst_tp_vertex == src:
                         return None
                     edge = Edge(src, dst_tp_vertex)
