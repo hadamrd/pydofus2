@@ -16,8 +16,6 @@ from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.Vertex impor
 from pydofus2.com.ankamagames.dofus.modules.utils.pathFinding.world.WorldGraph import WorldGraph
 from pydofus2.com.ankamagames.jerakine.logger.Logger import Logger
 from pydofus2.com.ankamagames.jerakine.metaclass.Singleton import Singleton
-from pydofus2.com.ankamagames.jerakine.pathfinding.Pathfinding import PathFinding
-from pydofus2.com.ankamagames.jerakine.types.positions.MapPoint import MapPoint
 
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 FORBIDDEN_EDGES_FILE = os.path.join(__dir__, "forbidden_edges.json")
@@ -182,17 +180,6 @@ class AStar(metaclass=Singleton):
         self.kill.clear()
         return None
 
-    def findDstCell(self, edge: Edge, mp: MapPoint) -> int:
-        for reverse_edge in WorldGraph().getOutgoingEdgesFromVertex(edge.dst):
-            if reverse_edge.dst == edge.src:
-                for tr in reverse_edge.transitions:
-                    if tr.cell:
-                        candidate = MapPoint.fromCellId(tr.cell)
-                        movePath = PathFinding().findPath(mp, candidate)
-                        if movePath.end.distanceTo(candidate) <= 2:
-                            return candidate
-        return None
-
     @classmethod
     def hasValidTransition(cls, edge: Edge) -> bool:
         from pydofus2.com.ankamagames.dofus.datacenter.items.criterion.GroupItemCriterion import GroupItemCriterion
@@ -214,9 +201,6 @@ class AStar(metaclass=Singleton):
                 return criterion.isRespected
             valid = True
         return valid
-
-    def orderNodes(self, a: Node, b: Node) -> int:
-        return 0 if a.heuristic == b.heuristic else (1 if a.heuristic > b.heuristic else -1)
 
     def buildResultPath(self, node: Node) -> list[Edge]:
         result = list[Edge]()
